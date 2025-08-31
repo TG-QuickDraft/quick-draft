@@ -37,11 +37,11 @@ namespace backend.Repositories
 
         public async Task<bool> DeletarAsync(int id)
         {
-            var atividade = await _context.Freelancers.FindAsync(id);
-            if (atividade == null)
+            var freelancer = await _context.Freelancers.FindAsync(id);
+            if (freelancer == null)
                 return false;
 
-            _context.Freelancers.Remove(atividade);
+            _context.Freelancers.Remove(freelancer);
             await _context.SaveChangesAsync();
             return true;
         }

@@ -28,17 +28,17 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] Freelancer atividade)
+        public async Task<IActionResult> Adicionar([FromBody] Freelancer freelancer)
         {
-            Freelancer novoFreelancer = await _service.CriarAsync(atividade);
+            Freelancer novoFreelancer = await _service.CriarAsync(freelancer);
 
             return CreatedAtAction(nameof(ConsultarPorId), new { id = novoFreelancer.Id }, novoFreelancer);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Atualizar([FromBody] Freelancer atividade)
+        public async Task<IActionResult> Atualizar([FromBody] Freelancer freelancer)
         {
-            bool isAtualizado = await _service.AtualizarAsync(atividade);
+            bool isAtualizado = await _service.AtualizarAsync(freelancer);
 
             if (!isAtualizado)
             {
