@@ -1,0 +1,24 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Configuration
+appsettings.Development.json
+
+# IDE stuff (Visual Studio Code, JetBrains, etc.)
+.vscode/
+.idea/
+
+# ASP.NET hosting
+wwwroot/build/
+wwwroot/node_modules/
+
+# Node
+ClientApp/node_modules/
+ClientApp/build/
