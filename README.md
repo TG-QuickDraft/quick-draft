@@ -14,7 +14,6 @@ A conexão padrão é a com o PostgreSQL. As configurações podem ser encontrad
 Para iniciar o frontend:
 ```
 cd frontend
-
 npm install
 npm run dev
 ```
@@ -39,9 +38,12 @@ Para criar o banco:
 cd backend/
 
 dotnet tool install --global dotnet-ef
-
-dotnet ef migrations add CriarBanco
 dotnet ef database update
+```
+
+Para criar novas migrações:
+```
+dotnet ef migrations add NomeMigracao
 ```
 
 ### Comandos para criação do projeto
