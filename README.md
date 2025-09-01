@@ -9,6 +9,22 @@
 ### Configurando o projeto
 A conexão padrão é a com o PostgreSQL. As configurações podem ser encontradas em backend/appsettings.json.
 
+Deve ser criado um arquivo chamado appsettings.Development.json com a seguinte estrutura:
+
+```
+{
+  "DetailedErrors": true,
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
+
+
+```
+
 ### Iniciando o projeto
 
 Para iniciar o frontend:
