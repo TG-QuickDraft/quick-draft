@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace backend.Migrations
+namespace Backend.Migrations
 {
     /// <inheritdoc />
     public partial class CriarBanco : Migration

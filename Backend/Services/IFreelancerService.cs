@@ -1,6 +1,6 @@
-using backend.Models;
+using Backend.Models;
 
-namespace backend.Services 
+namespace Backend.Services 
 {
     public interface IFreelancerService
     {

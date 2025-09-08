@@ -7,7 +7,7 @@
 - Banco PostgreSQL
 
 ### Configurando o projeto
-A conexão padrão é a com o PostgreSQL. As configurações podem ser encontradas em backend/appsettings.json.
+A conexão padrão é a com o PostgreSQL. As configurações podem ser encontradas em Backend/appsettings.json.
 
 Deve ser criado um arquivo chamado appsettings.Development.json com a seguinte estrutura:
 
@@ -43,7 +43,7 @@ Obs.: Esses comandos foram usados especificamente no Linux.
 sudo apt-get install -y dotnet-sdk-8.0
 sudo apt-get install -y aspnetcore-runtime-8.0
 
-cd backend/
+cd Backend/
 dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
@@ -51,7 +51,7 @@ dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 
 Para criar o banco:
 ```
-cd backend/
+cd Backend/
 
 dotnet tool install --global dotnet-ef
 dotnet ef database update
@@ -71,5 +71,5 @@ npm create vite@latest frontend -- --template react-ts
 
 - Criando projeto ASP.NET:
 ```
-dotnet new webapp -n backend
+dotnet new webapp -n Backend
 ```

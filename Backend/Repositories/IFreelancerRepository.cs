@@ -1,6 +1,6 @@
-using backend.Models;
+using Backend.Models;
 
-namespace backend.Repositories
+namespace Backend.Repositories
 {
     public interface IFreelancerRepository
     {
