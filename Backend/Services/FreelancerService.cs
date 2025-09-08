@@ -1,7 +1,7 @@
-using backend.Models;
-using backend.Repositories;
+using Backend.Models;
+using Backend.Repositories;
 
-namespace backend.Services
+namespace Backend.Services
 {
     public class FreelancerService(IFreelancerRepository repository) : IFreelancerService
     {

@@ -1,9 +1,9 @@
-using backend.Models;
-using backend.Services;
+using Backend.Models;
+using Backend.Services;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Controllers
+namespace Backend.Controllers
 {
 
     [ApiController]
