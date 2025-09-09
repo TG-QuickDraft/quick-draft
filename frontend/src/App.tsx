@@ -7,6 +7,8 @@ import { consultarFreelancers } from './api/freelancerApi';
 
 function App() {
 
+  // TODO: retirar código do template
+
   const [freelancers, setFreelancers] = useState<Freelancer[]>(
     []
   );
