@@ -33,7 +33,7 @@ npm install
 npm run dev
 ```
 
-Obs.: Para acessar o site, navegue para ```localhost:5191```.
+Obs.: Para acessar o site, navegue para ```localhost:5173```.
 
 Obs.: Esses comandos foram usados especificamente no Linux.
 
