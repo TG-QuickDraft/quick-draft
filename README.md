@@ -56,9 +56,20 @@ Para criar novas migrações:
 dotnet ef migrations add NomeMigracao
 ```
 
-Para rodar testes:
+Para executar testes do .NET:
 ```
 dotnet test
+```
+
+Para executar testes do Cypress:
+```
+# No terminal
+cd frontend/
+npx cypress run
+
+# Na interface do cypress
+cd frontend/
+npx cypress open
 ```
 
 
