@@ -142,17 +142,6 @@ CREATE TABLE IF NOT EXISTS "mensagens_servico" (
 
 
 
-
-CREATE TABLE IF NOT EXISTS "denuncias" (
-	"den_id" INTEGER NOT NULL UNIQUE,
-	"den_usu_id" INTEGER NOT NULL,
-	"den_motivo" TEXT NOT NULL,
-	"den_comentario" TEXT NOT NULL,
-	PRIMARY KEY("den_id")
-);
-
-
-
 ALTER TABLE "freelancers"
 ADD FOREIGN KEY("fre_id") REFERENCES "usuarios"("usu_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
@@ -194,7 +183,4 @@ ADD FOREIGN KEY("avc_cli_id") REFERENCES "clientes"("cli_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "avaliacoes_freelancer"
 ADD FOREIGN KEY("avf_fre_id") REFERENCES "freelancers"("fre_id")
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE "denuncias"
-ADD FOREIGN KEY("den_usu_id") REFERENCES "usuarios"("usu_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
