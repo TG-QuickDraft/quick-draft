@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS "freelancers" (
 	"fre_id" INTEGER NOT NULL UNIQUE,
 	"fre_descricao" TEXT,
 	"fre_titulo" VARCHAR(255),
-	"fre_ranking" INTEGER NOT NULL UNIQUE,
 	PRIMARY KEY("fre_id")
 );
 
@@ -40,7 +39,6 @@ CREATE TABLE IF NOT EXISTS "propostas" (
 	"pro_itens_propostos" TEXT NOT NULL,
 	"pro_valor_total" INTEGER NOT NULL,
 	"pro_taxa_sistema_adicionada_ao_total" BOOLEAN NOT NULL,
-	"pro_contraproposta" TEXT,
 	PRIMARY KEY("pro_id")
 );
 
@@ -50,6 +48,7 @@ CREATE TABLE IF NOT EXISTS "propostas" (
 CREATE TABLE IF NOT EXISTS "servicos" (
 	"ser_id" INTEGER NOT NULL UNIQUE,
 	"ser_cli_id" INTEGER NOT NULL,
+	"ser_nome" VARCHAR(255) NOT NULL,
 	"ser_descricao" TEXT NOT NULL,
 	"ser_orcamento" MACADDR8,
 	"ser_prazo" TIMESTAMPTZ NOT NULL,
