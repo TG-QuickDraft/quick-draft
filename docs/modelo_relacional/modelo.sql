@@ -3,8 +3,9 @@ CREATE TABLE IF NOT EXISTS "usuarios" (
 	"usu_nome" VARCHAR(255) NOT NULL,
 	"usu_cpf" CHAR(11) NOT NULL,
 	"usu_email" VARCHAR(255) NOT NULL,
-	"usu_foto_perfil" MACADDR8,
-	"usu_senha" MACADDR8 NOT NULL,
+	"usu_foto_perfil_url" VARCHAR(255),
+	"usu_hash_senha" TEXT NOT NULL,
+	"usu_is_admin" BOOLEAN NOT NULL,
 	PRIMARY KEY("usu_id")
 );
 
@@ -60,13 +61,13 @@ CREATE TABLE IF NOT EXISTS "servicos" (
 
 
 CREATE TABLE IF NOT EXISTS "projetos_freelancer" (
-	"prj_id" INTEGER NOT NULL UNIQUE,
-	"prj_fre_id" INTEGER NOT NULL,
-	"prj_nome" VARCHAR(255) NOT NULL,
-	"prj_descricao" TEXT,
-	"prj_imagem" MACADDR8,
-	"prj_link" VARCHAR(255),
-	PRIMARY KEY("prj_id")
+	"pjf_id" INTEGER NOT NULL UNIQUE,
+	"pjf_fre_id" INTEGER NOT NULL,
+	"pjf_nome" VARCHAR(255) NOT NULL,
+	"pjf_descricao" TEXT,
+	"pjf_imagem_url" VARCHAR(255),
+	"pjf_link" VARCHAR(255),
+	PRIMARY KEY("pjf_id")
 );
 
 
@@ -107,9 +108,9 @@ CREATE TABLE IF NOT EXISTS "avaliacoes_freelancer" (
 
 
 CREATE TABLE IF NOT EXISTS "projetos_destacados_proposta" (
-	"pdp_prj_id" INTEGER NOT NULL,
-	"pdp_pro_id" INTEGER NOT NULL,
-	PRIMARY KEY("pdp_prj_id", "pdp_pro_id")
+	"pde_prj_id" INTEGER NOT NULL,
+	"pde_pro_id" INTEGER NOT NULL,
+	PRIMARY KEY("pde_prj_id", "pde_pro_id")
 );
 
 
@@ -131,6 +132,8 @@ CREATE TABLE IF NOT EXISTS "mensagens_servico" (
 	"mss_ser_id" INTEGER NOT NULL,
 	"mss_data" TIMESTAMPTZ NOT NULL,
 	"mss_mensagem" TEXT NOT NULL,
+	"mss_remetente_usu_id" INTEGER NOT NULL,
+	"mss_destinatario_usu_id" INTEGER NOT NULL,
 	PRIMARY KEY("mss_id")
 );
 
@@ -145,6 +148,9 @@ CREATE TABLE IF NOT EXISTS "bandeiras_cartao_credito" (
 
 
 
+ALTER TABLE "mensagens_servico"
+ADD FOREIGN KEY("mss_ser_id") REFERENCES "servicos"("ser_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "freelancers"
 ADD FOREIGN KEY("fre_id") REFERENCES "usuarios"("usu_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
@@ -161,13 +167,13 @@ ALTER TABLE "servicos"
 ADD FOREIGN KEY("ser_cli_id") REFERENCES "clientes"("cli_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "projetos_freelancer"
-ADD FOREIGN KEY("prj_fre_id") REFERENCES "freelancers"("fre_id")
+ADD FOREIGN KEY("pjf_fre_id") REFERENCES "freelancers"("fre_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "projetos_destacados_proposta"
-ADD FOREIGN KEY("pdp_prj_id") REFERENCES "projetos_freelancer"("prj_id")
+ADD FOREIGN KEY("pde_prj_id") REFERENCES "projetos_freelancer"("pjf_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "projetos_destacados_proposta"
-ADD FOREIGN KEY("pdp_pro_id") REFERENCES "propostas"("pro_id")
+ADD FOREIGN KEY("pde_pro_id") REFERENCES "propostas"("pro_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "cartoes_credito"
 ADD FOREIGN KEY("cre_usu_id") REFERENCES "usuarios"("usu_id")
@@ -178,9 +184,6 @@ ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "pagamento"
 ADD FOREIGN KEY("pag_ser_id") REFERENCES "servicos"("ser_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE "mensagens_servico"
-ADD FOREIGN KEY("mss_ser_id") REFERENCES "servicos"("ser_id")
-ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "avaliacoes_cliente"
 ADD FOREIGN KEY("avc_cli_id") REFERENCES "clientes"("cli_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
@@ -189,4 +192,10 @@ ADD FOREIGN KEY("avf_fre_id") REFERENCES "freelancers"("fre_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "cartoes_credito"
 ADD FOREIGN KEY("cre_bcc_id") REFERENCES "bandeiras_cartao_credito"("bcc_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "mensagens_servico"
+ADD FOREIGN KEY("mss_remetente_usu_id") REFERENCES "usuarios"("usu_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "mensagens_servico"
+ADD FOREIGN KEY("mss_destinatario_usu_id") REFERENCES "usuarios"("usu_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
