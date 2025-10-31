@@ -66,16 +66,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-#tabela-incrivel {
-  background-color: white;
-  color: black;
-}
-
-#tabela-incrivel th {
-  background-color: lightgrey;
-}
-
-#tabela-incrivel td {
-  background-color: lightcyan;
-}
