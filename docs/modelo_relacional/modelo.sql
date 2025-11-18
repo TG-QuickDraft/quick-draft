@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "servicos" (
 	"ser_cli_id" INTEGER NOT NULL,
 	"ser_nome" VARCHAR(255) NOT NULL,
 	"ser_descricao" TEXT NOT NULL,
-	"ser_orcamento" MACADDR8,
+	"ser_orcamento" NUMERIC(6,2) NOT NULL,
 	"ser_prazo" TIMESTAMPTZ NOT NULL,
 	"ser_valor_minimo" NUMERIC(6,2) NOT NULL,
 	"ser_proposta_aceita_id" INTEGER,
