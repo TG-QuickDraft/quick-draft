@@ -1,12 +1,127 @@
 classDiagram
 
-    class Freelancer {
-        -int id
-        -String nome
-    }
+class Usuarios {
+    +Integer usu_id
+    +String usu_nome
+    +String usu_cpf
+    +String usu_email
+    +String usu_foto_perfil_url
+    +String usu_hash_senha
+    +Boolean usu_is_admin
+}
 
-    class Proposta {
-        -int id
-    }
+class Freelancers {
+    +Integer fre_id
+    +String fre_descricao_perfil
+    +String fre_titulo
+}
 
-    Proposta --* Freelancer
+class Clientes {
+    +Integer cli_id
+}
+
+class Propostas {
+    +Integer pro_id
+    +Integer pro_fre_id
+    +Integer pro_ser_id
+    +Numeric pro_valor_por_hora
+    +TIMESTAMPTZ pro_orcamento_de_tempo
+    +String pro_mensagem
+    +String pro_itens_propostos
+    +Integer pro_valor_total
+    +Boolean pro_taxa_sistema_adicionada_ao_total
+}
+
+class Servicos {
+    +Integer ser_id
+    +Integer ser_cli_id
+    +String ser_nome
+    +String ser_descricao
+    +Numeric ser_orcamento
+    +TIMESTAMPTZ ser_prazo
+    +Numeric ser_valor_minimo
+    +Integer ser_proposta_aceita_id
+}
+
+class ProjetosFreelancer {
+    +Integer pjf_id
+    +Integer pjf_fre_id
+    +String pjf_nome
+    +String pjf_descricao
+    +String pjf_imagem_url
+    +String pjf_link
+}
+
+class ProjetosDestacadosProposta {
+    +Integer pde_prj_id
+    +Integer pde_pro_id
+}
+
+class CartoesCredito {
+    +Integer cre_id
+    +String cre_nome_impresso
+    +Integer cre_bcc_id
+    +String cre_codigo_seguranca
+    +Integer cre_usu_id
+}
+
+class Avaliacoes {
+    +Integer ava_id
+    +Integer ava_usu_id
+    +Integer ava_nota_estrelas
+    +String ava_comentario
+}
+
+class Pagamentos {
+    +Integer pag_id
+    +Integer pag_cre_id
+    +Integer pag_ser_id
+    +Numeric pag_valor
+}
+
+class MensagensServico {
+    +Integer mss_id
+    +Integer mss_ser_id
+    +TIMESTAMPTZ mss_data
+    +String mss_mensagem
+    +Integer mss_remetente_usu_id
+    +Integer mss_destinatario_usu_id
+}
+
+class BandeirasCartaoCredito {
+    +Integer bcc_id
+    +String bcc_nome
+}
+
+%% ========================
+%% RELACIONAMENTOS
+%% ========================
+
+Usuarios "1" <|-- "1" Freelancers : extends
+Usuarios "1" <|-- "1" Clientes : extends
+
+Freelancers "1" --> "0..*" Propostas : faz
+Clientes "1" --> "0..*" Servicos : cria
+
+Servicos "1" --> "0..*" Propostas : recebe
+Propostas "0..1" --> "1" Servicos : aceita
+
+Freelancers "1" --> "0..*" ProjetosFreelancer : possui
+ProjetosFreelancer "0..*" --> "0..*" Propostas : destacado_em
+
+Usuarios "1" --> "0..*" CartoesCredito
+CartoesCredito "1" --> "0..*" Pagamentos
+Servicos "1" --> "0..*" Pagamentos
+
+Usuarios "1" --> "0..*" Avaliacoes
+
+Servicos "1" --> "0..*" MensagensServico
+Usuarios "1" --> "0..*" MensagensServico : remetente
+Usuarios "1" --> "0..*" MensagensServico : destinatario
+
+BandeirasCartaoCredito "1" --> "0..*" CartoesCredito
+
+ProjetosDestacadosProposta "0..*" --> "1" ProjetosFreelancer
+ProjetosDestacadosProposta "0..*" --> "1" Propostas
+
+  
