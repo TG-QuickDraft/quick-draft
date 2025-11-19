@@ -1,96 +1,91 @@
 classDiagram
 
 class Usuarios {
-    +Integer usu_id
-    +String usu_nome
-    +String usu_cpf
-    +String usu_email
-    +String usu_foto_perfil_url
-    +String usu_hash_senha
-    +Boolean usu_is_admin
+    +Integer id
+    +String nome
+    +String cpf
+    +String email
+    +String foto_perfil_url
+    +String hash_senha
+    +Boolean isAdmin
 }
 
 class Freelancers {
-    +Integer fre_id
-    +String fre_descricao_perfil
-    +String fre_titulo
+    +Integer id
+    +String descricao_perfil
+    +String titulo
 }
 
 class Clientes {
-    +Integer cli_id
+    +Integer id
 }
 
 class Propostas {
-    +Integer pro_id
-    +Integer pro_fre_id
-    +Integer pro_ser_id
-    +Numeric pro_valor_por_hora
-    +TIMESTAMPTZ pro_orcamento_de_tempo
-    +String pro_mensagem
-    +String pro_itens_propostos
-    +Integer pro_valor_total
-    +Boolean pro_taxa_sistema_adicionada_ao_total
+    +Integer id
+    +Integer idFrelancer
+    +Integer idServico
+    +Numeric valor_por_hora
+    +Date orcamento_de_tempo
+    +String mensagem
+    +String itens_propostos
+    +Integer valorTotal
+    +Boolean taxa_sistema_adicionada_ao_total
 }
 
 class Servicos {
-    +Integer ser_id
-    +Integer ser_cli_id
-    +String ser_nome
-    +String ser_descricao
-    +Numeric ser_orcamento
-    +TIMESTAMPTZ ser_prazo
-    +Numeric ser_valor_minimo
-    +Integer ser_proposta_aceita_id
+    +Integer id
+    +Integer idCliente
+    +String nome
+    +String descricao
+    +Numeric orcamento
+    +Date prazo
+    +Numeric valor_minimo
+    +Integer proposta_aceita_id
 }
 
 class ProjetosFreelancer {
-    +Integer pjf_id
-    +Integer pjf_fre_id
-    +String pjf_nome
-    +String pjf_descricao
-    +String pjf_imagem_url
-    +String pjf_link
-}
-
-class ProjetosDestacadosProposta {
-    +Integer pde_prj_id
-    +Integer pde_pro_id
+    +Integer id
+    +Integer idFrelancer
+    +String nome
+    +String descricao
+    +String imagem_url
+    +String link
 }
 
 class CartoesCredito {
-    +Integer cre_id
-    +String cre_nome_impresso
-    +Integer cre_bcc_id
-    +String cre_codigo_seguranca
-    +Integer cre_usu_id
+    +Integer id
+    +String nomeImpresso
+    +Integer idBandeira
+    +String codigoSeguranca
+    +Integer idCartao
 }
 
 class Avaliacoes {
-    +Integer ava_id
-    +Integer ava_usu_id
-    +Integer ava_nota_estrelas
-    +String ava_comentario
+    +Integer id
+    +Integer idUsuario
+    +Integer nota_estrelas
+    +String comentario
 }
 
 class Pagamentos {
-    +Integer pag_id
-    +Integer pag_cre_id
-    +Integer pag_ser_id
-    +Numeric pag_valor
+    +Integer id
+    +Integer idCartao
+    +Integer idServico
+    +Numeric valor
 }
 
 class MensagensServico {
-    +Integer mss_id
-    +Integer mss_ser_id
-    +TIMESTAMPTZ mss_data
-    +String mss_mensagem
-    +Integer mss_remetente_usu_id
-    +Integer mss_destinatario_usu_id
+    +Integer id
+    +Integer idServico
+    +Date data
+    +String mensagem
+    +Integer idRemetente
+    +Integer idDestinatario
 }
 
 class BandeirasCartaoCredito {
-    +Integer bcc_id
-    +String bcc_nome
+    +Integer id
+    +String ome
 }
 
 %% ========================
@@ -120,8 +115,5 @@ Usuarios "1" --> "0..*" MensagensServico : remetente
 Usuarios "1" --> "0..*" MensagensServico : destinatario
 
 BandeirasCartaoCredito "1" --> "0..*" CartoesCredito
-
-ProjetosDestacadosProposta "0..*" --> "1" ProjetosFreelancer
-ProjetosDestacadosProposta "0..*" --> "1" Propostas
 
   
