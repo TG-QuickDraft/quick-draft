@@ -1,119 +1,106 @@
 classDiagram
 
-class Usuarios {
+class Usuario {
     +Integer id
     +String nome
     +String cpf
     +String email
-    +String foto_perfil_url
-    +String hash_senha
+    +String fotoPerfilUrl
+    +String hashSenha
     +Boolean isAdmin
 }
 
-class Freelancers {
+class Freelancer {
     +Integer id
-    +String descricao_perfil
+    +String descricaoPerfil
     +String titulo
 }
 
-class Clientes {
+class Cliente {
     +Integer id
 }
 
-class Propostas {
+class Proposta {
     +Integer id
-    +Integer idFrelancer
-    +Integer idServico
     +Numeric valor_por_hora
-    +Date orcamento_de_tempo
+    +Date orcamentoDeTempo
     +String mensagem
-    +String itens_propostos
+    +String itensPropostos
     +Integer valorTotal
-    +Boolean taxa_sistema_adicionada_ao_total
+    +Boolean taxaSistemaAdicionadaAoTotal
 }
 
-class Servicos {
+class Servico {
     +Integer id
-    +Integer idCliente
     +String nome
     +String descricao
     +Numeric orcamento
     +Date prazo
-    +Numeric valor_minimo
-    +Integer proposta_aceita_id
+    +Numeric valorMinimo
 }
 
-class ProjetosFreelancer {
+class ProjetoFreelancer {
     +Integer id
-    +Integer idFrelancer
     +String nome
     +String descricao
-    +String imagem_url
+    +String imagemUrl
     +String link
 }
 
-class CartoesCredito {
+class CartaoCredito {
     +Integer id
     +String nomeImpresso
-    +Integer idBandeira
     +String codigoSeguranca
-    +Integer idCartao
 }
 
-class Avaliacoes {
+class Avaliacao {
     +Integer id
-    +Integer idUsuario
-    +Integer nota_estrelas
+    +Integer notaEstrelas
     +String comentario
 }
 
-class Pagamentos {
+class Pagamento {
     +Integer id
-    +Integer idCartao
-    +Integer idServico
     +Numeric valor
 }
 
-class MensagensServico {
+class MensagemServico {
     +Integer id
-    +Integer idServico
     +Date data
     +String mensagem
-    +Integer idRemetente
-    +Integer idDestinatario
 }
 
-class BandeirasCartaoCredito {
+class BandeiraCartaoCredito {
     +Integer id
-    +String ome
+    +String nome
 }
 
 %% ========================
 %% RELACIONAMENTOS
 %% ========================
 
-Usuarios "1" <|-- "1" Freelancers : extends
-Usuarios "1" <|-- "1" Clientes : extends
+Usuario "1" <|-- "1" Freelancer
+Usuario "1" <|-- "1" Cliente
 
-Freelancers "1" --> "0..*" Propostas : faz
-Clientes "1" --> "0..*" Servicos : cria
+Freelancer "1" --> "0..*" Proposta : freelancers
+Cliente "1" --> "0..*" Servico : cliente
 
-Servicos "1" --> "0..*" Propostas : recebe
-Propostas "0..1" --> "1" Servicos : aceita
+Servico "1" --> "0..*" Proposta : servico
+Proposta "0..1" --> "1" Servico : propostaAceita
 
-Freelancers "1" --> "0..*" ProjetosFreelancer : possui
-ProjetosFreelancer "0..*" --> "0..*" Propostas : destacado_em
+Freelancer "1" --> "0..*" ProjetoFreelancer : freelancer
+ProjetoFreelancer "0..*" --> "0..*" Proposta : projetosDestacados
 
-Usuarios "1" --> "0..*" CartoesCredito
-CartoesCredito "1" --> "0..*" Pagamentos
-Servicos "1" --> "0..*" Pagamentos
+Usuario "1" --> "0..*" CartaoCredito : usuario
+CartaoCredito "1" --> "0..*" Pagamento : cartao
+Servico "1" --> "0..*" Pagamento : servico
 
-Usuarios "1" --> "0..*" Avaliacoes
+Usuario "1" --> "0..*" Avaliacao :usuario
 
-Servicos "1" --> "0..*" MensagensServico
-Usuarios "1" --> "0..*" MensagensServico : remetente
-Usuarios "1" --> "0..*" MensagensServico : destinatario
+Servico "1" --> "0..*" MensagemServico :servico
+Usuario "1" --> "0..*" MensagemServico : remetente
+Usuario "1" --> "0..*" MensagemServico : destinatario
 
-BandeirasCartaoCredito "1" --> "0..*" CartoesCredito
+BandeiraCartaoCredito "1" --> "0..*" CartaoCredito : bandeira
 
   
