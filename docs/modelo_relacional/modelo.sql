@@ -70,7 +70,18 @@ CREATE TABLE IF NOT EXISTS "servicos" (
 	"ser_prazo" TIMESTAMPTZ NOT NULL,
 	"ser_valor_minimo" NUMERIC(6,2) NOT NULL,
 	"ser_proposta_aceita_id" INTEGER,
+	"ser_is_entregue" BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY("ser_id")
+);
+
+
+
+
+CREATE TABLE IF NOT EXISTS "entregas" (
+	"ent_id" INTEGER NOT NULL UNIQUE,
+	"ent_url_arquivo" VARCHAR(255) NOT NULL,
+	"ent_ser_id" INTEGER NOT NULL,
+	PRIMARY KEY("ent_id")
 );
 
 
@@ -185,6 +196,9 @@ ADD FOREIGN KEY("ser_cli_id") REFERENCES "clientes"("cli_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "servicos"
 ADD FOREIGN KEY("ser_proposta_aceita_id") REFERENCES "propostas"("pro_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "entregas"
+ADD FOREIGN KEY("ent_ser_id") REFERENCES "servicos"("ser_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "projetos_freelancer"
 ADD FOREIGN KEY("pjf_fre_id") REFERENCES "freelancers"("fre_id")
