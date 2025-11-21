@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS "cartoes_credito" (
 	"cre_nome_impresso" VARCHAR(255) NOT NULL,
 	"cre_bcc_id" INTEGER NOT NULL,
 	"cre_codigo_seguranca" CHAR(3) NOT NULL,
-	"cre_usu_id" INTEGER NOT NULL,
+	"cre_cli_id" INTEGER NOT NULL,
 	PRIMARY KEY("cre_id")
 );
 
@@ -210,7 +210,7 @@ ALTER TABLE "projetos_destacados_proposta"
 ADD FOREIGN KEY("pde_pro_id") REFERENCES "propostas"("pro_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "cartoes_credito"
-ADD FOREIGN KEY("cre_usu_id") REFERENCES "usuarios"("usu_id")
+ADD FOREIGN KEY("cre_cli_id") REFERENCES "clientes"("cli_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "pagamentos"
 ADD FOREIGN KEY("pag_cre_id") REFERENCES "cartoes_credito"("cre_id")
