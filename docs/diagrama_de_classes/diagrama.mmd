@@ -37,6 +37,12 @@ class Servico {
     +Numeric orcamento
     +Date prazo
     +Numeric valorMinimo
+    +Boolean isEntregue
+}
+
+class Entrega {
+    +Integer id
+    +String url_arquivo
 }
 
 class ProjetoFreelancer {
@@ -93,20 +99,21 @@ class BandeiraCartaoCredito {
 %% RELACIONAMENTOS
 %% ========================
 
-Usuario "1" <|-- "1" Freelancer
-Usuario "1" <|-- "1" Cliente
+Usuario <|-- Freelancer
+Usuario <|-- Cliente
 
 Freelancer "1" --> "0..*" Proposta : freelancers
 Cliente "1" --> "0..*" Servico : cliente
 
 Servico "1" --> "0..*" Proposta : servico
 Proposta "0..1" --> "1" Servico : propostaAceita
+Servico "1" --> "1" Entrega : entrega
 
 Freelancer "1" --> "0..*" ProjetoFreelancer : freelancer
 ProjetoFreelancer "0..*" --> "0..*" Proposta : projetosDestacados
 
-Cliente "1" --> "0..*" CartaoCredito : usuario
-Freelancer "1" --> "0..*" ContaBancaria : conta
+Cliente "1" --> "1" CartaoCredito : usuario
+Freelancer "1" --> "1" ContaBancaria : conta
 CartaoCredito "1" --> "0..*" Pagamento : cartao
 Servico "1" --> "0..*" Pagamento : servico
 
