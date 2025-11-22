@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS "contas_bancarias" (
 	"con_agencia" VARCHAR(10) NOT NULL,
 	"con_numero_conta" VARCHAR(20) NOT NULL,
 	"con_tpc_id" INTEGER NOT NULL,
-	"con_fre_id" INTEGER NOT NULL,
+	"con_fre_id" INTEGER NOT NULL UNIQUE,
 	PRIMARY KEY("con_id")
 );
 
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS "cartoes_credito" (
 	"cre_nome_impresso" VARCHAR(255) NOT NULL,
 	"cre_bcc_id" INTEGER NOT NULL,
 	"cre_codigo_seguranca" CHAR(3) NOT NULL,
-	"cre_cli_id" INTEGER NOT NULL,
+	"cre_cli_id" INTEGER NOT NULL UNIQUE,
 	PRIMARY KEY("cre_id")
 );
 
