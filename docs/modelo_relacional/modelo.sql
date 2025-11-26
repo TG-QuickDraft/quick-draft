@@ -30,6 +30,21 @@ CREATE TABLE IF NOT EXISTS "clientes" (
 
 
 
+CREATE TABLE IF NOT EXISTS "contas_bancarias" (
+	"con_id" INTEGER NOT NULL,
+	"con_cpf_titular" VARCHAR(11) NOT NULL,
+	"con_nome_titular" VARCHAR(255) NOT NULL,
+	"con_banco" VARCHAR(100) NOT NULL,
+	"con_agencia" VARCHAR(10) NOT NULL,
+	"con_numero_conta" VARCHAR(20) NOT NULL,
+	"con_tpc_id" INTEGER NOT NULL,
+	"con_fre_id" INTEGER NOT NULL UNIQUE,
+	PRIMARY KEY("con_id")
+);
+
+
+
+
 CREATE TABLE IF NOT EXISTS "propostas" (
 	"pro_id" INTEGER NOT NULL,
 	"pro_fre_id" INTEGER NOT NULL,
@@ -55,7 +70,18 @@ CREATE TABLE IF NOT EXISTS "servicos" (
 	"ser_prazo" TIMESTAMPTZ NOT NULL,
 	"ser_valor_minimo" NUMERIC(6,2) NOT NULL,
 	"ser_proposta_aceita_id" INTEGER,
+	"ser_is_entregue" BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY("ser_id")
+);
+
+
+
+
+CREATE TABLE IF NOT EXISTS "entregas" (
+	"ent_id" INTEGER NOT NULL UNIQUE,
+	"ent_url_arquivo" VARCHAR(255) NOT NULL,
+	"ent_ser_id" INTEGER NOT NULL,
+	PRIMARY KEY("ent_id")
 );
 
 
@@ -79,7 +105,7 @@ CREATE TABLE IF NOT EXISTS "cartoes_credito" (
 	"cre_nome_impresso" VARCHAR(255) NOT NULL,
 	"cre_bcc_id" INTEGER NOT NULL,
 	"cre_codigo_seguranca" CHAR(3) NOT NULL,
-	"cre_usu_id" INTEGER NOT NULL,
+	"cre_cli_id" INTEGER NOT NULL UNIQUE,
 	PRIMARY KEY("cre_id")
 );
 
@@ -138,6 +164,18 @@ CREATE TABLE IF NOT EXISTS "bandeiras_cartao_credito" (
 
 
 
+
+CREATE TABLE IF NOT EXISTS "tipos_conta" (
+	"tpc_id" INTEGER NOT NULL UNIQUE,
+	"tpc_nome" VARCHAR(255) NOT NULL,
+	PRIMARY KEY("tpc_id")
+);
+
+
+
+ALTER TABLE "contas_bancarias"
+ADD FOREIGN KEY("con_tpc_id") REFERENCES "tipos_conta"("tpc_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "mensagens_servico"
 ADD FOREIGN KEY("mss_ser_id") REFERENCES "servicos"("ser_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
@@ -159,6 +197,9 @@ ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "servicos"
 ADD FOREIGN KEY("ser_proposta_aceita_id") REFERENCES "propostas"("pro_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "entregas"
+ADD FOREIGN KEY("ent_ser_id") REFERENCES "servicos"("ser_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "projetos_freelancer"
 ADD FOREIGN KEY("pjf_fre_id") REFERENCES "freelancers"("fre_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
@@ -169,7 +210,7 @@ ALTER TABLE "projetos_destacados_proposta"
 ADD FOREIGN KEY("pde_pro_id") REFERENCES "propostas"("pro_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "cartoes_credito"
-ADD FOREIGN KEY("cre_usu_id") REFERENCES "usuarios"("usu_id")
+ADD FOREIGN KEY("cre_cli_id") REFERENCES "clientes"("cli_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "pagamentos"
 ADD FOREIGN KEY("pag_cre_id") REFERENCES "cartoes_credito"("cre_id")
@@ -188,4 +229,7 @@ ADD FOREIGN KEY("mss_remetente_usu_id") REFERENCES "usuarios"("usu_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "mensagens_servico"
 ADD FOREIGN KEY("mss_destinatario_usu_id") REFERENCES "usuarios"("usu_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "contas_bancarias"
+ADD FOREIGN KEY("con_fre_id") REFERENCES "freelancers"("fre_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
