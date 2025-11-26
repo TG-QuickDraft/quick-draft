@@ -1,0 +1,12 @@
+#tabela-incrivel {
+  background-color: white;
+  color: black;
+}
+
+#tabela-incrivel th {
+  background-color: lightgrey;
+}
+
+#tabela-incrivel td {
+  background-color: lightcyan;
+}
