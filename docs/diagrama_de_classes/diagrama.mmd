@@ -1,12 +1,129 @@
 classDiagram
 
-    class Freelancer {
-        -int id
-        -String nome
-    }
+class Usuario {
+    +Integer id
+    +String nome
+    +String cpf
+    +String email
+    +String fotoPerfilUrl
+    +String hashSenha
+    +Boolean isAdmin
+}
 
-    class Proposta {
-        -int id
-    }
+class Freelancer {
+    +Integer id
+    +String descricaoPerfil
+    +String titulo
+}
 
-    Proposta --* Freelancer
+class Cliente {
+    +Integer id
+}
+
+class Proposta {
+    +Integer id
+    +Numeric valorPorHora
+    +Date orcamentoDeTempo
+    +String mensagem
+    +String itensPropostos
+    +Integer valorTotal
+    +Boolean taxaSistemaAdicionadaAoTotal
+}
+
+class Servico {
+    +Integer id
+    +String nome
+    +String descricao
+    +Numeric orcamento
+    +Date prazo
+    +Numeric valorMinimo
+    +Boolean isEntregue
+}
+
+class Entrega {
+    +Integer id
+    +String url_arquivo
+}
+
+class ProjetoFreelancer {
+    +Integer id
+    +String nome
+    +String descricao
+    +String imagemUrl
+    +String link
+}
+
+class ContaBancaria {
+    +Integer id
+    +String cpfTitular
+    +String nomeTitular
+    +String banco
+    +String agencia
+    +String numeroConta
+}
+
+class TipoConta {
+    +Integer id
+    +String nome
+}
+
+class CartaoCredito {
+    +Integer id
+    +String nomeImpresso
+    +String codigoSeguranca
+}
+
+class Avaliacao {
+    +Integer id
+    +Integer notaEstrelas
+    +String comentario
+}
+
+class Pagamento {
+    +Integer id
+    +Numeric valor
+}
+
+class MensagemServico {
+    +Integer id
+    +Date data
+    +String mensagem
+}
+
+class BandeiraCartaoCredito {
+    +Integer id
+    +String nome
+}
+
+%% ========================
+%% RELACIONAMENTOS
+%% ========================
+
+Usuario <|-- Freelancer
+Usuario <|-- Cliente
+
+Freelancer "1" --> "0..*" Proposta : freelancers
+Cliente "1" --> "0..*" Servico : cliente
+
+Servico "1" --> "0..*" Proposta : servico
+Proposta "0..1" --> "1" Servico : propostaAceita
+Servico "1" --> "1" Entrega : entrega
+
+Freelancer "1" --> "0..*" ProjetoFreelancer : freelancer
+ProjetoFreelancer "0..*" --> "0..*" Proposta : projetosDestacados
+
+Cliente "1" --> "1" CartaoCredito : usuario
+Freelancer "1" --> "1" ContaBancaria : conta
+CartaoCredito "1" --> "0..*" Pagamento : cartao
+Servico "1" --> "0..*" Pagamento : servico
+
+Usuario "1" --> "0..*" Avaliacao :usuario
+
+Servico "1" --> "0..*" MensagemServico :servico
+Usuario "1" --> "0..*" MensagemServico : remetente
+Usuario "1" --> "0..*" MensagemServico : destinatario
+
+BandeiraCartaoCredito "1" --> "0..*" CartaoCredito : bandeira
+
+TipoConta "1" --> "0..*" ContaBancaria : tipo
+  
