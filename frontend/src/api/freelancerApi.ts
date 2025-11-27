@@ -1,6 +1,6 @@
 import type { Freelancer } from "../models/Freelancer";
 
-const PATH = "http://localhost:5191/api/Freelancer";
+const PATH = `${import.meta.env.VITE_API_URL}/api/Freelancer`;
 
 export const consultarFreelancers = async () => {
     const resposta = await fetch(PATH);

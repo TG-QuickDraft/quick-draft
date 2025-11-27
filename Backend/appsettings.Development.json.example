@@ -1,12 +1,12 @@
 {
+  "DetailedErrors": true,
   "Logging": {
     "LogLevel": {
       "Default": "Information",
       "Microsoft.AspNetCore": "Warning"
     }
   },
-  "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": ""
+    "DefaultConnection": "Host=localhost;Port=5432;Database=sistema_freelancer;Username=postgres;Password=password"
   }
 }
