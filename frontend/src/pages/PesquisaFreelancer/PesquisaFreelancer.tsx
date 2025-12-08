@@ -28,8 +28,10 @@ export function PesquisaFreelancer() {
       <h1>Minha tabela de freelancers</h1>
       <table id="tabela-incrivel">
         <thead>
-          <th>Id</th>
-          <th>Nome</th>
+          <tr>
+            <th>Id</th>
+            <th>Nome</th>
+          </tr>
         </thead>
         <tbody>
           {
