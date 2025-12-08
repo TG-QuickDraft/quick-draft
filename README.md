@@ -10,7 +10,11 @@
 
 Para configurar as credenciais do banco PostgreSQL, deve ser criado um arquivo dentro do diretório 'Backend' com o nome ```appsettings.Development.json```, seguindo a estrutura do arquivo ```appsettings.Development.json.example```, dentro do mesmo diretório.
 
-Também é necessário criar um arquivo ```.env``` na pasta 'frontend', seguindo a estrutura do arquivo ```.env.example```. 
+Também é necessário criar um arquivo ```.env``` na pasta 'frontend', seguindo a estrutura do arquivo ```.env.example```.
+
+### Docker
+
+Para definir as credenciais a serem utilizadas em containers de Docker, é necessário criar um arquivo ```.env``` na pasta raíz do projeto, seguindo a estrutura do arquivo ```.env.example```.
 
 ## Iniciando o projeto
 
@@ -21,13 +25,14 @@ Também é necessário criar um arquivo ```.env``` na pasta 'frontend', seguindo
 # Exemplo de instalação no Linux
 sudo apt-get install -y dotnet-sdk-8.0
 sudo apt-get install -y aspnetcore-runtime-8.0
+
+dotnet tool install --global dotnet-ef
 ```
 
 Para criar o banco:
 ```
 cd Backend/
 
-dotnet tool install --global dotnet-ef
 dotnet ef database update
 ```
 
