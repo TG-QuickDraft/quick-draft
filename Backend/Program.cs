@@ -1,6 +1,9 @@
+using Backend.Application.Interfaces.Repositories;
+using Backend.Application.Interfaces.Services;
+using Backend.Application.Services;
 using Backend.Config;
-using Backend.Repositories;
-using Backend.Services;
+using Backend.Infrastructure.Persistence;
+using Backend.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
