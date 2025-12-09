@@ -3,16 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models
 {
-    public class Freelancer
+   [Table("freelancers")]
+   public class Freelancer(int Id)
     {
-        [Column("fre_id")]
+
         [Key]
-        public int Id { get; set; }
+        [Column("fre_id")]
+        [ForeignKey("usuarios")]
+        public int Id { get; set; } = Id;
 
-        [Column("fre_nome")]
-        [Required]
-        [MaxLength(100)]
-        public required string Nome { get; set; }
-
+        public required Usuario Usuario { get; set; }
     }
 }
