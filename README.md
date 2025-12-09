@@ -75,7 +75,7 @@ npx cypress open
 
 ```
 cd Backend
-dotnet ef migrations add NomeMigracao
+dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence
 
 # Aplicando mudanças da nova migração 
 dotnet ef database update
