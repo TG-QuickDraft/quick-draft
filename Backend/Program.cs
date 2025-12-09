@@ -1,4 +1,4 @@
-using Backend.Controllers;
+using Backend.Config;
 using Backend.Repositories;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IFreelancerRepository, FreelancerRepository>();
 builder.Services.AddScoped<IFreelancerService, FreelancerService>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
 
