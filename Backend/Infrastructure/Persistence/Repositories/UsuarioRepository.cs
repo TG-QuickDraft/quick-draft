@@ -1,9 +1,9 @@
+using Backend.Application.Interfaces.Repositories;
+using Backend.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
-using Backend.Models;
-using Backend.Repositories.Interfaces;
-
-namespace Backend.Repositories.Implementations
+namespace Backend.Infrastructure.Persistence.Repositories
 {
     public class UsuarioRepository(AppDbContext context) : IUsuarioRepository
     {

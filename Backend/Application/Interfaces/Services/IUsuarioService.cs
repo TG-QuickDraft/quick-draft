@@ -1,6 +1,6 @@
-using Backend.DTO;
+using Backend.Application.DTOs;
 
-namespace Backend.Services.Interfaces 
+namespace Backend.Application.Interfaces.Services
 {
     public interface IUsuarioService
     {

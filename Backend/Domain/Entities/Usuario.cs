@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Backend.Models
+namespace Backend.Domain.Entities
 {
     [Table("usuarios")]
     public class Usuario

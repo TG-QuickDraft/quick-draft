@@ -1,8 +1,8 @@
 using AutoMapper;
-using Backend.DTO;
-using Backend.Models;
+using Backend.Application.DTOs;
+using Backend.Domain.Entities;
 
-namespace Backend.Mappings
+namespace Backend.Application.Mappings
 {
     public class UsuarioProfile : Profile
     {

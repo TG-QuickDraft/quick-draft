@@ -1,10 +1,10 @@
 using AutoMapper;
-using Backend.DTO;
-using Backend.Models;
-using Backend.Repositories.Interfaces;
-using Backend.Services.Interfaces;
+using Backend.Application.DTOs;
+using Backend.Application.Interfaces.Repositories;
+using Backend.Application.Interfaces.Services;
+using Backend.Domain.Entities;
 
-namespace Backend.Services.Implementations
+namespace Backend.Application.Services
 {
     public class UsuarioService(
         IUsuarioRepository repository,

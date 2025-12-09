@@ -1,9 +1,8 @@
-using Backend.DTO;
-using Backend.Services;
-
+using Backend.Application.DTOs;
+using Backend.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.Controllers
+namespace Backend.API.Controllers
 {
 
     [ApiController]

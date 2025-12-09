@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-using Backend.Models;
-using Backend.Repositories.Interfaces;
-namespace Backend.Repositories.Implementations
+using Backend.Domain.Entities;
+using Backend.Application.Interfaces.Repositories;
+namespace Backend.Infrastructure.Persistence.Repositories
 {
     public class FreelancerRepository(AppDbContext context) : IFreelancerRepository
     {

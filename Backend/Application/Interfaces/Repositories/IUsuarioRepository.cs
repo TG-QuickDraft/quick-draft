@@ -1,7 +1,6 @@
-using Backend.DTO;
-using Backend.Models;
+using Backend.Domain.Entities;
 
-namespace Backend.Repositories.Interfaces
+namespace Backend.Application.Interfaces.Repositories
 {
     public interface IUsuarioRepository
     {

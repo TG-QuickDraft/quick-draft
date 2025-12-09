@@ -1,12 +1,12 @@
 using AutoMapper;
+using Backend.Application.DTOs;
+using Backend.Application.Interfaces.Repositories;
+using Backend.Application.Interfaces.Services;
 using Backend.Config;
-using Backend.DTO;
-using Backend.Models;
-using Backend.Repositories.Interfaces;
-using Backend.Services.Interfaces;
+using Backend.Domain.Entities;
 using Microsoft.Extensions.Options;
 
-namespace Backend.Services.Implementations
+namespace Backend.Application.Services
 {
     public class FreelancerService(
         IFreelancerRepository repository,
