@@ -1,35 +1,69 @@
+using AutoMapper;
+using Backend.Config;
+using Backend.DTO;
 using Backend.Models;
 using Backend.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace Backend.Services
 {
-    public class FreelancerService(IFreelancerRepository repository) : IFreelancerService
+    public class FreelancerService(
+        IFreelancerRepository repository,
+        IUsuarioRepository usuarioRepository,
+        IMapper mapper,
+        IOptions<ImageSettings> options
+    ) : IFreelancerService
     {
         private readonly IFreelancerRepository _repository = repository;
+        private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
+        private readonly IMapper _mapper = mapper;
+        private readonly ImageSettings _settings = options.Value;
 
-        public async Task<IEnumerable<Freelancer>> ConsultarTodosAsync()
+        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync()
         {
-            return await _repository.ConsultarTodosAsync(); ;
+            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync();
+
+            foreach (var freelancer in list)
+            {
+                if (!string.IsNullOrEmpty(freelancer.Usuario.FotoPerfilUrl))
+                {
+                    freelancer.Usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario.FotoPerfilUrl}";
+                }
+            }
+
+            return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
         }
 
-        public async Task<Freelancer?> ConsultarPorIdAsync(int id)
+        public async Task<FreelancerDTO?> ConsultarPorIdAsync(int id)
         {
-            return await _repository.ConsultarPorIdAsync(id);
+            var freelancer = await _repository.ConsultarPorIdAsync(id);
+
+            if (freelancer == null)
+                return null;
+
+            freelancer.Usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario.FotoPerfilUrl}";
+
+            return _mapper.Map<FreelancerDTO>(freelancer);
         }
 
-        public async Task<Freelancer> CriarAsync(Freelancer freelancer)
+        public async Task<FreelancerDTO> CriarAsync(FreelancerDTO freelancer)
         {
-            return await _repository.CriarAsync(freelancer);
+            Freelancer freelancerCriado = await _repository.CriarAsync(_mapper.Map<Freelancer>(freelancer));
+
+            return _mapper.Map<FreelancerDTO>(freelancerCriado);
         }
 
-        public async Task<bool> AtualizarAsync(Freelancer freelancer)
+        public async Task<bool> AtualizarAsync(FreelancerDTO freelancer)
         {
-            return await _repository.AtualizarAsync(freelancer);
-        }
+            Freelancer freelancerEntidade = _mapper.Map<Freelancer>(freelancer);
+            Usuario usuario = _mapper.Map<Usuario>(freelancerEntidade.Usuario);
 
-        public async Task<bool> DeletarAsync(int id)
-        {
-            return await _repository.DeletarAsync(id);
+            usuario.Id = freelancerEntidade.Id;
+
+            return
+                await _repository.AtualizarAsync(freelancerEntidade)
+                &&
+                await _usuarioRepository.AtualizarAsync(usuario);
         }
     }
 }

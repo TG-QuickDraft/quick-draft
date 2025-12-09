@@ -1,3 +1,4 @@
+using Backend.DTO;
 using Backend.Models;
 
 namespace Backend.Repositories

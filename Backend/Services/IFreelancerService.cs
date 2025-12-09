@@ -1,17 +1,15 @@
-using Backend.Models;
+using Backend.DTO;
 
 namespace Backend.Services 
 {
     public interface IFreelancerService
     {
-        public Task<IEnumerable<Freelancer>> ConsultarTodosAsync();
+        public Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync();
 
-        public Task<Freelancer?> ConsultarPorIdAsync(int id);
+        public Task<FreelancerDTO?> ConsultarPorIdAsync(int id);
         
-        public Task<Freelancer> CriarAsync(Freelancer freelancer);
+        public Task<FreelancerDTO> CriarAsync(FreelancerDTO freelancer);
 
-        public Task<bool> AtualizarAsync(Freelancer freelancer);
-
-        public Task<bool> DeletarAsync(int id);
+        public Task<bool> AtualizarAsync(FreelancerDTO freelancer);
     }
 }
