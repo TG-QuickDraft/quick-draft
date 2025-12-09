@@ -74,7 +74,11 @@ npx cypress open
 ### Para criar novas migrações
 
 ```
+cd Backend
 dotnet ef migrations add NomeMigracao
+
+# Aplicando mudanças da nova migração 
+dotnet ef database update
 ```
 
 ## Referências

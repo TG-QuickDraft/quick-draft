@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
 using Backend.Models;
-namespace Backend.Repositories
+using Backend.Repositories.Interfaces;
+namespace Backend.Repositories.Implementations
 {
     public class FreelancerRepository(AppDbContext context) : IFreelancerRepository
     {
@@ -9,12 +10,16 @@ namespace Backend.Repositories
 
         public async Task<IEnumerable<Freelancer>> ConsultarTodosAsync()
         {
-            return await _context.Freelancers.ToListAsync();
+            return await _context.Freelancers
+                .Include(f => f.Usuario)
+                .ToListAsync();
         }
 
         public async Task<Freelancer?> ConsultarPorIdAsync(int id)
         {
-            return await _context.Freelancers.FindAsync(id);
+            return await _context.Freelancers
+                .Include(f => f.Usuario)
+                .FirstOrDefaultAsync(f => f.Id == id);
         }
 
         public async Task<Freelancer> CriarAsync(Freelancer freelancer)
@@ -26,7 +31,7 @@ namespace Backend.Repositories
 
         public async Task<bool> AtualizarAsync(Freelancer freelancer)
         {
-            var existente = await _context.Freelancers.FindAsync(freelancer.Id);
+            var existente = await ConsultarPorIdAsync(freelancer.Id);
             if (existente == null)
                 return false;
 

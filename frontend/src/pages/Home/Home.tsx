@@ -14,6 +14,12 @@ export const Home = () => {
                 </button>
             </Link>
 
+            <Link to={"/cadastrarFreelancer"}>
+                <button style={{backgroundColor: 'white', color: 'black'}}>
+                    Cadastrar Freelancer
+                </button>
+            </Link>
+
             <hr/>
 
             <h3>Testes Cypress</h3>

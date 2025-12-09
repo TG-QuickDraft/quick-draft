@@ -1,4 +1,5 @@
-export interface Freelancer {
-    id: number
-    nome: string
+import type { Usuario } from "./Usuario"
+
+export type Freelancer = Usuario & {
+    
 }
