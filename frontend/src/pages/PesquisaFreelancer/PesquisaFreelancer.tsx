@@ -15,7 +15,7 @@ export function PesquisaFreelancer() {
       const dados = await consultarFreelancers();
 
       if (dados !== undefined){
-          setFreelancers(dados);    
+        setFreelancers(dados);    
       }
         
     };
@@ -31,6 +31,8 @@ export function PesquisaFreelancer() {
           <tr>
             <th>Id</th>
             <th>Nome</th>
+            <th>Foto de Perfil</th>
+            <th>Ir para Perfil</th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +47,16 @@ export function PesquisaFreelancer() {
                   <td>
                     {freelancer.nome}
                   </td>
+                  <td>
+                    <img src={freelancer.fotoPerfilUrl} height={200}/>
+                  </td>
+                  <td>
+                    <Link to={`/perfilFreelancer/${freelancer.id}`}>
+                      <button>
+                        Ver Perfil
+                      </button>
+                    </Link>
+                  </td>
                 </tr>
             ))
             
@@ -52,6 +64,7 @@ export function PesquisaFreelancer() {
             
             (
               <tr>
+                <td>-</td>
                 <td>-</td>
                 <td>-</td>
               </tr>
