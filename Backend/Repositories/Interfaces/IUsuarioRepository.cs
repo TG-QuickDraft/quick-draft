@@ -1,7 +1,7 @@
 using Backend.DTO;
 using Backend.Models;
 
-namespace Backend.Repositories
+namespace Backend.Repositories.Interfaces
 {
     public interface IUsuarioRepository
     {

@@ -1,6 +1,6 @@
 using Backend.DTO;
 
-namespace Backend.Services 
+namespace Backend.Services.Interfaces 
 {
     public interface IUsuarioService
     {
