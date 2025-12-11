@@ -4,34 +4,32 @@ import type { Freelancer } from "../../models/Freelancer";
 import { useEffect, useState } from "react";
 
 export const PerfilFreelancer = () => {
-    const { id } = useParams();
+  const { id } = useParams();
 
-    const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
+  const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
 
-    useEffect(() => {
-        const obterDados = async () => {
+  useEffect(() => {
+    const obterDados = async () => {
+      const data = await consultarFreelancerPorId(Number(id));
 
-            const data = await consultarFreelancerPorId(Number(id));
+      if (data !== undefined) {
+        setFreelancer(data);
+      }
+    };
 
-            if (data !== undefined) {
-                setFreelancer(data);
-            }
+    obterDados();
+  }, [id]);
 
-        };
+  return (
+    <div>
+      <h1>Página de Perfil do Freelancer</h1>
 
-        obterDados();
-    }, [id]);
+      <h3>{freelancer?.nome}</h3>
 
-    return (
-        <div>
-            <h1>Página de Perfil do Freelancer</h1>
-
-            <h3>{freelancer?.nome}</h3>
-
-            <img
-                src={freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""}
-                height={200}
-            />
-        </div>
-    )
-}
+      <img
+        src={freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""}
+        height={200}
+      />
+    </div>
+  );
+};
