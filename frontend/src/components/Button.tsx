@@ -20,13 +20,18 @@ const Button = ({
   children,
   variant = "primary",
   className,
+  icon,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof variants;
+  icon?: React.ReactNode;
 }) => {
   return (
     <button className={`${variants[variant]} ${className}`} {...props}>
-      {children}
+      <div className="flex items-center justify-center gap-2">
+        {icon}
+        {children}
+      </div>
     </button>
   );
 };

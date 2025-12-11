@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 import { TesteMarkdown } from "../../components/TesteMarkdown";
 
+import { IoIosSearch } from "react-icons/io";
+import { GoPlus } from "react-icons/go";
 export const Home = () => {
   const [count, setCount] = useState(0);
 
@@ -11,14 +13,17 @@ export const Home = () => {
       <div>
         <div className="flex flex-col gap-3">
           <Link to={"/pesquisaFreelancer"}>
-            <Button>Pesquisar freelancers</Button>
+            <Button icon={<IoIosSearch size={30} />}>
+              Pesquisar freelancers
+            </Button>
           </Link>
           <Link to={"/cadastrarFreelancer"}>
-            <Button>Cadastrar Freelancer</Button>
+            <Button icon={<GoPlus size={30} />}>Cadastrar Freelancer</Button>
           </Link>
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>
+
           <Button
             className="w-full"
             variant="secondary"
