@@ -8,7 +8,6 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-
         {freelancerRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
