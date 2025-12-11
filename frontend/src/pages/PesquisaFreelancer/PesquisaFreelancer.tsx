@@ -4,6 +4,8 @@ import type { Freelancer } from "../../models/Freelancer";
 import { consultarFreelancers } from "../../api/freelancerApi";
 import { Link } from "react-router-dom";
 
+import Button from "../../components/Button";
+
 export function PesquisaFreelancer() {
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
 
@@ -21,7 +23,7 @@ export function PesquisaFreelancer() {
 
   return (
     <>
-      <h1>Minha tabela de freelancers</h1>
+      <h1 className="pb-6">Minha tabela de freelancers</h1>
       <table id="tabela-incrivel">
         <thead>
           <tr>
@@ -57,11 +59,11 @@ export function PesquisaFreelancer() {
         </tbody>
       </table>
 
-      <Link to={"/"}>
-        <button style={{ backgroundColor: "white", color: "black" }}>
-          Ir para Home
-        </button>
-      </Link>
+      <div className="py-6">
+        <Link to={"/"}>
+          <Button>Ir para Home</Button>
+        </Link>
+      </div>
     </>
   );
 }

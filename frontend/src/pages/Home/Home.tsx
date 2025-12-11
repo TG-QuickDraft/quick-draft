@@ -24,7 +24,6 @@ export const Home = () => {
           <h3 className="p-6">Testes Cypress</h3>
 
           <Button
-            className="w-full"
             variant="secondary"
             id="oh"
             onClick={() => setCount((count) => count + 1)}
