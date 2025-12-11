@@ -1,5 +1,5 @@
 export type Usuario = {
-    id: number
-    nome: string
-    fotoPerfilUrl?: string
-}
+  id: number;
+  nome: string;
+  fotoPerfilUrl?: string;
+};

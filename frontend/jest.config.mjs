@@ -1,5 +1,5 @@
 export default {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  testMatch: ['**/__tests__/**/*.test.ts', '**/__test__/**/*.test.ts'],
+  preset: "ts-jest",
+  testEnvironment: "node",
+  testMatch: ["**/__tests__/**/*.test.ts", "**/__test__/**/*.test.ts"],
 };

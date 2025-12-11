@@ -1,5 +1,3 @@
-import type { Usuario } from "./Usuario"
+import type { Usuario } from "./Usuario";
 
-export type Freelancer = Usuario & {
-    
-}
+export type Freelancer = Usuario & {};
