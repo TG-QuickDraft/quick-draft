@@ -1,8 +1,19 @@
-const variants = {
-  primary:
-    "px-4 py-2 rounded cursor-pointer bg-gray-100 text-black hover:shadow-xl hover:shadow-gray-600/40",
-  secondary:
-    "px-4 py-2 rounded cursor-pointer bg-black/60 text-white hover:shadow-xl hover:shadow-gray-600/20",
+import clsx from "clsx";
+
+const base = "px-4 py-2 rounded cursor-pointer transition-shadow";
+
+export const variants = {
+  primary: clsx(
+    base,
+    "bg-gray-100 text-black",
+    "hover:shadow-xl hover:shadow-gray-600/50"
+  ),
+
+  secondary: clsx(
+    base,
+    "bg-black/60 text-white",
+    "hover:shadow-xl hover:shadow-gray-600/20"
+  ),
 };
 
 const Button = ({
