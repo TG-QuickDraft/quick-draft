@@ -5,7 +5,7 @@ import { consultarFreelancers } from "../../api/freelancerApi";
 import { Link } from "react-router-dom";
 
 import Button from "../../components/Button";
-
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 export function PesquisaFreelancer() {
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
 
@@ -22,7 +22,7 @@ export function PesquisaFreelancer() {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col items-center h-full justify-center">
       <h1 className="pb-6">Minha tabela de freelancers</h1>
       <table id="tabela-incrivel">
         <thead>
@@ -58,13 +58,14 @@ export function PesquisaFreelancer() {
           )}
         </tbody>
       </table>
-
       <div className="py-6">
         <Link to={"/"}>
-          <Button>Ir para Home</Button>
+          <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>
+            Ir para Home
+          </Button>
         </Link>
       </div>
-    </>
+    </div>
   );
 }
 
