@@ -1,49 +1,34 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import reactLogo from "../../assets/react.svg";
-import viteLogo from "/vite.svg";
+import Button from "../../components/Button";
 import { TesteMarkdown } from "../../components/TesteMarkdown";
 
 export const Home = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <>
-      <Link to={"/pesquisaFreelancer"}>
-        <button style={{ backgroundColor: "white", color: "black" }}>
-          Pesquisar freelancers
-        </button>
-      </Link>
-
-      <Link to={"/cadastrarFreelancer"}>
-        <button style={{ backgroundColor: "white", color: "black" }}>
-          Cadastrar Freelancer
-        </button>
-      </Link>
-
-      <hr />
-
-      <h3>Testes Cypress</h3>
-
+    <div className="flex flex-col items-center justify-center h-full">
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <div className="flex flex-col gap-3">
+          <Link to={"/pesquisaFreelancer"}>
+            <Button>Pesquisar freelancers</Button>
+          </Link>
+          <Link to={"/cadastrarFreelancer"}>
+            <Button>Cadastrar Freelancer</Button>
+          </Link>
+        </div>
+        <div className="flex flex-col items-center justify-center">
+          <h3 className="p-6">Testes Cypress</h3>
+          <Button
+            className="w-full"
+            variant="secondary"
+            id="oh"
+            onClick={() => setCount((count) => count + 1)}
+          >
+            count is {count}
+          </Button>
+        </div>
       </div>
-
-      <div className="card">
-        <button id="oh" onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-
-            <TesteMarkdown/>
-    </>
+    </div>
   );
 };
