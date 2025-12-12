@@ -39,15 +39,15 @@ export const CadastrarFreelancer = () => {
     <div className="flex flex-col items-center justify-center h-full">
       <Title>Cadastrar Freelancer</Title>
 
-      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-[20px] shadow-2xl">
+      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-[20px] shadow-2xl border border-gray-600/20">
         <input
-          className="border w-full p-3 focus:outline-none rounded"
+          className="border border-gray-600 w-full p-3 focus:outline-none rounded"
           placeholder="Nome"
           onChange={(e) => setNome(e.target.value)}
         />
 
         <input
-          className="border p-3 rounded"
+          className="border border-gray-600 p-3 rounded"
           type="file"
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
@@ -66,11 +66,13 @@ export const CadastrarFreelancer = () => {
       </Link>
 
       {foto && (
-        <img
-          src={foto ? URL.createObjectURL(foto) : ""}
-          alt="Preview"
-          style={{ width: 200, height: "auto", marginTop: 10 }}
-        />
+        <div className="pt-6">
+          <img
+            src={foto ? URL.createObjectURL(foto) : ""}
+            alt="Preview"
+            style={{ width: 200, height: "auto", marginTop: 10 }}
+          />
+        </div>
       )}
     </div>
   );
