@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 
 import Button from "../../components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import Title from "../../components/Title";
+
+import { PiEmptyLight } from "react-icons/pi";
+
 export function PesquisaFreelancer() {
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
 
@@ -23,42 +27,43 @@ export function PesquisaFreelancer() {
 
   return (
     <div className="flex flex-col items-center h-full justify-center">
-      <h1 className="pb-6">Minha tabela de freelancers</h1>
-      <table id="tabela-incrivel">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Foto de Perfil</th>
-            <th>Ir para Perfil</th>
-          </tr>
-        </thead>
-        <tbody>
-          {freelancers.length > 0 ? (
-            freelancers.map((freelancer, index) => (
-              <tr key={index}>
-                <td>{freelancer.id}</td>
-                <td>{freelancer.nome}</td>
-                <td>
+      <Title className="pb-8">Minha tabela de freelancers</Title>
+
+      {freelancers.length === 0 ? (
+        <PiEmptyLight size={30} />
+      ) : (
+        <table className="w-1/2 text-center shadow-2xl">
+          <thead>
+            <tr className="bg-white text-black">
+              <th className="p-3">Id</th>
+              <th className="p-3">Nome</th>
+              <th className="p-3">Foto de Perfil</th>
+              <th className="p-3">Ir para Perfil</th>
+            </tr>
+          </thead>
+          <tbody>
+            {freelancers.map((freelancer, index) => (
+              <tr
+                key={index}
+                className="border border-gray-500 hover:bg-gray-500/5"
+              >
+                <td className="p-3">{freelancer.id}</td>
+                <td className="p-3">{freelancer.nome}</td>
+                <td className="p-3">
                   <img src={freelancer.fotoPerfilUrl} height={200} />
                 </td>
-                <td>
+                <td className="p-3">
                   <Link to={`/perfilFreelancer/${freelancer.id}`}>
-                    <button>Ver Perfil</button>
+                    <Button>Ver Perfil</Button>
                   </Link>
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      <div className="py-6">
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <div className="py-8">
         <Link to={"/"}>
           <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>
             Ir para Home
