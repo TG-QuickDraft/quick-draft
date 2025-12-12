@@ -4,6 +4,11 @@ import { adicionarFreelancer } from "../../api/freelancerApi";
 
 import Button from "../../components/Button";
 import { LuSave } from "react-icons/lu";
+import { Link } from "react-router-dom";
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+
+import Title from "../../components/Title";
+
 export const CadastrarFreelancer = () => {
   const [nome, setNome] = useState("");
   const [foto, setFoto] = useState<File | null>(null);
@@ -31,10 +36,10 @@ export const CadastrarFreelancer = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-5 justify-center h-full">
-      <h1>Cadastrar Freelancer</h1>
+    <div className="flex flex-col items-center justify-center h-full">
+      <Title>Cadastrar Freelancer</Title>
 
-      <div className="flex flex-col w-1/2 gap-5">
+      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-[20px] shadow-2xl">
         <input
           className="border w-full p-3 focus:outline-none rounded"
           placeholder="Nome"
@@ -55,6 +60,10 @@ export const CadastrarFreelancer = () => {
           Salvar
         </Button>
       </div>
+
+      <Link to={"/"}>
+        <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>Voltar</Button>
+      </Link>
 
       {foto && (
         <img
