@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { enviarFoto } from "../../api/usuarioApi";
-import { adicionarFreelancer } from "../../api/freelancerApi";
+import { enviarFoto } from "../api/usuarioApi";
+import { adicionarFreelancer } from "../api/freelancerApi";
 
-import Button from "../../components/Button";
+import Button from "../components/Button";
 import { LuSave } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
-import Title from "../../components/Title";
+import Title from "../components/Title";
 
 export const CadastrarFreelancer = () => {
   const [nome, setNome] = useState("");
@@ -39,7 +39,7 @@ export const CadastrarFreelancer = () => {
     <div className="flex flex-col items-center justify-center h-full">
       <Title>Cadastrar Freelancer</Title>
 
-      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-[20px] shadow-2xl border border-gray-600/20">
+      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
         <input
           className="border border-gray-600 w-full p-3 focus:outline-none rounded"
           placeholder="Nome"

@@ -1,6 +1,6 @@
-import PesquisaFreelancer from "../pages/PesquisaFreelancer/PesquisaFreelancer";
-import { CadastrarFreelancer } from "../pages/CadastrarFreelancer/CadastrarFreelancer";
-import { PerfilFreelancer } from "../pages/PerfilFreelancer/PerfilFreelancer";
+import PesquisaFreelancer from "../pages/PesquisaFreelancer";
+import { CadastrarFreelancer } from "../pages/CadastrarFreelancer";
+import { PerfilFreelancer } from "../pages/PerfilFreelancer";
 
 export const freelancerRoutes = [
   { path: "/pesquisaFreelancer", element: <PesquisaFreelancer /> },
