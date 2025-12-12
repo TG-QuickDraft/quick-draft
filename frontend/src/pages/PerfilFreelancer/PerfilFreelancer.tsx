@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { consultarFreelancerPorId } from "../../api/freelancerApi";
 import type { Freelancer } from "../../models/Freelancer";
 import { useEffect, useState } from "react";
@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import Title from "../../components/Title";
 
 const PATH = `${import.meta.env.VITE_API_URL}`;
+
+import Button from "../../components/Button";
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
@@ -47,6 +50,15 @@ export const PerfilFreelancer = () => {
         ) : (
           <div className="bg-black w-50 h-50 rounded-full" />
         )}
+
+        <Link to={"/pesquisaFreelancer"}>
+          <Button
+            className="mt-6"
+            icon={<MdKeyboardDoubleArrowLeft size={30} />}
+          >
+            Voltar
+          </Button>
+        </Link>
       </div>
     </div>
   );

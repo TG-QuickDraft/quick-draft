@@ -10,6 +10,8 @@ import Title from "../../components/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
 
+const PATH = `${import.meta.env.VITE_API_URL}`;
+
 export function PesquisaFreelancer() {
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
 
@@ -50,7 +52,10 @@ export function PesquisaFreelancer() {
                 <td className="p-3">{freelancer.id}</td>
                 <td className="p-3">{freelancer.nome}</td>
                 <td className="p-3">
-                  <img src={freelancer.fotoPerfilUrl} height={200} />
+                  <img
+                    src={PATH + freelancer.fotoPerfilUrl?.slice(1)}
+                    className="h-11 rounded-full inline-block"
+                  />
                 </td>
                 <td className="p-3">
                   <Link to={`/perfilFreelancer/${freelancer.id}`}>
