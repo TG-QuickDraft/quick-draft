@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import reactLogo from '../../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { ComponenteMarkdown } from "../../components/ComponenteMarkdown";
 
 export const Home = () => {
     const [count, setCount] = useState(0)
@@ -41,6 +42,8 @@ export const Home = () => {
             <p className="read-the-docs">
                 Click on the Vite and React logos to learn more
             </p>
+
+            <ComponenteMarkdown/>
         </>
     );
 }
