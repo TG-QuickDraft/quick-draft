@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import reactLogo from '../../assets/react.svg'
 import viteLogo from '/vite.svg'
-import { ComponenteMarkdown } from "../../components/ComponenteMarkdown";
+import { TesteMarkdown } from "../../components/TesteMarkdown";
 
 export const Home = () => {
     const [count, setCount] = useState(0)
@@ -43,7 +43,7 @@ export const Home = () => {
                 Click on the Vite and React logos to learn more
             </p>
 
-            <ComponenteMarkdown/>
+            <TesteMarkdown/>
         </>
     );
 }

@@ -95,7 +95,7 @@ const schema = {
 };
 
 
-export const ComponenteMarkdown = () => {
+export const TesteMarkdown = () => {
     return (
         <Markdown rehypePlugins={[rehypeRaw, [rehypeSanitize, schema]]}>
             {texto}
