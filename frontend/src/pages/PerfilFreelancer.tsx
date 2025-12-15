@@ -37,12 +37,8 @@ export const PerfilFreelancer = () => {
 
         {freelancer?.fotoPerfilUrl ? (
           <img
-            className="rounded-full shadow-xl"
-            src={
-              freelancer?.fotoPerfilUrl
-                ? freelancer.fotoPerfilUrl
-                : ""
-            }
+            className="rounded-full shadow-xl w-50 h-50"
+            src={freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""}
             height={200}
           />
         ) : (

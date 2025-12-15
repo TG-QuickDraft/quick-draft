@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-const base = "px-4 py-2 rounded cursor-pointer transition-shadow";
+const base = "px-4 py-2 rounded cursor-pointer transition";
 
 export const variants = {
   primary: clsx(

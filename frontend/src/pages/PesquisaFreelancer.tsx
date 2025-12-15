@@ -46,7 +46,7 @@ export function PesquisaFreelancer() {
             {freelancers.map((freelancer, index) => (
               <tr
                 key={index}
-                className="border border-gray-500 hover:bg-gray-500/5"
+                className="border border-gray-500/20 hover:bg-gray-500/5"
               >
                 <td className="p-3">{freelancer.id}</td>
                 <td className="p-3">{freelancer.nome}</td>
