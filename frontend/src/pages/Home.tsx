@@ -10,7 +10,7 @@ export const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center h-full">
       <div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 items-center">
           <Link to={"/pesquisaFreelancer"}>
             <Button icon={<IoIosSearch size={30} />}>
               Pesquisar freelancers
@@ -18,9 +18,7 @@ export const Home = () => {
           </Link>
 
           <Link to={"/pesquisaServico"}>
-            <Button icon={<IoIosSearch size={30} />}>
-              Pesquisar serviços
-            </Button>
+            <Button icon={<IoIosSearch size={30} />}>Pesquisar serviços</Button>
           </Link>
 
           <Link to={"/cadastrarFreelancer"}>
