@@ -20,5 +20,8 @@ namespace Backend.Domain.Entities
 
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
+
+        [JsonIgnore]
+        public Cliente? Cliente { get; set; }
     }
 }
