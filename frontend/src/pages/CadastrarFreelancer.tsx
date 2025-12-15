@@ -13,15 +13,22 @@ import Modal from "../components/Modal";
 export const CadastrarFreelancer = () => {
   const [nome, setNome] = useState("");
   const [foto, setFoto] = useState<File | null>(null);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
+  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
   const enviar = async () => {
+    if (!nome || !foto) {
+      setModalStatus("Erro");
+      setModalMsg("Preencha todos os campos");
+      setShowModal(true);
+      return;
+    }
+
     const freelancerAdicionado = await adicionarFreelancer({
       id: 0,
       nome: nome,
     });
-
-    console.log(freelancerAdicionado);
 
     const form = new FormData();
 
@@ -34,7 +41,9 @@ export const CadastrarFreelancer = () => {
       console.log(await resposta.json());
     }
 
-    alert("Freelancer cadastrado com sucesso!");
+    setModalStatus("Sucesso");
+    setModalMsg("Freelancer cadastrado com sucesso!");
+    setShowModal(true);
   };
 
   return (
@@ -74,8 +83,12 @@ export const CadastrarFreelancer = () => {
         )}
       </div>
 
-      <Modal show={showModal} title="Test" onClose={() => setShowModal(false)}>
-        {"Ola"}
+      <Modal
+        show={showModal}
+        title={modalStatus}
+        onClose={() => setShowModal(false)}
+      >
+        {modalMsg}
       </Modal>
     </>
   );

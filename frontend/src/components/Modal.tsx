@@ -16,7 +16,7 @@ const Modal = ({ show, onClose, title, children }: ModalProps) => {
       <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative text-center z-10 w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-        {title && <h2 className="mb-4 text-lg font-semibold">{title}</h2>}
+        {title && <h2 className="mb-4 text-xl font-semibold">{title}</h2>}
 
         <div>{children}</div>
 
