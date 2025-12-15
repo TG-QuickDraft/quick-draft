@@ -11,7 +11,5 @@ namespace Backend.Application.Interfaces.Repositories
         Task<Freelancer> CriarAsync(Freelancer freelancer);
 
         Task<bool> AtualizarAsync(Freelancer freelancer);
-
-        Task<bool> DeletarAsync(int id);
     }
 }
