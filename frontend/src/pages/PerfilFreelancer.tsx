@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 
 import Title from "../components/Title";
 
-const PATH = `${import.meta.env.VITE_API_URL}`;
-
 import Button from "../components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
@@ -42,7 +40,7 @@ export const PerfilFreelancer = () => {
             className="rounded-full shadow-xl"
             src={
               freelancer?.fotoPerfilUrl
-                ? PATH + freelancer.fotoPerfilUrl.slice(1)
+                ? freelancer.fotoPerfilUrl
                 : ""
             }
             height={200}
