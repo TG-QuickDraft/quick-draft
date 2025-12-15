@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../pages/Home";
 
 import { freelancerRoutes } from "./freelancer.routes";
+import { servicoRoutes } from "./servico.routes";
 
 const AppRoutes = () => {
   return (
@@ -9,6 +10,10 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         {freelancerRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
+
+        {servicoRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
       </Routes>

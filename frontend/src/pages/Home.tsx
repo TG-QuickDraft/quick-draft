@@ -16,6 +16,13 @@ export const Home = () => {
               Pesquisar freelancers
             </Button>
           </Link>
+
+          <Link to={"/pesquisaServico"}>
+            <Button icon={<IoIosSearch size={30} />}>
+              Pesquisar serviços
+            </Button>
+          </Link>
+
           <Link to={"/cadastrarFreelancer"}>
             <Button icon={<GoPlus size={30} />}>Cadastrar Freelancer</Button>
           </Link>
