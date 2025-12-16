@@ -17,10 +17,11 @@ namespace Backend.Domain.Entities
         [Column("ser_descricao")]
         public required string Descricao { get; set; }
 
-        [ForeignKey("clientes")]
-        [Required]
         [Column("ser_cli_id")]
+        public int ClienteId { get; set; }
+
+        [ForeignKey(nameof(ClienteId))]
         [JsonIgnore]
-        public required Cliente Cliente { get; set; }
+        public Cliente? Cliente { get; set; }
     }
 }

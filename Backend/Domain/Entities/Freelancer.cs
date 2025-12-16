@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Backend.Domain.Entities
 {
    [Table("freelancers")]
-   public class Freelancer(int Id)
+   public class Freelancer
     {
 
         [Key]
         [Column("fre_id")]
-        [ForeignKey("usuarios")]
-        public int Id { get; set; } = Id;
+        public int Id { get; set; }
 
-        public required Usuario Usuario { get; set; }
+        [ForeignKey(nameof(Id))]
+        public Usuario? Usuario { get; set; }
     }
 }

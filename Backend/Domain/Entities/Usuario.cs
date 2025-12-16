@@ -12,8 +12,7 @@ namespace Backend.Domain.Entities
         public int Id { get; set; }
         
         [Column("usu_nome")]
-        [Required]
-        public string Nome { get; set; } = null!;
+        public required string Nome { get; set; } = "";
         
         [Column("usu_foto_perfil_url")]
         public string? FotoPerfilUrl { get; set; }
