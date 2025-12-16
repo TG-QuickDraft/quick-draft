@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Freelancer } from "../models/Freelancer";
-import { consultarFreelancers } from "../api/freelancerApi";
+
 import { Link } from "react-router-dom";
 
 import Button from "../components/Button";
@@ -8,16 +7,18 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import Title from "../components/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
+import { consultarServicos } from "../api/servicoApi";
+import type { Servico } from "../models/Servico";
 
-export function PesquisaFreelancer() {
-  const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
+export function PesquisaServico() {
+  const [servicos, setServicos] = useState<Servico[]>([]);
 
   useEffect(() => {
     const obterDados = async () => {
-      const dados = await consultarFreelancers();
+      const dados = await consultarServicos();
 
       if (dados !== undefined) {
-        setFreelancers(dados);
+        setServicos(dados);
       }
     };
 
@@ -26,9 +27,9 @@ export function PesquisaFreelancer() {
 
   return (
     <div className="flex flex-col items-center h-full justify-center">
-      <Title className="pb-8">Minha tabela de freelancers</Title>
+      <Title className="pb-8">Minha tabela de serviços</Title>
 
-      {freelancers.length === 0 ? (
+      {servicos.length === 0 ? (
         <PiEmptyLight size={30} />
       ) : (
         <table className="w-1/2 text-center shadow-2xl">
@@ -36,31 +37,22 @@ export function PesquisaFreelancer() {
             <tr className="bg-white text-black">
               <th className="p-3">Id</th>
               <th className="p-3">Nome</th>
-              <th className="p-3">Foto de Perfil</th>
-              <th className="p-3">Ir para Perfil</th>
+              <th className="p-3">Descrição</th>
+              <th className="p-3">Ir para Serviço</th>
             </tr>
           </thead>
           <tbody>
-            {freelancers.map((freelancer, index) => (
+            {servicos.map((servico, index) => (
               <tr
                 key={index}
-                className="border border-gray-500/20 hover:bg-gray-500/5"
+                className="border border-gray-500 hover:bg-gray-500/5"
               >
-                <td className="p-3">{freelancer.id}</td>
-                <td className="p-3">{freelancer.nome}</td>
+                <td className="p-3">{servico.id}</td>
+                <td className="p-3">{servico.nome}</td>
+                <td className="p-3">{servico.descricao}</td>
                 <td className="p-3">
-                  <img
-                    src={
-                      freelancer?.fotoPerfilUrl
-                        ? freelancer.fotoPerfilUrl
-                        : ""
-                    }
-                    className="h-11 rounded-full inline-block"
-                  />
-                </td>
-                <td className="p-3">
-                  <Link to={`/perfilFreelancer/${freelancer.id}`}>
-                    <Button>Ver Perfil</Button>
+                  <Link to={`/visualizarServico/${servico.id}`}>
+                    <Button>Ver Serviço</Button>
                   </Link>
                 </td>
               </tr>
@@ -80,4 +72,4 @@ export function PesquisaFreelancer() {
   );
 }
 
-export default PesquisaFreelancer;
+export default PesquisaServico;

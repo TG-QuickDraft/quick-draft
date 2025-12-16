@@ -3,15 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Domain.Entities
 {
-   [Table("freelancers")]
-   public class Freelancer
+   [Table("clientes")]
+   public class Cliente
     {
-
         [Key]
-        [Column("fre_id")]
+        [Column("cli_id")]
         public int Id { get; set; }
 
         [ForeignKey(nameof(Id))]
         public Usuario? Usuario { get; set; }
+
+        public ICollection<Servico> Servicos { get; set; } = [];
     }
 }

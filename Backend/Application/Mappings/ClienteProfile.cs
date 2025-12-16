@@ -4,17 +4,17 @@ using Backend.Domain.Entities;
 
 namespace Backend.Application.Mappings
 {
-    public class FreelancerProfile : Profile
+    public class ClienteProfile : Profile
     {
-        public FreelancerProfile()
+        public ClienteProfile()
         {
-            CreateMap<Freelancer, FreelancerDTO>()
+            CreateMap<Cliente, ClienteDTO>()
                 .ForMember(dest => dest.Nome,
                     opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.Nome : ""))
                 .ForMember(dest => dest.FotoPerfilUrl,
                     opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.FotoPerfilUrl : ""));
 
-            CreateMap<FreelancerDTO, Freelancer>()
+            CreateMap<ClienteDTO, Cliente>()
                 .ForMember(d => d.Usuario, o => o.Ignore());
         }
     }

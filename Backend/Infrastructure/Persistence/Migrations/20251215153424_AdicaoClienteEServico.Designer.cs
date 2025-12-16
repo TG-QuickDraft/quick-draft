@@ -2,6 +2,7 @@
 using Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251215153424_AdicaoClienteEServico")]
+    partial class AdicaoClienteEServico
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,10 +55,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("integer")
-                        .HasColumnName("ser_cli_id");
-
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("text")
@@ -66,9 +65,12 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("ser_nome");
 
+                    b.Property<int>("clientes")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("clientes");
 
                     b.ToTable("servicos");
                 });
@@ -124,7 +126,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("Backend.Domain.Entities.Cliente", "Cliente")
                         .WithMany("Servicos")
-                        .HasForeignKey("ClienteId")
+                        .HasForeignKey("clientes")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

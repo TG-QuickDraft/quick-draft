@@ -8,6 +8,8 @@ namespace Backend.Infrastructure.Persistence
     {
         public DbSet<Freelancer> Freelancers { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Servico> Servicos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +25,18 @@ namespace Backend.Infrastructure.Persistence
                     .HasForeignKey<Freelancer>(f => f.Id)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_freelancers_usuarios");
+            });
+
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.Property(c => c.Id)
+                    .ValueGeneratedNever();
+
+                entity.HasOne(c => c.Usuario)
+                    .WithOne(u => u.Cliente)
+                    .HasForeignKey<Cliente>(c => c.Id)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_clientes_usuarios");
             });
         }
     }

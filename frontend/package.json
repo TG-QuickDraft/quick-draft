@@ -23,7 +23,8 @@
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0"
     "react-router-dom": "^7.9.5",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
