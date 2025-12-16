@@ -75,7 +75,7 @@ npx cypress open
 
 ```
 cd Backend
-dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence
+dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence/Migrations
 
 # Aplicando mudanças da nova migração 
 dotnet ef database update
@@ -85,3 +85,4 @@ dotnet ef database update
 
 - [Vite](https://vite.dev)
 - [React](https://react.dev)
+- [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
