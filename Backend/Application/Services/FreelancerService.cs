@@ -26,10 +26,10 @@ namespace Backend.Application.Services
 
             foreach (var freelancer in list)
             {
-                if (!string.IsNullOrEmpty(freelancer.Usuario.FotoPerfilUrl))
-                {
-                    freelancer.Usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario.FotoPerfilUrl}";
-                }
+                var usuario = freelancer.Usuario 
+                    ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
+
+                usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario?.FotoPerfilUrl}";
             }
 
             return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
@@ -42,7 +42,10 @@ namespace Backend.Application.Services
             if (freelancer == null)
                 return null;
 
-            freelancer.Usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario.FotoPerfilUrl}";
+            var usuario = freelancer.Usuario 
+                ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
+
+            usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario?.FotoPerfilUrl}";
 
             return _mapper.Map<FreelancerDTO>(freelancer);
         }

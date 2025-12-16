@@ -26,7 +26,7 @@ namespace Backend.Application.Services
 
             foreach (var cliente in list)
             {
-                if (!string.IsNullOrEmpty(cliente.Usuario.FotoPerfilUrl))
+                if (!string.IsNullOrEmpty(cliente.Usuario?.FotoPerfilUrl))
                 {
                     cliente.Usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{cliente.Usuario.FotoPerfilUrl}";
                 }
@@ -42,8 +42,11 @@ namespace Backend.Application.Services
             if (cliente == null)
                 return null;
 
-            cliente.Usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{cliente.Usuario.FotoPerfilUrl}";
+            var usuario = cliente.Usuario 
+                ?? throw new InvalidOperationException("Cliente sem Usuario carregado");
 
+            usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{cliente.Usuario?.FotoPerfilUrl}";
+            
             return _mapper.Map<ClienteDTO>(cliente);
         }
 

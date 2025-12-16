@@ -39,7 +39,7 @@ namespace Backend.Application.Services
 
         public async Task<bool> AtualizarFotoAsync(PerfilUploadDTO dto)
         {
-            var usuario = await _repository.ConsultarPorIdAsync(dto.Id);
+            var usuario = await _repository.ConsultarPorIdAsync(dto.UsuarioId);
             if (usuario == null)
                 return false;
 
