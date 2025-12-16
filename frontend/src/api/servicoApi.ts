@@ -23,3 +23,19 @@ export const consultarServicoPorId = async (id: number) => {
 
   return await resposta.json();
 };
+
+export const adicionarServico = async (servico: Servico) => {
+  const option = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(servico),
+  };
+
+  const resposta = await fetch(PATH, option);
+
+  if (resposta.status !== 201) {
+    throw new Error("Erro ao adicionar serviço.");
+  }
+
+  return resposta.json();
+}
