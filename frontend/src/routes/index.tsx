@@ -3,17 +3,23 @@ import { Home } from "../pages/Home";
 
 import { freelancerRoutes } from "./freelancer.routes";
 import { servicoRoutes } from "./servico.routes";
+import { clienteRoutes } from "./cliente.routes";
+import { usuarioRoutes } from "./usuario.routes";
 
 const AppRoutes = () => {
+
+  const routes = [
+    ...freelancerRoutes,
+    ...clienteRoutes,
+    ...usuarioRoutes,
+    ...servicoRoutes,
+  ]
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {freelancerRoutes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.element} />
-        ))}
-
-        {servicoRoutes.map((route) => (
+        {routes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
       </Routes>
