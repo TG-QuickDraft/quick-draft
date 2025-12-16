@@ -10,17 +10,12 @@ namespace Backend.Application.Mappings
         {
             CreateMap<Freelancer, FreelancerDTO>()
                 .ForMember(dest => dest.Nome,
-                       opt => opt.MapFrom(src => src.Usuario.Nome))
+                    opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.Nome : ""))
                 .ForMember(dest => dest.FotoPerfilUrl,
-                        opt => opt.MapFrom(src => src.Usuario.FotoPerfilUrl));
+                    opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.FotoPerfilUrl : ""));
 
             CreateMap<FreelancerDTO, Freelancer>()
-                .ForMember(dest => dest.Usuario,
-                opt => opt.MapFrom(src => new Usuario
-                {
-                    Nome = src.Nome,
-                    FotoPerfilUrl = src.FotoPerfilUrl
-                }));
+                .ForMember(d => d.Usuario, o => o.Ignore());
         }
     }
 }
