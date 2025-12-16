@@ -37,6 +37,14 @@ export const VisualizarServico = () => {
         <h3>{servico?.nome}</h3>
         <h4>{servico?.descricao}</h4>
 
+        <Link to={`/perfilCliente/${servico?.clienteId}`}>
+          <Button
+            className="mt-6"
+          >
+            Ver Perfil do Cliente
+          </Button>
+        </Link>
+
         <Link to={"/pesquisaServico"}>
           <Button
             className="mt-6"
