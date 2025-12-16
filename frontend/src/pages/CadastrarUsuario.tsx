@@ -10,6 +10,8 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import Title from "../components/Title";
 import { adicionarCliente } from "../api/clienteApi";
 import { useValidacaoUsuario } from "../hooks/useValidacaoUsuario";
+import Modal from "../components/Modal";
+import Input from "../components/Input";
 
 type TipoUsuario = "Freelancer" | "Cliente";
 
@@ -21,6 +23,10 @@ export const CadastrarUsuario = () => {
     "Freelancer"
   );
 
+  const [showModal, setShowModal] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
+  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
+
   const enviar = async () => {
 
     const usuario = {
@@ -30,9 +36,13 @@ export const CadastrarUsuario = () => {
 
     try {
       await useValidacaoUsuario().validate(usuario);
+
     } catch (error) {
+
       if (error instanceof Error) {
-        alert(error.message);
+        setModalStatus("Erro");
+        setModalMsg(error.message);
+        setShowModal(true);
       }
 
       return;
@@ -60,7 +70,9 @@ export const CadastrarUsuario = () => {
       await enviarFoto(form);
     }
 
-    alert("Usuário cadastrado com sucesso!");
+    setModalStatus("Sucesso");
+    setModalMsg("Usuário cadastrado com sucesso!");
+    setShowModal(true);
   };
 
   return (
@@ -68,14 +80,12 @@ export const CadastrarUsuario = () => {
       <Title>Cadastrar Usuário</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <input
-          className="border border-gray-600 w-full p-3 focus:outline-none rounded"
+        <Input
           placeholder="nome"
           onChange={(e) => setNome(e.target.value)}
         />
 
-        <input
-          className="border border-gray-600 p-3 rounded"
+        <Input
           type="file"
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
@@ -92,7 +102,7 @@ export const CadastrarUsuario = () => {
               <label key={index} className="mx-4">
                 {`${tipo} `}
 
-                <input
+                <Input
                   type="radio"
                   value={tipo}
                   checked={tipoUsuarioSelecionado === tipo}
@@ -124,6 +134,14 @@ export const CadastrarUsuario = () => {
           />
         </div>
       )}
+
+      <Modal
+        show={showModal}
+        title={modalStatus}
+        onClose={() => setShowModal(false)}
+      >
+        {modalMsg}
+      </Modal>
     </div>
   );
 };
