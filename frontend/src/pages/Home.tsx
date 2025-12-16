@@ -21,8 +21,12 @@ export const Home = () => {
             <Button icon={<IoIosSearch size={30} />}>Pesquisar serviços</Button>
           </Link>
 
-          <Link to={"/cadastrarFreelancer"}>
-            <Button icon={<GoPlus size={30} />}>Cadastrar Freelancer</Button>
+          <Link to={"/cadastrarUsuario"}>
+            <Button icon={<GoPlus size={30} />}>Cadastrar usuário</Button>
+          </Link>
+
+          <Link to={"/cadastrarServico"}>
+            <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
           </Link>
         </div>
         <div className="flex flex-col items-center justify-center">
