@@ -1,31 +1,19 @@
-using Backend.Application.Interfaces.Repositories;
-using Backend.Application.Interfaces.Services;
-using Backend.Application.Services;
-using Backend.Config;
+using Backend.Application;
+using Backend.Infrastructure;
 using Backend.Infrastructure.Persistence;
-using Backend.Infrastructure.Persistence.Repositories;
+using Backend.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var map = new Dictionary<Type, Type>()
-{
-    { typeof(IUsuarioService), typeof(UsuarioService) },
-    { typeof(IUsuarioRepository), typeof(UsuarioRepository) },
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 
-    { typeof(IFreelancerService), typeof(FreelancerService) },
-    { typeof(IFreelancerRepository), typeof(FreelancerRepository) },
-
-    { typeof(IClienteService), typeof(ClienteService) },
-    { typeof(IClienteRepository), typeof(ClienteRepository) },
-    
-    { typeof(IServicoService), typeof(ServicoService) },
-    { typeof(IServicoRepository), typeof(ServicoRepository) },
-};
-
-foreach (var entry in map){
-    builder.Services.AddScoped(entry.Key, entry.Value);
-}
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
+//         options => builder.Configuration.Bind("JwtSettings", options))
+//     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+//         options => builder.Configuration.Bind("CookieSettings", options));
 
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 
