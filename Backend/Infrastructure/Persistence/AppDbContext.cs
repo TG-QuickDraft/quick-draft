@@ -1,0 +1,43 @@
+using Backend.Domain.Entities;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace Backend.Infrastructure.Persistence
+{
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    {
+        public DbSet<Freelancer> Freelancers { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Servico> Servicos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Freelancer>(entity =>
+            {
+                entity.Property(f => f.Id)
+                    .ValueGeneratedNever();
+
+                entity.HasOne(f => f.Usuario)
+                    .WithOne(u => u.Freelancer)
+                    .HasForeignKey<Freelancer>(f => f.Id)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_freelancers_usuarios");
+            });
+
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.Property(c => c.Id)
+                    .ValueGeneratedNever();
+
+                entity.HasOne(c => c.Usuario)
+                    .WithOne(u => u.Cliente)
+                    .HasForeignKey<Cliente>(c => c.Id)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_clientes_usuarios");
+            });
+        }
+    }
+}

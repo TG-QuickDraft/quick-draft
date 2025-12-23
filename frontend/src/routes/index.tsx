@@ -1,0 +1,30 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home } from "../pages/Home";
+
+import { freelancerRoutes } from "./freelancer.routes";
+import { servicoRoutes } from "./servico.routes";
+import { clienteRoutes } from "./cliente.routes";
+import { usuarioRoutes } from "./usuario.routes";
+
+const AppRoutes = () => {
+
+  const routes = [
+    ...freelancerRoutes,
+    ...clienteRoutes,
+    ...usuarioRoutes,
+    ...servicoRoutes,
+  ]
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {routes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default AppRoutes;

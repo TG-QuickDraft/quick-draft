@@ -1,0 +1,15 @@
+using Backend.Application.DTOs;
+
+namespace Backend.Application.Interfaces.Services
+{
+    public interface IClienteService
+    {
+        public Task<IEnumerable<ClienteDTO>> ConsultarTodosAsync();
+
+        public Task<ClienteDTO?> ConsultarPorIdAsync(int id);
+        
+        public Task<ClienteDTO> CriarAsync(ClienteDTO cliente);
+
+        public Task<bool> AtualizarAsync(ClienteDTO cliente);
+    }
+}

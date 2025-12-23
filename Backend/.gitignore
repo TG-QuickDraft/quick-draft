@@ -22,3 +22,7 @@ wwwroot/node_modules/
 # Node
 ClientApp/node_modules/
 ClientApp/build/
+
+# Pasta de uploads
+/wwwroot/uploads/*
+!/wwwroot/uploads/.gitkeep

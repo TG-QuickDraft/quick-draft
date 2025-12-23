@@ -1,30 +1,42 @@
-# sistema-freelancer
+# Sistema Freelancer
 
 ## Tecnologias utilizadas:
-- React com Typescript
 - ASP.NET 8.0
 - Entity Framework Core
 - Banco PostgreSQL
+- React com Vite
 
-### Configurando o projeto
-A conexão padrão é a com o PostgreSQL. As configurações podem ser encontradas em Backend/appsettings.json.
+## Configurando o projeto
 
-Deve ser criado um arquivo chamado appsettings.Development.json com a seguinte estrutura:
+Para configurar as credenciais do banco PostgreSQL, deve ser criado um arquivo dentro do diretório 'Backend' com o nome ```appsettings.Development.json```, seguindo a estrutura do arquivo ```appsettings.Development.json.example```, dentro do mesmo diretório.
 
+Também é necessário criar um arquivo ```.env``` na pasta 'frontend', seguindo a estrutura do arquivo ```.env.example```.
+
+### Docker
+
+Para definir as credenciais a serem utilizadas em containers de Docker, é necessário criar um arquivo ```.env``` na pasta raíz do projeto, seguindo a estrutura do arquivo ```.env.example```.
+
+## Iniciando o projeto
+
+### Backend
+
+- Instalando ASP.NET e dependências:
 ```
-{
-  "DetailedErrors": true,
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  }
-}
+# Exemplo de instalação no Linux
+sudo apt-get install -y dotnet-sdk-8.0
+sudo apt-get install -y aspnetcore-runtime-8.0
 
+dotnet tool install --global dotnet-ef
 ```
 
-### Iniciando o projeto
+Para criar o banco:
+```
+cd Backend/
+
+dotnet ef database update
+```
+
+### Frontend
 
 Para iniciar o frontend:
 ```
@@ -35,77 +47,42 @@ npm run dev
 
 Obs.: Para acessar o site, navegue para ```localhost:5173```.
 
-Obs.: Esses comandos foram usados especificamente no Linux.
+## Testes
 
-- Instalando ASP.NET e dependências:
-```
-sudo apt-get install -y dotnet-sdk-8.0
-sudo apt-get install -y aspnetcore-runtime-8.0
-```
-
-Para criar o banco:
-```
-cd Backend/
-
-dotnet tool install --global dotnet-ef
-dotnet ef database update
-```
-
-Para criar novas migrações:
-```
-dotnet ef migrations add NomeMigracao
-```
+### Testes Unitários
 
 Para executar testes do .NET:
 ```
 dotnet test
 ```
 
-Para executar testes do Cypress:
+### Testes Cypress
+
+Para executar os testes automatizados do Cypress:
 ```
-# No terminal
+# Testes no terminal
 cd frontend/
 npx cypress run
 
-# Na interface do cypress
+# Testes na interface do cypress
 cd frontend/
 npx cypress open
 ```
 
+## Comandos úteis
 
-### Comandos para criação do projeto
+### Para criar novas migrações
 
-- Criação do projeto React
 ```
-npm create vite@latest frontend -- --template react-ts
-```
+cd Backend
+dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence/Migrations
 
-- Criando projeto ASP.NET:
-```
-# Criando o Backend
-dotnet new webapp -n Backend
-
-# Adicionando pacotes do Backend
-cd Backend/
-dotnet add package Microsoft.EntityFrameworkCore
-dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
-
-# Criando testes
-cd ..
-dotnet new xunit -n Backend.Tests
-dotnet sln add Backend.Tests/Backend.Tests.csproj
-dotnet add Backend.Tests/Backend.Tests.csproj reference Backend/Backend.csproj
-
-# Adicionando pacotes dos testes
-cd Backend.Tests/
-dotnet add package xunit
-dotnet add package xunit.runner.visualstudio
-dotnet add package Microsoft.NET.Test.Sdk
-dotnet add package Moq
+# Aplicando mudanças da nova migração 
+dotnet ef database update
 ```
 
 ## Referências
 
 - [Vite](https://vite.dev)
 - [React](https://react.dev)
+- [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
