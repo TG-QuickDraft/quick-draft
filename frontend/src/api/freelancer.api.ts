@@ -1,6 +1,4 @@
-import type { Freelancer } from "../models/Freelancer";
-
-import { adicionarUsuario } from "./usuarioApi";
+import type { Freelancer } from "../domain/models/Freelancer";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/Freelancer`;
 
@@ -26,24 +24,4 @@ export const consultarFreelancerPorId = async (
   }
 
   return await resposta.json();
-};
-
-export const adicionarFreelancer = async (freelancer: Freelancer) => {
-  const usuarioAdicionado = await adicionarUsuario(freelancer);
-
-  freelancer.id = usuarioAdicionado.id;
-
-  const option = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(freelancer),
-  };
-
-  const resposta = await fetch(PATH, option);
-
-  if (resposta.status !== 201) {
-    throw new Error("Erro ao adicionar freelancer.");
-  }
-
-  return resposta.json();
 };
