@@ -49,9 +49,9 @@ namespace Backend.Application.Services
             return _mapper.Map<ClienteDTO>(cliente);
         }
 
-        public async Task<ClienteDTO> CriarAsync(ClienteDTO cliente)
+        public async Task<ClienteDTO> CriarAsync(int usuarioId)
         {
-            Cliente clienteDTO = await _repository.CriarAsync(_mapper.Map<Cliente>(cliente));
+            Cliente clienteDTO = await _repository.CriarAsync(new Cliente { Id = usuarioId });
 
             return _mapper.Map<ClienteDTO>(clienteDTO);
         }
