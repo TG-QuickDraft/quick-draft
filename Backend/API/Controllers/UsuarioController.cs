@@ -19,7 +19,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] UsuarioDTO usuario)
+        public async Task<IActionResult> Adicionar([FromBody] CriarUsuarioDTO usuario)
         {
             UsuarioDTO novoUsuario = await _service.CriarAsync(usuario);
 

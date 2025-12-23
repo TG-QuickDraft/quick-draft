@@ -25,15 +25,7 @@ namespace Backend.API.Controllers
             var servico = await _service.ConsultarPorIdAsync(id);
             return Ok(servico);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] ClienteDTO cliente)
-        {
-            ClienteDTO novoCliente = await _service.CriarAsync(cliente);
-
-            return CreatedAtAction(nameof(ConsultarPorId), new { id = novoCliente.Id }, novoCliente);
-        }
-
+        
         [HttpPut]
         public async Task<IActionResult> Atualizar([FromBody] ClienteDTO cliente)
         {

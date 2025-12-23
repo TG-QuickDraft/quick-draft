@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Freelancer } from "@/models/Freelancer";
-import { consultarFreelancers } from "@/api/freelancerApi";
+import type { Freelancer } from "@/domain/models/Freelancer";
+import { consultarFreelancers } from "@/api/freelancer.api";
 import { Link } from "react-router-dom";
 
 import Button from "@/components/Button";

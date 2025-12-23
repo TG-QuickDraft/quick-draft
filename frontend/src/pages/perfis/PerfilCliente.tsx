@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { consultarClientePorId } from "@/api/clienteApi";
+import { consultarClientePorId } from "@/api/cliente.api";
 
 import { useEffect, useState } from "react";
 
@@ -7,7 +7,7 @@ import Title from "@/components/Title";
 
 import Button from "@/components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import type { Cliente } from "@/models/Cliente";
+import type { Cliente } from "@/domain/models/Cliente";
 
 export const PerfilCliente = () => {
   const { id } = useParams();

@@ -4,8 +4,13 @@ import { Link } from "react-router-dom";
 import Button from "@/components/Button";
 
 import { IoIosSearch } from "react-icons/io";
+<<<<<<< HEAD
 import { GoPlus } from "react-icons/go";
 import { TesteMarkdown } from "@/components/TesteMarkdown";
+=======
+import { GoPerson, GoPlus } from "react-icons/go";
+import { TesteMarkdown } from "../components/TesteMarkdown";
+>>>>>>> develop
 export const Home = () => {
   const [count, setCount] = useState(0);
 
@@ -25,6 +30,10 @@ export const Home = () => {
 
           <Link to={"/cadastrarUsuario"}>
             <Button icon={<GoPlus size={30} />}>Cadastrar usuário</Button>
+          </Link>
+
+          <Link to={"/loginUsuario"}>
+            <Button icon={<GoPerson size={30} />}>Login usuário</Button>
           </Link>
 
           <Link to={"/cadastrarServico"}>

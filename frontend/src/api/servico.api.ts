@@ -1,4 +1,4 @@
-import type { Servico } from "../models/Servico";
+import type { Servico } from "../domain/models/Servico";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/Servico`;
 

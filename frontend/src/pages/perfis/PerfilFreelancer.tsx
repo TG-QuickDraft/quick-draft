@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { consultarFreelancerPorId } from "@/api/freelancerApi";
-import type { Freelancer } from "@/models/Freelancer";
+import { consultarFreelancerPorId } from "@/api/freelancer.api";
+import type { Freelancer } from "@/domain/models/Freelancer";
 import { useEffect, useState } from "react";
 
 import Title from "@/components/Title";
