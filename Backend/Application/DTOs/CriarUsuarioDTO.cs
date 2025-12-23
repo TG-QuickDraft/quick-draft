@@ -1,11 +1,12 @@
 namespace Backend.Application.DTOs
 {
-    public class UsuarioDTO
+    public class CriarUsuarioDTO
     {
-        public int Id { get; set; }
         public required string Nome { get; set; }
         public required string Cpf { get; set; }
         public required string Email { get; set; }
-        public string? FotoPerfilUrl { get; set; }
+        public required string Senha { get; set; }
+        public required string ConfirmarSenha { get; set; }
+
     }
 }
