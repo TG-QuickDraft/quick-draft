@@ -1,9 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-<<<<<<< HEAD
-import { consultarServicoPorId } from "@/api/servicoApi";
-=======
 import { consultarServicoPorId } from "../api/servico.api";
->>>>>>> develop
 
 import { useEffect, useState } from "react";
 
@@ -11,11 +7,7 @@ import Title from "@/components/Title";
 
 import Button from "@/components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-<<<<<<< HEAD
-import type { Servico } from "@/models/Servico";
-=======
 import type { Servico } from "../domain/models/Servico";
->>>>>>> develop
 
 export const VisualizarServico = () => {
   const { id } = useParams();

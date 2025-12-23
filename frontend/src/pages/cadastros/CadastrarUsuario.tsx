@@ -10,7 +10,7 @@ import Title from "@/components/Title";
 
 import { criarUsuarioSchema } from "@/forms/criarUsuario.schema";
 import Modal from "@/components/Modal";
-import Input from "@/components/Input";
+import Input from "@/components/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/dtos/CriarUsuarioDTO";
 import { TIPOS_USUARIO, type TipoUsuario } from "@/domain/enums/tiposUsuario";
 

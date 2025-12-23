@@ -1,20 +1,21 @@
-import { useState } from "react";;
+import { useState } from "react";
 
-import Button from "../components/Button";
-import { LuSave } from "react-icons/lu";
+import Button from "@/components/Button";
 
-import Title from "../components/Title";
-import Input from "../components/Input";
+import Title from "@/components/Title";
+import Input from "@/components/Inputs/Input";
+
+import { CiLogin } from "react-icons/ci";
+import InputGroup from "@/components/Inputs/InputGroup";
 
 export const LoginUsuario = () => {
-
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   const enviar = async () => {
     const login = {
       email: email,
-      senha: senha
+      senha: senha,
     };
   };
 
@@ -22,21 +23,29 @@ export const LoginUsuario = () => {
     <div className="flex flex-col items-center justify-center h-full">
       <Title>Login Usuário</Title>
 
-      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <Input
-          type="email"
-          placeholder="Seu e-mail"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <div className="flex flex-col max-w-md w-full my-8 p-12 rounded-xl shadow-2xl border border-gray-600/20">
+        <InputGroup>
+          <h2>E-mail</h2>
+          <Input
+            type="email"
+            placeholder="Digite o seu e-mail"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </InputGroup>
 
-        <Input
-          type="password"
-          placeholder="Sua senha"
-          onChange={(e) => {setSenha(e.target.value)}}
-        />
+        <InputGroup>
+          <h2>Senha</h2>
+          <Input
+            type="password"
+            placeholder="Digite a sua senha"
+            onChange={(e) => {
+              setSenha(e.target.value);
+            }}
+          />
+        </InputGroup>
 
-        <Button icon={<LuSave size={30} />} onClick={enviar}>
-          Login
+        <Button className="mt-2" icon={<CiLogin size={30} />} onClick={enviar}>
+          Entrar
         </Button>
       </div>
     </div>
