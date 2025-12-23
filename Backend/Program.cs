@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Backend.Application;
 using Backend.Infrastructure;
 using Backend.Infrastructure.Persistence;
@@ -9,11 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
-//         options => builder.Configuration.Bind("JwtSettings", options))
-//     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-//         options => builder.Configuration.Bind("CookieSettings", options));
+// TODO: configuração de autenticação e de criptografia de senha
 
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 
@@ -22,7 +19,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
+    opt.JsonSerializerOptions.Converters
+        .Add(new JsonStringEnumConverter()));
 
 builder.Services.AddCors(options =>
 {
