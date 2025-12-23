@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import type { Freelancer } from "../models/Freelancer";
-import { consultarFreelancers } from "../api/freelancerApi";
+import type { Freelancer } from "@/models/Freelancer";
+import { consultarFreelancers } from "@/api/freelancerApi";
 import { Link } from "react-router-dom";
 
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import Title from "../components/Title";
+import Title from "@/components/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
 
@@ -51,9 +51,7 @@ export function PesquisaFreelancer() {
                 <td className="p-3">
                   <img
                     src={
-                      freelancer?.fotoPerfilUrl
-                        ? freelancer.fotoPerfilUrl
-                        : ""
+                      freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""
                     }
                     className="h-11 rounded-full inline-block"
                   />

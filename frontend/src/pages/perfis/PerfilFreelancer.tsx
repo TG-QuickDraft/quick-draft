@@ -1,11 +1,11 @@
 import { Link, useParams } from "react-router-dom";
-import { consultarFreelancerPorId } from "../api/freelancerApi";
-import type { Freelancer } from "../models/Freelancer";
+import { consultarFreelancerPorId } from "@/api/freelancerApi";
+import type { Freelancer } from "@/models/Freelancer";
 import { useEffect, useState } from "react";
 
-import Title from "../components/Title";
+import Title from "@/components/Title";
 
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 export const PerfilFreelancer = () => {

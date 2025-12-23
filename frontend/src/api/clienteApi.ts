@@ -3,9 +3,7 @@ import { adicionarUsuario } from "./usuarioApi";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/Cliente`;
 
-export const consultarClientePorId = async (
-  id: number,
-): Promise<Cliente> => {
+export const consultarClientePorId = async (id: number): Promise<Cliente> => {
   const resposta = await fetch(`${PATH}/${id}`);
 
   if (resposta.status !== 200) {

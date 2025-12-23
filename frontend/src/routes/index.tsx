@@ -7,13 +7,12 @@ import { clienteRoutes } from "./cliente.routes";
 import { usuarioRoutes } from "./usuario.routes";
 
 const AppRoutes = () => {
-
   const routes = [
     ...freelancerRoutes,
     ...clienteRoutes,
     ...usuarioRoutes,
     ...servicoRoutes,
-  ]
+  ];
 
   return (
     <BrowserRouter>

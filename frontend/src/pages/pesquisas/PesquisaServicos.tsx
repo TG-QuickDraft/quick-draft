@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import Title from "../components/Title";
+import Title from "@/components/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
-import { consultarServicos } from "../api/servicoApi";
-import type { Servico } from "../models/Servico";
+import { consultarServicos } from "@/api/servicoApi";
+import type { Servico } from "@/models/Servico";
 
 export function PesquisaServico() {
   const [servicos, setServicos] = useState<Servico[]>([]);

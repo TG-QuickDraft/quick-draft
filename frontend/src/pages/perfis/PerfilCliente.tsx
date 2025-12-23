@@ -1,13 +1,13 @@
 import { Link, useParams } from "react-router-dom";
-import { consultarClientePorId } from "../api/clienteApi";
+import { consultarClientePorId } from "@/api/clienteApi";
 
 import { useEffect, useState } from "react";
 
-import Title from "../components/Title";
+import Title from "@/components/Title";
 
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import type { Cliente } from "../models/Cliente";
+import type { Cliente } from "@/models/Cliente";
 
 export const PerfilCliente = () => {
   const { id } = useParams();
@@ -53,11 +53,7 @@ export const PerfilCliente = () => {
         {cliente?.fotoPerfilUrl ? (
           <img
             className="rounded-full shadow-xl"
-            src={
-              cliente?.fotoPerfilUrl
-                ? cliente.fotoPerfilUrl
-                : ""
-            }
+            src={cliente?.fotoPerfilUrl ? cliente.fotoPerfilUrl : ""}
             height={200}
           />
         ) : (
