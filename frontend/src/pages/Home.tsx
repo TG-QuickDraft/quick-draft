@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "@/components/Button";
 
 import { IoIosSearch } from "react-icons/io";
-import { GoPerson, GoPlus } from "react-icons/go";
+import { GoPlus } from "react-icons/go";
 import { TesteMarkdown } from "@/components/TesteMarkdown";
 export const Home = () => {
   const [count, setCount] = useState(0);

@@ -132,7 +132,7 @@ export const CadastrarUsuario = () => {
         </Button>
       </div>
 
-      <Link to={"/"}>
+      <Link to={"/home"}>
         <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>Voltar</Button>
       </Link>
 

@@ -62,7 +62,7 @@ export function PesquisaServico() {
       )}
 
       <div className="py-8">
-        <Link to={"/"}>
+        <Link to={"/home"}>
           <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>
             Ir para Home
           </Button>
