@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { forwardRef } from "react";
 
 const variants = {
   primary: clsx(
@@ -6,14 +7,28 @@ const variants = {
   ),
 };
 
-const Input = ({
-  variant = "primary",
-  className,
-  ...rest
-}: React.InputHTMLAttributes<HTMLInputElement> & {
+const hasError = clsx("border-red-500");
+
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   variant?: keyof typeof variants;
-}) => {
-  return <input className={`${variants[variant]} ${className}`} {...rest} />;
+  error?: string;
 };
+
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ variant = "primary", className, error, ...rest }, ref) => {
+    return (
+      <>
+        <input
+          ref={ref}
+          className={clsx(variants[variant], className, error && hasError)}
+          {...rest}
+        />
+        {error && <span className="text-red-500 text-sm">{error}</span>}
+      </>
+    );
+  }
+);
+
+Input.displayName = "Input";
 
 export default Input;

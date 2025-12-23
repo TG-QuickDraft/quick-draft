@@ -27,10 +27,6 @@ export const Home = () => {
             <Button icon={<GoPlus size={30} />}>Cadastrar usuário</Button>
           </Link>
 
-          <Link to={"/loginUsuario"}>
-            <Button icon={<GoPerson size={30} />}>Login usuário</Button>
-          </Link>
-
           <Link to={"/cadastrarServico"}>
             <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
           </Link>
