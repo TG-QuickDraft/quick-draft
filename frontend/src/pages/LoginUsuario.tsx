@@ -7,12 +7,18 @@ import Input from "@/components/Inputs/Input";
 
 import { CiLogin } from "react-icons/ci";
 import InputGroup from "@/components/Inputs/InputGroup";
+import { useForm } from "react-hook-form";
 
 export const LoginUsuario = () => {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm();
 
   const enviar = async () => {
+    const { email, senha } = getValues();
     const login = {
       email: email,
       senha: senha,
@@ -29,7 +35,7 @@ export const LoginUsuario = () => {
           <Input
             type="email"
             placeholder="Digite o seu e-mail"
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email")}
           />
         </InputGroup>
 
@@ -38,9 +44,7 @@ export const LoginUsuario = () => {
           <Input
             type="password"
             placeholder="Digite a sua senha"
-            onChange={(e) => {
-              setSenha(e.target.value);
-            }}
+            {...register("senha")}
           />
         </InputGroup>
 
