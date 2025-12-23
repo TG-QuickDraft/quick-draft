@@ -26,14 +26,6 @@ namespace Backend.API.Controllers
             return Ok(freelancer);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] FreelancerDTO freelancer)
-        {
-            FreelancerDTO novoFreelancer = await _service.CriarAsync(freelancer);
-
-            return CreatedAtAction(nameof(ConsultarPorId), new { id = novoFreelancer.Id }, novoFreelancer);
-        }
-
         [HttpPut]
         public async Task<IActionResult> Atualizar([FromBody] FreelancerDTO freelancer)
         {

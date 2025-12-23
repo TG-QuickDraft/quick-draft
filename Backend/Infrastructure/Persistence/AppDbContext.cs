@@ -15,6 +15,20 @@ namespace Backend.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity
+                    .HasIndex(u => u.Email)
+                    .IsUnique();
+            });
+
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity
+                    .HasIndex(u => u.Cpf)
+                    .IsUnique();
+            });
+
             modelBuilder.Entity<Freelancer>(entity =>
             {
                 entity.Property(f => f.Id)

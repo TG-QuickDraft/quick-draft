@@ -1,4 +1,4 @@
-namespace Backend.Config
+namespace Backend.Infrastructure.Settings
 {
     public class ImageSettings
     {

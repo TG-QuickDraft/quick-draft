@@ -7,7 +7,7 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import Title from "../components/Title";
 
-import { adicionarServico } from "../api/servicoApi";
+import { adicionarServico } from "../api/servico.api";
 
 export const CadastrarServico = () => {
 
