@@ -21,9 +21,12 @@ namespace Backend.Application.Services
             return _mapper.Map<UsuarioDTO>(usuario);
         }
 
-        public async Task<UsuarioDTO> CriarAsync(UsuarioDTO usuario)
+        public async Task<UsuarioDTO> CriarAsync(CriarUsuarioDTO usuario)
         {
-            var usuarioCriado = await _repository.CriarAsync(_mapper.Map<Usuario>(usuario)); 
+            Usuario usuarioACriar = _mapper.Map<Usuario>(usuario);
+            usuarioACriar.HashSenha = ""; // TODO: Fazer hash da senha
+
+            var usuarioCriado = await _repository.CriarAsync(usuarioACriar); 
             return _mapper.Map<UsuarioDTO>(usuarioCriado);
         }
 

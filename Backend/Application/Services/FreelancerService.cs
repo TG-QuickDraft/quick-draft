@@ -1,10 +1,9 @@
 using AutoMapper;
 using Backend.Application.DTOs;
+using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
-using Backend.Config;
 using Backend.Domain.Entities;
-using Microsoft.Extensions.Options;
 
 namespace Backend.Application.Services
 {
@@ -12,13 +11,13 @@ namespace Backend.Application.Services
         IFreelancerRepository repository,
         IUsuarioRepository usuarioRepository,
         IMapper mapper,
-        IOptions<ImageSettings> options
+        IUrlBuilder urlBuilder
     ) : IFreelancerService
     {
         private readonly IFreelancerRepository _repository = repository;
         private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
         private readonly IMapper _mapper = mapper;
-        private readonly ImageSettings _settings = options.Value;
+        private readonly IUrlBuilder urlBuilder = urlBuilder;
 
         public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync()
         {
@@ -29,7 +28,7 @@ namespace Backend.Application.Services
                 var usuario = freelancer.Usuario 
                     ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-                usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario?.FotoPerfilUrl}";
+                usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
             }
 
             return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
@@ -45,7 +44,7 @@ namespace Backend.Application.Services
             var usuario = freelancer.Usuario 
                 ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-            usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario?.FotoPerfilUrl}";
+            usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
 
             return _mapper.Map<FreelancerDTO>(freelancer);
         }

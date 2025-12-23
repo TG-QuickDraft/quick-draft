@@ -10,6 +10,7 @@ namespace Backend.Application.Mappings
         {
             CreateMap<Usuario, UsuarioDTO>();
             CreateMap<UsuarioDTO, Usuario>();
+            CreateMap<CriarUsuarioDTO, Usuario>();
         }
     }
 }
