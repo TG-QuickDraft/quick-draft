@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { enviarFoto } from "../api/usuarioApi";
-import { adicionarFreelancer } from "../api/freelancerApi";
+import { adicionarUsuario, enviarFoto } from "../api/usuario.api";
 
 import Button from "../components/Button";
 import { LuSave } from "react-icons/lu";
@@ -8,19 +7,24 @@ import { Link } from "react-router-dom";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import Title from "../components/Title";
-import { adicionarCliente } from "../api/clienteApi";
-import { useValidacaoUsuario } from "../hooks/useValidacaoUsuario";
+
+import { criarUsuarioSchema } from "../forms/criarUsuario.schema";
 import Modal from "../components/Modal";
 import Input from "../components/Input";
-
-type TipoUsuario = "Freelancer" | "Cliente";
+import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
+import { TIPOS_USUARIO, type TipoUsuario } from "../domain/enums/tiposUsuario";
 
 export const CadastrarUsuario = () => {
 
   const [nome, setNome] = useState("");
   const [foto, setFoto] = useState<File | null>(null);
+  const [cpf, setCpf] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+
   const [tipoUsuarioSelecionado, setTipoUsuarioSelecionado] = useState<TipoUsuario>(
-    "Freelancer"
+    TIPOS_USUARIO[0] as TipoUsuario
   );
 
   const [showModal, setShowModal] = useState(false);
@@ -30,12 +34,16 @@ export const CadastrarUsuario = () => {
   const enviar = async () => {
 
     const usuario = {
-      id: 0,
       nome: nome,
-    };
+      cpf: cpf,
+      email: email,
+      senha: senha,
+      confirmarSenha: confirmarSenha,
+      tipoUsuario: tipoUsuarioSelecionado,
+    } as CriarUsuarioDTO;
 
     try {
-      await useValidacaoUsuario().validate(usuario);
+      await criarUsuarioSchema().validate(usuario);
 
     } catch (error) {
 
@@ -48,18 +56,7 @@ export const CadastrarUsuario = () => {
       return;
     }
 
-    let usuarioAdicionado = null;
-
-    switch (tipoUsuarioSelecionado) {
-      case "Freelancer":
-        usuarioAdicionado = await adicionarFreelancer(usuario);
-        break;
-      case "Cliente":
-        usuarioAdicionado = await adicionarCliente(usuario);
-        break;
-      default:
-        throw new Error("Tipo de usuário inválido.");
-    }
+    let usuarioAdicionado = await adicionarUsuario(usuario);
 
     if (foto) {
       const form = new FormData();
@@ -81,8 +78,31 @@ export const CadastrarUsuario = () => {
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
         <Input
-          placeholder="nome"
+          placeholder="Seu nome"
           onChange={(e) => setNome(e.target.value)}
+        />
+
+        <Input
+          placeholder="Seu CPF"
+          onChange={(e) => setCpf(e.target.value)}
+        />
+
+        <Input
+          type="email"
+          placeholder="Seu e-mail"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <Input
+          type="password"
+          placeholder="Sua senha"
+          onChange={(e) => setSenha(e.target.value)}
+        />
+
+        <Input
+          type="password"
+          placeholder="Confirme sua senha"
+          onChange={(e) => {setConfirmarSenha(e.target.value)}}
         />
 
         <Input
@@ -98,7 +118,7 @@ export const CadastrarUsuario = () => {
           <h2>Tipo de Usuário</h2>
 
           {
-            ["Freelancer", "Cliente"].map((tipo, index) => (
+            TIPOS_USUARIO.map((tipo, index) => (
               <label key={index} className="mx-4">
                 {`${tipo} `}
 
