@@ -3,16 +3,22 @@ using Backend.Application.DTOs;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
 using Backend.Domain.Entities;
+using Backend.Domain.Enums;
 
 namespace Backend.Application.Services
 {
     public class UsuarioService(
         IUsuarioRepository repository,
-        IMapper mapper
+        IMapper mapper,
+
+        IClienteService clienteService,
+        IFreelancerService freelancerService
     ) : IUsuarioService
     {
         private readonly IUsuarioRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
+        private readonly IClienteService _clienteService = clienteService;
+        private readonly IFreelancerService _freelancerService = freelancerService;
 
         public async Task<UsuarioDTO?> ConsultarPorIdAsync(int id)
         {
@@ -26,7 +32,17 @@ namespace Backend.Application.Services
             Usuario usuarioACriar = _mapper.Map<Usuario>(usuario);
             usuarioACriar.HashSenha = ""; // TODO: Fazer hash da senha
 
-            var usuarioCriado = await _repository.CriarAsync(usuarioACriar); 
+            var usuarioCriado = await _repository.CriarAsync(usuarioACriar);
+
+            if (usuario.TipoUsuario == TipoUsuario.Cliente)
+            {
+                await _clienteService.CriarAsync(usuarioCriado.Id);
+            }
+            else if (usuario.TipoUsuario == TipoUsuario.Freelancer)
+            {
+                await _freelancerService.CriarAsync(usuarioCriado.Id);
+            }
+
             return _mapper.Map<UsuarioDTO>(usuarioCriado);
         }
 
