@@ -6,13 +6,19 @@ export const variants = {
   primary: clsx(
     base,
     "bg-gray-100 text-black",
-    "hover:shadow-xl hover:shadow-gray-600/50"
+    "hover:shadow-xl hover:shadow-gray-600/30"
   ),
 
   secondary: clsx(
     base,
     "bg-black/60 text-white",
     "hover:shadow-xl hover:shadow-gray-600/20"
+  ),
+
+  danger: clsx(
+    base,
+    "bg-red-500 text-white",
+    "hover:shadow-xl hover:shadow-black/20"
   ),
 };
 

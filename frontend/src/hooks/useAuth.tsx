@@ -29,6 +29,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!isAuthenticated && !publicRoutes.includes(pathname)) {
       navigate("/", { replace: true });
     }
+
+    if (isAuthenticated && publicRoutes.includes(pathname)) {
+      navigate("/home", { replace: true });
+    }
   }, [isAuthenticated, pathname, navigate, loading]);
 
   const logout = () => {
