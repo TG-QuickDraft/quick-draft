@@ -6,7 +6,7 @@ import Input from "@/components/common/Inputs/Input";
 import { CiLogin } from "react-icons/ci";
 import InputGroup from "@/components/common/Inputs/InputGroup";
 import { useForm } from "react-hook-form";
-import { LoginSchema, type ILoginForm } from "@/validations/LoginSchema";
+import { LoginSchema, type ILoginForm } from "@/validations/login.schema";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";

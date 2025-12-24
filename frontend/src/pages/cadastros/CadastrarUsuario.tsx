@@ -8,7 +8,7 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import Title from "@/components/common/Title";
 
-import { criarUsuarioSchema } from "@/forms/criarUsuario.schema";
+import { criarUsuarioSchema } from "@/validations/usuario.schema";
 import Modal from "@/components/common/Modal";
 import Input from "@/components/common/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/dtos/CriarUsuarioDTO";
