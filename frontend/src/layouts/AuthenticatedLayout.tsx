@@ -13,7 +13,7 @@ const AuthenticatedLayout = () => {
       <Button
         icon={<CiLogout size={20} />}
         variant="danger"
-        className="fixed bottom-6 left-6"
+        className="fixed top-6 right-6"
         onClick={logout}
       >
         Sair
