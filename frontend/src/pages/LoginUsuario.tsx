@@ -25,6 +25,7 @@ export const LoginUsuario = () => {
     formState: { errors },
   } = useForm<ILoginForm>({
     resolver: yupResolver(LoginSchema),
+    mode: "onChange",
   });
 
   const enviar = async () => {

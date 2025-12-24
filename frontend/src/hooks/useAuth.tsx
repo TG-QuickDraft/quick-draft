@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { localStorageKeys } from "@/utils/localStorageKeys";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import type { IUserProvider, UserLogin } from "@/domain/models/Login";
 
 export const AuthContext = createContext({} as IUserProvider);
@@ -11,7 +11,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
 
   const pathname = location.pathname;
-  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem(localStorageKeys.user);
@@ -24,17 +23,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = !!user.email;
   const publicRoutes = ["/"];
 
-  useEffect(() => {
-    if (loading) return;
-    if (!isAuthenticated && !publicRoutes.includes(pathname)) {
-      navigate("/", { replace: true });
-    }
-
-    if (isAuthenticated && publicRoutes.includes(pathname)) {
-      navigate("/home", { replace: true });
-    }
-  }, [isAuthenticated, pathname, navigate, loading]);
-
   const logout = () => {
     localStorage.removeItem(localStorageKeys.user);
     localStorage.removeItem(localStorageKeys.accessToken);
@@ -44,7 +32,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{ logout, user, setUser, isAuthenticated }}>
-      {children}
+      {loading ? null : !isAuthenticated && !publicRoutes.includes(pathname) ? (
+        <Navigate to="/" replace />
+      ) : isAuthenticated && publicRoutes.includes(pathname) ? (
+        <Navigate to="/home" replace />
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };
