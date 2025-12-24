@@ -1,13 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { localStorageKeys } from "@/utils/localStorageKeys";
-
-export const AuthContext = createContext({});
-import type { Usuario } from "@/domain/models/Usuario";
-
 import { useLocation, useNavigate } from "react-router-dom";
+import type { IUserProvider, UserLogin } from "@/domain/models/Login";
+
+export const AuthContext = createContext({} as IUserProvider);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<Usuario>({} as Usuario);
+  const [user, setUser] = useState<UserLogin>({} as UserLogin);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
@@ -22,7 +21,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const isAuthenticated = !!user.id;
+  const isAuthenticated = !!user.email;
   const publicRoutes = ["/"];
 
   useEffect(() => {
@@ -36,11 +35,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem(localStorageKeys.user);
     localStorage.removeItem(localStorageKeys.accessToken);
 
-    setUser({} as Usuario);
+    setUser({} as UserLogin);
   };
 
   return (
-    <AuthContext.Provider value={{ logout, user }}>
+    <AuthContext.Provider value={{ logout, user, setUser, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
