@@ -6,7 +6,7 @@ interface ModalProps {
   icon?: React.ReactNode;
 }
 import { IoIosClose } from "react-icons/io";
-import Button from "./Button";
+import Button from "@/components/common/Button";
 
 const Modal = ({ show, onClose, title, children }: ModalProps) => {
   if (!show) return null;

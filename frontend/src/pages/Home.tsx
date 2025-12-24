@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
-import { TesteMarkdown } from "@/components/TesteMarkdown";
+import { TesteMarkdown } from "@/components/common/TesteMarkdown";
 export const Home = () => {
   const [count, setCount] = useState(0);
 

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { adicionarUsuario, enviarFoto } from "@/api/usuario.api";
 
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { LuSave } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 
 import { criarUsuarioSchema } from "@/forms/criarUsuario.schema";
-import Modal from "@/components/Modal";
-import Input from "@/components/Inputs/Input";
+import Modal from "@/components/common/Modal";
+import Input from "@/components/common/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/dtos/CriarUsuarioDTO";
 import { TIPOS_USUARIO, type TipoUsuario } from "@/domain/enums/tiposUsuario";
 

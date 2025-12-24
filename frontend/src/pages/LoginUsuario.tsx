@@ -1,10 +1,10 @@
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 
-import Title from "@/components/Title";
-import Input from "@/components/Inputs/Input";
+import Title from "@/components/common/Title";
+import Input from "@/components/common/Inputs/Input";
 
 import { CiLogin } from "react-icons/ci";
-import InputGroup from "@/components/Inputs/InputGroup";
+import InputGroup from "@/components/common/Inputs/InputGroup";
 import { useForm } from "react-hook-form";
 import { LoginSchema, type ILoginForm } from "@/validations/LoginSchema";
 
@@ -35,12 +35,11 @@ export const LoginUsuario = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Title>Login Usuário</Title>
-
       <form
         onSubmit={handleSubmit(enviar)}
         className="flex flex-col max-w-md w-full my-8 p-12 rounded-xl shadow-2xl border border-gray-600/20"
       >
+        <Title className="mb-6">Login Usuário</Title>
         <InputGroup>
           <h2>E-mail</h2>
           <Input
@@ -61,7 +60,7 @@ export const LoginUsuario = () => {
           />
         </InputGroup>
 
-        <Button type="submit" className="mt-2" icon={<CiLogin size={30} />}>
+        <Button type="submit" icon={<CiLogin size={30} />}>
           Entrar
         </Button>
       </form>

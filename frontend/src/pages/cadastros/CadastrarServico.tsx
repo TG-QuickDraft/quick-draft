@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { LuSave } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 
 import { adicionarServico } from "@/api/servico.api";
 

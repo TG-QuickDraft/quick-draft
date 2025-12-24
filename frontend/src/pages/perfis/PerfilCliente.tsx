@@ -3,9 +3,9 @@ import { consultarClientePorId } from "@/api/cliente.api";
 
 import { useEffect, useState } from "react";
 
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { Cliente } from "@/domain/models/Cliente";
 

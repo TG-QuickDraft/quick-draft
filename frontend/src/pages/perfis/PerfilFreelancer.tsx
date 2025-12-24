@@ -3,9 +3,9 @@ import { consultarFreelancerPorId } from "@/api/freelancer.api";
 import type { Freelancer } from "@/domain/models/Freelancer";
 import { useEffect, useState } from "react";
 
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 export const PerfilFreelancer = () => {

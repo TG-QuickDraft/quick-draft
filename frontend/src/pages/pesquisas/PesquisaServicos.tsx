@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
 import { consultarServicos } from "@/api/servico.api";
