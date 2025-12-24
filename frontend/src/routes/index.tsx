@@ -16,15 +16,13 @@ const AppRoutes = () => {
   ];
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginUsuario />} />
-        <Route path="/home" element={<Home />} />
-        {routes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.element} />
-        ))}
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LoginUsuario />} />
+      <Route path="/home" element={<Home />} />
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} element={route.element} />
+      ))}
+    </Routes>
   );
 };
 
