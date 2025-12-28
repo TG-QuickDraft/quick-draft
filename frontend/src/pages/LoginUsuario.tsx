@@ -35,7 +35,7 @@ export const LoginUsuario = () => {
 
       setUser(user);
       localStorage.setItem(localStorageKeys.user, JSON.stringify(user));
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

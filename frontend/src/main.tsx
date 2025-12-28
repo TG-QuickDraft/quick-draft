@@ -6,13 +6,16 @@ import Container from "./components/common/Container.tsx";
 import { BrowserRouter } from "react-router-dom";
 
 import Providers from "./components/providers/Providers.tsx";
+import MainLayout from "./layouts/MainLayout.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Providers>
         <Container>
-          <App />
+          <MainLayout>
+            <App />
+          </MainLayout>
         </Container>
       </Providers>
     </BrowserRouter>

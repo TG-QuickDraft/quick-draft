@@ -22,12 +22,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const isAuthenticated = !!user.email;
   const publicRoutes = [
+    "/",
     "/login",
     "/pesquisaFreelancer",
     "/perfilFreelancer",
     "/perfilCliente",
     "/pesquisaServico",
     "/visualizarServico",
+    "/cadastrarUsuario",
   ];
 
   const logout = () => {
@@ -41,7 +43,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider value={{ logout, user, setUser, isAuthenticated }}>
       {loading ? null : !isAuthenticated && !publicRoutes.includes(pathname) ? (
         <Navigate to="/login" replace />
-      ) : isAuthenticated && publicRoutes.includes(pathname) ? (
+      ) : isAuthenticated && pathname === "/login" ? (
         <Navigate to="/" replace />
       ) : (
         children

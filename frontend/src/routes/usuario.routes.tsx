@@ -3,5 +3,5 @@ import LoginUsuario from "@/pages/LoginUsuario";
 
 export const usuarioRoutes = [
   { path: "/login", element: <LoginUsuario />, private: false },
-  { path: "/cadastrarUsuario", element: <CadastrarUsuario />, private: true },
+  { path: "/cadastrarUsuario", element: <CadastrarUsuario />, private: false },
 ];
