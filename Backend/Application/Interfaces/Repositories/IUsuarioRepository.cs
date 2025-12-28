@@ -5,6 +5,8 @@ namespace Backend.Application.Interfaces.Repositories
     public interface IUsuarioRepository
     {
         Task<IEnumerable<Usuario>> ConsultarTodosAsync();
+        
+        Task<Usuario?> ConsultarPorEmailAsync(string email);
 
         Task<Usuario?> ConsultarPorIdAsync(int id);
 

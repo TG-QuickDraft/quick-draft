@@ -14,6 +14,11 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return await _context.Usuarios.ToListAsync();
         }
 
+        public async Task<Usuario?> ConsultarPorEmailAsync(string email)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task<Usuario?> ConsultarPorIdAsync(int id)
         {
             return await _context.Usuarios.FindAsync(id);
