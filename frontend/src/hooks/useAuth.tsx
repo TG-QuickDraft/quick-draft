@@ -21,7 +21,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const isAuthenticated = !!user.email;
-  const publicRoutes = ["/"];
+  const publicRoutes = [
+    "/login",
+    "/pesquisaFreelancer",
+    "/perfilFreelancer",
+    "/perfilCliente",
+    "/pesquisaServico",
+    "/visualizarServico",
+  ];
 
   const logout = () => {
     localStorage.removeItem(localStorageKeys.user);
@@ -33,9 +40,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthContext.Provider value={{ logout, user, setUser, isAuthenticated }}>
       {loading ? null : !isAuthenticated && !publicRoutes.includes(pathname) ? (
-        <Navigate to="/" replace />
+        <Navigate to="/login" replace />
       ) : isAuthenticated && publicRoutes.includes(pathname) ? (
-        <Navigate to="/home" replace />
+        <Navigate to="/" replace />
       ) : (
         children
       )}

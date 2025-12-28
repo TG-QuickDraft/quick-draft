@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom";
 
 import { freelancerRoutes } from "./freelancer.routes";
 import { servicoRoutes } from "./servico.routes";
@@ -15,30 +15,22 @@ const AppRoutes = () => {
     ...servicoRoutes,
   ];
 
-  const publicRoutes = routes.filter(r => !r.private);
-  const privateRoutes = routes.filter(r => r.private);
+  const publicRoutes = routes.filter((r) => !r.private);
+  const privateRoutes = routes.filter((r) => r.private);
 
   return (
     <Routes>
       {/* Public routes */}
       <Route index path="/" element={<Home />} />
 
-      {publicRoutes.map(route => (
-        <Route
-          key={route.path}
-          path={route.path}
-          element={route.element}
-        />
+      {publicRoutes.map((route) => (
+        <Route key={route.path} path={route.path} element={route.element} />
       ))}
 
       {/* Private routes */}
       <Route element={<AuthenticatedLayout />}>
-        {privateRoutes.map(route => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={route.element}
-          />
+        {privateRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
         ))}
       </Route>
     </Routes>

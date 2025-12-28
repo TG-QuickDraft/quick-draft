@@ -56,7 +56,7 @@ export const CadastrarServico = () => {
         </Button>
       </div>
 
-      <Link to={"/home"}>
+      <Link to={"/"}>
         <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>Voltar</Button>
       </Link>
     </div>

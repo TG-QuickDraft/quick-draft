@@ -60,7 +60,7 @@ export const PerfilCliente = () => {
           <div className="bg-black w-50 h-50 rounded-full" />
         )}
 
-        <Link to={"/home"}>
+        <Link to={"/"}>
           <Button
             className="mt-6"
             icon={<MdKeyboardDoubleArrowLeft size={30} />}
