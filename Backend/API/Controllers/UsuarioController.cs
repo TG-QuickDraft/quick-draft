@@ -1,6 +1,8 @@
 
+using System.Security.Claims;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -51,6 +53,14 @@ namespace Backend.API.Controllers
             }
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            return Ok(email);
         }
 
     }
