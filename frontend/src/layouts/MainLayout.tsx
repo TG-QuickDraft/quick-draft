@@ -3,6 +3,8 @@ import { CiLogout } from "react-icons/ci";
 import { useAuth } from "@/hooks/useAuth";
 
 import { useNavigate, useLocation } from "react-router-dom";
+import { CiLogin } from "react-icons/ci";
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { logout, isAuthenticated } = useAuth();
@@ -30,7 +32,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <>
         {children}
         <Button
-          icon={<CiLogout size={20} />}
+          icon={<CiLogin size={20} />}
           variant="primary"
           className="fixed top-6 right-6"
           onClick={() => navigate("/login")}
@@ -45,7 +47,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       {children}
       <Button
-        icon={<CiLogout size={20} />}
+        icon={<MdKeyboardDoubleArrowLeft size={25} />}
         variant="primary"
         className="fixed top-6 right-6"
         onClick={() => navigate("/")}
