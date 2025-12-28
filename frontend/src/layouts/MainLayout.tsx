@@ -19,7 +19,10 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           icon={<CiLogout size={20} />}
           variant="danger"
           className="fixed top-6 right-6"
-          onClick={logout}
+          onClick={() => {
+            logout();
+            navigate("/");
+          }}
         >
           Sair
         </Button>

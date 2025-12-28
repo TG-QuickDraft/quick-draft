@@ -14,19 +14,10 @@ const AppRoutes = () => {
     ...servicoRoutes,
   ];
 
-  const publicRoutes = routes.filter((r) => !r.private);
-  const privateRoutes = routes.filter((r) => r.private);
-
   return (
     <Routes>
-      {/* Public routes */}
       <Route index path="/" element={<Home />} />
-      {publicRoutes.map((route) => (
-        <Route key={route.path} path={route.path} element={route.element} />
-      ))}
-
-      {/* Private routes */}
-      {privateRoutes.map((route) => (
+      {routes.map((route) => (
         <Route key={route.path} path={route.path} element={route.element} />
       ))}
     </Routes>

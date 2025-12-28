@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider value={{ logout, user, setUser, isAuthenticated }}>
       {loading ? null : !isAuthenticated && !publicRoutes.includes(pathname) ? (
         <Navigate to="/login" replace />
-      ) : isAuthenticated && pathname === "/login" ? (
+      ) : isAuthenticated && pathname.toLocaleLowerCase() === "/login" ? (
         <Navigate to="/" replace />
       ) : (
         children
