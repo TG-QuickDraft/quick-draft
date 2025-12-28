@@ -21,7 +21,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public routes */}
-      <Route index path="/home" element={<Home />} />
+      <Route index path="/" element={<Home />} />
 
       {publicRoutes.map(route => (
         <Route
