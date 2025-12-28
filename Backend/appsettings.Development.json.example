@@ -11,5 +11,10 @@
   },
   "ImageSettings": {
     "BaseUrl": "http://localhost:5191"
+  },
+  "Jwt": {
+    "Key": "super-secret-key-123456",
+    "Issuer": "MyApi",
+    "Audience": "MyApi"
   }
 }
