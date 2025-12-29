@@ -2,6 +2,7 @@ using AutoMapper;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
+using Backend.Application.Utils;
 using Backend.Domain.Entities;
 using Backend.Domain.Enums;
 
@@ -30,7 +31,7 @@ namespace Backend.Application.Services
         public async Task<UsuarioDTO> CriarAsync(CriarUsuarioDTO usuario)
         {
             Usuario usuarioACriar = _mapper.Map<Usuario>(usuario);
-            usuarioACriar.HashSenha = ""; // TODO: Fazer hash da senha
+            usuarioACriar.HashSenha = PasswordHasherUtil.Hash(usuario.Senha);
 
             var usuarioCriado = await _repository.CriarAsync(usuarioACriar);
 
