@@ -60,7 +60,7 @@ namespace Backend.API.Controllers
         public IActionResult Me()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
-            return Ok(email);
+            return Ok(new MeResponseDTO { Email = email! });
         }
 
     }
