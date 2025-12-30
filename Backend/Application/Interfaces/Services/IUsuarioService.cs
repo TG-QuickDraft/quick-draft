@@ -1,10 +1,12 @@
 using Backend.Application.DTOs;
+using Backend.Domain.Enums;
 
 namespace Backend.Application.Interfaces.Services
 {
     public interface IUsuarioService
     {
         public Task<UsuarioDTO?> ConsultarPorIdAsync(int id);
+        public Task<TipoUsuario> ObterTipoUsuario(int id);
         
         public Task<UsuarioDTO> CriarAsync(CriarUsuarioDTO usuario);
 

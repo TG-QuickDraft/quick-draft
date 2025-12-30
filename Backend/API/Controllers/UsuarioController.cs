@@ -1,4 +1,5 @@
 
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces.Services;
@@ -59,8 +60,16 @@ namespace Backend.API.Controllers
         [HttpGet("me")]
         public IActionResult Me()
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
-            return Ok(new MeResponseDTO { Email = email! });
+            var email = User.FindFirstValue(JwtRegisteredClaimNames.Email);
+            var roles = User.
+                FindAll("roles").
+                Select(r => r.Value).
+                ToList();
+
+            return Ok(new MeResponseDTO { 
+                Email = email!,
+                Roles = roles!
+            });
         }
 
     }

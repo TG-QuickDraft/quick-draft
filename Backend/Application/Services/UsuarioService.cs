@@ -28,6 +28,35 @@ namespace Backend.Application.Services
             return _mapper.Map<UsuarioDTO>(usuario);
         }
 
+        public async Task<TipoUsuario> ObterTipoUsuario(int id)
+        {
+            var usuario = await _repository.ConsultarPorIdAsync(id);
+
+            if (usuario == null)
+                throw new ArgumentException("Usuário não encontrado.");
+
+            if (usuario.IsAdmin)
+            {
+                return TipoUsuario.Admin;   
+            }
+
+            var cliente = await _clienteService.ConsultarPorIdAsync(id);
+        
+            if (cliente is not null)
+            {
+                return TipoUsuario.Cliente;
+            }
+
+            var freelancer = _freelancerService.ConsultarPorIdAsync(id);
+
+            if (freelancer is not null)
+            {
+                return TipoUsuario.Freelancer;
+            }
+
+            throw new ArgumentException("Usuário não encontrado.");
+        }
+
         public async Task<UsuarioDTO> CriarAsync(CriarUsuarioDTO usuario)
         {
             Usuario usuarioACriar = _mapper.Map<Usuario>(usuario);
@@ -42,6 +71,9 @@ namespace Backend.Application.Services
             else if (usuario.TipoUsuario == TipoUsuario.Freelancer)
             {
                 await _freelancerService.CriarAsync(usuarioCriado.Id);
+            } else
+            {
+                throw new ArgumentException("Tipo de usuário inválido.");
             }
 
             return _mapper.Map<UsuarioDTO>(usuarioCriado);
@@ -49,6 +81,8 @@ namespace Backend.Application.Services
 
         public async Task<bool> AtualizarAsync(UsuarioDTO usuario)
         {
+            // TODO: Fazer lógica corretamente (hash senha possívelmente deletado nessa atualização)
+
             return await _repository.AtualizarAsync(_mapper.Map<Usuario>(usuario));
         }
 

@@ -14,10 +14,17 @@ namespace Backend.Application.Services
         private readonly IServicoRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<ServicoDTO> CriarAsync(ServicoDTO criarServico)
+        public async Task<ServicoDTO> CriarAsync(CriarServicoDTO criarServico, int usuarioId)
         {
+            Servico servico = new()
+            {
+                Nome = criarServico.Nome,
+                Descricao = criarServico.Descricao,
+                ClienteId = usuarioId
+            };
+
             Servico servicoCriado = await _repository.CriarAsync(
-                _mapper.Map<Servico>(criarServico)
+                servico
             );
 
             return _mapper.Map<ServicoDTO>(servicoCriado);
