@@ -1,7 +1,7 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json.Serialization;
 using Backend.Application;
-using Backend.Application.Services;
 using Backend.Infrastructure;
 using Backend.Infrastructure.Persistence;
 using Backend.Infrastructure.Settings;
@@ -38,10 +38,14 @@ builder.Services.AddCors(options =>
     );
 });
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
 builder.Services
     .AddAuthentication("Bearer")
     .AddJwtBearer(opt =>
     {
+        opt.MapInboundClaims = false;
+
         opt.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -52,7 +56,8 @@ builder.Services
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
-            )
+            ),
+            RoleClaimType = "roles"
         };
     });
 
