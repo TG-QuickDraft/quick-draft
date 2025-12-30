@@ -10,13 +10,13 @@ import { LoginSchema, type ILoginForm } from "@/validations/login.schema";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { localStorageKeys } from "@/utils/localStorageKeys";
+
+import type { LoginRequest } from "@/domain/models/Login";
 import { useAuth } from "@/hooks/useAuth";
-import type { UserLogin } from "@/domain/models/Login";
 
 export const LoginUsuario = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { login } = useAuth();
 
   const {
     register,
@@ -30,11 +30,11 @@ export const LoginUsuario = () => {
 
   const enviar = async () => {
     try {
-      const { email } = getValues();
-      const user = { email, username: "Eu" } as UserLogin;
+      const { email, senha } = getValues();
+      const loginRequest: LoginRequest = { email, senha };
 
-      setUser(user);
-      localStorage.setItem(localStorageKeys.user, JSON.stringify(user));
+      await login(loginRequest);
+
       navigate("/");
     } catch (error) {
       console.log(error);

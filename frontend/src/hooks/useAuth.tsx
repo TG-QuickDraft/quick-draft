@@ -1,26 +1,17 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { localStorageKeys } from "@/utils/localStorageKeys";
 import { Navigate, useLocation } from "react-router-dom";
-import type { IUserProvider, UserLogin } from "@/domain/models/Login";
+import { localStorageKeys } from "@/utils/localStorageKeys";
+import type { IUserProvider, LoginRequest } from "@/domain/models/Login";
+import { loginApi } from "@/api/auth.api";
 
 export const AuthContext = createContext({} as IUserProvider);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserLogin>({} as UserLogin);
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
 
+  const location = useLocation();
   const pathname = location.pathname;
 
-  useEffect(() => {
-    const user = localStorage.getItem(localStorageKeys.user);
-    if (user) {
-      setUser(JSON.parse(user));
-    }
-    setLoading(false);
-  }, []);
-
-  const isAuthenticated = !!user.email;
   const publicRoutes = [
     "/",
     "/login",
@@ -32,18 +23,29 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     "/cadastrarUsuario",
   ];
 
-  const logout = () => {
-    localStorage.removeItem(localStorageKeys.user);
-    localStorage.removeItem(localStorageKeys.accessToken);
+  const isAuthenticated = !!localStorage.getItem(
+    localStorageKeys.accessToken
+  );
 
-    setUser({} as UserLogin);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  const login = async (loginRequest: LoginRequest) => {
+    const { token } = await loginApi(loginRequest);
+
+    localStorage.setItem(localStorageKeys.accessToken, token);
+  }
+
+  const logout = () => {
+    localStorage.removeItem(localStorageKeys.accessToken);
   };
 
   return (
-    <AuthContext.Provider value={{ logout, user, setUser, isAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {loading ? null : !isAuthenticated && !publicRoutes.includes(pathname) ? (
         <Navigate to="/login" replace />
-      ) : isAuthenticated && pathname.toLocaleLowerCase() === "/login" ? (
+      ) : isAuthenticated && pathname === "/login" ? (
         <Navigate to="/" replace />
       ) : (
         children
@@ -53,5 +55,4 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default AuthProvider;
-
 export const useAuth = () => useContext(AuthContext);

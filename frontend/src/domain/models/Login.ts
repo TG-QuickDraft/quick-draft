@@ -4,8 +4,12 @@ export type UserLogin = {
 };
 
 export interface IUserProvider {
-  logout: () => void;
-  user: UserLogin;
-  setUser: (user: UserLogin) => void;
   isAuthenticated: boolean;
+  login: (loginRequest: LoginRequest) => Promise<void>;
+  logout: () => void;
 }
+
+export type LoginRequest = {
+  email: string;
+  senha: string;
+};

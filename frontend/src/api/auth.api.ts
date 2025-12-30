@@ -1,4 +1,4 @@
-import type { LoginRequest } from "@/dtos/Login";
+import type { LoginRequest } from "@/domain/models/Login";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/Auth`;
 
