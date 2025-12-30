@@ -5,6 +5,7 @@ import { servicoRoutes } from "./servico.routes";
 import { clienteRoutes } from "./cliente.routes";
 import { usuarioRoutes } from "./usuario.routes";
 import { Home } from "@/pages/Home";
+import { adminRoutes } from "./admin.routes";
 
 const AppRoutes = () => {
   const routes = [
@@ -12,6 +13,7 @@ const AppRoutes = () => {
     ...clienteRoutes,
     ...usuarioRoutes,
     ...servicoRoutes,
+    ...adminRoutes,
   ];
 
   return (
