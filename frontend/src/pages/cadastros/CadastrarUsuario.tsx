@@ -73,25 +73,33 @@ export const CadastrarUsuario = () => {
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
         <Input
+          name="nome"
           placeholder="Seu nome"
           onChange={(e) => setNome(e.target.value)}
         />
 
-        <Input placeholder="Seu CPF" onChange={(e) => setCpf(e.target.value)} />
+        <Input
+          name="cpf"
+          placeholder="Seu CPF"
+          onChange={(e) => setCpf(e.target.value)}
+        />
 
         <Input
+          name="email"
           type="email"
           placeholder="Seu e-mail"
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <Input
+          name="senha"
           type="password"
           placeholder="Sua senha"
           onChange={(e) => setSenha(e.target.value)}
         />
 
         <Input
+          name="confirmarSenha"
           type="password"
           placeholder="Confirme sua senha"
           onChange={(e) => {
@@ -100,6 +108,7 @@ export const CadastrarUsuario = () => {
         />
 
         <Input
+          name="foto"
           type="file"
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
@@ -116,6 +125,7 @@ export const CadastrarUsuario = () => {
               {`${tipo} `}
 
               <Input
+                name="tipoUsuario"
                 type="radio"
                 value={tipo}
                 checked={tipoUsuarioSelecionado === tipo}

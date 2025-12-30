@@ -11,6 +11,8 @@ export const Home = () => {
   const [count, setCount] = useState(0);
   const { isAuthenticated } = useAuth();
 
+  const { roles } = useAuth();
+
   return (
     <div className="flex flex-col items-center justify-center h-full">
       <div>
@@ -29,7 +31,7 @@ export const Home = () => {
             <Button icon={<GoPlus size={30} />}>Cadastrar usuário</Button>
           </Link>
 
-          {isAuthenticated && (
+          {isAuthenticated && roles.includes("Cliente") && (
             <Link to={"/cadastrarServico"}>
               <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
             </Link>
