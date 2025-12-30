@@ -6,9 +6,11 @@ using Backend.Application.Utils;
 namespace Backend.Application.Services
 {
     public class AuthService(
+        IUsuarioService usuarioService,
         IUsuarioRepository repo,
         ITokenService tokenService) : IAuthService
-    {
+    {   
+        private readonly IUsuarioService _usuarioService = usuarioService;
         private readonly IUsuarioRepository _repo = repo;
         private readonly ITokenService _tokenService = tokenService;
 
@@ -25,7 +27,9 @@ namespace Backend.Application.Services
             if (!senhaValida)
                 throw new UnauthorizedAccessException();
 
-            return _tokenService.GenerateToken(usuario.Id, usuario.Email);
+            var tipoUsuario = await _usuarioService.ObterTipoUsuario(usuario.Id);
+
+            return _tokenService.GenerateToken(usuario.Id, usuario.Email, tipoUsuario);
         }
     }
 }

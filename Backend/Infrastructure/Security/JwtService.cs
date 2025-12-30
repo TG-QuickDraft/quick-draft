@@ -1,5 +1,5 @@
 using Backend.Application.Interfaces.Infrastructure;
-using Backend.Domain.Entities;
+using Backend.Domain.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,12 +11,13 @@ namespace Backend.Infrastructure.Security
     {
         private readonly IConfiguration _config = config;
 
-        public string GenerateToken(int usuarioId, string email)
+        public string GenerateToken(int usuarioId, string email, TipoUsuario tipoUsuario)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, usuarioId.ToString()),
-                new Claim(ClaimTypes.Email, email)
+                new(JwtRegisteredClaimNames.Sub, usuarioId.ToString()),
+                new(JwtRegisteredClaimNames.Email, email),
+                new("roles", tipoUsuario.ToString())
             };
 
             var key = new SymmetricSecurityKey(
