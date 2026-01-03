@@ -2,8 +2,8 @@ import type { Freelancer } from "../domain/models/Freelancer";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/Freelancer`;
 
-export const consultarFreelancers = async () => {
-  const resposta = await fetch(PATH);
+export const consultarFreelancers = async (nome: string) => {
+  const resposta = await fetch(`${PATH}?nome=${nome}`);
 
   if (resposta.status !== 200) {
     throw new Error("Erro ao consultar freelancers.");

@@ -6,6 +6,8 @@ namespace Backend.Application.Interfaces.Services
     {
         public Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync();
 
+        public Task<IEnumerable<FreelancerDTO>> ConsultarPorNomeAsync(string nome);
+
         public Task<FreelancerDTO?> ConsultarPorIdAsync(int id);
         
         public Task<FreelancerDTO> CriarAsync(int usuarioId);

@@ -12,9 +12,14 @@ namespace Backend.API.Controllers
         private readonly IFreelancerService _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> Consultar()
+        public async Task<IActionResult> Consultar([FromQuery] string? nome)
         {
-            IEnumerable<FreelancerDTO> freelancers = await _service.ConsultarTodosAsync();
+            if (nome == null)
+            {
+                return Ok(await _service.ConsultarTodosAsync());
+            }
+
+            IEnumerable<FreelancerDTO> freelancers = await _service.ConsultarPorNomeAsync(nome);
 
             return Ok(freelancers); ;
         }

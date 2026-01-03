@@ -34,6 +34,21 @@ namespace Backend.Application.Services
             return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
         }
 
+        public async Task<IEnumerable<FreelancerDTO>> ConsultarPorNomeAsync(string nome)
+        {
+            IEnumerable<Freelancer> list = await _repository.ConsultarPorNomeAsync(nome);
+
+            foreach (var freelancer in list)
+            {
+                var usuario = freelancer.Usuario 
+                    ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
+
+                usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
+            }
+
+            return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
+        }
+
         public async Task<FreelancerDTO?> ConsultarPorIdAsync(int id)
         {
             var freelancer = await _repository.ConsultarPorIdAsync(id);
