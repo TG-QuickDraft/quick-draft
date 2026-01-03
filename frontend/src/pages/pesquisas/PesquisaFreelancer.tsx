@@ -68,7 +68,7 @@ export function PesquisaFreelancer() {
       )}
 
       <div className="py-8">
-        <Link to={"/home"}>
+        <Link to={"/"}>
           <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>
             Ir para Home
           </Button>

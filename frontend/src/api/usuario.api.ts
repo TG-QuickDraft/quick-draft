@@ -1,5 +1,6 @@
 import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
 import type { Usuario } from "../domain/models/Usuario";
+import type { UserLogin } from "@/domain/models/Login";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/Usuario`;
 
@@ -25,3 +26,19 @@ export const enviarFoto = async (formData: FormData) => {
     body: formData,
   });
 };
+
+export const meApi = async (token: string): Promise<UserLogin> => {
+  const response = await fetch(`${PATH}/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao obter dados do usuário.");
+  }
+
+  return response.json();
+}

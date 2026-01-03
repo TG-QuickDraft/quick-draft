@@ -1,16 +1,17 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using System.Text.Json.Serialization;
 using Backend.Application;
 using Backend.Infrastructure;
 using Backend.Infrastructure.Persistence;
 using Backend.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
-
-// TODO: configuração de autenticação e de criptografia de senha
 
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 
@@ -37,6 +38,29 @@ builder.Services.AddCors(options =>
     );
 });
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+builder.Services
+    .AddAuthentication("Bearer")
+    .AddJwtBearer(opt =>
+    {
+        opt.MapInboundClaims = false;
+
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+            ),
+            RoleClaimType = "roles"
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,6 +78,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

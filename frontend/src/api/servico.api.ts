@@ -1,4 +1,6 @@
+import type { CriarServicoDTO } from "@/dtos/CriarServicoDTO";
 import type { Servico } from "../domain/models/Servico";
+import { localStorageKeys } from "@/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/Servico`;
 
@@ -24,10 +26,13 @@ export const consultarServicoPorId = async (id: number) => {
   return await resposta.json();
 };
 
-export const adicionarServico = async (servico: Servico) => {
+export const adicionarServico = async (servico: CriarServicoDTO) => {
   const option = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
+    },
     body: JSON.stringify(servico),
   };
 

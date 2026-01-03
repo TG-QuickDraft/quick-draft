@@ -8,7 +8,7 @@ namespace Backend.Application.Interfaces.Services
 
         public Task<ServicoDTO?> ConsultarPorIdAsync(int id);
         
-        public Task<ServicoDTO> CriarAsync(ServicoDTO servico);
+        public Task<ServicoDTO> CriarAsync(CriarServicoDTO servico, int usuarioId);
 
         public Task<bool> AtualizarAsync(ServicoDTO servico);
     }

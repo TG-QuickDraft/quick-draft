@@ -1,41 +1,64 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { localStorageKeys } from "@/utils/localStorageKeys";
 import { Navigate, useLocation } from "react-router-dom";
-import type { IUserProvider, UserLogin } from "@/domain/models/Login";
+import { localStorageKeys } from "@/utils/localStorageKeys";
+import type { IUserProvider, LoginRequest } from "@/domain/models/Login";
+import { loginApi } from "@/api/auth.api";
+import { getRolesFromToken } from "@/utils/getRolesFromToken";
 
 export const AuthContext = createContext({} as IUserProvider);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserLogin>({} as UserLogin);
-  const [loading, setLoading] = useState(true);
-  const location = useLocation();
+  const [roles, setRoles] = useState<string[]>([]);
 
+  const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
   const pathname = location.pathname;
 
+  const publicRoutes = [
+    "/",
+    "/login",
+    "/pesquisaFreelancer",
+    "/perfilFreelancer",
+    "/perfilCliente",
+    "/pesquisaServico",
+    "/visualizarServico",
+    "/cadastrarUsuario",
+  ];
+
+  const isAuthenticated = !!localStorage.getItem(
+    localStorageKeys.accessToken
+  );
+
   useEffect(() => {
-    const user = localStorage.getItem(localStorageKeys.user);
-    if (user) {
-      setUser(JSON.parse(user));
+    if (isAuthenticated) {
+      setRoles(getRolesFromToken());
     }
     setLoading(false);
-  }, []);
+  }, [isAuthenticated]);
 
-  const isAuthenticated = !!user.email;
-  const publicRoutes = ["/"];
+  const login = async (loginRequest: LoginRequest) => {
+    const { token } = await loginApi(loginRequest);
+
+    localStorage.setItem(localStorageKeys.accessToken, token);
+
+    setRoles(getRolesFromToken());
+  }
 
   const logout = () => {
-    localStorage.removeItem(localStorageKeys.user);
     localStorage.removeItem(localStorageKeys.accessToken);
-
-    setUser({} as UserLogin);
   };
 
+  const isPublicRoute = publicRoutes.some(route =>
+    pathname.startsWith(route)
+  );
+
   return (
-    <AuthContext.Provider value={{ logout, user, setUser, isAuthenticated }}>
-      {loading ? null : !isAuthenticated && !publicRoutes.includes(pathname) ? (
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, roles }}>
+      {loading ? null : !isAuthenticated && !isPublicRoute ? (
+        <Navigate to="/login" replace />
+      ) : isAuthenticated && pathname === "/login" ? (
         <Navigate to="/" replace />
-      ) : isAuthenticated && publicRoutes.includes(pathname) ? (
-        <Navigate to="/home" replace />
       ) : (
         children
       )}
@@ -44,5 +67,4 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default AuthProvider;
-
 export const useAuth = () => useContext(AuthContext);

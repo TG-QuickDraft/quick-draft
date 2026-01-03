@@ -6,8 +6,12 @@ import Button from "@/components/common/Button";
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
 import { TesteMarkdown } from "@/components/common/TesteMarkdown";
+import { useAuth } from "@/hooks/useAuth";
 export const Home = () => {
   const [count, setCount] = useState(0);
+  const { isAuthenticated } = useAuth();
+
+  const { roles } = useAuth();
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
@@ -27,9 +31,11 @@ export const Home = () => {
             <Button icon={<GoPlus size={30} />}>Cadastrar usuário</Button>
           </Link>
 
-          <Link to={"/cadastrarServico"}>
-            <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
-          </Link>
+          {isAuthenticated && roles.includes("Cliente") && (
+            <Link to={"/cadastrarServico"}>
+              <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
+            </Link>
+          )}
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>

@@ -1,5 +1,8 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -27,14 +30,23 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] ServicoDTO servico)
+        [Authorize(Roles = "Cliente")]
+        public async Task<IActionResult> Adicionar([FromBody] CriarServicoDTO servico)
         {
-            ServicoDTO novoServico = await _service.CriarAsync(servico);
+            var sub = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+            if (!int.TryParse(sub, out var usuarioId) || usuarioId <= 0)
+            {
+                return Unauthorized("Usuário inválido.");
+            }
+
+            ServicoDTO novoServico = await _service.CriarAsync(servico, usuarioId);
 
             return CreatedAtAction(nameof(ConsultarPorId), new { id = novoServico.Id }, novoServico);
         }
 
         [HttpPut]
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Atualizar([FromBody] ServicoDTO servico)
         {
             bool isAtualizado = await _service.AtualizarAsync(servico);

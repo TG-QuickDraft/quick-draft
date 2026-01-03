@@ -1,11 +1,16 @@
 export type UserLogin = {
   email: string;
-  username: string;
+  roles: string[];
 };
 
 export interface IUserProvider {
-  logout: () => void;
-  user: UserLogin;
-  setUser: (user: UserLogin) => void;
   isAuthenticated: boolean;
+  login: (loginRequest: LoginRequest) => Promise<void>;
+  logout: () => void;
+  roles: string[];
 }
+
+export type LoginRequest = {
+  email: string;
+  senha: string;
+};

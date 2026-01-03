@@ -1,6 +1,9 @@
 
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -51,6 +54,22 @@ namespace Backend.API.Controllers
             }
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var email = User.FindFirstValue(JwtRegisteredClaimNames.Email);
+            var roles = User.
+                FindAll("roles").
+                Select(r => r.Value).
+                ToList();
+
+            return Ok(new MeResponseDTO { 
+                Email = email!,
+                Roles = roles!
+            });
         }
 
     }

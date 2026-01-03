@@ -8,16 +8,14 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import Title from "@/components/common/Title";
 
 import { adicionarServico } from "@/api/servico.api";
+import type { CriarServicoDTO } from "@/dtos/CriarServicoDTO";
 
 export const CadastrarServico = () => {
-  const [clienteId, setClienteId] = useState(0);
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
 
   const enviar = async () => {
-    const servico = {
-      id: 0,
-      clienteId: clienteId,
+    const servico: CriarServicoDTO = {
       nome: nome,
       descricao: descricao,
     };
@@ -32,13 +30,6 @@ export const CadastrarServico = () => {
       <Title>Cadastrar Serviço</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <input
-          className="border border-gray-600 w-full p-3 focus:outline-none rounded"
-          placeholder="Id do cliente tirar depois PFV"
-          type="number"
-          onChange={(e) => setClienteId(Number(e.target.value))}
-        />
-
         <input
           className="border border-gray-600 w-full p-3 focus:outline-none rounded"
           placeholder="Nome"
@@ -56,7 +47,7 @@ export const CadastrarServico = () => {
         </Button>
       </div>
 
-      <Link to={"/home"}>
+      <Link to={"/"}>
         <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>Voltar</Button>
       </Link>
     </div>
