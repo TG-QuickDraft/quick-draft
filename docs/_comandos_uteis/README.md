@@ -1,4 +1,4 @@
-### Comandos para criação do projeto
+## Comandos para criação do projeto
 
 Foram utilizados os seguintes comandos para criar o projeto:
 
@@ -30,6 +30,20 @@ dotnet add package xunit
 dotnet add package xunit.runner.visualstudio
 dotnet add package Microsoft.NET.Test.Sdk
 dotnet add package Moq
+```
+
+## Comandos úteis
+
+### Para criar novas migrações
+
+```sh
+cd Backend
+
+# Criando as migrações
+dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence/Migrations
+
+# Aplicando migrações ao banco 
+dotnet ef database update
 ```
 
 Obs.: Esses comandos foram usados especificamente no Linux.

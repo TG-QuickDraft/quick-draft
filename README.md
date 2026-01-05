@@ -74,20 +74,6 @@ cd frontend/
 npx cypress open
 ```
 
-## Comandos úteis
-
-### Para criar novas migrações
-
-```sh
-cd Backend
-
-# Criando as migrações
-dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence/Migrations
-
-# Aplicando migrações ao banco 
-dotnet ef database update
-```
-
 ## Referências
 
 - [Vite](https://vite.dev)
