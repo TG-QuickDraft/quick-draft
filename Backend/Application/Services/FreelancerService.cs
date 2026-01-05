@@ -19,24 +19,9 @@ namespace Backend.Application.Services
         private readonly IMapper _mapper = mapper;
         private readonly IUrlBuilder urlBuilder = urlBuilder;
 
-        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync()
+        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync(string? nome)
         {
-            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync();
-
-            foreach (var freelancer in list)
-            {
-                var usuario = freelancer.Usuario 
-                    ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
-
-                usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
-            }
-
-            return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
-        }
-
-        public async Task<IEnumerable<FreelancerDTO>> ConsultarPorNomeAsync(string nome)
-        {
-            IEnumerable<Freelancer> list = await _repository.ConsultarPorNomeAsync(nome);
+            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync(nome);
 
             foreach (var freelancer in list)
             {

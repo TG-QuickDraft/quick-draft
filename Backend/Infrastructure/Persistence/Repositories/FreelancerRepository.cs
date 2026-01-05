@@ -8,14 +8,7 @@ namespace Backend.Infrastructure.Persistence.Repositories
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<IEnumerable<Freelancer>> ConsultarTodosAsync()
-        {
-            return await _context.Freelancers
-                .Include(f => f.Usuario)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Freelancer>> ConsultarPorNomeAsync(string nome)
+        public async Task<IEnumerable<Freelancer>> ConsultarTodosAsync(string? nome)
         {
             return await _context.Freelancers
                 .Include(f => f.Usuario)

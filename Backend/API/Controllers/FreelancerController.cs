@@ -14,14 +14,9 @@ namespace Backend.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Consultar([FromQuery] string? nome)
         {
-            if (nome == null)
-            {
-                return Ok(await _service.ConsultarTodosAsync());
-            }
-
-            IEnumerable<FreelancerDTO> freelancers = await _service.ConsultarPorNomeAsync(nome);
-
-            return Ok(freelancers); ;
+            return Ok(
+                await _service.ConsultarTodosAsync(nome ?? null)
+            );
         }
 
         [HttpGet("{id}")]
