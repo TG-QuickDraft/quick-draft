@@ -3,7 +3,7 @@ import type { Servico } from "../domain/models/Servico";
 import { localStorageKeys } from "@/utils/localStorageKeys";
 import type { FiltroServicoDTO } from "@/dtos/FiltroServicoDTO";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/Servico`;
+const PATH = `${import.meta.env.VITE_API_URL}/api/servico`;
 
 export const consultarServicos = async (filtro: FiltroServicoDTO | null) => {
   const resposta = await fetch(`${PATH}?nome=${filtro?.nome}`);
