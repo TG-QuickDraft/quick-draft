@@ -12,13 +12,13 @@ import Input from "@/components/common/Inputs/Input";
 import { GoSearch } from "react-icons/go";
 
 export function PesquisaFreelancer() {
-  const [pesquisa, setPesquisa] = useState("");
+  const [filtroNome, setFiltroNome] = useState("");
 
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
 
   useEffect(() => {
     const obterDados = async () => {
-      const dados = await consultarFreelancers(pesquisa);
+      const dados = await consultarFreelancers(filtroNome);
 
       if (dados !== undefined) {
         setFreelancers(dados);
@@ -30,7 +30,7 @@ export function PesquisaFreelancer() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const dados = await consultarFreelancers(pesquisa);
+    const dados = await consultarFreelancers(filtroNome);
 
     if (dados !== undefined) {
       setFreelancers(dados);
@@ -43,8 +43,8 @@ export function PesquisaFreelancer() {
 
       <form onSubmit={handleSubmit}>
         <Input
-          value={pesquisa} 
-          onChange={(e) => setPesquisa(e.target.value)}
+          value={filtroNome} 
+          onChange={(e) => setFiltroNome(e.target.value)}
           placeholder="Pesquisa"  
         />
         <Button icon={<GoSearch size={30} />} type="submit">Buscar</Button>
