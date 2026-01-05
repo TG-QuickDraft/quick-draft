@@ -14,10 +14,18 @@ namespace Backend.API.Controllers
     {
         readonly IUsuarioService _service = service;
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ConsultarPorId(int id)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ConsultarPorId()
         {
-            var usuario = await _service.ConsultarPorIdAsync(id);
+            var sub = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+            if (!int.TryParse(sub, out var usuarioId) || usuarioId <= 0)
+            {
+                return Unauthorized("Usuário inválido.");
+            }
+
+            var usuario = await _service.ConsultarPorIdAsync(usuarioId);
             return Ok(usuario);
         }
 

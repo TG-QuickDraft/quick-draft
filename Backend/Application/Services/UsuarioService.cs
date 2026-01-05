@@ -1,5 +1,6 @@
 using AutoMapper;
 using Backend.Application.DTOs;
+using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
 using Backend.Application.Utils;
@@ -13,7 +14,9 @@ namespace Backend.Application.Services
         IMapper mapper,
 
         IClienteService clienteService,
-        IFreelancerService freelancerService
+        IFreelancerService freelancerService,
+
+        IUrlBuilder urlBuilder
     ) : IUsuarioService
     {
         private readonly IUsuarioRepository _repository = repository;
@@ -21,9 +24,14 @@ namespace Backend.Application.Services
         private readonly IClienteService _clienteService = clienteService;
         private readonly IFreelancerService _freelancerService = freelancerService;
 
+        private readonly IUrlBuilder _urlBuilder = urlBuilder;
+
         public async Task<UsuarioDTO?> ConsultarPorIdAsync(int id)
         {
-            var usuario = await _repository.ConsultarPorIdAsync(id); 
+            var usuario = await _repository.ConsultarPorIdAsync(id);
+
+            if (usuario != null)
+                usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
 
             return _mapper.Map<UsuarioDTO>(usuario);
         }

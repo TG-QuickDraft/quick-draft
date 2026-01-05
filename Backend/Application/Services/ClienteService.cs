@@ -17,7 +17,7 @@ namespace Backend.Application.Services
         private readonly IClienteRepository _repository = repository;
         private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
         private readonly IMapper _mapper = mapper;
-        private readonly IUrlBuilder urlBuilder = urlBuilder;
+        private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
         public async Task<IEnumerable<ClienteDTO>> ConsultarTodosAsync()
         {
@@ -27,7 +27,7 @@ namespace Backend.Application.Services
             {
                 if (!string.IsNullOrEmpty(cliente.Usuario?.FotoPerfilUrl))
                 {
-                    cliente.Usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(cliente.Usuario.FotoPerfilUrl ?? "");
+                    cliente.Usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(cliente.Usuario.FotoPerfilUrl ?? "");
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Backend.Application.Services
             var usuario = cliente.Usuario 
                 ?? throw new InvalidOperationException("Cliente sem Usuario carregado");
 
-            usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
+            usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
             
             return _mapper.Map<ClienteDTO>(cliente);
         }

@@ -17,7 +17,7 @@ namespace Backend.Application.Services
         private readonly IFreelancerRepository _repository = repository;
         private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
         private readonly IMapper _mapper = mapper;
-        private readonly IUrlBuilder urlBuilder = urlBuilder;
+        private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
         public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync(string? nome)
         {
@@ -28,7 +28,7 @@ namespace Backend.Application.Services
                 var usuario = freelancer.Usuario 
                     ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-                usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
+                usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
             }
 
             return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
@@ -44,7 +44,7 @@ namespace Backend.Application.Services
             var usuario = freelancer.Usuario 
                 ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-            usuario.FotoPerfilUrl = urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
+            usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
 
             return _mapper.Map<FreelancerDTO>(freelancer);
         }

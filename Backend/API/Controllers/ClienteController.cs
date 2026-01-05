@@ -26,6 +26,7 @@ namespace Backend.API.Controllers
             return Ok(servico);
         }
         
+        // TODO: DTO para atualizar cliente
         [HttpPut]
         public async Task<IActionResult> Atualizar([FromBody] ClienteDTO cliente)
         {
