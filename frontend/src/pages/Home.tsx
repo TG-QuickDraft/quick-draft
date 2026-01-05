@@ -5,7 +5,7 @@ import Button from "@/components/common/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
-import { TesteMarkdown } from "@/components/common/TesteMarkdown";
+
 import { useAuth } from "@/hooks/useAuth";
 export const Home = () => {
   const [count, setCount] = useState(0);
@@ -48,8 +48,6 @@ export const Home = () => {
             count is {count}
           </Button>
         </div>
-
-        <TesteMarkdown />
       </div>
     </div>
   );

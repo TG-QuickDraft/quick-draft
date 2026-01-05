@@ -7,6 +7,7 @@ import Title from "@/components/common/Title";
 
 import Button from "@/components/common/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import { TesteMarkdown } from "@/components/common/TesteMarkdown";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
@@ -53,6 +54,8 @@ export const PerfilFreelancer = () => {
             Voltar
           </Button>
         </Link>
+
+        <TesteMarkdown />
       </div>
     </div>
   );
