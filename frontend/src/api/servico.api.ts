@@ -5,8 +5,8 @@ import type { FiltroServicoDTO } from "@/dtos/FiltroServicoDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/servico`;
 
-export const consultarServicos = async (filtro: FiltroServicoDTO | null) => {
-  const resposta = await fetch(`${PATH}?nome=${filtro?.nome}`);
+export const consultarServicos = async (filtro: FiltroServicoDTO) => {
+  const resposta = await fetch(`${PATH}?nome=${filtro?.nome ?? ""}`);
 
   if (resposta.status !== 200) {
     throw new Error("Erro ao consultar serviços.");
