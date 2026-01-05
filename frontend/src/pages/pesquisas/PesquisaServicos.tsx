@@ -9,13 +9,18 @@ import Title from "@/components/common/Title";
 import { PiEmptyLight } from "react-icons/pi";
 import { consultarServicos } from "@/api/servico.api";
 import type { Servico } from "@/domain/models/Servico";
+import Input from "@/components/common/Inputs/Input";
+import { GoSearch } from "react-icons/go";
+import type { FiltroServicoDTO } from "@/dtos/FiltroServicoDTO";
 
 export function PesquisaServico() {
+  const [filtroNome, setFiltroNome] = useState("");
+
   const [servicos, setServicos] = useState<Servico[]>([]);
 
   useEffect(() => {
     const obterDados = async () => {
-      const dados = await consultarServicos();
+      const dados = await consultarServicos(null);
 
       if (dados !== undefined) {
         setServicos(dados);
@@ -25,9 +30,32 @@ export function PesquisaServico() {
     obterDados();
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      const filtro: FiltroServicoDTO = {
+        nome: filtroNome
+      };
+
+      const dados = await consultarServicos(filtro);
+  
+      if (dados !== undefined) {
+        setServicos(dados);
+      }
+    };
+
   return (
     <div className="flex flex-col items-center h-full justify-center">
       <Title className="pb-8">Minha tabela de serviços</Title>
+
+      <form onSubmit={handleSubmit}>
+        <Input
+          value={filtroNome} 
+          onChange={(e) => setFiltroNome(e.target.value)}
+          placeholder="Pesquisa"  
+        />
+        <Button icon={<GoSearch size={30} />} type="submit">Buscar</Button>
+      </form>
 
       {servicos.length === 0 ? (
         <PiEmptyLight size={30} />
