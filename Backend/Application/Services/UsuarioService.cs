@@ -30,29 +30,17 @@ namespace Backend.Application.Services
 
         public async Task<TipoUsuario> ObterTipoUsuario(int id)
         {
-            var usuario = await _repository.ConsultarPorIdAsync(id);
-
-            if (usuario == null)
-                throw new ArgumentException("Usuário não encontrado.");
+            var usuario = await _repository.ConsultarPorIdAsync(id)
+                ?? throw new ArgumentException("Usuário não encontrado.");
 
             if (usuario.IsAdmin)
-            {
-                return TipoUsuario.Admin;   
-            }
+                return TipoUsuario.Admin;
 
-            var cliente = await _clienteService.ConsultarPorIdAsync(id);
-        
-            if (cliente is not null)
-            {
+            if (await _clienteService.ConsultarPorIdAsync(id) is not null)
                 return TipoUsuario.Cliente;
-            }
 
-            var freelancer = _freelancerService.ConsultarPorIdAsync(id);
-
-            if (freelancer is not null)
-            {
+            if (await _freelancerService.ConsultarPorIdAsync(id) is not null)
                 return TipoUsuario.Freelancer;
-            }
 
             throw new ArgumentException("Usuário não encontrado.");
         }
@@ -64,16 +52,18 @@ namespace Backend.Application.Services
 
             var usuarioCriado = await _repository.CriarAsync(usuarioACriar);
 
-            if (usuario.TipoUsuario == TipoUsuario.Cliente)
+            switch (usuario.TipoUsuario)
             {
-                await _clienteService.CriarAsync(usuarioCriado.Id);
-            }
-            else if (usuario.TipoUsuario == TipoUsuario.Freelancer)
-            {
-                await _freelancerService.CriarAsync(usuarioCriado.Id);
-            } else
-            {
-                throw new ArgumentException("Tipo de usuário inválido.");
+                case TipoUsuario.Cliente:
+                    await _clienteService.CriarAsync(usuarioCriado.Id);    
+                    break;
+
+                case TipoUsuario.Freelancer:
+                    await _freelancerService.CriarAsync(usuarioCriado.Id);    
+                    break;
+
+                default:
+                    throw new ArgumentException("Tipo de usuário inválido.");
             }
 
             return _mapper.Map<UsuarioDTO>(usuarioCriado);
