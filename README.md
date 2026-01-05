@@ -21,25 +21,30 @@ Para definir as credenciais a serem utilizadas em containers de Docker, é neces
 ### Backend
 
 - Instalando ASP.NET e dependências:
-```
-# Exemplo de instalação no Linux
+```sh
+# Exemplo de instalação do .NET e ASP.NET no Linux
 sudo apt-get install -y dotnet-sdk-8.0
 sudo apt-get install -y aspnetcore-runtime-8.0
 
+# Exemplo de instalação do CLI do Entity Framework Core
 dotnet tool install --global dotnet-ef
 ```
 
 Para criar o banco:
-```
+```sh
 cd Backend/
 
+# Criando as migrações
+dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence/Migrations
+
+# Aplicando migrações ao banco
 dotnet ef database update
 ```
 
 ### Frontend
 
 Para iniciar o frontend:
-```
+```sh
 cd frontend
 npm install
 npm run dev
@@ -52,14 +57,14 @@ Obs.: Para acessar o site, navegue para ```localhost:5173```.
 ### Testes Unitários
 
 Para executar testes do .NET:
-```
+```sh
 dotnet test
 ```
 
 ### Testes Cypress
 
 Para executar os testes automatizados do Cypress:
-```
+```sh
 # Testes no terminal
 cd frontend/
 npx cypress run
@@ -73,11 +78,13 @@ npx cypress open
 
 ### Para criar novas migrações
 
-```
+```sh
 cd Backend
+
+# Criando as migrações
 dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence/Migrations
 
-# Aplicando mudanças da nova migração 
+# Aplicando migrações ao banco 
 dotnet ef database update
 ```
 

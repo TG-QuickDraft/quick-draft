@@ -3,12 +3,12 @@
 Foram utilizados os seguintes comandos para criar o projeto:
 
 - Criação do projeto React
-```
+```sh
 npm create vite@latest frontend -- --template react-ts
 ```
 
 - Criando projeto ASP.NET:
-```
+```sh
 # Criando o Backend
 dotnet new webapp -n Backend
 
