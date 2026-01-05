@@ -1,12 +1,10 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { consultarClientePorId } from "@/api/cliente.api";
 
 import { useEffect, useState } from "react";
 
 import Title from "@/components/common/Title";
 
-import Button from "@/components/common/Button";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { Cliente } from "@/domain/models/Cliente";
 
 export const PerfilCliente = () => {
@@ -59,15 +57,6 @@ export const PerfilCliente = () => {
         ) : (
           <div className="bg-black w-50 h-50 rounded-full" />
         )}
-
-        <Link to={"/"}>
-          <Button
-            className="mt-6"
-            icon={<MdKeyboardDoubleArrowLeft size={30} />}
-          >
-            Voltar
-          </Button>
-        </Link>
       </div>
     </div>
   );

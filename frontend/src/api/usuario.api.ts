@@ -1,6 +1,7 @@
 import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
 import type { Usuario } from "../domain/models/Usuario";
 import type { UserLogin } from "@/domain/models/Login";
+import { localStorageKeys } from "@/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/usuario`;
 
@@ -19,6 +20,24 @@ export const adicionarUsuario = async (usuario: CriarUsuarioDTO): Promise<Usuari
 
   return resposta.json();
 };
+
+export const consultarUsuario = async (): Promise<Usuario> => {
+  const option = {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
+      },
+  };
+
+  const resposta = await fetch(PATH, option);
+
+  if (resposta.status !== 200) {
+    throw new Error("Erro ao consultar usuário.");
+  }
+
+  return resposta.json();
+}
 
 export const enviarFoto = async (formData: FormData) => {
   return await fetch(`${PATH}/upload-foto`, {

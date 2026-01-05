@@ -3,8 +3,6 @@ import { adicionarUsuario, enviarFoto } from "@/api/usuario.api";
 
 import Button from "@/components/common/Button";
 import { LuSave } from "react-icons/lu";
-import { Link } from "react-router-dom";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import Title from "@/components/common/Title";
 
@@ -141,10 +139,6 @@ export const CadastrarUsuario = () => {
           Salvar
         </Button>
       </div>
-
-      <Link to={"/"}>
-        <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>Voltar</Button>
-      </Link>
 
       {foto && (
         <div className="pt-6">

@@ -4,7 +4,6 @@ import { consultarFreelancers } from "@/api/freelancer.api";
 import { Link } from "react-router-dom";
 
 import Button from "@/components/common/Button";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import Title from "@/components/common/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
@@ -88,14 +87,6 @@ export function PesquisaFreelancer() {
           </tbody>
         </table>
       )}
-
-      <div className="py-8">
-        <Link to={"/"}>
-          <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>
-            Ir para Home
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 }
