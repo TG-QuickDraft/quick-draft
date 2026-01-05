@@ -4,7 +4,7 @@ namespace Backend.Application.Interfaces.Services
 {
     public interface IServicoService
     {
-        public Task<IEnumerable<ServicoDTO>> ConsultarTodosAsync();
+        public Task<IEnumerable<ServicoDTO>> ConsultarTodosAsync(FiltroServicoDTO filtro);
 
         public Task<ServicoDTO?> ConsultarPorIdAsync(int id);
         

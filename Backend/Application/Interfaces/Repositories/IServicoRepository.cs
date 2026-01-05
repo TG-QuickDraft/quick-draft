@@ -1,10 +1,11 @@
+using Backend.Application.DTOs;
 using Backend.Domain.Entities;
 
 namespace Backend.Application.Interfaces.Repositories
 {
     public interface IServicoRepository
     {
-        Task<IEnumerable<Servico>> ConsultarTodosAsync();
+        Task<IEnumerable<Servico>> ConsultarTodosAsync(FiltroServicoDTO filtro);
 
         Task<Servico?> ConsultarPorIdAsync(int id);
 

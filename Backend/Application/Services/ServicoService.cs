@@ -30,9 +30,9 @@ namespace Backend.Application.Services
             return _mapper.Map<ServicoDTO>(servicoCriado);
         }
 
-        public async Task<IEnumerable<ServicoDTO>> ConsultarTodosAsync()
+        public async Task<IEnumerable<ServicoDTO>> ConsultarTodosAsync(FiltroServicoDTO filtro)
         {
-            IEnumerable<Servico> list = await _repository.ConsultarTodosAsync();
+            IEnumerable<Servico> list = await _repository.ConsultarTodosAsync(filtro);
 
             return _mapper.Map<IEnumerable<ServicoDTO>>(list);
         }
