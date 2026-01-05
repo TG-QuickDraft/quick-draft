@@ -2,17 +2,20 @@ import { useState } from "react";
 
 import Button from "@/components/common/Button";
 import { LuSave } from "react-icons/lu";
-import { Link } from "react-router-dom";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import Title from "@/components/common/Title";
 
 import { adicionarServico } from "@/api/servico.api";
 import type { CriarServicoDTO } from "@/dtos/CriarServicoDTO";
+import Modal from "@/components/common/Modal";
 
 export const CadastrarServico = () => {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
+  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
   const enviar = async () => {
     const servico: CriarServicoDTO = {
@@ -20,9 +23,19 @@ export const CadastrarServico = () => {
       descricao: descricao,
     };
 
-    await adicionarServico(servico);
+    try {
+      await adicionarServico(servico);
+    } catch (error){
+      if (error instanceof Error) {
+        setModalStatus("Erro");
+        setModalMsg(error.message);
+        setShowModal(true);
+      }
+    }
 
-    alert("Serviço cadastrado com sucesso!");
+    setModalStatus("Sucesso");
+    setModalMsg("Serviço cadastrado com sucesso!");
+    setShowModal(true);
   };
 
   return (
@@ -47,9 +60,13 @@ export const CadastrarServico = () => {
         </Button>
       </div>
 
-      <Link to={"/"}>
-        <Button icon={<MdKeyboardDoubleArrowLeft size={30} />}>Voltar</Button>
-      </Link>
+      <Modal
+        show={showModal}
+        title={modalStatus}
+        onClose={() => setShowModal(false)}
+      >
+        {modalMsg}
+      </Modal>
     </div>
   );
 };
