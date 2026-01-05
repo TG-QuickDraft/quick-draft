@@ -8,10 +8,11 @@ namespace Backend.Infrastructure.Persistence.Repositories
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<IEnumerable<Freelancer>> ConsultarTodosAsync()
+        public async Task<IEnumerable<Freelancer>> ConsultarTodosAsync(string? nome)
         {
             return await _context.Freelancers
                 .Include(f => f.Usuario)
+                .Where(f => f.Usuario != null && EF.Functions.ILike(f.Usuario.Nome, $"%{nome}%"))
                 .ToListAsync();
         }
 

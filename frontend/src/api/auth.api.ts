@@ -1,6 +1,6 @@
 import type { LoginRequest } from "@/domain/models/Login";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/Auth`;
+const PATH = `${import.meta.env.VITE_API_URL}/api/auth`;
 
 export const loginApi = async (userLogin: LoginRequest) => {
   const response = await fetch(`${PATH}/login`, {

@@ -8,13 +8,17 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import Title from "@/components/common/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
+import Input from "@/components/common/Inputs/Input";
+import { GoSearch } from "react-icons/go";
 
 export function PesquisaFreelancer() {
+  const [filtroNome, setFiltroNome] = useState("");
+
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
 
   useEffect(() => {
     const obterDados = async () => {
-      const dados = await consultarFreelancers();
+      const dados = await consultarFreelancers(filtroNome);
 
       if (dados !== undefined) {
         setFreelancers(dados);
@@ -24,9 +28,27 @@ export function PesquisaFreelancer() {
     obterDados();
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const dados = await consultarFreelancers(filtroNome);
+
+    if (dados !== undefined) {
+      setFreelancers(dados);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center h-full justify-center">
       <Title className="pb-8">Minha tabela de freelancers</Title>
+
+      <form onSubmit={handleSubmit}>
+        <Input
+          value={filtroNome} 
+          onChange={(e) => setFiltroNome(e.target.value)}
+          placeholder="Pesquisa"  
+        />
+        <Button icon={<GoSearch size={30} />} type="submit">Buscar</Button>
+      </form>
 
       {freelancers.length === 0 ? (
         <PiEmptyLight size={30} />

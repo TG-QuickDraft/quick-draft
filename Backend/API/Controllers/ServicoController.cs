@@ -15,18 +15,24 @@ namespace Backend.API.Controllers
         private readonly IServicoService _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> Consultar()
+        public async Task<IActionResult> Consultar([FromQuery] string? nome)
         {
-            IEnumerable<ServicoDTO> servicos = await _service.ConsultarTodosAsync();
+            FiltroServicoDTO filtro = new()
+            {
+                Nome = nome
+            };
 
-            return Ok(servicos); ;
+            return Ok(
+                await _service.ConsultarTodosAsync(filtro)
+            );
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ConsultarPorId(int id)
         {
-            var servico = await _service.ConsultarPorIdAsync(id);
-            return Ok(servico);
+            return Ok(
+                await _service.ConsultarPorIdAsync(id)
+            );
         }
 
         [HttpPost]

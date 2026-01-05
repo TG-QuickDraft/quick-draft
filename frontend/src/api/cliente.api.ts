@@ -1,6 +1,6 @@
 import type { Cliente } from "../domain/models/Cliente";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/Cliente`;
+const PATH = `${import.meta.env.VITE_API_URL}/api/cliente`;
 
 export const consultarClientePorId = async (
   id: number,

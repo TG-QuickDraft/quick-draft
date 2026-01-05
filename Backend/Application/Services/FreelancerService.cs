@@ -19,9 +19,9 @@ namespace Backend.Application.Services
         private readonly IMapper _mapper = mapper;
         private readonly IUrlBuilder urlBuilder = urlBuilder;
 
-        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync()
+        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync(string? nome)
         {
-            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync();
+            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync(nome);
 
             foreach (var freelancer in list)
             {

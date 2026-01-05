@@ -15,6 +15,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
       <>
         {children}
+
+        <a href="/" className="fixed top-6 left-6">HOME</a>
+        
         <Button
           icon={<CiLogout size={20} />}
           variant="danger"
@@ -34,6 +37,8 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
       <>
         {children}
+
+        <a href="/" className="fixed top-6 left-6">HOME</a>
         <Button
           icon={<CiLogin size={20} />}
           variant="primary"
@@ -49,6 +54,8 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {children}
+
+      <a href="/" className="fixed top-6 left-6">HOME</a>
       <Button
         icon={<MdKeyboardDoubleArrowLeft size={25} />}
         variant="primary"

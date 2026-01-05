@@ -2,7 +2,7 @@ import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
 import type { Usuario } from "../domain/models/Usuario";
 import type { UserLogin } from "@/domain/models/Login";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/Usuario`;
+const PATH = `${import.meta.env.VITE_API_URL}/api/usuario`;
 
 export const adicionarUsuario = async (usuario: CriarUsuarioDTO): Promise<Usuario> => {
   const option = {
