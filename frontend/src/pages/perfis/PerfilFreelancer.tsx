@@ -8,18 +8,25 @@ import Title from "@/components/common/Title";
 import Button from "@/components/common/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { TesteMarkdown } from "@/components/common/TesteMarkdown";
+import type { ProjetoFreelancer } from "@/domain/models/ProjetoFreelancer";
+import { consultarProjetosFreelancerPorIdFreelancer } from "@/api/projetoFreelancer.api";
+import { PiEmptyLight } from "react-icons/pi";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
 
   const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
 
+  const [projetosFreelancer, setProjetosFreelancer] = useState<ProjetoFreelancer[]>([]);
+
   useEffect(() => {
     const obterDados = async () => {
-      const data = await consultarFreelancerPorId(Number(id));
+      const dadosFreelancer = await consultarFreelancerPorId(Number(id));
+      const dadosProjetosFreelancer = await consultarProjetosFreelancerPorIdFreelancer(Number(id));
 
-      if (data !== undefined) {
-        setFreelancer(data);
+      if (dadosFreelancer !== undefined) {
+        setFreelancer(dadosFreelancer);
+        setProjetosFreelancer(dadosProjetosFreelancer);
       }
     };
 
@@ -44,6 +51,41 @@ export const PerfilFreelancer = () => {
           />
         ) : (
           <div className="bg-black w-50 h-50 rounded-full" />
+        )}
+
+        {projetosFreelancer.length === 0 ? (
+          <PiEmptyLight size={30} />
+        ) : (
+          <table className="w-1/2 text-center shadow-2xl">
+            <thead>
+              <tr className="bg-white text-black">
+                <th className="p-3">Nome</th>
+                <th className="p-3">Descricão</th>
+                <th className="p-3">Link</th>
+                <th className="p-3">Imagem</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projetosFreelancer.map((projeto, index) => (
+                <tr
+                  key={index}
+                  className="border border-gray-500/20 hover:bg-gray-500/5"
+                >
+                  <td className="p-3">{projeto.nome}</td>
+                  <td className="p-3">{projeto.descricao}</td>
+                  <td className="p-3">{projeto.link}</td>
+                  <td className="p-3">
+                    <img
+                      src={
+                        projeto?.imagemUrl ? projeto.imagemUrl : ""
+                      }
+                      className="h-11 rounded-full inline-block"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
 
         <Link to={"/pesquisaFreelancer"}>

@@ -36,6 +36,13 @@ export const Home = () => {
               <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
             </Link>
           )}
+
+          {isAuthenticated && roles.includes("Freelancer") && (
+            <Link to={"/cadastrarProjetoFreelancer"}>
+              <Button icon={<GoPlus size={30} />}>Cadastrar Projeto Freelancer</Button>
+            </Link>
+          )}
+
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>
