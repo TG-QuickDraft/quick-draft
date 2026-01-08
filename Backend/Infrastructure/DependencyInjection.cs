@@ -1,5 +1,6 @@
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
+using Backend.Domain.Entities;
 using Backend.Infrastructure.Persistence.Repositories;
 using Backend.Infrastructure.Security;
 using Backend.Infrastructure.Url;
@@ -12,6 +13,7 @@ namespace Backend.Infrastructure
         {
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
+            services.AddScoped<IProjetoFreelancerRepository, ProjetoFreelancerRepository>();
             services.AddScoped<IServicoRepository, ServicoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 

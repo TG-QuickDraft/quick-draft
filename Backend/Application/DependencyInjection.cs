@@ -9,6 +9,7 @@ namespace Backend.Application
         {
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IFreelancerService, FreelancerService>();
+            services.AddScoped<IProjetoFreelancerService, ProjetoFreelancerService>();
             services.AddScoped<IServicoService, ServicoService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IAuthService, AuthService>();

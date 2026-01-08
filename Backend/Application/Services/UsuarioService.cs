@@ -107,7 +107,7 @@ namespace Backend.Application.Services
                 await dto.FotoPerfil.CopyToAsync(stream);
             }
 
-            usuario.FotoPerfilUrl = $"/uploads/fotos-perfil/{fileName}";
+            usuario.FotoPerfilUrl = $"uploads/fotos-perfil/{fileName}";
             
             return await _repository.AtualizarAsync(usuario);
         }
