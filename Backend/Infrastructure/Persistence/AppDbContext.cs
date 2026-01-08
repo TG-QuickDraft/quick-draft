@@ -10,6 +10,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Servico> Servicos { get; set; }
+        public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,10 +21,7 @@ namespace Backend.Infrastructure.Persistence
                 entity
                     .HasIndex(u => u.Email)
                     .IsUnique();
-            });
 
-            modelBuilder.Entity<Usuario>(entity =>
-            {
                 entity
                     .HasIndex(u => u.Cpf)
                     .IsUnique();

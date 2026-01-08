@@ -2,13 +2,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Domain.Entities
 {
     [Table("usuarios")]
-    [Index(nameof(Cpf), IsUnique = true)]
-    [Index(nameof(Email), IsUnique = true)]
     public class Usuario
     {
         [Key]
@@ -38,6 +35,9 @@ namespace Backend.Domain.Entities
         [Required]
         [DefaultValue(false)]
         public bool IsAdmin { get; set; }
+
+        // TODO: Colocar tipoUsuário diretamente na entidade (vai ficar mais simples se for assim)
+        // Ex.: public TipoUsuario? tipoUsuario { get; set; }
 
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
