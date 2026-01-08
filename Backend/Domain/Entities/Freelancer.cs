@@ -19,5 +19,7 @@ namespace Backend.Domain.Entities
 
         [ForeignKey(nameof(Id))]
         public Usuario? Usuario { get; set; }
+
+        public ICollection<ProjetoFreelancer> ProjetosFreelancer { get; set; } = [];
     }
 }
