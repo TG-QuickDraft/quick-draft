@@ -1,4 +1,4 @@
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Servico;
 
 namespace Backend.Application.Interfaces.Services
 {

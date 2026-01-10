@@ -1,5 +1,6 @@
 using AutoMapper;
 using Backend.Application.DTOs.ProjetoFreelancer;
+using Backend.Application.DTOs.Upload;
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
@@ -60,7 +61,7 @@ namespace Backend.Application.Services
         }
 
         public async Task<bool> AtualizarImagemAsync(
-            ImagemProjetoFreelancerUploadDTO dto, 
+            UploadImagemDTO dto, 
             int freelancerId,
             int projetoId
         )

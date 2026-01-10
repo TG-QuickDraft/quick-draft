@@ -1,5 +1,6 @@
 using AutoMapper;
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Upload;
+using Backend.Application.DTOs.Usuario;
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
@@ -89,9 +90,9 @@ namespace Backend.Application.Services
             return await _repository.DeletarAsync(id);
         }
 
-        public async Task<bool> AtualizarFotoAsync(PerfilUploadDTO dto)
+        public async Task<bool> AtualizarFotoAsync(UploadImagemDTO dto, int usuarioId)
         {
-            var usuario = await _repository.ConsultarPorIdAsync(dto.UsuarioId);
+            var usuario = await _repository.ConsultarPorIdAsync(usuarioId);
             if (usuario == null)
                 return false;
 
@@ -99,12 +100,12 @@ namespace Backend.Application.Services
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            string fileName = dto.FotoPerfil.FileName;
+            string fileName = dto.Imagem.FileName;
             string filePath = Path.Combine(folder, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await dto.FotoPerfil.CopyToAsync(stream);
+                await dto.Imagem.CopyToAsync(stream);
             }
 
             usuario.FotoPerfilUrl = $"uploads/fotos-perfil/{fileName}";

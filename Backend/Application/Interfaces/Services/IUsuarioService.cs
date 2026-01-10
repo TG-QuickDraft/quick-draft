@@ -1,4 +1,6 @@
 using Backend.Application.DTOs;
+using Backend.Application.DTOs.Upload;
+using Backend.Application.DTOs.Usuario;
 using Backend.Domain.Enums;
 
 namespace Backend.Application.Interfaces.Services
@@ -14,6 +16,6 @@ namespace Backend.Application.Interfaces.Services
 
         public Task<bool> DeletarAsync(int id);
 
-        public Task<bool> AtualizarFotoAsync(PerfilUploadDTO dto);
+        public Task<bool> AtualizarFotoAsync(UploadImagemDTO dto, int usuarioId);
     }
 }
