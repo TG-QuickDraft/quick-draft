@@ -46,6 +46,7 @@ namespace Backend.API.Controllers
             return CreatedAtAction(nameof(ConsultarPorId), new { id = novoServico.Id }, novoServico);
         }
 
+        // TODO: Endpoint não funciona
         [HttpPut]
         [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Atualizar([FromBody] ServicoDTO servico)

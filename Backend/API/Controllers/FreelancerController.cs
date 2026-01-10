@@ -28,6 +28,7 @@ namespace Backend.API.Controllers
             return Ok(freelancer);
         }
 
+        // TODO: Endpoint não funciona
         [HttpPut]
         [Authorize(Roles = Roles.Freelancer)]
         public async Task<IActionResult> Atualizar([FromBody] FreelancerDTO freelancer)

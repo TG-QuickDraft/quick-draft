@@ -56,6 +56,7 @@ namespace Backend.Application.Services
             return _mapper.Map<ClienteDTO>(clienteDTO);
         }
 
+        // TODO: Método do serviço não funciona
         public async Task<bool> AtualizarAsync(ClienteDTO cliente)
         {
             Cliente clienteEntidade = _mapper.Map<Cliente>(cliente);

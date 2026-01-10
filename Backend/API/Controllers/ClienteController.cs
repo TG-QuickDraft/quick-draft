@@ -29,6 +29,7 @@ namespace Backend.API.Controllers
         }
         
         // TODO: DTO para atualizar cliente
+        // TODO: Endpoint não funciona
         [HttpPut]
         [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Atualizar([FromBody] ClienteDTO cliente)
