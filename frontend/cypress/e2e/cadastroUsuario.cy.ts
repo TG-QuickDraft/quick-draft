@@ -24,7 +24,15 @@ describe('Cadastro de Usuário', () => {
     cy.get(`input[type="radio"][value="${usuario.tipoUsuario}"]`).check();
     cy.get('input[name="foto"]').attachFile('fotoPerfil.png');
 
-    cy.get('button').contains('Salvar').click();
+    cy.intercept('POST', '**/usuario').as('criarUsuario');
+    cy.intercept('POST', '**/login').as('login');
+    cy.intercept('POST', '**/upload*').as('upload');
+
+    cy.contains('Salvar').click();
+
+    cy.wait('@criarUsuario');
+    cy.wait('@login');
+    cy.wait('@upload');
   })
 
   it('deve cadastrar um novo freelancer', () => {
@@ -47,6 +55,14 @@ describe('Cadastro de Usuário', () => {
     cy.get(`input[type="radio"][value="${usuario.tipoUsuario}"]`).check();
     cy.get('input[name="foto"]').attachFile('fotoPerfil.png');
 
-    cy.get('button').contains('Salvar').click();
+    cy.intercept('POST', '**/usuario').as('criarUsuario');
+    cy.intercept('POST', '**/login').as('login');
+    cy.intercept('POST', '**/upload*').as('upload');
+
+    cy.contains('Salvar').click();
+
+    cy.wait('@criarUsuario');
+    cy.wait('@login');
+    cy.wait('@upload');
   })
 })
