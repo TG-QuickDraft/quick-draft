@@ -1,12 +1,12 @@
 import type { ProjetoFreelancer } from "@/domain/models/ProjetoFreelancer";
-import type { CriarProjetoFreelancerDTO } from "@/dtos/CriarProjetoFreelancerDTO";
+import type { CriarProjetoFreelancerDTO } from "@/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 import { localStorageKeys } from "@/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/projetoFreelancer`;
 
 export const consultarProjetosFreelancerPorIdFreelancer =
     async (freelancerId: number): Promise<ProjetoFreelancer[]> => {
-        const resposta = await fetch(`${PATH}/${freelancerId}`);
+        const resposta = await fetch(`${PATH}/freelancer/${freelancerId}`);
 
         if (resposta.status !== 200) {
             throw new Error("Erro ao consultar projetos do Freelancer.");
@@ -27,7 +27,7 @@ export const adicionarProjetoFreelancer = async (projeto: CriarProjetoFreelancer
 
   const resposta = await fetch(PATH, option);
 
-  if (resposta.status !== 200) {
+  if (resposta.status !== 201) {
     throw new Error("Erro ao adicionar serviço.");
   }
 
