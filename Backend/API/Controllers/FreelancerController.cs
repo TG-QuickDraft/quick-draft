@@ -1,5 +1,7 @@
-using Backend.Application.DTOs;
+using Backend.API.Authorization;
+using Backend.Application.DTOs.Freelancer;
 using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -27,6 +29,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = Roles.Freelancer)]
         public async Task<IActionResult> Atualizar([FromBody] FreelancerDTO freelancer)
         {
             bool isAtualizado = await _service.AtualizarAsync(freelancer);

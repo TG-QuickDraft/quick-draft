@@ -1,4 +1,4 @@
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Login;
 using Backend.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +15,7 @@ namespace Backend.API.Controllers
         {
             try
             {
-                var token = await _service.LoginAsync(
-                    dto.Email,
-                    dto.Senha
-                );
+                var token = await _service.LoginAsync(dto);
 
                 return Ok(new { token });
             }

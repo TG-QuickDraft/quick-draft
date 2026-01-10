@@ -1,5 +1,7 @@
-using Backend.Application.DTOs;
+using Backend.API.Authorization;
+using Backend.Application.DTOs.Cliente;
 using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -28,6 +30,7 @@ namespace Backend.API.Controllers
         
         // TODO: DTO para atualizar cliente
         [HttpPut]
+        [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Atualizar([FromBody] ClienteDTO cliente)
         {
             bool isAtualizado = await _service.AtualizarAsync(cliente);
