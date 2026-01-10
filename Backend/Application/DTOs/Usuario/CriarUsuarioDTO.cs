@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Backend.Domain.Enums;
 
-namespace Backend.Application.DTOs
+namespace Backend.Application.DTOs.Usuario
 {
     public class CriarUsuarioDTO
     {

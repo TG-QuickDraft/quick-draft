@@ -1,8 +1,7 @@
-namespace Backend.Application.DTOs
+namespace Backend.Application.DTOs.Cliente
 {
-    public class ClienteDTO
+    public class AtualizarClienteDTO
     {
-        public int Id { get; set; }
         public required string Nome { get; set; }
         public string? FotoPerfilUrl { get; set; }
     }
