@@ -9,8 +9,11 @@ import Title from "@/components/common/Title";
 import { criarUsuarioSchema } from "@/validations/usuario.schema";
 import Modal from "@/components/common/Modal";
 import Input from "@/components/common/Inputs/Input";
-import type { CriarUsuarioDTO } from "@/dtos/CriarUsuarioDTO";
+import type { CriarUsuarioDTO } from "@/dtos/usuario/CriarUsuarioDTO";
 import { TIPOS_USUARIO, type TipoUsuario } from "@/domain/enums/tiposUsuario";
+import type { UploadImagemDTO } from "@/dtos/upload/UploadImagemDTO";
+import type { LoginRequest } from "@/domain/models/Login";
+import { useAuth } from "@/hooks/useAuth";
 
 export const CadastrarUsuario = () => {
   const [nome, setNome] = useState("");
@@ -21,7 +24,9 @@ export const CadastrarUsuario = () => {
   const [confirmarSenha, setConfirmarSenha] = useState("");
 
   const [tipoUsuarioSelecionado, setTipoUsuarioSelecionado] =
-    useState<TipoUsuario>(TIPOS_USUARIO[0] as TipoUsuario);
+    useState<TipoUsuario | null>(null);
+
+  const { login } = useAuth();
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -39,6 +44,28 @@ export const CadastrarUsuario = () => {
 
     try {
       await criarUsuarioSchema().validate(usuario);
+
+      await adicionarUsuario(usuario);
+
+      const loginRequest: LoginRequest = {
+        email: email,
+        senha: senha
+      };
+
+      await login(loginRequest);
+
+      if (foto) {
+        const upload: UploadImagemDTO = {
+          imagem: foto
+        };
+
+        await enviarFoto(upload);
+      }
+
+      setModalStatus("Sucesso");
+      setModalMsg("Usuário cadastrado com sucesso!");
+      setShowModal(true);
+
     } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");
@@ -48,21 +75,6 @@ export const CadastrarUsuario = () => {
 
       return;
     }
-
-    let usuarioAdicionado = await adicionarUsuario(usuario);
-
-    if (foto) {
-      const form = new FormData();
-
-      form.append("usuarioId", String(usuarioAdicionado.id));
-      form.append("fotoPerfil", foto);
-
-      await enviarFoto(form);
-    }
-
-    setModalStatus("Sucesso");
-    setModalMsg("Usuário cadastrado com sucesso!");
-    setShowModal(true);
   };
 
   return (

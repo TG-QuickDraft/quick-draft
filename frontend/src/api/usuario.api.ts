@@ -1,7 +1,8 @@
-import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
+import type { CriarUsuarioDTO } from "../dtos/usuario/CriarUsuarioDTO";
 import type { Usuario } from "../domain/models/Usuario";
 import type { UserLogin } from "@/domain/models/Login";
 import { localStorageKeys } from "@/utils/localStorageKeys";
+import type { UploadImagemDTO } from "@/dtos/upload/UploadImagemDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/usuario`;
 
@@ -39,10 +40,16 @@ export const consultarUsuario = async (): Promise<Usuario> => {
   return resposta.json();
 }
 
-export const enviarFoto = async (formData: FormData) => {
+export const enviarFoto = async (upload: UploadImagemDTO) => {
+  const form = new FormData();
+  form.append("imagem", upload.imagem);
+
   return await fetch(`${PATH}/upload-foto`, {
     method: "POST",
-    body: formData,
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
+    },
+    body: form,
   });
 };
 

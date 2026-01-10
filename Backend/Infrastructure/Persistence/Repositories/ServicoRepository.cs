@@ -1,7 +1,7 @@
 using Backend.Domain.Entities;
 using Backend.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Servico;
 
 namespace Backend.Infrastructure.Persistence.Repositories
 {

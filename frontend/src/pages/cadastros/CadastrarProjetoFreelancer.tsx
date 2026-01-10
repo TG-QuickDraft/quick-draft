@@ -6,7 +6,7 @@ import { LuSave } from "react-icons/lu";
 import Title from "@/components/common/Title";
 
 import Modal from "@/components/common/Modal";
-import type { CriarProjetoFreelancerDTO } from "@/dtos/CriarProjetoFreelancerDTO";
+import type { CriarProjetoFreelancerDTO } from "@/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 import { adicionarProjetoFreelancer, enviarImagemProjeto } from "@/api/projetoFreelancer.api";
 import Input from "@/components/common/Inputs/Input";
 
@@ -38,20 +38,20 @@ export const CadastrarProjetoFreelancer = () => {
         await enviarImagemProjeto(form, projetoAdicionado.id);
       }
 
+      setModalStatus("Sucesso");
+      setModalMsg("Projeto cadastrado com sucesso!");
+      setShowModal(true);
+
     } catch (error){
 
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
         setShowModal(true);
-
-        return;
       }
     }
 
-    setModalStatus("Sucesso");
-    setModalMsg("Projeto cadastrado com sucesso!");
-    setShowModal(true);
+    
   };
 
   return (
@@ -59,20 +59,17 @@ export const CadastrarProjetoFreelancer = () => {
       <Title>Cadastrar Projeto</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <input
-          className="border border-gray-600 w-full p-3 focus:outline-none rounded"
+        <Input
           placeholder="Nome"
           onChange={(e) => setNome(e.target.value)}
         />
 
-        <input
-          className="border border-gray-600 w-full p-3 focus:outline-none rounded"
+        <Input
           placeholder="Descrição"
           onChange={(e) => setDescricao(e.target.value)}
         />
         
-        <input
-          className="border border-gray-600 w-full p-3 focus:outline-none rounded"
+        <Input
           placeholder="Link"
           onChange={(e) => setLink(e.target.value)}
         />

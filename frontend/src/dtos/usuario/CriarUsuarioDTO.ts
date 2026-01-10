@@ -1,4 +1,4 @@
-import type { TipoUsuario } from "../domain/enums/tiposUsuario";
+import type { TipoUsuario } from "../../domain/enums/tiposUsuario";
 
 export type CriarUsuarioDTO = {
   nome: string;

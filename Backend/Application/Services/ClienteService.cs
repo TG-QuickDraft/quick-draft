@@ -1,5 +1,5 @@
 using AutoMapper;
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Cliente;
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
@@ -56,6 +56,7 @@ namespace Backend.Application.Services
             return _mapper.Map<ClienteDTO>(clienteDTO);
         }
 
+        // TODO: Método do serviço não funciona
         public async Task<bool> AtualizarAsync(ClienteDTO cliente)
         {
             Cliente clienteEntidade = _mapper.Map<Cliente>(cliente);

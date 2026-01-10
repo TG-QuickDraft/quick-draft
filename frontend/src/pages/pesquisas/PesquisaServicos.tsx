@@ -10,7 +10,7 @@ import { consultarServicos } from "@/api/servico.api";
 import type { Servico } from "@/domain/models/Servico";
 import Input from "@/components/common/Inputs/Input";
 import { GoSearch } from "react-icons/go";
-import type { FiltroServicoDTO } from "@/dtos/FiltroServicoDTO";
+import type { FiltroServicoDTO } from "@/dtos/servico/FiltroServicoDTO";
 
 export function PesquisaServico() {
   const [filtroNome, setFiltroNome] = useState("");

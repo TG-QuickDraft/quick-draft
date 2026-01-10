@@ -1,3 +1,4 @@
+using Backend.Application.DTOs.Login;
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
@@ -14,15 +15,15 @@ namespace Backend.Application.Services
         private readonly IUsuarioRepository _repo = repo;
         private readonly ITokenService _tokenService = tokenService;
 
-        public async Task<string> LoginAsync(string email, string senha)
+        public async Task<string> LoginAsync(LoginDTO dto)
         {
-            var usuario = await _repo.ConsultarPorEmailAsync(email);
+            var usuario = await _repo.ConsultarPorEmailAsync(dto.Email);
 
             if (usuario is null)
                 throw new UnauthorizedAccessException();
 
             var senhaValida = PasswordHasherUtil
-                .Verify(usuario.HashSenha, senha);
+                .Verify(usuario.HashSenha, dto.Senha);
                 
             if (!senhaValida)
                 throw new UnauthorizedAccessException();

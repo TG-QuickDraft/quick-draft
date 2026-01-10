@@ -1,6 +1,6 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Backend.Application.DTOs;
+using Backend.API.Authorization;
+using Backend.API.Extensions;
+using Backend.Application.DTOs.Servico;
 using Backend.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,23 +36,19 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Cliente")]
+        [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Adicionar([FromBody] CriarServicoDTO servico)
         {
-            var sub = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
-
-            if (!int.TryParse(sub, out var usuarioId) || usuarioId <= 0)
-            {
-                return Unauthorized("Usuário inválido.");
-            }
+            int usuarioId = User.GetUserId();
 
             ServicoDTO novoServico = await _service.CriarAsync(servico, usuarioId);
 
             return CreatedAtAction(nameof(ConsultarPorId), new { id = novoServico.Id }, novoServico);
         }
 
+        // TODO: Endpoint não funciona
         [HttpPut]
-        [Authorize(Roles = "Cliente")]
+        [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Atualizar([FromBody] ServicoDTO servico)
         {
             bool isAtualizado = await _service.AtualizarAsync(servico);
