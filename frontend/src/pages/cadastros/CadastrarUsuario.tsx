@@ -44,6 +44,28 @@ export const CadastrarUsuario = () => {
 
     try {
       await criarUsuarioSchema().validate(usuario);
+
+      await adicionarUsuario(usuario);
+
+      const loginRequest: LoginRequest = {
+        email: email,
+        senha: senha
+      };
+
+      await login(loginRequest);
+
+      if (foto) {
+        const upload: UploadImagemDTO = {
+          imagem: foto
+        };
+
+        await enviarFoto(upload);
+      }
+
+      setModalStatus("Sucesso");
+      setModalMsg("Usuário cadastrado com sucesso!");
+      setShowModal(true);
+
     } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");
@@ -53,27 +75,6 @@ export const CadastrarUsuario = () => {
 
       return;
     }
-
-    await adicionarUsuario(usuario);
-
-    const loginRequest: LoginRequest = {
-      email: email,
-      senha: senha
-    };
-
-    await login(loginRequest);
-
-    if (foto) {
-      const upload: UploadImagemDTO = {
-        imagem: foto
-      };
-
-      await enviarFoto(upload);
-    }
-
-    setModalStatus("Sucesso");
-    setModalMsg("Usuário cadastrado com sucesso!");
-    setShowModal(true);
   };
 
   return (

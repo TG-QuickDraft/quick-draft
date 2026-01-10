@@ -26,6 +26,10 @@ export const CadastrarServico = () => {
 
     try {
       await adicionarServico(servico);
+
+      setModalStatus("Sucesso");
+      setModalMsg("Serviço cadastrado com sucesso!");
+      setShowModal(true);
     } catch (error){
       if (error instanceof Error) {
         setModalStatus("Erro");
@@ -33,10 +37,6 @@ export const CadastrarServico = () => {
         setShowModal(true);
       }
     }
-
-    setModalStatus("Sucesso");
-    setModalMsg("Serviço cadastrado com sucesso!");
-    setShowModal(true);
   };
 
   return (

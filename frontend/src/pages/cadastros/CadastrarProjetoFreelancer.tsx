@@ -38,20 +38,20 @@ export const CadastrarProjetoFreelancer = () => {
         await enviarImagemProjeto(form, projetoAdicionado.id);
       }
 
+      setModalStatus("Sucesso");
+      setModalMsg("Projeto cadastrado com sucesso!");
+      setShowModal(true);
+
     } catch (error){
 
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
         setShowModal(true);
-
-        return;
       }
     }
 
-    setModalStatus("Sucesso");
-    setModalMsg("Projeto cadastrado com sucesso!");
-    setShowModal(true);
+    
   };
 
   return (
