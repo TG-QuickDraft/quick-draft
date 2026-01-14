@@ -1,9 +1,9 @@
 import type { CriarUsuarioDTO } from "../dtos/usuario/CriarUsuarioDTO";
 import type { Usuario } from "../domain/models/Usuario";
-import type { UserLogin } from "@/domain/models/Login";
 import { localStorageKeys } from "@/utils/localStorageKeys";
 import type { UploadImagemDTO } from "@/dtos/upload/UploadImagemDTO";
 import type { AtualizarSenhaDTO } from "@/dtos/usuario/AtualizarSenhaDTO";
+import type { MeResponseDTO } from "@/dtos/login/MeResponseDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/usuario`;
 
@@ -73,7 +73,7 @@ export const atualizarSenha = async(atualizarSenha: AtualizarSenhaDTO) => {
   return resposta.json();
 }
 
-export const meApi = async (token: string): Promise<UserLogin> => {
+export const meApi = async (token: string): Promise<MeResponseDTO> => {
   const response = await fetch(`${PATH}/me`, {
     method: "GET",
     headers: {

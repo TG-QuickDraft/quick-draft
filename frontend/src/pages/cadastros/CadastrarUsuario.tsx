@@ -12,8 +12,8 @@ import Input from "@/components/common/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/dtos/usuario/CriarUsuarioDTO";
 import { TIPOS_USUARIO, type TipoUsuario } from "@/domain/enums/tiposUsuario";
 import type { UploadImagemDTO } from "@/dtos/upload/UploadImagemDTO";
-import type { LoginRequest } from "@/domain/models/Login";
 import { useAuth } from "@/hooks/useAuth";
+import type { LoginDTO } from "@/dtos/login/LoginDTO";
 
 export const CadastrarUsuario = () => {
   const [nome, setNome] = useState("");
@@ -47,7 +47,7 @@ export const CadastrarUsuario = () => {
 
       await adicionarUsuario(usuario);
 
-      const loginRequest: LoginRequest = {
+      const loginRequest: LoginDTO = {
         email: email,
         senha: senha
       };

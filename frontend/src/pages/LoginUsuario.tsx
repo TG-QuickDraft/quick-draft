@@ -11,8 +11,8 @@ import { LoginSchema, type ILoginForm } from "@/validations/login.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 
-import type { LoginRequest } from "@/domain/models/Login";
 import { useAuth } from "@/hooks/useAuth";
+import type { LoginDTO } from "@/dtos/login/LoginDTO";
 
 export const LoginUsuario = () => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export const LoginUsuario = () => {
   const enviar = async () => {
     try {
       const { email, senha } = getValues();
-      const loginRequest: LoginRequest = { email, senha };
+      const loginRequest: LoginDTO = { email, senha };
 
       await login(loginRequest);
 

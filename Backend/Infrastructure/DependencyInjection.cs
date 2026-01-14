@@ -1,8 +1,8 @@
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
-using Backend.Domain.Entities;
 using Backend.Infrastructure.Persistence.Repositories;
 using Backend.Infrastructure.Security;
+using Backend.Infrastructure.Upload;
 using Backend.Infrastructure.Url;
 
 namespace Backend.Infrastructure
@@ -17,9 +17,9 @@ namespace Backend.Infrastructure
             services.AddScoped<IServicoRepository, ServicoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-            services.AddScoped<IUrlBuilder, UrlBuilder>();
-            
             services.AddScoped<ITokenService, JwtService>();
+            services.AddScoped<IUploadService, LocalUploadService>();
+            services.AddScoped<IUrlBuilder, UrlBuilder>();
 
             return services;
         }
