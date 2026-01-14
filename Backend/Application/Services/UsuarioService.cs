@@ -86,6 +86,20 @@ namespace Backend.Application.Services
             return await _repository.AtualizarAsync(_mapper.Map<Usuario>(usuario));
         }
 
+        public async Task<bool> AtualizarSenha(AtualizarSenhaDTO dto, int usuarioId)
+        {
+            Usuario? usuarioBanco = await _repository.ConsultarPorIdAsync(usuarioId);
+
+            if (usuarioBanco == null)
+            {
+                return false;
+            }
+
+            usuarioBanco.HashSenha = PasswordHasherUtil.Hash(dto.NovaSenha);
+            
+            return await _repository.AtualizarAsync(usuarioBanco);
+        }
+
         public async Task<bool> DeletarAsync(int id)
         {
             return await _repository.DeletarAsync(id);

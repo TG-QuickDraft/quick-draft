@@ -3,6 +3,7 @@ import type { Usuario } from "../domain/models/Usuario";
 import type { UserLogin } from "@/domain/models/Login";
 import { localStorageKeys } from "@/utils/localStorageKeys";
 import type { UploadImagemDTO } from "@/dtos/upload/UploadImagemDTO";
+import type { AtualizarSenhaDTO } from "@/dtos/usuario/AtualizarSenhaDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/usuario`;
 
@@ -52,6 +53,25 @@ export const enviarFoto = async (upload: UploadImagemDTO) => {
     body: form,
   });
 };
+
+export const atualizarSenha = async(atualizarSenha: AtualizarSenhaDTO) => {
+  const option = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
+    },
+    body: JSON.stringify(atualizarSenha),
+  };
+
+  const resposta = await fetch(`${PATH}/atualizar-senha`, option);
+  
+  if (resposta.status !== 200) {
+    throw new Error("Erro ao atualizar senha: ", );
+  }
+  
+  return resposta.json();
+}
 
 export const meApi = async (token: string): Promise<UserLogin> => {
   const response = await fetch(`${PATH}/me`, {

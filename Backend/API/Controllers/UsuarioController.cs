@@ -51,6 +51,19 @@ namespace Backend.API.Controllers
                 Ok(new { mensagem = "Upload concluído!" });
         }
 
+        [HttpPut("atualizar-senha")]
+        [Authorize]
+        public async Task<IActionResult> AtualizarSenha(AtualizarSenhaDTO dto)
+        {
+            int usuarioId = User.GetUserId();
+
+            bool resultado = await _service.AtualizarSenha(dto, usuarioId);
+
+            return
+                resultado == false ? NotFound("Usuário não encontrado.") :
+                Ok(new { mensagem = "Senha atualizada com sucesso!" });
+        }
+
 
         [HttpDelete("{id}")]
         [Authorize]
