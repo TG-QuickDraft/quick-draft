@@ -12,11 +12,14 @@ namespace Backend.Application.Services
         IProjetoFreelancerRepository repository,
         IMapper mapper,
 
+        IUploadService uploadService,
         IUrlBuilder urlBuilder
     ) : IProjetoFreelancerService
     {
         private readonly IProjetoFreelancerRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
+
+        private readonly IUploadService _uploadService = uploadService;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
         public async Task <ProjetoFreelancerDTO?> ConsultarPorIdAsync(int id)
@@ -70,25 +73,13 @@ namespace Backend.Application.Services
             if (projeto == null)
                 return false;
 
-            string folder = Path.Combine(
-                "wwwroot",
+            string path = Path.Combine(
                 "uploads",
                 "imagens-projeto-freelancer",
                 freelancerId.ToString()
             );
 
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-
-            string fileName = dto.Imagem.FileName;
-            string filePath = Path.Combine(folder, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await dto.Imagem.CopyToAsync(stream);
-            }
-
-            projeto.ImagemUrl = $"uploads/imagens-projeto-freelancer/{freelancerId}/{fileName}";
+            projeto.ImagemUrl = await _uploadService.UploadImagem(dto.Imagem, path);
             
             return await _repository.AtualizarAsync(projeto);
         }

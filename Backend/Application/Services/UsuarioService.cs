@@ -17,6 +17,7 @@ namespace Backend.Application.Services
         IClienteService clienteService,
         IFreelancerService freelancerService,
 
+        IUploadService uploadService,
         IUrlBuilder urlBuilder
     ) : IUsuarioService
     {
@@ -25,6 +26,7 @@ namespace Backend.Application.Services
         private readonly IClienteService _clienteService = clienteService;
         private readonly IFreelancerService _freelancerService = freelancerService;
 
+        private readonly IUploadService _uploadService = uploadService;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
         public async Task<UsuarioDTO?> ConsultarPorIdAsync(int id)
@@ -111,19 +113,13 @@ namespace Backend.Application.Services
             if (usuario == null)
                 return false;
 
-            string folder = Path.Combine("wwwroot/uploads/fotos-perfil");
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            string path = Path.Combine(
+              "uploads",
+              "fotos-perfil",
+              usuarioId.ToString()  
+            );
 
-            string fileName = dto.Imagem.FileName;
-            string filePath = Path.Combine(folder, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await dto.Imagem.CopyToAsync(stream);
-            }
-
-            usuario.FotoPerfilUrl = $"uploads/fotos-perfil/{fileName}";
+            usuario.FotoPerfilUrl = await _uploadService.UploadImagem(dto.Imagem, "uploads/fotos-perfil");
             
             return await _repository.AtualizarAsync(usuario);
         }
