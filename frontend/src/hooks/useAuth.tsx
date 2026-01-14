@@ -1,9 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { localStorageKeys } from "@/utils/localStorageKeys";
-import type { IUserProvider, LoginRequest } from "@/domain/models/Login";
 import { loginApi } from "@/api/auth.api";
 import { getRolesFromToken } from "@/utils/getRolesFromToken";
+import type { LoginDTO } from "@/dtos/login/LoginDTO";
+
+interface IUserProvider {
+  isAuthenticated: boolean;
+  login: (loginDTO: LoginDTO) => Promise<void>;
+  logout: () => void;
+  roles: string[];
+}
 
 export const AuthContext = createContext({} as IUserProvider);
 
@@ -37,8 +44,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(false);
   }, [isAuthenticated]);
 
-  const login = async (loginRequest: LoginRequest) => {
-    const { token } = await loginApi(loginRequest);
+  const login = async (login: LoginDTO) => {
+    const { token } = await loginApi(login);
 
     localStorage.setItem(localStorageKeys.accessToken, token);
 
