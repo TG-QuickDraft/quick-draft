@@ -1,6 +1,7 @@
 using Backend.Domain.Entities;
 using Backend.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Backend.Application.DTOs.Servico;
 
 namespace Backend.Infrastructure.Persistence.Repositories
 {
@@ -13,9 +14,11 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return await _context.Servicos.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Servico>> ConsultarTodosAsync()
+        public async Task<IEnumerable<Servico>> ConsultarTodosAsync(FiltroServicoDTO filtro)
         {
-            return await _context.Servicos.ToListAsync();
+            return await _context.Servicos
+                .Where(s => EF.Functions.ILike(s.Nome ?? "", $"%{filtro.Nome}%"))
+                .ToListAsync();
         }
 
         public async Task<Servico> CriarAsync(Servico servico)

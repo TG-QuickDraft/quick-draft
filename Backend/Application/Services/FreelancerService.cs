@@ -1,10 +1,9 @@
 using AutoMapper;
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Freelancer;
+using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
-using Backend.Config;
 using Backend.Domain.Entities;
-using Microsoft.Extensions.Options;
 
 namespace Backend.Application.Services
 {
@@ -12,24 +11,24 @@ namespace Backend.Application.Services
         IFreelancerRepository repository,
         IUsuarioRepository usuarioRepository,
         IMapper mapper,
-        IOptions<ImageSettings> options
+        IUrlBuilder urlBuilder
     ) : IFreelancerService
     {
         private readonly IFreelancerRepository _repository = repository;
         private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
         private readonly IMapper _mapper = mapper;
-        private readonly ImageSettings _settings = options.Value;
+        private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
-        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync()
+        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync(string? nome)
         {
-            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync();
+            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync(nome);
 
             foreach (var freelancer in list)
             {
                 var usuario = freelancer.Usuario 
                     ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-                usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario?.FotoPerfilUrl}";
+                usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
             }
 
             return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
@@ -45,18 +44,19 @@ namespace Backend.Application.Services
             var usuario = freelancer.Usuario 
                 ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-            usuario.FotoPerfilUrl = $"{_settings.BaseUrl}/{freelancer.Usuario?.FotoPerfilUrl}";
+            usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
 
             return _mapper.Map<FreelancerDTO>(freelancer);
         }
 
-        public async Task<FreelancerDTO> CriarAsync(FreelancerDTO freelancer)
+        public async Task<FreelancerDTO> CriarAsync(int usuarioId)
         {
-            Freelancer freelancerCriado = await _repository.CriarAsync(_mapper.Map<Freelancer>(freelancer));
+            Freelancer freelancerCriado = await _repository.CriarAsync(new Freelancer { Id = usuarioId });
 
             return _mapper.Map<FreelancerDTO>(freelancerCriado);
         }
 
+        // TODO: Método do serviço não funciona
         public async Task<bool> AtualizarAsync(FreelancerDTO freelancer)
         {
             Freelancer freelancerEntidade = _mapper.Map<Freelancer>(freelancer);

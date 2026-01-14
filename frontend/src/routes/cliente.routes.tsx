@@ -1,4 +1,4 @@
-import { PerfilCliente } from "../pages/PerfilCliente";
+import { PerfilCliente } from "@/pages/perfis/PerfilCliente";
 
 export const clienteRoutes = [
   { path: "/perfilCliente/:id", element: <PerfilCliente /> },

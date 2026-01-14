@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -12,10 +13,31 @@ namespace Backend.Domain.Entities
         public int Id { get; set; }
         
         [Column("usu_nome")]
-        public required string Nome { get; set; } = "";
-        
+        [Required]
+        public string Nome { get; set; } = "";
+
+        [Column("usu_cpf")]
+        [Required]
+        public string Cpf { get; set; } = "";
+
+        [Column("usu_email")]
+        [Required]
+        public string Email { get; set; } = "";
+
         [Column("usu_foto_perfil_url")]
         public string? FotoPerfilUrl { get; set; }
+
+        [Column("usu_hash_senha")]
+        [Required]
+        public string HashSenha { get; set; } = "";
+
+        [Column("usu_is_admin")]
+        [Required]
+        [DefaultValue(false)]
+        public bool IsAdmin { get; set; }
+
+        // TODO: Colocar tipoUsuário diretamente na entidade (vai ficar mais simples se for assim)
+        // Ex.: public TipoUsuario? tipoUsuario { get; set; }
 
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }

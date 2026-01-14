@@ -1,5 +1,8 @@
-using Backend.Application.DTOs;
+using Backend.API.Authorization;
+using Backend.API.Extensions;
+using Backend.Application.DTOs.Servico;
 using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -12,29 +15,40 @@ namespace Backend.API.Controllers
         private readonly IServicoService _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> Consultar()
+        public async Task<IActionResult> Consultar([FromQuery] string? nome)
         {
-            IEnumerable<ServicoDTO> servicos = await _service.ConsultarTodosAsync();
+            FiltroServicoDTO filtro = new()
+            {
+                Nome = nome
+            };
 
-            return Ok(servicos); ;
+            return Ok(
+                await _service.ConsultarTodosAsync(filtro)
+            );
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ConsultarPorId(int id)
         {
-            var servico = await _service.ConsultarPorIdAsync(id);
-            return Ok(servico);
+            return Ok(
+                await _service.ConsultarPorIdAsync(id)
+            );
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] ServicoDTO servico)
+        [Authorize(Roles = Roles.Cliente)]
+        public async Task<IActionResult> Adicionar([FromBody] CriarServicoDTO servico)
         {
-            ServicoDTO novoServico = await _service.CriarAsync(servico);
+            int usuarioId = User.GetUserId();
+
+            ServicoDTO novoServico = await _service.CriarAsync(servico, usuarioId);
 
             return CreatedAtAction(nameof(ConsultarPorId), new { id = novoServico.Id }, novoServico);
         }
 
+        // TODO: Endpoint não funciona
         [HttpPut]
+        [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Atualizar([FromBody] ServicoDTO servico)
         {
             bool isAtualizado = await _service.AtualizarAsync(servico);

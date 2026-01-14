@@ -12,12 +12,15 @@ namespace Backend.Domain.Entities
         public int Id { get; set; }
 
         [Column("ser_nome")]
-        public required string Nome { get; set; }
+        [Required]
+        public string? Nome { get; set; }
 
         [Column("ser_descricao")]
-        public required string Descricao { get; set; }
+        [Required]
+        public string? Descricao { get; set; }
 
         [Column("ser_cli_id")]
+        [Required]
         public int ClienteId { get; set; }
 
         [ForeignKey(nameof(ClienteId))]

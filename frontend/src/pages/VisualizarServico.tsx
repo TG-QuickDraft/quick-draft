@@ -1,13 +1,13 @@
 import { Link, useParams } from "react-router-dom";
-import { consultarServicoPorId } from "../api/servicoApi";
+import { consultarServicoPorId } from "../api/servico.api";
 
 import { useEffect, useState } from "react";
 
-import Title from "../components/Title";
+import Title from "@/components/common/Title";
 
-import Button from "../components/Button";
+import Button from "@/components/common/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import type { Servico } from "../models/Servico";
+import type { Servico } from "../domain/models/Servico";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -38,11 +38,7 @@ export const VisualizarServico = () => {
         <h4>{servico?.descricao}</h4>
 
         <Link to={`/perfilCliente/${servico?.clienteId}`}>
-          <Button
-            className="mt-6"
-          >
-            Ver Perfil do Cliente
-          </Button>
+          <Button className="mt-6">Ver Perfil do Cliente</Button>
         </Link>
 
         <Link to={"/pesquisaServico"}>

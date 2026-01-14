@@ -1,5 +1,5 @@
 using AutoMapper;
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Servico;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
 using Backend.Domain.Entities;
@@ -14,18 +14,25 @@ namespace Backend.Application.Services
         private readonly IServicoRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<ServicoDTO> CriarAsync(ServicoDTO criarServico)
+        public async Task<ServicoDTO> CriarAsync(CriarServicoDTO criarServico, int usuarioId)
         {
+            Servico servico = new()
+            {
+                Nome = criarServico.Nome,
+                Descricao = criarServico.Descricao,
+                ClienteId = usuarioId
+            };
+
             Servico servicoCriado = await _repository.CriarAsync(
-                _mapper.Map<Servico>(criarServico)
+                servico
             );
 
             return _mapper.Map<ServicoDTO>(servicoCriado);
         }
 
-        public async Task<IEnumerable<ServicoDTO>> ConsultarTodosAsync()
+        public async Task<IEnumerable<ServicoDTO>> ConsultarTodosAsync(FiltroServicoDTO filtro)
         {
-            IEnumerable<Servico> list = await _repository.ConsultarTodosAsync();
+            IEnumerable<Servico> list = await _repository.ConsultarTodosAsync(filtro);
 
             return _mapper.Map<IEnumerable<ServicoDTO>>(list);
         }
@@ -40,6 +47,7 @@ namespace Backend.Application.Services
             return _mapper.Map<ServicoDTO>(servico);
         }
 
+        // TODO: Método do serviço não funciona
         public async Task<bool> AtualizarAsync(ServicoDTO servico)
         {
             Servico servicoEntidade = _mapper.Map<Servico>(servico);

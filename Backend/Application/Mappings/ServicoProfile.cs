@@ -1,5 +1,5 @@
 using AutoMapper;
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Servico;
 using Backend.Domain.Entities;
 
 namespace Backend.Application.Mappings

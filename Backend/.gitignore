@@ -26,3 +26,6 @@ ClientApp/build/
 # Pasta de uploads
 /wwwroot/uploads/*
 !/wwwroot/uploads/.gitkeep
+
+# Migrações do Entity Framework
+Infrastructure/Persistence/Migrations/

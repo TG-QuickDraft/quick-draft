@@ -1,4 +1,4 @@
-using Backend.Application.DTOs;
+using Backend.Application.DTOs.Cliente;
 
 namespace Backend.Application.Interfaces.Services
 {
@@ -8,7 +8,7 @@ namespace Backend.Application.Interfaces.Services
 
         public Task<ClienteDTO?> ConsultarPorIdAsync(int id);
         
-        public Task<ClienteDTO> CriarAsync(ClienteDTO cliente);
+        public Task<ClienteDTO> CriarAsync(int usuarioId);
 
         public Task<bool> AtualizarAsync(ClienteDTO cliente);
     }

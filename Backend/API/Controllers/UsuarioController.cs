@@ -1,6 +1,12 @@
 
-using Backend.Application.DTOs;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Backend.API.Extensions;
+using Backend.Application.DTOs.Login;
+using Backend.Application.DTOs.Upload;
+using Backend.Application.DTOs.Usuario;
 using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -11,15 +17,18 @@ namespace Backend.API.Controllers
     {
         readonly IUsuarioService _service = service;
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ConsultarPorId(int id)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ConsultarPorId()
         {
-            var usuario = await _service.ConsultarPorIdAsync(id);
+            int usuarioId = User.GetUserId();
+
+            var usuario = await _service.ConsultarPorIdAsync(usuarioId);
             return Ok(usuario);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] UsuarioDTO usuario)
+        public async Task<IActionResult> Adicionar([FromBody] CriarUsuarioDTO usuario)
         {
             UsuarioDTO novoUsuario = await _service.CriarAsync(usuario);
 
@@ -27,30 +36,63 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost("upload-foto")]
-        public async Task<IActionResult> UploadFoto([FromForm] PerfilUploadDTO dto)
+        [Authorize]
+        public async Task<IActionResult> UploadFoto([FromForm] UploadImagemDTO dto)
         {
-            if (dto.FotoPerfil == null || dto.FotoPerfil.Length == 0)
+            if (dto.Imagem == null || dto.Imagem.Length == 0)
                 return BadRequest("Nenhuma imagem enviada.");
 
-            bool resultado = await _service.AtualizarFotoAsync(dto);
+            var usuarioId = User.GetUserId();
+
+            bool resultado = await _service.AtualizarFotoAsync(dto, usuarioId);
 
             return
                 resultado == false ? NotFound("Usuário não encontrado.") :
                 Ok(new { mensagem = "Upload concluído!" });
         }
 
+        [HttpPut("atualizar-senha")]
+        [Authorize]
+        public async Task<IActionResult> AtualizarSenha(AtualizarSenhaDTO dto)
+        {
+            int usuarioId = User.GetUserId();
+
+            bool resultado = await _service.AtualizarSenha(dto, usuarioId);
+
+            return
+                resultado == false ? NotFound("Usuário não encontrado.") :
+                Ok(new { mensagem = "Senha atualizada com sucesso!" });
+        }
+
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Deletar(int id)
         {
-            bool freelancerDeletado = await _service.DeletarAsync(id);
+            bool usuario = await _service.DeletarAsync(id);
 
-            if (!freelancerDeletado)
+            if (!usuario)
             {
                 return BadRequest("Usuário não deletado.");
             }
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var email = User.FindFirstValue(JwtRegisteredClaimNames.Email);
+            var roles = User.
+                FindAll("roles").
+                Select(r => r.Value).
+                ToList();
+
+            return Ok(new MeResponseDTO { 
+                Email = email!,
+                Roles = roles!
+            });
         }
 
     }
