@@ -10,6 +10,6 @@ namespace Backend.Application.Interfaces.Services
         
         public Task<ServicoDTO> CriarAsync(CriarServicoDTO servico, int usuarioId);
 
-        public Task<bool> AtualizarAsync(ServicoDTO servico);
+        public Task<bool> AtualizarAsync(AtualizarServicoDTO dto, int clienteId);
     }
 }
