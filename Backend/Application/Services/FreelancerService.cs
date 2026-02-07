@@ -56,18 +56,15 @@ namespace Backend.Application.Services
             return _mapper.Map<FreelancerDTO>(freelancerCriado);
         }
 
-        // TODO: Método do serviço não funciona
-        public async Task<bool> AtualizarAsync(FreelancerDTO freelancer)
+        public async Task<bool> AtualizarAsync(AtualizarFreelancerDTO dto, int freelancerId)
         {
-            Freelancer freelancerEntidade = _mapper.Map<Freelancer>(freelancer);
-            Usuario usuario = _mapper.Map<Usuario>(freelancerEntidade.Usuario);
+            Freelancer freelancer = await _repository.ConsultarPorIdAsync(freelancerId)
+                ?? throw new InvalidOperationException("Freelancer não encontrado");
 
-            usuario.Id = freelancerEntidade.Id;
+            freelancer.DescricaoPerfil = dto.DescricaoPerfil;
+            freelancer.Titulo = dto.Titulo;
 
-            return
-                await _repository.AtualizarAsync(freelancerEntidade)
-                &&
-                await _usuarioRepository.AtualizarAsync(usuario);
+            return await _repository.AtualizarAsync(freelancer);
         }
     }
 }

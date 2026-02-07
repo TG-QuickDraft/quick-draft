@@ -10,6 +10,6 @@ namespace Backend.Application.Interfaces.Services
         
         public Task<FreelancerDTO> CriarAsync(int usuarioId);
 
-        public Task<bool> AtualizarAsync(FreelancerDTO freelancer);
+        public Task<bool> AtualizarAsync(AtualizarFreelancerDTO dto, int freelancerId);
     }
 }

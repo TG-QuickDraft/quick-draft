@@ -47,10 +47,18 @@ namespace Backend.Application.Services
             return _mapper.Map<ServicoDTO>(servico);
         }
 
-        // TODO: Método do serviço não funciona
-        public async Task<bool> AtualizarAsync(ServicoDTO servico)
+        public async Task<bool> AtualizarAsync(AtualizarServicoDTO dto, int clienteId)
         {
-            Servico servicoEntidade = _mapper.Map<Servico>(servico);
+            Servico servicoEntidade = await _repository.ConsultarPorIdAsync(dto.Id)
+                ?? throw new InvalidOperationException("Serviço não encontrado");
+
+            if (servicoEntidade.ClienteId != clienteId)
+            {
+                throw new UnauthorizedAccessException("Cliente não autorizado a atualizar este serviço");
+            }
+
+            servicoEntidade.Nome = dto.Nome;
+            servicoEntidade.Descricao = dto.Descricao;
 
             return await _repository.AtualizarAsync(servicoEntidade);
         }

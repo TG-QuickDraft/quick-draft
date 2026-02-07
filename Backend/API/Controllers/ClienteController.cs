@@ -1,7 +1,5 @@
-using Backend.API.Authorization;
 using Backend.Application.DTOs.Cliente;
 using Backend.Application.Interfaces.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
@@ -26,22 +24,6 @@ namespace Backend.API.Controllers
         {
             var servico = await _service.ConsultarPorIdAsync(id);
             return Ok(servico);
-        }
-        
-        // TODO: DTO para atualizar cliente
-        // TODO: Endpoint não funciona
-        [HttpPut]
-        [Authorize(Roles = Roles.Cliente)]
-        public async Task<IActionResult> Atualizar([FromBody] ClienteDTO cliente)
-        {
-            bool isAtualizado = await _service.AtualizarAsync(cliente);
-
-            if (!isAtualizado)
-            {
-                return BadRequest("Cliente não atualizado.");
-            }
-
-            return NoContent();
         }
 
     }

@@ -1,8 +1,8 @@
-import type { LoginRequest } from "@/domain/models/Login";
+import type { LoginDTO } from "@/dtos/login/LoginDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/auth`;
 
-export const loginApi = async (userLogin: LoginRequest) => {
+export const loginApi = async (userLogin: LoginDTO) => {
   const response = await fetch(`${PATH}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

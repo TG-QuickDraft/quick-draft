@@ -1,4 +1,5 @@
 using Backend.API.Authorization;
+using Backend.API.Extensions;
 using Backend.Application.DTOs.Freelancer;
 using Backend.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -28,12 +29,13 @@ namespace Backend.API.Controllers
             return Ok(freelancer);
         }
 
-        // TODO: Endpoint não funciona
         [HttpPut]
         [Authorize(Roles = Roles.Freelancer)]
-        public async Task<IActionResult> Atualizar([FromBody] FreelancerDTO freelancer)
+        public async Task<IActionResult> Atualizar([FromBody] AtualizarFreelancerDTO freelancer)
         {
-            bool isAtualizado = await _service.AtualizarAsync(freelancer);
+            int freelancerId = User.GetUserId();
+
+            bool isAtualizado = await _service.AtualizarAsync(freelancer, freelancerId);
 
             if (!isAtualizado)
             {
