@@ -11,6 +11,8 @@ import Input from "@/components/common/Inputs/Input";
 import { GoSearch } from "react-icons/go";
 import StarRating from "@/components/common/StarRating";
 
+import MockProfile from "@/assets/mock-profile.png";
+
 export function PesquisaFreelancer() {
   const TABLE_SPACING = "p-3";
   const [filtroNome, setFiltroNome] = useState("");
@@ -37,9 +39,11 @@ export function PesquisaFreelancer() {
     }
   };
 
+  console.log(freelancers);
+
   return (
-    <div className="flex flex-col items-center h-full justify-center">
-      <Title className="pb-8">Minha tabela de freelancers</Title>
+    <div className="flex flex-col items-center gap-8 h-full justify-center">
+      <Title>Minha tabela de freelancers</Title>
 
       <form onSubmit={handleSubmit}>
         <Input
@@ -47,9 +51,11 @@ export function PesquisaFreelancer() {
           onChange={(e) => setFiltroNome(e.target.value)}
           placeholder="Pesquisa"
         />
-        <Button icon={<GoSearch size={30} />} type="submit">
-          Buscar
-        </Button>
+        <div className="flex justify-center mt-8">
+          <Button icon={<GoSearch size={30} />} type="submit">
+            Buscar
+          </Button>
+        </div>
       </form>
 
       {freelancers.length === 0 ? (
@@ -76,7 +82,9 @@ export function PesquisaFreelancer() {
                 <td className={TABLE_SPACING}>
                   <img
                     src={
-                      freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""
+                      freelancer?.fotoPerfilUrl
+                        ? freelancer.fotoPerfilUrl
+                        : MockProfile
                     }
                     className="h-11 rounded-full inline-block"
                   />

@@ -25,10 +25,14 @@ namespace Backend.Application.Services
 
             foreach (var freelancer in list)
             {
-                var usuario = freelancer.Usuario 
+                var usuario =
+                    freelancer.Usuario
                     ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-                usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
+                if (!string.IsNullOrEmpty(usuario.FotoPerfilUrl))
+                    usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl);
+                else
+                    usuario.FotoPerfilUrl = null;
             }
 
             return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
@@ -41,7 +45,8 @@ namespace Backend.Application.Services
             if (freelancer == null)
                 return null;
 
-            var usuario = freelancer.Usuario 
+            var usuario =
+                freelancer.Usuario
                 ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
             usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
@@ -51,14 +56,17 @@ namespace Backend.Application.Services
 
         public async Task<FreelancerDTO> CriarAsync(int usuarioId)
         {
-            Freelancer freelancerCriado = await _repository.CriarAsync(new Freelancer { Id = usuarioId });
+            Freelancer freelancerCriado = await _repository.CriarAsync(
+                new Freelancer { Id = usuarioId }
+            );
 
             return _mapper.Map<FreelancerDTO>(freelancerCriado);
         }
 
         public async Task<bool> AtualizarAsync(AtualizarFreelancerDTO dto, int freelancerId)
         {
-            Freelancer freelancer = await _repository.ConsultarPorIdAsync(freelancerId)
+            Freelancer freelancer =
+                await _repository.ConsultarPorIdAsync(freelancerId)
                 ?? throw new InvalidOperationException("Freelancer não encontrado");
 
             freelancer.DescricaoPerfil = dto.DescricaoPerfil;
