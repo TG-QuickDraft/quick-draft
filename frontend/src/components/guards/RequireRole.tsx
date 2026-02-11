@@ -17,7 +17,7 @@ export const RequireRole = ({ roles, children }: Props) => {
 
   const userRoles = getRolesFromToken();
 
-  const hasRole = roles.some(r => userRoles.includes(r));
+  const hasRole = roles.some((r) => userRoles.includes(r));
 
   if (!hasRole) {
     return <Navigate to="/403" replace />;

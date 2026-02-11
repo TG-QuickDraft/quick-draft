@@ -5,5 +5,8 @@ import { CadastrarProjetoFreelancer } from "@/pages/cadastros/CadastrarProjetoFr
 export const freelancerRoutes = [
   { path: "/pesquisaFreelancer", element: <PesquisaFreelancer /> },
   { path: "/perfilFreelancer/:id", element: <PerfilFreelancer /> },
-  { path: "/cadastrarProjetoFreelancer", element: <CadastrarProjetoFreelancer/> }
+  {
+    path: "/cadastrarProjetoFreelancer",
+    element: <CadastrarProjetoFreelancer />,
+  },
 ];

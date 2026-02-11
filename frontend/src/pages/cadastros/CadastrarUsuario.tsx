@@ -49,14 +49,14 @@ export const CadastrarUsuario = () => {
 
       const loginRequest: LoginDTO = {
         email: email,
-        senha: senha
+        senha: senha,
       };
 
       await login(loginRequest);
 
       if (foto) {
         const upload: UploadImagemDTO = {
-          imagem: foto
+          imagem: foto,
         };
 
         await enviarFoto(upload);
@@ -65,7 +65,6 @@ export const CadastrarUsuario = () => {
       setModalStatus("Sucesso");
       setModalMsg("Usuário cadastrado com sucesso!");
       setShowModal(true);
-
     } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");

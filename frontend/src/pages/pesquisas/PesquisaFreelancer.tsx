@@ -42,11 +42,13 @@ export function PesquisaFreelancer() {
 
       <form onSubmit={handleSubmit}>
         <Input
-          value={filtroNome} 
+          value={filtroNome}
           onChange={(e) => setFiltroNome(e.target.value)}
-          placeholder="Pesquisa"  
+          placeholder="Pesquisa"
         />
-        <Button icon={<GoSearch size={30} />} type="submit">Buscar</Button>
+        <Button icon={<GoSearch size={30} />} type="submit">
+          Buscar
+        </Button>
       </form>
 
       {freelancers.length === 0 ? (

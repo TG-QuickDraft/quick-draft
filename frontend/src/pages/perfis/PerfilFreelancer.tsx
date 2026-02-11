@@ -17,12 +17,15 @@ export const PerfilFreelancer = () => {
 
   const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
 
-  const [projetosFreelancer, setProjetosFreelancer] = useState<ProjetoFreelancer[]>([]);
+  const [projetosFreelancer, setProjetosFreelancer] = useState<
+    ProjetoFreelancer[]
+  >([]);
 
   useEffect(() => {
     const obterDados = async () => {
       const dadosFreelancer = await consultarFreelancerPorId(Number(id));
-      const dadosProjetosFreelancer = await consultarProjetosFreelancerPorIdFreelancer(Number(id));
+      const dadosProjetosFreelancer =
+        await consultarProjetosFreelancerPorIdFreelancer(Number(id));
 
       if (dadosFreelancer !== undefined) {
         setFreelancer(dadosFreelancer);
@@ -76,9 +79,7 @@ export const PerfilFreelancer = () => {
                   <td className="p-3">{projeto.link}</td>
                   <td className="p-3">
                     <img
-                      src={
-                        projeto?.imagemUrl ? projeto.imagemUrl : ""
-                      }
+                      src={projeto?.imagemUrl ? projeto.imagemUrl : ""}
                       className="h-11 rounded-full inline-block"
                     />
                   </td>
