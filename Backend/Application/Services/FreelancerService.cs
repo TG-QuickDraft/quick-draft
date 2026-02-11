@@ -29,10 +29,7 @@ namespace Backend.Application.Services
                     freelancer.Usuario
                     ?? throw new InvalidOperationException("Freelancer sem Usuario carregado");
 
-                if (!string.IsNullOrEmpty(usuario.FotoPerfilUrl))
-                    usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl);
-                else
-                    usuario.FotoPerfilUrl = null;
+                usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
             }
 
             return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
