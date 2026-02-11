@@ -86,7 +86,7 @@ export function PesquisaFreelancer() {
                         ? freelancer.fotoPerfilUrl
                         : MockProfile
                     }
-                    className="h-11 rounded-full inline-block"
+                    className="h-11 w-11 rounded-full inline-block object-cover"
                   />
                 </td>
                 <td className={TABLE_SPACING}>
