@@ -9,10 +9,11 @@ import Title from "@/components/common/Title";
 import { PiEmptyLight } from "react-icons/pi";
 import Input from "@/components/common/Inputs/Input";
 import { GoSearch } from "react-icons/go";
+import StarRating from "@/components/common/StarRating";
 
 export function PesquisaFreelancer() {
+  const TABLE_SPACING = "p-3";
   const [filtroNome, setFiltroNome] = useState("");
-
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
 
   useEffect(() => {
@@ -57,10 +58,11 @@ export function PesquisaFreelancer() {
         <table className="w-1/2 text-center shadow-2xl">
           <thead>
             <tr className="bg-white text-black">
-              <th className="p-3">Id</th>
-              <th className="p-3">Nome</th>
-              <th className="p-3">Foto de Perfil</th>
-              <th className="p-3">Ir para Perfil</th>
+              <th className={TABLE_SPACING}>Id</th>
+              <th className={TABLE_SPACING}>Nome</th>
+              <th className={TABLE_SPACING}>Foto de Perfil</th>
+              <th className={TABLE_SPACING}>Avaliação</th>
+              <th className={TABLE_SPACING}>Ir para Perfil</th>
             </tr>
           </thead>
           <tbody>
@@ -69,9 +71,9 @@ export function PesquisaFreelancer() {
                 key={index}
                 className="border border-gray-500/20 hover:bg-gray-500/5"
               >
-                <td className="p-3">{freelancer.id}</td>
-                <td className="p-3">{freelancer.nome}</td>
-                <td className="p-3">
+                <td className={TABLE_SPACING}>{freelancer.id}</td>
+                <td className={TABLE_SPACING}>{freelancer.nome}</td>
+                <td className={TABLE_SPACING}>
                   <img
                     src={
                       freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""
@@ -79,7 +81,10 @@ export function PesquisaFreelancer() {
                     className="h-11 rounded-full inline-block"
                   />
                 </td>
-                <td className="p-3">
+                <td className={TABLE_SPACING}>
+                  <StarRating rating={4.2} />
+                </td>
+                <td className={TABLE_SPACING}>
                   <Link to={`/perfilFreelancer/${freelancer.id}`}>
                     <Button>Ver Perfil</Button>
                   </Link>
