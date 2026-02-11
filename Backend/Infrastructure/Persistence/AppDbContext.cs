@@ -13,6 +13,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
         public DbSet<ContaBancaria> ContasBancarias { get; set; }
         public DbSet<TipoConta> TiposContas { get; set; }
+        public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,6 +64,15 @@ namespace Backend.Infrastructure.Persistence
                 new TipoConta { Id = 1, Nome = "Corrente" },
                 new TipoConta { Id = 2, Nome = "Poupança" }
             );
+            
+            modelBuilder.Entity<BandeiraCartaoCredito>().HasData(
+                new BandeiraCartaoCredito { Id = 1, Nome = "Mastercard" },
+                new BandeiraCartaoCredito { Id = 2, Nome = "Visa" },
+                new BandeiraCartaoCredito { Id = 3, Nome = "Elo" },
+                new BandeiraCartaoCredito { Id = 4, Nome = "American Express" },
+                new BandeiraCartaoCredito { Id = 5, Nome = "Hipercard" }
+            );
+
         }
     }
 }
