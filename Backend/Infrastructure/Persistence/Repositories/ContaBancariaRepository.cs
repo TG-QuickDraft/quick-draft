@@ -20,9 +20,11 @@ namespace Backend.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public Task<TipoConta?> ConsultarTipoContaPorNomeAsync(string nome)
+        public async Task<TipoConta?> ConsultarTipoContaPorNomeAsync(string nome)
         {
-            throw new NotImplementedException();
+            return await _context.TiposContas
+                .Where(t => t.Nome == nome)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<ContaBancaria> CriarAsync(ContaBancaria conta)

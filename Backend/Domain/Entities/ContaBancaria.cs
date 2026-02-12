@@ -39,8 +39,8 @@ namespace Backend.Domain.Entities
         [Required]
         public int FreelancerId { get; set; }
 
-        [ForeignKey(nameof(FreelancerId))]
-        public required TipoConta TipoConta { get; set; }
+        [ForeignKey(nameof(TipoContaId))]
+        public TipoConta? TipoConta { get; set; }
 
         [ForeignKey(nameof(FreelancerId))]
         [JsonIgnore]

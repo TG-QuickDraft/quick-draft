@@ -10,7 +10,7 @@ namespace Backend.Application.Mappings
         {
             CreateMap<ContaBancaria, ContaBancariaDTO>()
                 .ForMember(dest => dest.TipoConta,
-                    opt => opt.MapFrom(src => src.TipoConta.Nome));
+                    opt => opt.MapFrom(src => src.TipoConta != null ? src.TipoConta.Nome : ""));
         }
     }
 }

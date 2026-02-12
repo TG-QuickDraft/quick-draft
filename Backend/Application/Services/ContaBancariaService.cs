@@ -41,7 +41,8 @@ namespace Backend.Application.Services
                 Banco = dto.Banco,
                 Agencia = dto.Agencia,
                 NumeroConta = dto.NumeroConta,
-                TipoConta = tipoConta
+                TipoContaId = tipoConta.Id,
+                FreelancerId = freelancerId,
             };
 
             return _mapper.Map<ContaBancariaDTO>(
