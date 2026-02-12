@@ -7,6 +7,7 @@ import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import clsx from "clsx";
+import Search from "@/components/common/ui/Inputs/Search";
 
 const Navbar = () => {
   const { logout, isAuthenticated } = useAuth();
@@ -77,7 +78,10 @@ const Navbar = () => {
         "text-white bg-black/30 shadow-lg",
       )}
     >
-      <HomeButton />
+      <Stack direction="row" gap={6}>
+        <HomeButton />
+        <Search placeholder="Digite..." />
+      </Stack>
       <Stack direction="row" gap={6}>
         {renderButtons()}
       </Stack>

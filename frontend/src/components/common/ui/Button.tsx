@@ -1,6 +1,9 @@
 import clsx from "clsx";
 
-const base = "px-4 py-2 rounded cursor-pointer transition";
+const base = clsx(
+  "px-4 py-2 rounded cursor-pointer ",
+  "transition hover:scale-105 hover:shadow-lg",
+);
 
 const widths = {
   full: "w-full",
@@ -10,23 +13,9 @@ const widths = {
 };
 
 export const variants = {
-  primary: clsx(
-    base,
-    "bg-gray-100 text-black",
-    "hover:shadow-xl hover:shadow-gray-600/30",
-  ),
-
-  secondary: clsx(
-    base,
-    "bg-black/60 text-white",
-    "hover:shadow-xl hover:shadow-gray-600/20",
-  ),
-
-  danger: clsx(
-    base,
-    "bg-red-500 text-white",
-    "hover:shadow-xl hover:shadow-black/20",
-  ),
+  primary: clsx(base, "bg-gray-100 text-black"),
+  secondary: clsx(base, "bg-black/60 text-white"),
+  danger: clsx(base, "bg-red-500 text-white"),
 };
 
 const Button = ({
