@@ -30,18 +30,18 @@ export function PesquisaServico() {
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      const filtro: FiltroServicoDTO = {
-        nome: filtroNome
-      };
-
-      const dados = await consultarServicos(filtro);
-  
-      if (dados !== undefined) {
-        setServicos(dados);
-      }
+    const filtro: FiltroServicoDTO = {
+      nome: filtroNome,
     };
+
+    const dados = await consultarServicos(filtro);
+
+    if (dados !== undefined) {
+      setServicos(dados);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center h-full justify-center">
@@ -49,11 +49,15 @@ export function PesquisaServico() {
 
       <form onSubmit={handleSubmit}>
         <Input
-          value={filtroNome} 
+          value={filtroNome}
           onChange={(e) => setFiltroNome(e.target.value)}
-          placeholder="Pesquisa"  
+          placeholder="Pesquisa"
         />
-        <Button icon={<GoSearch size={30} />} type="submit">Buscar</Button>
+        <div className="flex justify-center my-8">
+          <Button icon={<GoSearch size={30} />} type="submit">
+            Buscar
+          </Button>
+        </div>
       </form>
 
       {servicos.length === 0 ? (
@@ -87,7 +91,6 @@ export function PesquisaServico() {
           </tbody>
         </table>
       )}
-
     </div>
   );
 }
