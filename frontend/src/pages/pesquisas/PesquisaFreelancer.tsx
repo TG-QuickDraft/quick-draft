@@ -3,13 +3,13 @@ import type { Freelancer } from "@/domain/models/Freelancer";
 import { consultarFreelancers } from "@/api/freelancer.api";
 import { Link } from "react-router-dom";
 
-import Button from "@/components/common/Button";
-import Title from "@/components/common/Title";
+import Button from "@/components/common/ui/Button";
+import Title from "@/components/common/ui/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
-import Input from "@/components/common/Inputs/Input";
+import Input from "@/components/common/ui/Inputs/Input";
 import { GoSearch } from "react-icons/go";
-import StarRating from "@/components/common/StarRating";
+import StarRating from "@/components/common/ui/StarRating";
 
 import MockProfile from "@/assets/mock-profile.png";
 

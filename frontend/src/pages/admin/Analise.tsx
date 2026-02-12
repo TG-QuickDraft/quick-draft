@@ -1,4 +1,4 @@
-import Title from "@/components/common/Title";
+import Title from "@/components/common/ui/Title";
 
 export const Analise = () => {
 

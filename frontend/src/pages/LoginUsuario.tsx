@@ -1,10 +1,10 @@
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 
-import Title from "@/components/common/Title";
-import Input from "@/components/common/Inputs/Input";
+import Title from "@/components/common/ui/Title";
+import Input from "@/components/common/ui/Inputs/Input";
 
 import { CiLogin } from "react-icons/ci";
-import InputGroup from "@/components/common/Inputs/InputGroup";
+import InputGroup from "@/components/common/ui/Inputs/InputGroup";
 import { useForm } from "react-hook-form";
 import { LoginSchema, type ILoginForm } from "@/validations/login.schema";
 

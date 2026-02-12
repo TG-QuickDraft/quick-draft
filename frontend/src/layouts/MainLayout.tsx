@@ -1,4 +1,4 @@
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 import { CiLogout } from "react-icons/ci";
 import { useAuth } from "@/hooks/useAuth";
 

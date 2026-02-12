@@ -3,9 +3,9 @@ import { consultarFreelancerPorId } from "@/api/freelancer.api";
 import type { Freelancer } from "@/domain/models/Freelancer";
 import { useEffect, useState } from "react";
 
-import Title from "@/components/common/Title";
+import Title from "@/components/common/ui/Title";
 
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { TesteMarkdown } from "@/components/common/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/domain/models/ProjetoFreelancer";
@@ -13,8 +13,8 @@ import { consultarProjetosFreelancerPorIdFreelancer } from "@/api/projetoFreelan
 import { PiEmptyLight } from "react-icons/pi";
 import MockProfile from "@/assets/mock-profile.png";
 
-import StarRating from "@/components/common/StarRating";
-import ProfilePhoto from "@/components/common/ProfilePhoto";
+import StarRating from "@/components/common/ui/StarRating";
+import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();

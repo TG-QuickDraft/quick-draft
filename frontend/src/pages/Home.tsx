@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
