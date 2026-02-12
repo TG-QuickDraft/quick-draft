@@ -11,6 +11,9 @@ import { TesteMarkdown } from "@/components/common/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/domain/models/ProjetoFreelancer";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/api/projetoFreelancer.api";
 import { PiEmptyLight } from "react-icons/pi";
+import MockProfile from "@/assets/mock-profile.png";
+
+import StarRating from "@/components/common/StarRating";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
@@ -40,21 +43,21 @@ export const PerfilFreelancer = () => {
     console.log(freelancer);
   }, [freelancer]);
 
+  const hasPhoto = freelancer?.fotoPerfilUrl !== "";
+
   return (
     <div className="h-full flex items-center justify-center">
       <div className="flex flex-col items-center gap-6">
         <Title>Página de Perfil do Freelancer</Title>
         <h3>{freelancer?.nome}</h3>
 
-        {freelancer?.fotoPerfilUrl ? (
-          <img
-            className="rounded-full shadow-xl w-50 h-50"
-            src={freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""}
-            height={200}
-          />
-        ) : (
-          <div className="bg-black w-50 h-50 rounded-full" />
-        )}
+        <img
+          className="rounded-full shadow-xl w-50 h-50"
+          src={hasPhoto ? freelancer?.fotoPerfilUrl : MockProfile}
+          height={200}
+        />
+
+        <StarRating rating={4.3} />
 
         {projetosFreelancer.length === 0 ? (
           <PiEmptyLight size={30} />
@@ -79,7 +82,7 @@ export const PerfilFreelancer = () => {
                   <td className="p-3">{projeto.link}</td>
                   <td className="p-3">
                     <img
-                      src={projeto?.imagemUrl ? projeto.imagemUrl : ""}
+                      src={projeto?.imagemUrl ? projeto.imagemUrl : MockProfile}
                       className="h-11 rounded-full inline-block"
                     />
                   </td>
@@ -88,7 +91,6 @@ export const PerfilFreelancer = () => {
             </tbody>
           </table>
         )}
-
         <Link to={"/pesquisaFreelancer"}>
           <Button
             className="mt-6"
@@ -97,7 +99,6 @@ export const PerfilFreelancer = () => {
             Voltar
           </Button>
         </Link>
-
         <TesteMarkdown />
       </div>
     </div>
