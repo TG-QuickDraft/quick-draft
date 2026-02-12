@@ -14,6 +14,7 @@ import { PiEmptyLight } from "react-icons/pi";
 import MockProfile from "@/assets/mock-profile.png";
 
 import StarRating from "@/components/common/StarRating";
+import ProfilePhoto from "@/components/common/ProfilePhoto";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
@@ -43,20 +44,13 @@ export const PerfilFreelancer = () => {
     console.log(freelancer);
   }, [freelancer]);
 
-  const hasPhoto = freelancer?.fotoPerfilUrl !== "";
-
   return (
     <div className="h-full flex items-center justify-center">
       <div className="flex flex-col items-center gap-6">
         <Title>Página de Perfil do Freelancer</Title>
         <h3>{freelancer?.nome}</h3>
 
-        <img
-          className="rounded-full shadow-xl w-50 h-50"
-          src={hasPhoto ? freelancer?.fotoPerfilUrl : MockProfile}
-          height={200}
-        />
-
+        <ProfilePhoto photoPath={freelancer?.fotoPerfilUrl} />
         <StarRating rating={4.3} />
 
         {projetosFreelancer.length === 0 ? (

@@ -9,6 +9,7 @@ import type { Cliente } from "@/domain/models/Cliente";
 import MockProfile from "@/assets/mock-profile.png";
 
 import StarRating from "@/components/common/StarRating";
+import ProfilePhoto from "@/components/common/ProfilePhoto";
 
 export const PerfilCliente = () => {
   const { id } = useParams();
@@ -51,12 +52,7 @@ export const PerfilCliente = () => {
         <Title>Página de Perfil do Cliente</Title>
         <h3>{cliente?.nome}</h3>
 
-        <img
-          className="rounded-full shadow-xl w-50 h-50"
-          src={cliente?.fotoPerfilUrl ? cliente.fotoPerfilUrl : MockProfile}
-          height={200}
-        />
-
+        <ProfilePhoto photoPath={cliente?.fotoPerfilUrl} />
         <StarRating rating={4} />
       </div>
     </div>
