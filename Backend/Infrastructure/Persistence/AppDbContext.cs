@@ -11,6 +11,8 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Servico> Servicos { get; set; }
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
+        public DbSet<ContaBancaria> ContasBancarias { get; set; }
+        public DbSet<TipoConta> TiposContas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +52,12 @@ namespace Backend.Infrastructure.Persistence
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_clientes_usuarios");
             });
+
+            modelBuilder.Entity<ContaBancaria>()
+                .HasOne(c => c.Freelancer)
+                .WithOne(f => f.ContaBancaria)
+                .HasForeignKey<ContaBancaria>(c => c.FreelancerId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
