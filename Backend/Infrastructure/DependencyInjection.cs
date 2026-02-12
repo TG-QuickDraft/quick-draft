@@ -12,6 +12,7 @@ namespace Backend.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IContaBancariaRepository, ContaBancariaRepository>();
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
             services.AddScoped<IProjetoFreelancerRepository, ProjetoFreelancerRepository>();
             services.AddScoped<IServicoRepository, ServicoRepository>();
