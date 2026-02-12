@@ -38,9 +38,15 @@ export const Home = () => {
           )}
 
           {isAuthenticated && roles.includes("Freelancer") && (
-            <Link to={"/cadastrarProjetoFreelancer"}>
-              <Button icon={<GoPlus size={30} />}>Cadastrar Projeto Freelancer</Button>
-            </Link>
+            <div>
+              <Link to={"/cadastrarProjetoFreelancer"}>
+                <Button icon={<GoPlus size={30} />}>Cadastrar Projeto Freelancer</Button>
+              </Link>
+
+              <Link to={"/cadastrarContaBancaria"}>
+                <Button icon={<GoPlus size={30} />}>Cadastrar Conta Bancária</Button>
+              </Link>
+            </div>
           )}
 
         </div>
