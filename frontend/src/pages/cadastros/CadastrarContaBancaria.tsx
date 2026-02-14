@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "@/components/common/Button";
 import { LuSave } from "react-icons/lu";
 
-import { adicionarContaBancaria } from "@/api/contaBancaria.api";
+import { adicionarContaBancaria, atualizarContaBancaria, consultarContaBancaria, consultarTiposConta } from "@/api/contaBancaria.api";
 import Input from "@/components/common/Inputs/Input";
 import Modal from "@/components/common/Modal";
 import Title from "@/components/common/Title";
 import type { CriarContaBancariaDTO } from "@/dtos/contaBancaria/CriarContaBancariaDTO";
+import type { ContaBancariaDTO } from "@/dtos/contaBancaria/ContaBancariaDTO";
+import type { TipoContaDTO } from "@/dtos/contaBancaria/TipoContaDTO";
 
 export const CadastrarContaBancaria = () => {
   const [cpfTitular, setCpfTitular] = useState("");
@@ -15,39 +17,105 @@ export const CadastrarContaBancaria = () => {
   const [banco, setBanco] = useState("");
   const [agencia, setAgencia] = useState("");
   const [numeroConta, setNumeroConta] = useState("");
-  const [tipoConta, setTipoConta] = useState("");
+  const [tipoContaId, setTipoContaId] = useState(0);
+
+  const [tiposConta, setTiposConta] = useState<TipoContaDTO[]>([]);
+
+  const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean>();
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
-  const enviar = async () => {
-    const conta: CriarContaBancariaDTO = {
+  useEffect(() => {
+    const obterDadosConta = async () => {
+      const conta = await consultarContaBancaria()
+      
+      if (conta){
+        setConta(conta);
+        setHasContaCadastrada(true);
+      }
+    };
+
+    const obterTiposConta = async () => {
+      const tiposConta = await consultarTiposConta(); 
+      
+      setTiposConta([
+        {
+          id: 0,
+          nome: "Selecione o tipo"
+        },
+        ...tiposConta
+      ])
+    }
+
+    obterDadosConta();
+    obterTiposConta();
+  }, []);
+
+  const getConta = (): ContaBancariaDTO => {
+    return {
+      id: 0,
       cpfTitular: cpfTitular,
       nomeTitular: nomeTitular,
       banco: banco,
       agencia: agencia,
       numeroConta: numeroConta,
-      tipoConta: tipoConta
+      tipoContaId: tipoContaId
     };
+  }
+
+  const setConta = (conta: ContaBancariaDTO) => {
+    setCpfTitular(conta.cpfTitular);
+    setNomeTitular(conta.nomeTitular);
+    setBanco(conta.banco);
+    setAgencia(conta.agencia);
+    setNumeroConta(conta.numeroConta);
+    setTipoContaId(conta.tipoContaId);
+  }
+
+  const enviarNovaConta = async () => {
+    const conta: CriarContaBancariaDTO = getConta();
 
     try {
-      const contaAdicionada = await adicionarContaBancaria(conta);
+      setConta(
+        await adicionarContaBancaria(conta)
+      );
 
       setModalStatus("Sucesso");
       setModalMsg("Conta cadastrada com sucesso!");
       setShowModal(true);
 
+      setHasContaCadastrada(true);
     } catch (error){
-
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
         setShowModal(true);
       }
     }
-
     
+  };
+
+  const enviarAtualizarConta = async () => {
+    const conta: ContaBancariaDTO = getConta();
+
+    try {
+      setConta(
+        await atualizarContaBancaria(conta)
+      );
+
+      setModalStatus("Sucesso");
+      setModalMsg("Conta atualizada com sucesso!");
+      setShowModal(true);
+
+    } catch (error){
+      if (error instanceof Error) {
+        setModalStatus("Erro");
+        setModalMsg(error.message);
+        setShowModal(true);
+      }
+    }
   };
 
   return (
@@ -56,46 +124,63 @@ export const CadastrarContaBancaria = () => {
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
         <Input
-          placeholder="CPF do titular"
+          value={cpfTitular}
           onChange={(e) => setCpfTitular(e.target.value)}
+          placeholder="CPF do titular"
         />
 
         <Input
-          placeholder="Nome do titular"
+          value={nomeTitular}
           onChange={(e) => setNomeTitular(e.target.value)}
+          placeholder="Nome do titular"
         />
         
         <Input
-          placeholder="Banco"
+          value={banco}
           onChange={(e) => setBanco(e.target.value)}
+          placeholder="Banco"
         />
 
         <Input
-          placeholder="Agência"
+          value={agencia}
           onChange={(e) => setAgencia(e.target.value)}
+          placeholder="Agência"
         />
 
         <Input
-          placeholder="Nº da conta"
+          value={numeroConta}
           onChange={(e) => setNumeroConta(e.target.value)}
+          placeholder="Nº da conta"
         />
 
         <label>
           <p>Tipo de Conta</p>
 
           <select 
-            value={tipoConta} 
-            onChange={(e) => setTipoConta(e.target.value)}
+            value={tipoContaId} 
+            onChange={(e) => setTipoContaId(Number(e.target.value))}
           >
-            <option value="">Selecione o tipo</option>
-            <option value="CORRENTE">Conta Corrente</option>
-            <option value="POUPANCA">Conta Poupança</option>
+            {
+              tiposConta.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.nome}
+                </option>
+              ))
+            }
           </select>
         </label>
 
-        <Button icon={<LuSave size={30} />} onClick={enviar}>
-          Salvar
-        </Button>
+        {hasContaCadastrada === true && (
+          <Button icon={<LuSave size={30} />} onClick={enviarAtualizarConta}>
+            Atualizar
+          </Button>
+        )}
+
+        {hasContaCadastrada === false && (
+          <Button icon={<LuSave size={30} />} onClick={enviarNovaConta}>
+            Salvar
+          </Button>
+        )}
       </div>
 
       <Modal
