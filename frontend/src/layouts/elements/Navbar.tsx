@@ -49,7 +49,6 @@ const Navbar = () => {
         <>
           <Button
             icon={<CiLogin size={20} />}
-            variant="primary"
             onClick={() => navigate("/login")}
           >
             Entrar
@@ -62,7 +61,6 @@ const Navbar = () => {
       <>
         <Button
           icon={<MdKeyboardDoubleArrowLeft size={25} />}
-          variant="primary"
           onClick={() => navigate("/")}
         >
           Voltar
@@ -76,19 +74,24 @@ const Navbar = () => {
       className={clsx(
         "flex justify-between p-8",
         "border-b border-white/20",
-        "text-white bg-black/30 shadow-lg",
+        "text-white bg-secondary-80 shadow-lg",
       )}
     >
       <Stack direction="row" gap={6}>
         <HomeButton />
-        <Search placeholder="Digite..." />
-        <Select
-          value="freelancers"
-          options={[
-            { value: "freelancers", label: "Freelancers" },
-            { value: "serviços", label: "Serviços" },
-          ]}
-        />
+        <div className="flex gap-2 items-center">
+          <Search
+            placeholder="Pesquise..."
+            className="w-40! md:w-80! lg:w-100!"
+          />
+          <Select
+            value="freelancers"
+            options={[
+              { value: "freelancers", label: "Freelancers" },
+              { value: "serviços", label: "Serviços" },
+            ]}
+          />
+        </div>
       </Stack>
       <Stack direction="row" gap={6}>
         {renderButtons()}

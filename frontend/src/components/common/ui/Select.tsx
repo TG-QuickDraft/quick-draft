@@ -59,7 +59,7 @@ const Select = ({
         disabled={disabled}
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
         className={clsx(
-          "px-4 py-2 bg-white text-left cursor-pointer",
+          "px-4 py-1.5 bg-white text-left cursor-pointer",
           "border-2 border-[#EFEFEF] ",
           "rounded-lg min-w-35",
           className,
