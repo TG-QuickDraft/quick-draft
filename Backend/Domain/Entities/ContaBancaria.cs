@@ -7,6 +7,7 @@ namespace Backend.Domain.Entities
    [Table("contas_bancarias")]
    public class ContaBancaria
     {
+        // TODO: alterar o modelo, a PK da conta tem que ser FK também, pegando o id do freelancer
         [Key]
         [Column("con_id")]
         public int Id { get; set; }

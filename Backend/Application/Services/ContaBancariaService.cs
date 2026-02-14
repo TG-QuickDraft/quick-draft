@@ -14,26 +14,22 @@ namespace Backend.Application.Services
         private readonly IContaBancariaRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<ContaBancariaDTO?> ConsultarPorIdAsync(int id)
+        public async Task<ContaBancariaDTO> ConsultarPorIdFreelancerAsync(int freelancerId)
         {
-            var conta = await _repository.ConsultarPorIdAsync(id);
+            var conta = await _repository.ConsultarPorIdFreelancerAsync(freelancerId);
 
             return _mapper.Map<ContaBancariaDTO>(conta);
         }
 
-        public async Task<ContaBancariaDTO> ConsultarPorIdFreelancerAsync(int freelancerId)
+        public async Task<IEnumerable<TipoContaDTO>> ConsultarTiposConta()
         {
-            var conta = await _repository.ConsultarPorIdAsync(freelancerId);
-
-            return _mapper.Map<ContaBancariaDTO>(conta);
+            return _mapper.Map<IEnumerable<TipoContaDTO>>(
+                await _repository.ConsultarTiposContaAsync()
+            );
         }
 
         public async Task<ContaBancariaDTO> CriarAsync(CriarContaBancariaDTO dto, int freelancerId)
-        {
-            TipoConta tipoConta = 
-                await _repository.ConsultarTipoContaPorNomeAsync(dto.TipoConta)
-                    ?? throw new Exception("Tipo de conta inválido!");
-            
+        {          
             ContaBancaria contaACriar = new()
             {
                 CpfTitular = dto.CpfTitular,
@@ -41,7 +37,7 @@ namespace Backend.Application.Services
                 Banco = dto.Banco,
                 Agencia = dto.Agencia,
                 NumeroConta = dto.NumeroConta,
-                TipoContaId = tipoConta.Id,
+                TipoContaId = dto.TipoContaId,
                 FreelancerId = freelancerId,
             };
 
@@ -49,5 +45,16 @@ namespace Backend.Application.Services
                 await _repository.CriarAsync(contaACriar)
             );
         }
+
+        public async Task<ContaBancariaDTO> AtualizarAsync(ContaBancariaDTO dto, int freelancerId)
+        {
+            ContaBancaria contaToUpdate = _mapper.Map<ContaBancaria>(dto);
+            contaToUpdate.FreelancerId = freelancerId;
+
+            return _mapper.Map<ContaBancariaDTO>(
+                await _repository.AtualizarAsync(contaToUpdate)
+            );
+        }
+
     }
 }

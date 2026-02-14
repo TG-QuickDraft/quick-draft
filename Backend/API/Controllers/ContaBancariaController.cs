@@ -13,19 +13,20 @@ namespace Backend.API.Controllers
     {
         private readonly IContaBancariaService _service = service;
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ConsultarPorId(int id)
+        [HttpGet]
+        [Authorize(Roles = Roles.Freelancer)]
+        public async Task<IActionResult> Consultar()
         {
             return Ok(
-                await _service.ConsultarPorIdAsync(id)
+                await _service.ConsultarPorIdFreelancerAsync(User.GetUserId())
             );
         }
 
-        [HttpGet("freelancer/{id}")]
-        public async Task<IActionResult> ConsultarPorIdFreelancer(int freelancerId)
+        [HttpGet("tipoConta")]
+        public async Task<IActionResult> ConsultarTiposConta()
         {
             return Ok(
-                await _service.ConsultarPorIdAsync(freelancerId)
+                await _service.ConsultarTiposConta()
             );
         }
 
@@ -36,7 +37,16 @@ namespace Backend.API.Controllers
             ContaBancariaDTO novaConta = await _service.CriarAsync(conta, User.GetUserId());
 
             return CreatedAtAction(
-                nameof(ConsultarPorId), new { id = novaConta.Id }, novaConta
+                nameof(Consultar), new { id = novaConta.Id }, novaConta
+            );
+        }
+
+        [HttpPut]
+        [Authorize(Roles = Roles.Freelancer)]
+        public async Task<IActionResult> Atualizar([FromBody] ContaBancariaDTO conta)
+        {
+            return Ok(
+                await _service.AtualizarAsync(conta, User.GetUserId())
             );
         }
 

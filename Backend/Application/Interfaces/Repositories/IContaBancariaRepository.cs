@@ -4,9 +4,9 @@ namespace Backend.Application.Interfaces.Repositories
 {
     public interface IContaBancariaRepository
     {
-        Task<ContaBancaria?> ConsultarPorIdAsync(int id);
         Task<ContaBancaria?> ConsultarPorIdFreelancerAsync(int freelancerId);
-        Task<TipoConta?> ConsultarTipoContaPorNomeAsync(string nome);
+        Task<IEnumerable<TipoConta>> ConsultarTiposContaAsync();
         Task<ContaBancaria> CriarAsync(ContaBancaria conta);
+        Task<ContaBancaria> AtualizarAsync(ContaBancaria conta);
     }
 }

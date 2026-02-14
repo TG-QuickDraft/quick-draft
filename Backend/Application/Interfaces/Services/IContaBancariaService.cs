@@ -6,8 +6,10 @@ namespace Backend.Application.Interfaces.Services
     {
         public Task<ContaBancariaDTO> ConsultarPorIdFreelancerAsync(int freelancerId);
 
-        public Task<ContaBancariaDTO?> ConsultarPorIdAsync(int id);
+        public Task<IEnumerable<TipoContaDTO>> ConsultarTiposConta();
         
         public Task<ContaBancariaDTO> CriarAsync(CriarContaBancariaDTO dto, int freelancerId);
+        
+        public Task<ContaBancariaDTO> AtualizarAsync(ContaBancariaDTO dto, int freelancerId);
     }
 }
