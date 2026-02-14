@@ -76,28 +76,27 @@ const Select = ({
         </span>
       </button>
 
-      {isOpen && (
-        <div
-          className={clsx(
-            "absolute z-40 w-full bg-white shadow-lg mt-2 p-2",
-            "border-2 border-t-0 border-[#EFEFEF]",
-            "rounded-lg",
-          )}
-        >
-          {options.map((option) => (
-            <div
-              key={option.value}
-              onClick={() => handleSelect(option)}
-              className={clsx(
-                "px-3 py-2 cursor-pointer text-sm font-light border-b border-black/20 last:border-0",
-                "text-black",
-              )}
-            >
-              {option.label}
-            </div>
-          ))}
-        </div>
-      )}
+      <div
+        className={clsx(
+          "absolute z-40 w-full bg-white shadow-lg mt-2 px-2",
+          "border-2 border-t-0 border-[#EFEFEF]",
+          "rounded-lg transition-all duration-200 ease-in-out",
+          isOpen ? "py-2 max-h-50 opacity-100" : "max-h-0 py-0 opacity-0",
+        )}
+      >
+        {options.map((option) => (
+          <div
+            key={option.value}
+            onClick={() => handleSelect(option)}
+            className={clsx(
+              "px-3 py-2 cursor-pointer text-sm font-light border-b border-black/20 last:border-0",
+              "text-black",
+            )}
+          >
+            {option.label}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
