@@ -4,65 +4,36 @@ describe('Cadastro de Usuário', () => {
     Cypress.on("uncaught:exception", () => false);
   });
 
-  it('deve cadastrar um novo usuário', () => {
-    cy.visit('http://localhost:5173/cadastrarUsuario');
-
+  it('deve cadastrar um novo cliente', () => {
     const usuario = {
       nome: 'João Silva',
       cpf: '12345678900',
       email: 'joao.silva@example.com',
       senha: '12345678',
       confirmarSenha: '12345678',
-      tipoUsuario: 'Cliente'
+      tipoUsuario: 'Cliente',
+      fotoPerfilUrl: "fotoPerfil.png"
     };
 
-    cy.get('input[name="nome"]').type(usuario.nome);
-    cy.get('input[name="cpf"]').type(usuario.cpf);
-    cy.get('input[name="email"]').type(usuario.email);
-    cy.get('input[name="senha"]').type(usuario.senha);
-    cy.get('input[name="confirmarSenha"]').type(usuario.confirmarSenha);
-    cy.get(`input[type="radio"][value="${usuario.tipoUsuario}"]`).check();
-    cy.get('input[name="foto"]').attachFile('fotoPerfil.png');
-
-    cy.intercept('POST', '**/usuario').as('criarUsuario');
-    cy.intercept('POST', '**/login').as('login');
-    cy.intercept('POST', '**/upload*').as('upload');
-
-    cy.contains('Salvar').click();
-
-    cy.wait('@criarUsuario');
-    cy.wait('@login');
-    cy.wait('@upload');
+    cy.cadastrarUsuario(usuario);
   })
 
-  it('deve cadastrar um novo freelancer', () => {
-    cy.visit('http://localhost:5173/cadastrarUsuario');
+  it('debug', () => {
+    expect(cy.cadastrarUsuario).to.be.a('function');
+  });
 
+
+  it('deve cadastrar um novo freelancer', () => {
     const usuario = {
       nome: 'Maria Souza',
       cpf: '00987654321',
       email: 'maria.souza@example.com',
       senha: '12345678',
       confirmarSenha: '12345678',
-      tipoUsuario: 'Freelancer'
+      tipoUsuario: 'Freelancer',
+      fotoPerfilUrl: "fotoPerfil.png"
     };
 
-    cy.get('input[name="nome"]').type(usuario.nome);
-    cy.get('input[name="cpf"]').type(usuario.cpf);
-    cy.get('input[name="email"]').type(usuario.email);
-    cy.get('input[name="senha"]').type(usuario.senha);
-    cy.get('input[name="confirmarSenha"]').type(usuario.confirmarSenha);
-    cy.get(`input[type="radio"][value="${usuario.tipoUsuario}"]`).check();
-    cy.get('input[name="foto"]').attachFile('fotoPerfil.png');
-
-    cy.intercept('POST', '**/usuario').as('criarUsuario');
-    cy.intercept('POST', '**/login').as('login');
-    cy.intercept('POST', '**/upload*').as('upload');
-
-    cy.contains('Salvar').click();
-
-    cy.wait('@criarUsuario');
-    cy.wait('@login');
-    cy.wait('@upload');
+    cy.cadastrarUsuario(usuario);
   })
 })
