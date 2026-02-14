@@ -18,11 +18,6 @@ describe('Cadastro de Usuário', () => {
     cy.cadastrarUsuario(usuario);
   })
 
-  it('debug', () => {
-    expect(cy.cadastrarUsuario).to.be.a('function');
-  });
-
-
   it('deve cadastrar um novo freelancer', () => {
     const usuario = {
       nome: 'Maria Souza',
