@@ -8,6 +8,7 @@ import { CiLogin } from "react-icons/ci";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import clsx from "clsx";
 import Search from "@/components/common/ui/Inputs/Search";
+import Select from "@/components/common/ui/Select";
 
 const Navbar = () => {
   const { logout, isAuthenticated } = useAuth();
@@ -81,6 +82,13 @@ const Navbar = () => {
       <Stack direction="row" gap={6}>
         <HomeButton />
         <Search placeholder="Digite..." />
+        <Select
+          value="freelancers"
+          options={[
+            { value: "freelancers", label: "Freelancers" },
+            { value: "serviços", label: "Serviços" },
+          ]}
+        />
       </Stack>
       <Stack direction="row" gap={6}>
         {renderButtons()}

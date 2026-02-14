@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import SearchIcon from "@/assets/icons/ui/search-icon.svg?react";
+import SearchIcon from "@/assets/icons/ui/actions/search-icon.svg?react";
 
 const widths = {
   full: "w-full",
