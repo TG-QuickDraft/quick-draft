@@ -58,6 +58,11 @@ namespace Backend.Infrastructure.Persistence
                 .WithOne(f => f.ContaBancaria)
                 .HasForeignKey<ContaBancaria>(c => c.FreelancerId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<TipoConta>().HasData(
+                new TipoConta { Id = 1, Nome = "Corrente" },
+                new TipoConta { Id = 2, Nome = "Poupança" }
+            );
         }
     }
 }
