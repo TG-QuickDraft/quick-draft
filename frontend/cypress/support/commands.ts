@@ -37,3 +37,5 @@
 // }
 
 import "cypress-file-upload";
+
+import "./cadastrarUsuario";

@@ -11,6 +11,9 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Servico> Servicos { get; set; }
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
+        public DbSet<ContaBancaria> ContasBancarias { get; set; }
+        public DbSet<TipoConta> TiposContas { get; set; }
+        public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +53,26 @@ namespace Backend.Infrastructure.Persistence
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_clientes_usuarios");
             });
+
+            modelBuilder.Entity<ContaBancaria>()
+                .HasOne(c => c.Freelancer)
+                .WithOne(f => f.ContaBancaria)
+                .HasForeignKey<ContaBancaria>(c => c.FreelancerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<TipoConta>().HasData(
+                new TipoConta { Id = 1, Nome = "Corrente" },
+                new TipoConta { Id = 2, Nome = "Poupança" }
+            );
+            
+            modelBuilder.Entity<BandeiraCartaoCredito>().HasData(
+                new BandeiraCartaoCredito { Id = 1, Nome = "Mastercard" },
+                new BandeiraCartaoCredito { Id = 2, Nome = "Visa" },
+                new BandeiraCartaoCredito { Id = 3, Nome = "Elo" },
+                new BandeiraCartaoCredito { Id = 4, Nome = "American Express" },
+                new BandeiraCartaoCredito { Id = 5, Nome = "Hipercard" }
+            );
+
         }
     }
 }
