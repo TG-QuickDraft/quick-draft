@@ -8,6 +8,7 @@ namespace Backend.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IContaBancariaService, ContaBancariaService>();
             services.AddScoped<IFreelancerService, FreelancerService>();
             services.AddScoped<IProjetoFreelancerService, ProjetoFreelancerService>();
             services.AddScoped<IServicoService, ServicoService>();

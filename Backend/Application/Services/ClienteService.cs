@@ -9,13 +9,11 @@ namespace Backend.Application.Services
 {
     public class ClienteService(
         IClienteRepository repository,
-        IUsuarioRepository usuarioRepository,
         IMapper mapper,
         IUrlBuilder urlBuilder
     ) : IClienteService
     {
         private readonly IClienteRepository _repository = repository;
-        private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
         private readonly IMapper _mapper = mapper;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
