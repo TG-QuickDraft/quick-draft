@@ -38,17 +38,20 @@ export const Home = () => {
           )}
 
           {isAuthenticated && roles.includes("Freelancer") && (
-            <div>
+            <div className="flex flex-col gap-3 items-center">
               <Link to={"/cadastrarProjetoFreelancer"}>
-                <Button icon={<GoPlus size={30} />}>Cadastrar Projeto Freelancer</Button>
+                <Button icon={<GoPlus size={30} />}>
+                  Cadastrar Projeto Freelancer
+                </Button>
               </Link>
 
               <Link to={"/cadastrarContaBancaria"}>
-                <Button icon={<GoPlus size={30} />}>Cadastrar Conta Bancária</Button>
+                <Button icon={<GoPlus size={30} />}>
+                  Cadastrar Conta Bancária
+                </Button>
               </Link>
             </div>
           )}
-
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>

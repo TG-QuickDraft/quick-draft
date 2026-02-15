@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import Button from "@/components/common/Button";
 import { LuSave } from "react-icons/lu";
 
-import { adicionarContaBancaria, atualizarContaBancaria, consultarContaBancaria, consultarTiposConta } from "@/api/contaBancaria.api";
+import {
+  adicionarContaBancaria,
+  atualizarContaBancaria,
+  consultarContaBancaria,
+  consultarTiposConta,
+} from "@/api/contaBancaria.api";
 import Input from "@/components/common/Inputs/Input";
 import Modal from "@/components/common/Modal";
 import Title from "@/components/common/Title";
@@ -21,7 +26,9 @@ export const CadastrarContaBancaria = () => {
 
   const [tiposConta, setTiposConta] = useState<TipoContaDTO[]>([]);
 
-  const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean>();
+  const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean | null>(
+    null,
+  );
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -29,25 +36,30 @@ export const CadastrarContaBancaria = () => {
 
   useEffect(() => {
     const obterDadosConta = async () => {
-      const conta = await consultarContaBancaria()
-      
-      if (conta){
-        setConta(conta);
-        setHasContaCadastrada(true);
+      try {
+        const conta = await consultarContaBancaria();
+        if (conta) {
+          setHasContaCadastrada(true);
+          setConta(conta);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          setHasContaCadastrada(false);
+        }
       }
     };
 
     const obterTiposConta = async () => {
-      const tiposConta = await consultarTiposConta(); 
-      
+      const tiposConta = await consultarTiposConta();
+
       setTiposConta([
         {
           id: 0,
-          nome: "Selecione o tipo"
+          nome: "Selecione o tipo",
         },
-        ...tiposConta
-      ])
-    }
+        ...tiposConta,
+      ]);
+    };
 
     obterDadosConta();
     obterTiposConta();
@@ -61,9 +73,9 @@ export const CadastrarContaBancaria = () => {
       banco: banco,
       agencia: agencia,
       numeroConta: numeroConta,
-      tipoContaId: tipoContaId
+      tipoContaId: tipoContaId,
     };
-  }
+  };
 
   const setConta = (conta: ContaBancariaDTO) => {
     setCpfTitular(conta.cpfTitular);
@@ -72,44 +84,38 @@ export const CadastrarContaBancaria = () => {
     setAgencia(conta.agencia);
     setNumeroConta(conta.numeroConta);
     setTipoContaId(conta.tipoContaId);
-  }
+  };
 
   const enviarNovaConta = async () => {
     const conta: CriarContaBancariaDTO = getConta();
 
     try {
-      setConta(
-        await adicionarContaBancaria(conta)
-      );
+      setConta(await adicionarContaBancaria(conta));
 
       setModalStatus("Sucesso");
       setModalMsg("Conta cadastrada com sucesso!");
       setShowModal(true);
 
       setHasContaCadastrada(true);
-    } catch (error){
+    } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
         setShowModal(true);
       }
     }
-    
   };
 
   const enviarAtualizarConta = async () => {
     const conta: ContaBancariaDTO = getConta();
 
     try {
-      setConta(
-        await atualizarContaBancaria(conta)
-      );
+      setConta(await atualizarContaBancaria(conta));
 
       setModalStatus("Sucesso");
       setModalMsg("Conta atualizada com sucesso!");
       setShowModal(true);
-
-    } catch (error){
+    } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
@@ -134,7 +140,7 @@ export const CadastrarContaBancaria = () => {
           onChange={(e) => setNomeTitular(e.target.value)}
           placeholder="Nome do titular"
         />
-        
+
         <Input
           value={banco}
           onChange={(e) => setBanco(e.target.value)}
@@ -156,17 +162,15 @@ export const CadastrarContaBancaria = () => {
         <label>
           <p>Tipo de Conta</p>
 
-          <select 
-            value={tipoContaId} 
+          <select
+            value={tipoContaId}
             onChange={(e) => setTipoContaId(Number(e.target.value))}
           >
-            {
-              tiposConta.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.nome}
-                </option>
-              ))
-            }
+            {tiposConta.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.nome}
+              </option>
+            ))}
           </select>
         </label>
 
