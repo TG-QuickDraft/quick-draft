@@ -3,9 +3,13 @@ import { consultarClientePorId } from "@/api/cliente.api";
 
 import { useEffect, useState } from "react";
 
-import Title from "@/components/common/Title";
+import Title from "@/components/common/ui/Title";
 
 import type { Cliente } from "@/domain/models/Cliente";
+import MockProfile from "@/assets/mock-profile.png";
+
+import StarRating from "@/components/common/ui/StarRating";
+import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
 
 export const PerfilCliente = () => {
   const { id } = useParams();
@@ -48,15 +52,8 @@ export const PerfilCliente = () => {
         <Title>Página de Perfil do Cliente</Title>
         <h3>{cliente?.nome}</h3>
 
-        {cliente?.fotoPerfilUrl ? (
-          <img
-            className="rounded-full shadow-xl"
-            src={cliente?.fotoPerfilUrl ? cliente.fotoPerfilUrl : ""}
-            height={200}
-          />
-        ) : (
-          <div className="bg-black w-50 h-50 rounded-full" />
-        )}
+        <ProfilePhoto photoPath={cliente?.fotoPerfilUrl} />
+        <StarRating rating={4} />
       </div>
     </div>
   );

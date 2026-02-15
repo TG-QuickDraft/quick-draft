@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { adicionarUsuario, enviarFoto } from "@/api/usuario.api";
 
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 import { LuSave } from "react-icons/lu";
 
-import Title from "@/components/common/Title";
+import Title from "@/components/common/ui/Title";
 
 import { criarUsuarioSchema } from "@/validations/usuario.schema";
-import Modal from "@/components/common/Modal";
-import Input from "@/components/common/Inputs/Input";
+import Modal from "@/components/common/ui/Modal";
+import Input from "@/components/common/ui/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/dtos/usuario/CriarUsuarioDTO";
 import { TIPOS_USUARIO, type TipoUsuario } from "@/domain/enums/tiposUsuario";
 import type { UploadImagemDTO } from "@/dtos/upload/UploadImagemDTO";
@@ -49,14 +49,14 @@ export const CadastrarUsuario = () => {
 
       const loginRequest: LoginDTO = {
         email: email,
-        senha: senha
+        senha: senha,
       };
 
       await login(loginRequest);
 
       if (foto) {
         const upload: UploadImagemDTO = {
-          imagem: foto
+          imagem: foto,
         };
 
         await enviarFoto(upload);
@@ -65,7 +65,6 @@ export const CadastrarUsuario = () => {
       setModalStatus("Sucesso");
       setModalMsg("Usuário cadastrado com sucesso!");
       setShowModal(true);
-
     } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");

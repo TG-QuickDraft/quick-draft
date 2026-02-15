@@ -3,26 +3,33 @@ import { consultarFreelancerPorId } from "@/api/freelancer.api";
 import type { Freelancer } from "@/domain/models/Freelancer";
 import { useEffect, useState } from "react";
 
-import Title from "@/components/common/Title";
+import Title from "@/components/common/ui/Title";
 
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { TesteMarkdown } from "@/components/common/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/domain/models/ProjetoFreelancer";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/api/projetoFreelancer.api";
 import { PiEmptyLight } from "react-icons/pi";
+import MockProfile from "@/assets/mock-profile.png";
+
+import StarRating from "@/components/common/ui/StarRating";
+import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
 
   const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
 
-  const [projetosFreelancer, setProjetosFreelancer] = useState<ProjetoFreelancer[]>([]);
+  const [projetosFreelancer, setProjetosFreelancer] = useState<
+    ProjetoFreelancer[]
+  >([]);
 
   useEffect(() => {
     const obterDados = async () => {
       const dadosFreelancer = await consultarFreelancerPorId(Number(id));
-      const dadosProjetosFreelancer = await consultarProjetosFreelancerPorIdFreelancer(Number(id));
+      const dadosProjetosFreelancer =
+        await consultarProjetosFreelancerPorIdFreelancer(Number(id));
 
       if (dadosFreelancer !== undefined) {
         setFreelancer(dadosFreelancer);
@@ -43,15 +50,8 @@ export const PerfilFreelancer = () => {
         <Title>Página de Perfil do Freelancer</Title>
         <h3>{freelancer?.nome}</h3>
 
-        {freelancer?.fotoPerfilUrl ? (
-          <img
-            className="rounded-full shadow-xl w-50 h-50"
-            src={freelancer?.fotoPerfilUrl ? freelancer.fotoPerfilUrl : ""}
-            height={200}
-          />
-        ) : (
-          <div className="bg-black w-50 h-50 rounded-full" />
-        )}
+        <ProfilePhoto photoPath={freelancer?.fotoPerfilUrl} />
+        <StarRating rating={4.3} />
 
         {projetosFreelancer.length === 0 ? (
           <PiEmptyLight size={30} />
@@ -76,9 +76,7 @@ export const PerfilFreelancer = () => {
                   <td className="p-3">{projeto.link}</td>
                   <td className="p-3">
                     <img
-                      src={
-                        projeto?.imagemUrl ? projeto.imagemUrl : ""
-                      }
+                      src={projeto?.imagemUrl ? projeto.imagemUrl : MockProfile}
                       className="h-11 rounded-full inline-block"
                     />
                   </td>
@@ -87,7 +85,6 @@ export const PerfilFreelancer = () => {
             </tbody>
           </table>
         )}
-
         <Link to={"/pesquisaFreelancer"}>
           <Button
             className="mt-6"
@@ -96,7 +93,6 @@ export const PerfilFreelancer = () => {
             Voltar
           </Button>
         </Link>
-
         <TesteMarkdown />
       </div>
     </div>

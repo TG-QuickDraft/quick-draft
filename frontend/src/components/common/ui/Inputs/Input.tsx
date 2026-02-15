@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 
 const variants = {
   primary: clsx(
-    "border w-full transition focus:shadow-xl border-gray-500/30 p-3 rounded focus:outline-none"
+    "border w-full transition focus:shadow-xl border-gray-500/30 p-3 rounded focus:outline-none",
   ),
 };
 
@@ -26,7 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {error && <span className="text-red-500 text-sm">{error}</span>}
       </>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

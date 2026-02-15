@@ -7,6 +7,17 @@ html {
 }
 
 @theme {
-  /* Botar cores aqui
-  /* --color-border-primary: cor; */
+  /* Primary Colors */
+  --color-primary-100: #edf34d;
+  --color-primary-80: #f5f34d;
+  --color-primary-60: #f5f34d;
+  --color-primary-40: #f5f34d;
+  --color-primary-20: #f5f34d;
+
+  /* Secondary Colors */
+  --color-secondary-100: #242424;
+  --color-secondary-80: #2c2c2c;
+  --color-secondary-60: #333333;
+  --color-secondary-40: #3b3b3b;
+  --color-secondary-20: #424242;
 }

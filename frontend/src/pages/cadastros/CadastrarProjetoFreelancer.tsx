@@ -1,14 +1,14 @@
 import { useState } from "react";
 
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 import { LuSave } from "react-icons/lu";
 
-import Title from "@/components/common/Title";
+import Title from "@/components/common/ui/Title";
 
-import Modal from "@/components/common/Modal";
+import Modal from "@/components/common/ui/Modal";
 import type { CriarProjetoFreelancerDTO } from "@/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 import { adicionarProjetoFreelancer, enviarImagemProjeto } from "@/api/projetoFreelancer.api";
-import Input from "@/components/common/Inputs/Input";
+import Input from "@/components/common/ui/Inputs/Input";
 
 export const CadastrarProjetoFreelancer = () => {
   const [nome, setNome] = useState("");
