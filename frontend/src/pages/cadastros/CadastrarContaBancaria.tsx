@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import Button from "@/components/common/Button";
+import Button from "@/components/common/ui/Button";
 import { LuSave } from "react-icons/lu";
 
 import {
@@ -9,9 +9,9 @@ import {
   consultarContaBancaria,
   consultarTiposConta,
 } from "@/api/contaBancaria.api";
-import Input from "@/components/common/Inputs/Input";
-import Modal from "@/components/common/Modal";
-import Title from "@/components/common/Title";
+import Input from "@/components/common/ui/Inputs/Input";
+import Modal from "@/components/common/ui/Modal";
+import Title from "@/components/common/ui/Title";
 import type { CriarContaBancariaDTO } from "@/dtos/contaBancaria/CriarContaBancariaDTO";
 import type { ContaBancariaDTO } from "@/dtos/contaBancaria/ContaBancariaDTO";
 import type { TipoContaDTO } from "@/dtos/contaBancaria/TipoContaDTO";
@@ -26,9 +26,7 @@ export const CadastrarContaBancaria = () => {
 
   const [tiposConta, setTiposConta] = useState<TipoContaDTO[]>([]);
 
-  const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean | null>(
-    null,
-  );
+  const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean>(false);
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -36,16 +34,10 @@ export const CadastrarContaBancaria = () => {
 
   useEffect(() => {
     const obterDadosConta = async () => {
-      try {
-        const conta = await consultarContaBancaria();
-        if (conta) {
-          setHasContaCadastrada(true);
-          setConta(conta);
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          setHasContaCadastrada(false);
-        }
+      const conta = await consultarContaBancaria();
+      if (conta) {
+        setHasContaCadastrada(true);
+        setConta(conta);
       }
     };
 
