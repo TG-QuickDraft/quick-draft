@@ -1,6 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json.Serialization;
+using Audit.Core;
+using Audit.EntityFramework;
+using Audit.WebApi;
 using Backend.Application;
 using Backend.Infrastructure;
 using Backend.Infrastructure.Persistence;
@@ -82,3 +85,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+Audit
+    .Core.Configuration.Setup()
+    .UseEntityFramework(ef =>
+        ef.AuditTypeNameMapper(typeName => typeName + "_Audit")
+            .AuditEntityAction((ev, entry, auditEntity) => { })
+    );
