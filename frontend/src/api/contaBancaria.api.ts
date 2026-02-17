@@ -64,7 +64,7 @@ export const atualizarContaBancaria = async(dto: ContaBancariaDTO) => {
   const resposta = await fetch(PATH, option);
   
   if (resposta.status !== 200) {
-    throw new Error("Erro ao dto: ", (await resposta.json()));
+    throw new Error("Erro ao atualizar conta bancária: ", (await resposta.json()));
   }
   
   return resposta.json();
