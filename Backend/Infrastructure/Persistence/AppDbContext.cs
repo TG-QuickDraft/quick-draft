@@ -60,6 +60,12 @@ namespace Backend.Infrastructure.Persistence
                 .HasForeignKey<ContaBancaria>(c => c.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<CartaoCredito>()
+                .HasOne(car => car.Cliente)
+                .WithOne(cli => cli.CartaoCredito)
+                .HasForeignKey<CartaoCredito>(c => c.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<TipoConta>().HasData(
                 new TipoConta { Id = 1, Nome = "Corrente" },
                 new TipoConta { Id = 2, Nome = "Poupança" }

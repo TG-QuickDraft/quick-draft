@@ -14,5 +14,7 @@ namespace Backend.Domain.Entities
         public Usuario? Usuario { get; set; }
 
         public ICollection<Servico> Servicos { get; set; } = [];
+
+        public CartaoCredito? CartaoCredito { get; set; }
     }
 }
