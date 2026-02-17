@@ -13,6 +13,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
         public DbSet<ContaBancaria> ContasBancarias { get; set; }
         public DbSet<TipoConta> TiposContas { get; set; }
+        public DbSet<CartaoCredito> CartoesCredito { get; set; }
         public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
