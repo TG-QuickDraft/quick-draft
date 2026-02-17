@@ -8,10 +8,10 @@ namespace Backend.Infrastructure.Persistence.Repositories
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<ContaBancaria?> ConsultarPorIdFreelancerAsync(int freelancerId)
+        public async Task<ContaBancaria?> ConsultarPorIdFreelancerAsync(int Id)
         {
             return await _context.ContasBancarias
-                .Where(c => c.FreelancerId == freelancerId)
+                .Where(c => c.Id == Id)
                 .Include(c => c.TipoConta)
                 .FirstOrDefaultAsync();
         }
@@ -32,7 +32,7 @@ namespace Backend.Infrastructure.Persistence.Repositories
         public async Task<ContaBancaria> AtualizarAsync(ContaBancaria conta)
         {
             ContaBancaria? contaSalva =
-                await ConsultarPorIdFreelancerAsync(conta.FreelancerId)
+                await ConsultarPorIdFreelancerAsync(conta.Id)
                     ?? throw new Exception("Conta não encontrada!");
 
             contaSalva.CpfTitular = conta.CpfTitular;

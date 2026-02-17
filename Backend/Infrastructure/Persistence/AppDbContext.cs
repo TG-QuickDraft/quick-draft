@@ -57,7 +57,7 @@ namespace Backend.Infrastructure.Persistence
             modelBuilder.Entity<ContaBancaria>()
                 .HasOne(c => c.Freelancer)
                 .WithOne(f => f.ContaBancaria)
-                .HasForeignKey<ContaBancaria>(c => c.FreelancerId)
+                .HasForeignKey<ContaBancaria>(c => c.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<TipoConta>().HasData(
