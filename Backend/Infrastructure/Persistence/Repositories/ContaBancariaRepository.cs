@@ -18,8 +18,8 @@ namespace Backend.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<TipoConta>> ConsultarTiposContaAsync()
         {
-            return await _context.TiposContas.
-                ToListAsync();
+            return await _context.TiposContas
+                .ToListAsync();
         }
 
         public async Task<ContaBancaria> CriarAsync(ContaBancaria conta)

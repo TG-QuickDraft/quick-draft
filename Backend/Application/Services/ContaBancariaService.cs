@@ -32,13 +32,13 @@ namespace Backend.Application.Services
         {          
             ContaBancaria contaACriar = new()
             {
+                Id = freelancerId,
                 CpfTitular = dto.CpfTitular,
                 NomeTitular = dto.NomeTitular,
                 Banco = dto.Banco,
                 Agencia = dto.Agencia,
                 NumeroConta = dto.NumeroConta,
                 TipoContaId = dto.TipoContaId,
-                Id = freelancerId,
             };
 
             return _mapper.Map<ContaBancariaDTO>(

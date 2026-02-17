@@ -1,5 +1,4 @@
 using AutoMapper;
-using Backend.Application.DTOs;
 using Backend.Application.DTOs.ProjetoFreelancer;
 using Backend.Domain.Entities;
 
