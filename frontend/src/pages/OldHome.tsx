@@ -7,7 +7,7 @@ import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
 
 import { useAuth } from "@/hooks/useAuth";
-export const Home = () => {
+export const OldHome = () => {
   const [count, setCount] = useState(0);
   const { isAuthenticated } = useAuth();
 
