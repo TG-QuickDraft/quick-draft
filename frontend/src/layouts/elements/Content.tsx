@@ -1,9 +1,5 @@
 const Content = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="flex-1 flex justify-center items-center">
-      <div className="w-full p-6">{children}</div>
-    </div>
-  );
+  return <div className="flex-1 flex flex-col">{children}</div>;
 };
 
 export default Content;
