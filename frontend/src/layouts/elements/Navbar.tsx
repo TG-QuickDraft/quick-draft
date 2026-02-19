@@ -74,7 +74,7 @@ const Navbar = () => {
       className={clsx(
         "flex justify-between p-8",
         "border-b border-white/20",
-        "text-white bg-secondary-80 shadow-lg",
+        "text-white bg-white shadow-lg",
       )}
     >
       <Stack direction="row" gap={6}>

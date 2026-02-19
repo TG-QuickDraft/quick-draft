@@ -13,15 +13,14 @@ const widths = {
 };
 
 export const variants = {
-  primary: clsx(base, "bg-primary-100 text-black text-secondary-100"),
+  primary: clsx(base, "bg-primary-100 text-black text-white"),
   secondary: clsx(base, "bg-secondary-80 text-white"),
-  default: clsx(base, "bg-white text-secondary-100"),
   danger: clsx(base, "bg-red-500 text-white"),
 };
 
 const Button = ({
   children,
-  variant = "default",
+  variant = "primary",
   className,
   width = "auto",
   icon,

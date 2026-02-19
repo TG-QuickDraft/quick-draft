@@ -59,13 +59,13 @@ const Select = ({
         disabled={disabled}
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
         className={clsx(
-          "px-4 py-1.5 bg-white text-left cursor-pointer",
-          "border-2 border-[#EFEFEF] ",
-          "rounded-lg min-w-35",
+          "px-4 py-2 bg-secondary-100 text-left cursor-pointer",
+          "border border-gray-600/20",
+          "rounded-lg min-w-35 shadow",
           className,
         )}
       >
-        <span className="font-light text-black pr-5">
+        <span className="text-black pr-5">
           {selectedOption?.label ?? placeholder}
         </span>
 
@@ -78,8 +78,8 @@ const Select = ({
 
       <div
         className={clsx(
-          "absolute z-40 w-full bg-white shadow-lg mt-2 px-2",
-          "border-2 border-t-0 border-[#EFEFEF]",
+          "absolute z-40 w-full bg-secondary-100 shadow-lg mt-2 px-2",
+          "border border-gray-600/20",
           "rounded-lg transition-all duration-200 ease-in-out",
           isOpen ? "py-2 max-h-50 opacity-100" : "max-h-0 py-0 opacity-0",
         )}
@@ -89,7 +89,7 @@ const Select = ({
             key={option.value}
             onClick={() => handleSelect(option)}
             className={clsx(
-              "px-3 py-2 cursor-pointer text-sm font-light border-b border-black/20 last:border-0",
+              "px-3 py-2 cursor-pointer text-sm border-b border-black/20 last:border-0",
               "text-black",
             )}
           >
