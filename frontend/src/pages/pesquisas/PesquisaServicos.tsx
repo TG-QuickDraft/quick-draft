@@ -59,19 +59,6 @@ export function PesquisaServico() {
     <div className="flex flex-col items-center h-full justify-center">
       <Title className="pb-8">Minha tabela de serviços</Title>
 
-      <form onSubmit={handleSubmit}>
-        <Input
-          value={filtroNome}
-          onChange={(e) => setFiltroNome(e.target.value)}
-          placeholder="Pesquisa"
-        />
-        <div className="flex justify-center my-8">
-          <Button icon={<GoSearch size={30} />} type="submit">
-            Buscar
-          </Button>
-        </div>
-      </form>
-
       {servicos.length === 0 ? (
         <PiEmptyLight size={30} />
       ) : (
