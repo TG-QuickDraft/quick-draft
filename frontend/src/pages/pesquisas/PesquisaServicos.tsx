@@ -12,14 +12,26 @@ import Input from "@/components/common/ui/Inputs/Input";
 import { GoSearch } from "react-icons/go";
 import type { FiltroServicoDTO } from "@/dtos/servico/FiltroServicoDTO";
 
+import { useSearchParams } from "react-router-dom";
+
 export function PesquisaServico() {
   const [filtroNome, setFiltroNome] = useState("");
 
   const [servicos, setServicos] = useState<Servico[]>([]);
 
+  const [searchParams] = useSearchParams();
+
   useEffect(() => {
+    const nomeUrl = searchParams.get("nome") || "";
+
+    setFiltroNome(nomeUrl);
+
     const obterDados = async () => {
-      const dados = await consultarServicos({});
+      const filtro: FiltroServicoDTO = {
+        nome: nomeUrl,
+      };
+
+      const dados = await consultarServicos(filtro);
 
       if (dados !== undefined) {
         setServicos(dados);
@@ -27,7 +39,7 @@ export function PesquisaServico() {
     };
 
     obterDados();
-  }, []);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

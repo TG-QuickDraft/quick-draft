@@ -13,14 +13,21 @@ import StarRating from "@/components/common/ui/StarRating";
 
 import MockProfile from "@/assets/mock-profile.png";
 
+import { useSearchParams } from "react-router-dom";
+
 export function PesquisaFreelancer() {
   const TABLE_SPACING = "p-3";
   const [filtroNome, setFiltroNome] = useState("");
   const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
+    const nomeUrl = searchParams.get("nome") || "";
+
+    setFiltroNome(nomeUrl);
+
     const obterDados = async () => {
-      const dados = await consultarFreelancers(filtroNome);
+      const dados = await consultarFreelancers(nomeUrl);
 
       if (dados !== undefined) {
         setFreelancers(dados);
@@ -28,7 +35,7 @@ export function PesquisaFreelancer() {
     };
 
     obterDados();
-  }, []);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
