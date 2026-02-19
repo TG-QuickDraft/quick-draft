@@ -1,5 +1,4 @@
 using Backend.Domain.Entities;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infrastructure.Persistence
@@ -14,6 +13,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<ContaBancaria> ContasBancarias { get; set; }
         public DbSet<TipoConta> TiposContas { get; set; }
         public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,21 +21,17 @@ namespace Backend.Infrastructure.Persistence
 
             modelBuilder.Entity<Usuario>(entity =>
             {
-                entity
-                    .HasIndex(u => u.Email)
-                    .IsUnique();
+                entity.HasIndex(u => u.Email).IsUnique();
 
-                entity
-                    .HasIndex(u => u.Cpf)
-                    .IsUnique();
+                entity.HasIndex(u => u.Cpf).IsUnique();
             });
 
             modelBuilder.Entity<Freelancer>(entity =>
             {
-                entity.Property(f => f.Id)
-                    .ValueGeneratedNever();
+                entity.Property(f => f.Id).ValueGeneratedNever();
 
-                entity.HasOne(f => f.Usuario)
+                entity
+                    .HasOne(f => f.Usuario)
                     .WithOne(u => u.Freelancer)
                     .HasForeignKey<Freelancer>(f => f.Id)
                     .OnDelete(DeleteBehavior.Cascade)
@@ -44,35 +40,74 @@ namespace Backend.Infrastructure.Persistence
 
             modelBuilder.Entity<Cliente>(entity =>
             {
-                entity.Property(c => c.Id)
-                    .ValueGeneratedNever();
+                entity.Property(c => c.Id).ValueGeneratedNever();
 
-                entity.HasOne(c => c.Usuario)
+                entity
+                    .HasOne(c => c.Usuario)
                     .WithOne(u => u.Cliente)
                     .HasForeignKey<Cliente>(c => c.Id)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_clientes_usuarios");
             });
 
-            modelBuilder.Entity<ContaBancaria>()
+            modelBuilder
+                .Entity<ContaBancaria>()
                 .HasOne(c => c.Freelancer)
                 .WithOne(f => f.ContaBancaria)
                 .HasForeignKey<ContaBancaria>(c => c.FreelancerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<TipoConta>().HasData(
-                new TipoConta { Id = 1, Nome = "Corrente" },
-                new TipoConta { Id = 2, Nome = "Poupança" }
-            );
-            
-            modelBuilder.Entity<BandeiraCartaoCredito>().HasData(
-                new BandeiraCartaoCredito { Id = 1, Nome = "Mastercard" },
-                new BandeiraCartaoCredito { Id = 2, Nome = "Visa" },
-                new BandeiraCartaoCredito { Id = 3, Nome = "Elo" },
-                new BandeiraCartaoCredito { Id = 4, Nome = "American Express" },
-                new BandeiraCartaoCredito { Id = 5, Nome = "Hipercard" }
-            );
+            modelBuilder
+                .Entity<TipoConta>()
+                .HasData(
+                    new TipoConta { Id = 1, Nome = "Corrente" },
+                    new TipoConta { Id = 2, Nome = "Poupança" }
+                );
 
+            modelBuilder
+                .Entity<BandeiraCartaoCredito>()
+                .HasData(
+                    new BandeiraCartaoCredito { Id = 1, Nome = "Mastercard" },
+                    new BandeiraCartaoCredito { Id = 2, Nome = "Visa" },
+                    new BandeiraCartaoCredito { Id = 3, Nome = "Elo" },
+                    new BandeiraCartaoCredito { Id = 4, Nome = "American Express" },
+                    new BandeiraCartaoCredito { Id = 5, Nome = "Hipercard" }
+                );
+        }
+
+        public override async Task<int> SaveChangesAsync(
+            CancellationToken cancellationToken = default
+        )
+        {
+            var auditEntries = ChangeTracker
+                .Entries()
+                .Where(e =>
+                    e.State == EntityState.Modified
+                    || e.State == EntityState.Added
+                    || e.State == EntityState.Deleted
+                )
+                .ToList();
+
+            foreach (var entry in auditEntries)
+            {
+                if (entry.Entity is AuditLog)
+                    continue;
+
+                var audit = new AuditLog
+                {
+                    EntityName = entry.Entity.GetType().Name,
+                    DateTime = DateTime.UtcNow,
+                    Action = entry.State.ToString(),
+                    Changes = System.Text.Json.JsonSerializer.Serialize(
+                        entry.CurrentValues.ToObject()
+                    ),
+                    User = "System",
+                };
+
+                AuditLogs.Add(audit);
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }
