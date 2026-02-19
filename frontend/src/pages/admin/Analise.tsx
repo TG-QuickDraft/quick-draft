@@ -57,7 +57,7 @@ export const Analise = () => {
       {
         label: "Serviços Abertos",
         data: mockData.servicosAbertos,
-        backgroundColor: "#22C55E",
+        backgroundColor: "#08a000",
       },
     ],
   };
@@ -71,7 +71,7 @@ export const Analise = () => {
           mockData.usuariosAtivos.clientes,
           mockData.usuariosAtivos.freelancers,
         ],
-        backgroundColor: ["#3B82F6", "#F59E0B"],
+        backgroundColor: ["#0060fc", "#fa9200"],
       },
     ],
   };
@@ -80,28 +80,37 @@ export const Analise = () => {
     <div className="flex flex-col gap-10 p-8 w-full">
       <Title>Análise</Title>
 
-      {/* Cards Resumo */}
-      <div className="grid grid-cols-3 gap-6">
-        <div className="bg-white shadow-md rounded-xl p-6 text-center">
-          <h3 className="text-gray-500">Lucro Total</h3>
-          <p className="text-2xl font-bold text-indigo-600">
+      {/* Cards */}
+      <div className="grid grid-cols-4 gap-4">
+        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+          <h3 className="text-sm text-gray-500">Lucro Total</h3>
+          <p className="text-xl font-bold text-indigo-600">
             R$ {mockData.lucroMensal.reduce((a, b) => a + b, 0)}
           </p>
         </div>
 
-        <div className="bg-white shadow-md rounded-xl p-6 text-center">
-          <h3 className="text-gray-500">Serviços Abertos</h3>
-          <p className="text-2xl font-bold text-green-600">
+        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+          <h3 className="text-sm text-gray-500">Serviços Abertos</h3>
+          <p className="text-xl font-bold text-green-600">
             {mockData.servicosAbertos.reduce((a, b) => a + b, 0)}
           </p>
         </div>
 
-        <div className="bg-white shadow-md rounded-xl p-6 text-center">
-          <h3 className="text-gray-500">Usuários Ativos</h3>
-          <p className="text-2xl font-bold text-blue-600">
+        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+          <h3 className="text-sm text-gray-500">Usuários Ativos</h3>
+          <p className="text-xl font-bold text-blue-600">
             {mockData.usuariosAtivos.clientes +
               mockData.usuariosAtivos.freelancers}
           </p>
+        </div>
+
+        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+          <h3 className="text-sm text-gray-500 mb-2">
+            Usuários Ativos
+          </h3>
+          <div className="w-32">
+            <Pie data={usuariosData} />
+          </div>
         </div>
       </div>
 
@@ -115,11 +124,6 @@ export const Analise = () => {
         <div className="bg-white p-6 rounded-xl shadow-md">
           <h3 className="mb-4 font-semibold">Serviços Abertos</h3>
           <Bar data={servicosData} />
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="mb-4 font-semibold">Usuários Ativos</h3>
-          <Pie data={usuariosData} />
         </div>
         
       </div>
