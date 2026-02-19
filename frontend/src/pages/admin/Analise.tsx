@@ -44,7 +44,7 @@ export const Analise = () => {
         label: "Lucro (R$)",
         data: mockData.lucroMensal,
         borderColor: "#4F46E5",
-        backgroundColor: "rgba(79,70,229,0.2)",
+        backgroundColor: "rgba(60, 0, 0, 0.2)",
         tension: 0.4,
       },
     ],
@@ -82,21 +82,21 @@ export const Analise = () => {
 
       {/* Cards */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500">Lucro Total</h3>
           <p className="text-xl font-bold text-indigo-600">
             R$ {mockData.lucroMensal.reduce((a, b) => a + b, 0)}
           </p>
         </div>
 
-        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500">Serviços Abertos</h3>
           <p className="text-xl font-bold text-green-600">
             {mockData.servicosAbertos.reduce((a, b) => a + b, 0)}
           </p>
         </div>
 
-        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500">Usuários Ativos</h3>
           <p className="text-xl font-bold text-blue-600">
             {mockData.usuariosAtivos.clientes +
@@ -104,7 +104,7 @@ export const Analise = () => {
           </p>
         </div>
 
-        <div className="bg-white shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
+        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500 mb-2">
             Usuários Ativos
           </h3>
@@ -116,13 +116,13 @@ export const Analise = () => {
 
       {/* Gráficos */}
       <div className="grid grid-cols-2 gap-10">
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="mb-4 font-semibold">Lucro Mensal</h3>
+        <div className="bg-white/90 p-6 rounded-xl shadow-md">
+          <h3 className="mb-4 font-semibold text-gray-600">Lucro Mensal</h3>
           <Line data={lucroData} />
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="mb-4 font-semibold">Serviços Abertos</h3>
+        <div className="bg-white/90 p-6 rounded-xl shadow-md">
+          <h3 className="mb-4 font-semibold text-gray-600">Serviços Abertos</h3>
           <Bar data={servicosData} />
         </div>
         
