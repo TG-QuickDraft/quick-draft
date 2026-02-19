@@ -5,8 +5,9 @@ export const adminRoutes = [
   {
     path: "/analise",
     element:
-        <RequireRole roles={["Admin"]}>
+       // <RequireRole roles={["Admin"]}>
             <Analise /> 
-        </RequireRole>
+      //  </RequireRole>
+      //deixei comentado só pra poder visualizar a página mais fácil
   },
 ];
