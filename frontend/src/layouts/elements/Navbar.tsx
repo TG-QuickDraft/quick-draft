@@ -88,8 +88,6 @@ const Navbar = () => {
           onSubmit={(e) => {
             e.preventDefault();
 
-            if (!search.trim()) return;
-
             if (tipo === "freelancers") {
               navigate(`/pesquisaFreelancer?nome=${search}`);
             } else {
