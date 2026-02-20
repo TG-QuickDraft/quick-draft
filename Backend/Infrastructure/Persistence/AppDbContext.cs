@@ -75,6 +75,8 @@ namespace Backend.Infrastructure.Persistence
                 );
         }
 
+        private static readonly HashSet<string> IgnoredProperties = new() { "HashSenha" };
+
         public override async Task<int> SaveChangesAsync(
             CancellationToken cancellationToken = default
         )
@@ -82,8 +84,8 @@ namespace Backend.Infrastructure.Persistence
             var auditEntries = ChangeTracker
                 .Entries()
                 .Where(e =>
-                    e.State == EntityState.Modified
-                    || e.State == EntityState.Added
+                    e.State == EntityState.Added
+                    || e.State == EntityState.Modified
                     || e.State == EntityState.Deleted
                 )
                 .ToList();
@@ -93,14 +95,60 @@ namespace Backend.Infrastructure.Persistence
                 if (entry.Entity is AuditLog)
                     continue;
 
+                var entityName = entry.Metadata.ClrType.Name;
+                var action = entry.State.ToString();
+                object? changes = null;
+
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                    {
+                        changes = entry
+                            .CurrentValues.Properties.Where(p =>
+                                !IgnoredProperties.Contains(p.Name)
+                            )
+                            .ToDictionary(p => p.Name, p => entry.CurrentValues[p]);
+                        break;
+                    }
+
+                    case EntityState.Modified:
+                    {
+                        var modifiedProperties = entry
+                            .Properties.Where(p =>
+                                p.IsModified && !IgnoredProperties.Contains(p.Metadata.Name)
+                            )
+                            .ToDictionary(
+                                p => p.Metadata.Name,
+                                p => new { Old = p.OriginalValue, New = p.CurrentValue }
+                            );
+
+                        if (modifiedProperties.Count == 0)
+                            continue;
+
+                        changes = modifiedProperties;
+                        break;
+                    }
+
+                    case EntityState.Deleted:
+                    {
+                        changes = entry
+                            .OriginalValues.Properties.Where(p =>
+                                !IgnoredProperties.Contains(p.Name)
+                            )
+                            .ToDictionary(p => p.Name, p => entry.OriginalValues[p]);
+                        break;
+                    }
+
+                    default:
+                        continue;
+                }
+
                 var audit = new AuditLog
                 {
-                    EntityName = entry.Entity.GetType().Name,
+                    EntityName = entityName,
                     DateTime = DateTime.UtcNow,
-                    Action = entry.State.ToString(),
-                    Changes = System.Text.Json.JsonSerializer.Serialize(
-                        entry.CurrentValues.ToObject()
-                    ),
+                    Action = action,
+                    Changes = System.Text.Json.JsonSerializer.Serialize(changes),
                     User = "System",
                 };
 
