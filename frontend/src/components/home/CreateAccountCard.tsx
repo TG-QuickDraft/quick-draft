@@ -1,8 +1,11 @@
 import clsx from "clsx";
 import MockProfile from "@/assets/mock-profile.png";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 export const CreateAccountCard = () => {
+  const { isAuthenticated } = useAuth();
+
   const buttonClasses = clsx(
     "group",
     "flex flex-col items-center gap-4",
@@ -12,7 +15,7 @@ export const CreateAccountCard = () => {
     "transition-all duration-300",
     "hover:-translate-y-1",
     "active:scale-95",
-    "cursor-pointer",
+    isAuthenticated ? "cursor-not-allowed" : "cursor-pointer",
   );
 
   const imageWrapperClasses = clsx(
@@ -31,11 +34,15 @@ export const CreateAccountCard = () => {
   return (
     <div className="flex flex-col items-center justify-center flex-1">
       <Link to="/cadastrarUsuario">
-        <button className={buttonClasses}>
+        <button className={buttonClasses} disabled={isAuthenticated}>
           <div className={imageWrapperClasses}>
             <img src={MockProfile} alt="Account" />
           </div>
-          <p className={textClasses}>Criar conta</p>
+          <p className={textClasses}>
+            {isAuthenticated
+              ? "Você está logado, o botão não vai funcionar"
+              : "Criar conta"}
+          </p>
         </button>
       </Link>
     </div>
