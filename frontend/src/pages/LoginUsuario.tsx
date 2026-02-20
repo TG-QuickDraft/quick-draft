@@ -6,9 +6,7 @@ import Input from "@/components/common/ui/Inputs/Input";
 import { CiLogin } from "react-icons/ci";
 import InputGroup from "@/components/common/ui/Inputs/InputGroup";
 import { useForm } from "react-hook-form";
-import { LoginSchema, type ILoginForm } from "@/validations/login.schema";
 
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
@@ -22,9 +20,7 @@ export const LoginUsuario = () => {
     register,
     handleSubmit,
     getValues,
-    formState: { errors },
-  } = useForm<ILoginForm>({
-    resolver: yupResolver(LoginSchema),
+  } = useForm({
     mode: "onChange",
   });
 
@@ -53,7 +49,6 @@ export const LoginUsuario = () => {
           <Input
             type="email"
             placeholder="Digite o seu e-mail"
-            error={errors.email?.message}
             {...register("email")}
           />
         </InputGroup>
@@ -63,7 +58,6 @@ export const LoginUsuario = () => {
           <Input
             type="password"
             placeholder="Digite a sua senha"
-            error={errors.senha?.message}
             {...register("senha")}
           />
         </InputGroup>
