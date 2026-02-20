@@ -45,7 +45,7 @@ export const PerfilFreelancer = () => {
   }, [freelancer]);
 
   return (
-    <div className="h-full flex items-center justify-center">
+    <div className="h-full p-6 flex-1 items-center justify-center">
       <div className="flex flex-col items-center gap-6">
         <Title>Página de Perfil do Freelancer</Title>
         <h3>{freelancer?.nome}</h3>

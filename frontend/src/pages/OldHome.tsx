@@ -14,7 +14,7 @@ export const OldHome = () => {
   const { roles } = useAuth();
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-1 flex-col items-center justify-center h-full">
       <div>
         <div className="flex flex-col gap-3 items-center">
           <Link to={"/pesquisaFreelancer"}>

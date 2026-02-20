@@ -10,14 +10,24 @@ import clsx from "clsx";
 import Search from "@/components/common/ui/Inputs/Search";
 import Select from "@/components/common/ui/Select";
 
+import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
+
 const Navbar = () => {
   const { logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const HomeButton = () => {
+    if (location.pathname === "/") {
+      return (
+        <div className="w-12 h-12 rounded-full bg-gray-200">
+          <ProfilePhoto size="sm" photoPath={undefined} />
+        </div>
+      );
+    }
+
     return (
-      <Link to="/">
+      <Link to="/old-home">
         <Button icon={<GoHome />}>HOME</Button>
       </Link>
     );

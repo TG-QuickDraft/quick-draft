@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 const base = clsx(
-  "px-4 py-2 rounded cursor-pointer ",
+  "px-4 py-2 rounded cursor-pointer border border-gray-600/20",
   "transition hover:scale-105 hover:shadow-lg",
 );
 
@@ -14,7 +14,7 @@ const widths = {
 
 export const variants = {
   primary: clsx(base, "bg-primary-100 text-black text-white"),
-  secondary: clsx(base, "bg-secondary-80 text-white"),
+  secondary: clsx(base, "bg-secondary-80 text-primary-100 "),
   danger: clsx(base, "bg-red-500 text-white"),
 };
 

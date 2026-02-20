@@ -65,7 +65,7 @@ const Select = ({
           className,
         )}
       >
-        <span className="text-black pr-5">
+        <span className="text-primary-100 pr-5">
           {selectedOption?.label ?? placeholder}
         </span>
 
@@ -89,8 +89,8 @@ const Select = ({
             key={option.value}
             onClick={() => handleSelect(option)}
             className={clsx(
-              "px-3 py-2 cursor-pointer text-sm border-b border-black/20 last:border-0",
-              "text-black",
+              "px-3 py-2 cursor-pointer border-b border-black/20 last:border-0",
+              "text-primary-100",
             )}
           >
             {option.label}
