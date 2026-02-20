@@ -5,6 +5,7 @@ import Button from "@/components/common/ui/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
+import { GoHome } from "react-icons/go";
 
 import { useAuth } from "@/hooks/useAuth";
 export const OldHome = () => {
@@ -22,21 +23,17 @@ export const OldHome = () => {
               Pesquisar freelancers
             </Button>
           </Link>
-
           <Link to={"/pesquisaServico"}>
             <Button icon={<IoIosSearch size={30} />}>Pesquisar serviços</Button>
           </Link>
-
           <Link to={"/cadastrarUsuario"}>
             <Button icon={<GoPlus size={30} />}>Cadastrar usuário</Button>
           </Link>
-
           {isAuthenticated && roles.includes("Cliente") && (
             <Link to={"/cadastrarServico"}>
               <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
             </Link>
           )}
-
           {isAuthenticated && roles.includes("Freelancer") && (
             <div className="flex flex-col gap-3 items-center">
               <Link to={"/cadastrarProjetoFreelancer"}>
@@ -44,7 +41,6 @@ export const OldHome = () => {
                   Cadastrar Projeto Freelancer
                 </Button>
               </Link>
-
               <Link to={"/cadastrarContaBancaria"}>
                 <Button icon={<GoPlus size={30} />}>
                   Cadastrar Conta Bancária
@@ -55,7 +51,6 @@ export const OldHome = () => {
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>
-
           <Button
             variant="secondary"
             id="oh"

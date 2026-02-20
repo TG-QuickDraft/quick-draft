@@ -1,7 +1,6 @@
 import Stack from "@/components/common/Stack";
 import Button from "@/components/common/ui/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { GoHome } from "react-icons/go";
 import { useAuth } from "@/hooks/useAuth";
 import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
@@ -17,22 +16,14 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const HomeButton = () => {
-    if (location.pathname === "/") {
-      return (
-        <div className="w-12 h-12 rounded-full bg-gray-200">
-          <ProfilePhoto
-            size="sm"
-            photoPath={usuario ? usuario.fotoPerfilUrl : ""}
-          />
-        </div>
-      );
-    }
-
+  const Profile = () => {
     return (
-      <Link to="/old-home">
-        <Button icon={<GoHome />}>HOME</Button>
-      </Link>
+      <div className="w-12 h-12 rounded-full bg-gray-200">
+        <ProfilePhoto
+          size="sm"
+          photoPath={usuario ? usuario.fotoPerfilUrl : ""}
+        />
+      </div>
     );
   };
 
@@ -91,7 +82,7 @@ const Navbar = () => {
       )}
     >
       <Stack direction="row" gap={6}>
-        <HomeButton />
+        <Profile />
         <div className="flex gap-2 items-center">
           <Search
             placeholder="Pesquise..."
