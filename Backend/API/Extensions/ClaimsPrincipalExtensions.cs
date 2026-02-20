@@ -9,7 +9,7 @@ namespace Backend.API.Extensions
         {
             var sub = user.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
-            if (!int.TryParse(sub, out var userId) || userId <= 0)
+            if (!int.TryParse(sub, out var userId) || userId < -1)
                 throw new UnauthorizedAccessException("Usuário inválido.");
 
             return userId;
