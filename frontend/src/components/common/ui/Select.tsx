@@ -81,7 +81,9 @@ const Select = ({
           "absolute z-40 w-full bg-secondary-100 shadow-lg mt-2 px-2",
           "border border-gray-600/20",
           "rounded-lg transition-all duration-200 ease-in-out",
-          isOpen ? "py-2 max-h-50 opacity-100" : "max-h-0 py-0 opacity-0",
+          isOpen
+            ? "py-2 max-h-50 opacity-100"
+            : "max-h-0 py-0 opacity-0 pointer-events-none",
         )}
       >
         {options.map((option) => (

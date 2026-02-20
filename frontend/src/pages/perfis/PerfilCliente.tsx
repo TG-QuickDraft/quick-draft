@@ -47,7 +47,7 @@ export const PerfilCliente = () => {
    */
 
   return (
-    <div className="h-full flex items-center justify-center">
+    <div className="h-full flex flex-1 items-center justify-center">
       <div className="flex flex-col items-center gap-6">
         <Title>Página de Perfil do Cliente</Title>
         <h3>{cliente?.nome}</h3>

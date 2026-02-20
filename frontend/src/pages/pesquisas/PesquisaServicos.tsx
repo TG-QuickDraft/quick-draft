@@ -44,7 +44,7 @@ export function PesquisaServico() {
   };
 
   return (
-    <div className="flex flex-col items-center h-full justify-center">
+    <div className="flex flex-1 flex-col items-center h-full justify-center">
       <Title className="pb-8">Minha tabela de serviços</Title>
 
       <form onSubmit={handleSubmit}>

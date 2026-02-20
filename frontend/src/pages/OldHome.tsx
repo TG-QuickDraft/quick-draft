@@ -5,7 +5,6 @@ import Button from "@/components/common/ui/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
-import { GoHome } from "react-icons/go";
 
 import { useAuth } from "@/hooks/useAuth";
 export const OldHome = () => {

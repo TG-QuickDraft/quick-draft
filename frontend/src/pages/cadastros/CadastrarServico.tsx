@@ -30,7 +30,7 @@ export const CadastrarServico = () => {
       setModalStatus("Sucesso");
       setModalMsg("Serviço cadastrado com sucesso!");
       setShowModal(true);
-    } catch (error){
+    } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
@@ -40,14 +40,11 @@ export const CadastrarServico = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-1 flex-col items-center justify-center h-full">
       <Title>Cadastrar Serviço</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <Input
-          placeholder="Nome"
-          onChange={(e) => setNome(e.target.value)}
-        />
+        <Input placeholder="Nome" onChange={(e) => setNome(e.target.value)} />
 
         <Input
           placeholder="Descrição"

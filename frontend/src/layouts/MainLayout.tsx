@@ -10,7 +10,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <Container>
       <Navbar />
       <Content>{children}</Content>
-      <div className="flex p-6 gap-5">
+      <div className="fixed bottom-0 left-0 flex p-6 gap-5">
         <Link to="/">
           <Button icon={<GoHome />} variant="secondary">
             New Home
