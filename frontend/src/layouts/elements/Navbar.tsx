@@ -13,7 +13,7 @@ import Select from "@/components/common/ui/Select";
 import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
 
 const Navbar = () => {
-  const { logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -21,7 +21,10 @@ const Navbar = () => {
     if (location.pathname === "/") {
       return (
         <div className="w-12 h-12 rounded-full bg-gray-200">
-          <ProfilePhoto size="sm" photoPath={undefined} />
+          <ProfilePhoto
+            size="sm"
+            photoPath={usuario ? usuario.fotoPerfilUrl : ""}
+          />
         </div>
       );
     }
