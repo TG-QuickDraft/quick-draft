@@ -73,6 +73,19 @@ namespace Backend.Infrastructure.Persistence
                 new BandeiraCartaoCredito { Id = 5, Nome = "Hipercard" }
             );
 
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario
+                {
+                    Id = -1, // negativo para evitar conflito
+                    Nome = "Administrador do Sistema",
+                    Cpf = "00000000000",
+                    Email = "admin@sistema.com",
+                    FotoPerfilUrl = "uploads/fotos-perfil/fotoADM.jpg",
+                    HashSenha = "AQAAAAIAAYagAAAAEHEM/Yc24Gwy0usv3Q4hrhUuLkyawKFjak/+t9BLGQo+9o5ziRkt7Rel7X6oHFVYOw==", // a senha é: 123
+                    IsAdmin = true
+                }
+            );
+
         }
     }
 }
