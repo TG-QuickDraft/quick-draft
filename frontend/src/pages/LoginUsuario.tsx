@@ -38,7 +38,7 @@ export const LoginUsuario = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-1 flex-col items-center justify-center h-full">
       <form
         onSubmit={handleSubmit(enviar)}
         className="flex flex-col max-w-md w-full my-8 p-12 rounded-xl shadow-2xl border border-gray-600/20"

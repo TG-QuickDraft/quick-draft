@@ -117,7 +117,7 @@ export const CadastrarContaBancaria = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-1 flex-col items-center justify-center h-full">
       <Title>Cadastrar Conta Bancária</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">

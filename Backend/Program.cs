@@ -16,14 +16,14 @@ builder.Services.AddInfrastructure();
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddControllers()
-    .AddJsonOptions(opt =>
-    opt.JsonSerializerOptions.Converters
-        .Add(new JsonStringEnumConverter()));
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddCors(options =>
 {
@@ -31,17 +31,15 @@ builder.Services.AddCors(options =>
         name: "PermitirOrigemFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
+            policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
         }
     );
 });
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-builder.Services
-    .AddAuthentication("Bearer")
+builder
+    .Services.AddAuthentication("Bearer")
     .AddJwtBearer(opt =>
     {
         opt.MapInboundClaims = false;
@@ -57,7 +55,7 @@ builder.Services
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
             ),
-            RoleClaimType = "roles"
+            RoleClaimType = "roles",
         };
     });
 

@@ -7,7 +7,10 @@ import Title from "@/components/common/ui/Title";
 
 import Modal from "@/components/common/ui/Modal";
 import type { CriarProjetoFreelancerDTO } from "@/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
-import { adicionarProjetoFreelancer, enviarImagemProjeto } from "@/api/projetoFreelancer.api";
+import {
+  adicionarProjetoFreelancer,
+  enviarImagemProjeto,
+} from "@/api/projetoFreelancer.api";
 import Input from "@/components/common/ui/Inputs/Input";
 
 export const CadastrarProjetoFreelancer = () => {
@@ -24,12 +27,12 @@ export const CadastrarProjetoFreelancer = () => {
     const projeto: CriarProjetoFreelancerDTO = {
       nome: nome,
       descricao: descricao,
-      link: link
+      link: link,
     };
 
     try {
       const projetoAdicionado = await adicionarProjetoFreelancer(projeto);
-      
+
       if (imagem && projetoAdicionado) {
         const form = new FormData();
 
@@ -41,38 +44,28 @@ export const CadastrarProjetoFreelancer = () => {
       setModalStatus("Sucesso");
       setModalMsg("Projeto cadastrado com sucesso!");
       setShowModal(true);
-
-    } catch (error){
-
+    } catch (error) {
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
         setShowModal(true);
       }
     }
-
-    
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-1 flex-col items-center justify-center h-full">
       <Title>Cadastrar Projeto</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <Input
-          placeholder="Nome"
-          onChange={(e) => setNome(e.target.value)}
-        />
+        <Input placeholder="Nome" onChange={(e) => setNome(e.target.value)} />
 
         <Input
           placeholder="Descrição"
           onChange={(e) => setDescricao(e.target.value)}
         />
-        
-        <Input
-          placeholder="Link"
-          onChange={(e) => setLink(e.target.value)}
-        />
+
+        <Input placeholder="Link" onChange={(e) => setLink(e.target.value)} />
 
         <Input
           name="imagem"

@@ -26,9 +26,9 @@ const Search = ({
         onChange={onChange}
         onKeyDown={onKeyPress}
         className={clsx(
-          "py-1.5 pl-3 pr-12",
-          "rounded-lg bg-white",
-          "border-2 border-white/20",
+          "py-2 pl-3 pr-12",
+          "rounded-lg bg-gray-100",
+          "border border-gray-600/20",
           "focus:outline-none",
           "text-gray-800 placeholder:text-gray-600",
           "transition-all duration-200",

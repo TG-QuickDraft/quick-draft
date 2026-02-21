@@ -49,7 +49,7 @@ export function PesquisaFreelancer() {
   console.log(freelancers);
 
   return (
-    <div className="flex flex-col items-center gap-8 h-full justify-center">
+    <div className="flex flex-1 flex-col items-center gap-8 h-full justify-center">
       <Title>Minha tabela de freelancers</Title>
 
       {freelancers.length === 0 ? (
