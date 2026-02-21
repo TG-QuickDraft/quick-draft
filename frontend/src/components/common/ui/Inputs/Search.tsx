@@ -8,12 +8,8 @@ const widths = {
   fixed: "w-[350px]",
 };
 
-type SearchProps = {
-  placeholder?: string;
-  onChange?: (e: any) => void;
+type SearchProps = React.InputHTMLAttributes<HTMLInputElement> & {
   width?: keyof typeof widths;
-  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  className?: string;
 };
 
 const Search = ({

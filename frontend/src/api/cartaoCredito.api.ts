@@ -1,10 +1,10 @@
-import type { ContaBancariaDTO } from "@/dtos/contaBancaria/ContaBancariaDTO";
-import type { CriarContaBancariaDTO } from "@/dtos/contaBancaria/CriarContaBancariaDTO";
+import type { CartaoCreditoDTO } from "@/dtos/cartaoCredito/CartaoCreditoDTO";
+import type { CriarCartaoCreditoDTO } from "@/dtos/cartaoCredito/CriarCartaoCreditoDTO";
 import { localStorageKeys } from "@/utils/localStorageKeys";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/contaBancaria`;
+const PATH = `${import.meta.env.VITE_API_URL}/api/cartaoCredito`;
 
-export const consultarContaBancaria = async () => {
+export const consultarCartaoCredito = async () => {
     const option = {
         method: "GET",
         headers: {
@@ -16,42 +16,42 @@ export const consultarContaBancaria = async () => {
     const resposta = await fetch(PATH, option);
 
     if (resposta.status !== 200) {
-        throw new Error("Erro ao consultar conta.");
+        throw new Error("Erro ao consultar cartão.");
     }
 
     return await resposta.json();
 }
 
-export const consultarTiposConta = async () => {
-    const resposta = await fetch(`${PATH}/tipoConta`);
+export const consultarBandeiras = async () => {
+    const resposta = await fetch(`${PATH}/bandeiras`);
 
     if (resposta.status !== 200) {
-        throw new Error("Erro ao consultar tipos de conta.");
+        throw new Error("Erro ao consultar bandeiras de cartão de crédito.");
     }
 
     return await resposta.json();
 }
 
-export const adicionarContaBancaria = async (conta: CriarContaBancariaDTO) => {
+export const adicionarCartaoCredito = async (cartao: CriarCartaoCreditoDTO) => {
     const option = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
         },
-        body: JSON.stringify(conta),
+        body: JSON.stringify(cartao),
     };
 
     const resposta = await fetch(PATH, option);
 
     if (resposta.status !== 201) {
-        throw new Error("Erro ao adicionar conta.");
+        throw new Error("Erro ao adicionar cartão de crédito.");
     }
 
     return resposta.json();
 }
 
-export const atualizarContaBancaria = async(dto: ContaBancariaDTO) => {
+export const atualizarCartaoCredito = async(dto: CartaoCreditoDTO) => {
   const option = {
     method: "PUT",
     headers: {
@@ -64,7 +64,7 @@ export const atualizarContaBancaria = async(dto: ContaBancariaDTO) => {
   const resposta = await fetch(PATH, option);
   
   if (resposta.status !== 200) {
-    throw new Error("Erro ao atualizar conta bancária: ", (await resposta.json()));
+    throw new Error("Erro ao atualizar cartão: ", (await resposta.json()));
   }
   
   return resposta.json();
