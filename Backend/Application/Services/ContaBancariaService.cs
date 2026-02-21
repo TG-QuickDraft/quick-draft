@@ -32,13 +32,13 @@ namespace Backend.Application.Services
         {          
             ContaBancaria contaACriar = new()
             {
+                Id = freelancerId,
                 CpfTitular = dto.CpfTitular,
                 NomeTitular = dto.NomeTitular,
                 Banco = dto.Banco,
                 Agencia = dto.Agencia,
                 NumeroConta = dto.NumeroConta,
                 TipoContaId = dto.TipoContaId,
-                FreelancerId = freelancerId,
             };
 
             return _mapper.Map<ContaBancariaDTO>(
@@ -49,7 +49,7 @@ namespace Backend.Application.Services
         public async Task<ContaBancariaDTO> AtualizarAsync(ContaBancariaDTO dto, int freelancerId)
         {
             ContaBancaria contaToUpdate = _mapper.Map<ContaBancaria>(dto);
-            contaToUpdate.FreelancerId = freelancerId;
+            contaToUpdate.Id = freelancerId;
 
             return _mapper.Map<ContaBancariaDTO>(
                 await _repository.AtualizarAsync(contaToUpdate)

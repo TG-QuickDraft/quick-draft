@@ -7,7 +7,6 @@ namespace Backend.Domain.Entities
    [Table("contas_bancarias")]
    public class ContaBancaria
     {
-        // TODO: alterar o modelo, a PK da conta tem que ser FK também, pegando o id do freelancer
         [Key]
         [Column("con_id")]
         public int Id { get; set; }
@@ -36,14 +35,9 @@ namespace Backend.Domain.Entities
         [Required]
         public int TipoContaId { get; set; }
 
-        [Column("con_fre_id")]
-        [Required]
-        public int FreelancerId { get; set; }
-
         [ForeignKey(nameof(TipoContaId))]
         public TipoConta? TipoConta { get; set; }
 
-        [ForeignKey(nameof(FreelancerId))]
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
     }

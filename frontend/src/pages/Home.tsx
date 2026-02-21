@@ -32,9 +32,16 @@ export const Home = () => {
           </Link>
 
           {isAuthenticated && roles.includes("Cliente") && (
-            <Link to={"/cadastrarServico"}>
-              <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
-            </Link>
+            <div className="flex flex-col gap-3 items-center">
+              <Link to={"/cadastrarServico"}>
+                <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
+              </Link>
+              <Link to={"/cadastrarCartaoCredito"}>
+                <Button icon={<GoPlus size={30} />}>
+                  Cadastrar Cartão Crédito
+                </Button>
+              </Link>
+            </div>
           )}
 
           {isAuthenticated && roles.includes("Freelancer") && (

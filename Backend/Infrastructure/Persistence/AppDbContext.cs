@@ -13,6 +13,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
         public DbSet<ContaBancaria> ContasBancarias { get; set; }
         public DbSet<TipoConta> TiposContas { get; set; }
+        public DbSet<CartaoCredito> CartoesCredito { get; set; }
         public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,7 +58,13 @@ namespace Backend.Infrastructure.Persistence
             modelBuilder.Entity<ContaBancaria>()
                 .HasOne(c => c.Freelancer)
                 .WithOne(f => f.ContaBancaria)
-                .HasForeignKey<ContaBancaria>(c => c.FreelancerId)
+                .HasForeignKey<ContaBancaria>(c => c.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartaoCredito>()
+                .HasOne(car => car.Cliente)
+                .WithOne(cli => cli.CartaoCredito)
+                .HasForeignKey<CartaoCredito>(c => c.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<TipoConta>().HasData(
