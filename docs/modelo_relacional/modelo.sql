@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS "contas_bancarias" (
 	"con_agencia" VARCHAR(10) NOT NULL,
 	"con_numero_conta" VARCHAR(20) NOT NULL,
 	"con_tpc_id" INTEGER NOT NULL,
-	"con_fre_id" INTEGER NOT NULL UNIQUE,
 	PRIMARY KEY("con_id")
 );
 
@@ -105,7 +104,6 @@ CREATE TABLE IF NOT EXISTS "cartoes_credito" (
 	"cre_nome_impresso" VARCHAR(255) NOT NULL,
 	"cre_bcc_id" INTEGER NOT NULL,
 	"cre_codigo_seguranca" CHAR(3) NOT NULL,
-	"cre_cli_id" INTEGER NOT NULL UNIQUE,
 	PRIMARY KEY("cre_id")
 );
 
@@ -210,7 +208,7 @@ ALTER TABLE "projetos_destacados_proposta"
 ADD FOREIGN KEY("pde_pro_id") REFERENCES "propostas"("pro_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "cartoes_credito"
-ADD FOREIGN KEY("cre_cli_id") REFERENCES "clientes"("cli_id")
+ADD FOREIGN KEY("cre_id") REFERENCES "clientes"("cli_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "pagamentos"
 ADD FOREIGN KEY("pag_cre_id") REFERENCES "cartoes_credito"("cre_id")
@@ -231,5 +229,5 @@ ALTER TABLE "mensagens_servico"
 ADD FOREIGN KEY("mss_destinatario_usu_id") REFERENCES "usuarios"("usu_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "contas_bancarias"
-ADD FOREIGN KEY("con_fre_id") REFERENCES "freelancers"("fre_id")
+ADD FOREIGN KEY("con_id") REFERENCES "freelancers"("fre_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;

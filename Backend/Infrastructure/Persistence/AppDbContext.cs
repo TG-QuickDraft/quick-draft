@@ -12,6 +12,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
         public DbSet<ContaBancaria> ContasBancarias { get; set; }
         public DbSet<TipoConta> TiposContas { get; set; }
+        public DbSet<CartaoCredito> CartoesCredito { get; set; }
         public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
 
@@ -22,14 +23,12 @@ namespace Backend.Infrastructure.Persistence
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.HasIndex(u => u.Email).IsUnique();
-
                 entity.HasIndex(u => u.Cpf).IsUnique();
             });
 
             modelBuilder.Entity<Freelancer>(entity =>
             {
                 entity.Property(f => f.Id).ValueGeneratedNever();
-
                 entity
                     .HasOne(f => f.Usuario)
                     .WithOne(u => u.Freelancer)
@@ -41,7 +40,6 @@ namespace Backend.Infrastructure.Persistence
             modelBuilder.Entity<Cliente>(entity =>
             {
                 entity.Property(c => c.Id).ValueGeneratedNever();
-
                 entity
                     .HasOne(c => c.Usuario)
                     .WithOne(u => u.Cliente)
@@ -54,7 +52,13 @@ namespace Backend.Infrastructure.Persistence
                 .Entity<ContaBancaria>()
                 .HasOne(c => c.Freelancer)
                 .WithOne(f => f.ContaBancaria)
-                .HasForeignKey<ContaBancaria>(c => c.FreelancerId)
+                .HasForeignKey<ContaBancaria>(c => c.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartaoCredito>()
+                .HasOne(car => car.Cliente)
+                .WithOne(cli => cli.CartaoCredito)
+                .HasForeignKey<CartaoCredito>(c => c.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder
@@ -73,6 +77,19 @@ namespace Backend.Infrastructure.Persistence
                     new BandeiraCartaoCredito { Id = 4, Nome = "American Express" },
                     new BandeiraCartaoCredito { Id = 5, Nome = "Hipercard" }
                 );
+
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario
+                {
+                    Id = -1,
+                    Nome = "Administrador do Sistema",
+                    Cpf = "00000000000",
+                    Email = "admin@sistema.com",
+                    FotoPerfilUrl = "uploads/fotos-perfil/fotoADM.jpg",
+                    HashSenha = "AQAAAAIAAYagAAAAEHEM/Yc24Gwy0usv3Q4hrhUuLkyawKFjak/+t9BLGQo+9o5ziRkt7Rel7X6oHFVYOw==",
+                    IsAdmin = true
+                }
+            );
         }
 
         private static readonly HashSet<string> IgnoredProperties = new() { "HashSenha" };
@@ -102,21 +119,16 @@ namespace Backend.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                    {
                         changes = entry
-                            .CurrentValues.Properties.Where(p =>
-                                !IgnoredProperties.Contains(p.Name)
-                            )
+                            .CurrentValues.Properties
+                            .Where(p => !IgnoredProperties.Contains(p.Name))
                             .ToDictionary(p => p.Name, p => entry.CurrentValues[p]);
                         break;
-                    }
 
                     case EntityState.Modified:
-                    {
                         var modifiedProperties = entry
-                            .Properties.Where(p =>
-                                p.IsModified && !IgnoredProperties.Contains(p.Metadata.Name)
-                            )
+                            .Properties
+                            .Where(p => p.IsModified && !IgnoredProperties.Contains(p.Metadata.Name))
                             .ToDictionary(
                                 p => p.Metadata.Name,
                                 p => new { Old = p.OriginalValue, New = p.CurrentValue }
@@ -127,17 +139,13 @@ namespace Backend.Infrastructure.Persistence
 
                         changes = modifiedProperties;
                         break;
-                    }
 
                     case EntityState.Deleted:
-                    {
                         changes = entry
-                            .OriginalValues.Properties.Where(p =>
-                                !IgnoredProperties.Contains(p.Name)
-                            )
+                            .OriginalValues.Properties
+                            .Where(p => !IgnoredProperties.Contains(p.Name))
                             .ToDictionary(p => p.Name, p => entry.OriginalValues[p]);
                         break;
-                    }
 
                     default:
                         continue;
