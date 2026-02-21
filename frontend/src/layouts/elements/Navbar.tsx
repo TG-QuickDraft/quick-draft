@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const [search, setSearch] = useState("");
   const [tipo, setTipo] = useState("freelancers");
-  
+
   const Profile = () => {
     return (
       <div className="w-12 h-12 rounded-full bg-gray-200">
@@ -88,36 +88,37 @@ const Navbar = () => {
       <Stack direction="row" gap={6}>
         <Profile />
         <div className="flex gap-2 items-center">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
 
-            if (tipo === "freelancers") {
-              navigate(`/pesquisaFreelancer?nome=${search}`);
-            } else {
-              navigate(`/pesquisaServico?nome=${search}`);
-            }
-          }}
-          className="flex gap-2 items-center"
-        >
-          <Search
-            value={search}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearch(e.target.value)
-            }
-            placeholder="Pesquise..."
-            className="w-40! md:w-80! lg:w-100!"
-          />
+              if (tipo === "freelancers") {
+                navigate(`/pesquisaFreelancer?nome=${search}`);
+              } else {
+                navigate(`/pesquisaServico?nome=${search}`);
+              }
+            }}
+            className="flex gap-2 items-center"
+          >
+            <Search
+              value={search}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
+              placeholder="Pesquise..."
+              className="w-40! md:w-80! lg:w-100!"
+            />
 
-          <Select
-            value={tipo}
-            onChange={(value: string) => setTipo(value)}
-            options={[
-              { value: "freelancers", label: "Freelancers" },
-              { value: "serviços", label: "Serviços" },
-            ]}
-          />
-        </form>
+            <Select
+              value={tipo}
+              onChange={(value: string) => setTipo(value)}
+              options={[
+                { value: "freelancers", label: "Freelancers" },
+                { value: "serviços", label: "Serviços" },
+              ]}
+            />
+          </form>
+        </div>
       </Stack>
       <Stack direction="row" gap={6}>
         {renderButtons()}
