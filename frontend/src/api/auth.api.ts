@@ -9,7 +9,7 @@ export const loginApi = async (userLogin: LoginDTO) => {
     body: JSON.stringify(userLogin),
   });
 
-  if (!response.ok) {
+  if (!response.ok) {a
     throw new Error("Credenciais inválidas");
   }
 
