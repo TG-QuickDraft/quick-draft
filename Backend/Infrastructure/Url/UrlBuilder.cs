@@ -8,7 +8,7 @@ namespace Backend.Infrastructure.Url
     {
         private readonly ImageSettings _settings = options.Value;
 
-        public string ConstruirUrl(string path)
+        public string ConstruirUrl(string? path)
         {
             if (string.IsNullOrEmpty(path))
                 return "";
