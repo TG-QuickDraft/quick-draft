@@ -45,7 +45,8 @@ jobs:
 
       - name: TypeScript type check
         working-directory: frontend
-        run: npx tsc -p tsconfig.app.json --noEmit --pretty false
+        run: |
+          npx tsc -p tsconfig.app.json --noEmit --pretty false 2>&1 | tee tsc.log
 
       - name: Run Jest tests
         working-directory: frontend
