@@ -1,8 +1,8 @@
-import { atualizarSenha, consultarUsuario } from "@/api/usuario.api";
+import { atualizarSenha, consultarUsuario } from "@/features/users/api/usuario.api";
 import Button from "@/components/common/ui/Button";
 
 import Input from "@/components/common/ui/Inputs/Input";
-import type { Usuario } from "@/domain/models/Usuario";
+import type { Usuario } from "@/features/users/models/Usuario";
 import { useEffect, useState } from "react";
 import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
 

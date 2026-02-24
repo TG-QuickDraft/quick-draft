@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 
-import { freelancerRoutes } from "./freelancer.routes";
-import { servicoRoutes } from "./servico.routes";
-import { clienteRoutes } from "./cliente.routes";
-import { usuarioRoutes } from "./usuario.routes";
+import { freelancerRoutes } from "../features/freelancers/routes/freelancer.routes";
+import { servicoRoutes } from "../features/services/routes/servico.routes";
+import { clienteRoutes } from "../features/clients/routes/cliente.routes";
+import { usuarioRoutes } from "../features/users/routes/usuario.routes";
 import { OldHome } from "@/pages/OldHome";
 import { Home } from "@/pages/Home";
-import { adminRoutes } from "./admin.routes";
+import { adminRoutes } from "../features/admin/routes/admin.routes";
 
 const AppRoutes = () => {
   const routes = [

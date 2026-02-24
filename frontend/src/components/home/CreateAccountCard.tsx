@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import MockProfile from "@/assets/mock-profile.png";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 export const CreateAccountCard = () => {
   const { isAuthenticated } = useAuth();

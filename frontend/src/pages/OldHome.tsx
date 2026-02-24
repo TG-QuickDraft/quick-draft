@@ -6,7 +6,7 @@ import Button from "@/components/common/ui/Button";
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 export const OldHome = () => {
   const [count, setCount] = useState(0);
   const { isAuthenticated } = useAuth();

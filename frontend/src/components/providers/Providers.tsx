@@ -1,4 +1,4 @@
-import AuthProvider from "@/hooks/useAuth";
+import AuthProvider from "@/features/auth/hooks/useAuth";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return <AuthProvider>{children}</AuthProvider>;

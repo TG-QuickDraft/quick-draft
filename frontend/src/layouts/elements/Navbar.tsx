@@ -1,7 +1,7 @@
 import Stack from "@/components/common/Stack";
 import Button from "@/components/common/ui/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
