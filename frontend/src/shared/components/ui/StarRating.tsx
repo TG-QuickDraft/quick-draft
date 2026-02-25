@@ -1,15 +1,15 @@
 import Rating from "react-rating";
 
-import StarEmpty from "@/assets/icons/ui/rating/star-empty.svg?react";
-import StarFull from "@/assets/icons/ui/rating/star-full.svg?react";
+import { StarEmptyIcon } from "@/shared/assets";
+import { StarFullIcon } from "@/shared/assets";
 
 const StarRating = ({ rating }: { rating: number }) => {
   return (
     <Rating
       readonly
       initialRating={rating}
-      emptySymbol={<StarEmpty className="mx-1.5" />}
-      fullSymbol={<StarFull className="mx-1.5" />}
+      emptySymbol={<StarEmptyIcon className="mx-1.5" />}
+      fullSymbol={<StarFullIcon className="mx-1.5" />}
     />
   );
 };

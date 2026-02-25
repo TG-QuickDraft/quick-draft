@@ -11,7 +11,7 @@ import { TesteMarkdown } from "@/shared/components/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/features/freelancers/models/ProjetoFreelancer";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 import { PiEmptyLight } from "react-icons/pi";
-import MockProfile from "@/assets/mock-profile.png";
+import { MockProfile } from "@/shared/assets";
 
 import StarRating from "@/shared/components/ui/StarRating";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";

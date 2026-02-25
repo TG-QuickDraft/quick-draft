@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import MockProfile from "@/assets/mock-profile.png";
+import { MockProfile } from "@/shared/assets";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 

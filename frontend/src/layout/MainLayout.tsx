@@ -1,6 +1,6 @@
-import Navbar from "./elements/Navbar";
-import Container from "./elements/Container";
-import Content from "./elements/Content";
+import Navbar from "./components/Navbar";
+import Container from "./components/Container";
+import Content from "./components/Content";
 import { Link } from "react-router-dom";
 import Button from "@/shared/components/ui/Button";
 import { GoHome } from "react-icons/go";

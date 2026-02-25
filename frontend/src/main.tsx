@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 
 import Providers from "./providers/Providers.tsx";
-import MainLayout from "./layouts/MainLayout.tsx";
+import MainLayout from "./layout/MainLayout.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

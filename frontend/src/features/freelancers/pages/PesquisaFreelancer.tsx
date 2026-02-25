@@ -9,7 +9,7 @@ import Title from "@/shared/components/ui/Title";
 import { PiEmptyLight } from "react-icons/pi";
 import StarRating from "@/shared/components/ui/StarRating";
 
-import MockProfile from "@/assets/mock-profile.png";
+import { MockProfile } from "@/shared/assets";
 
 import { useSearchParams } from "react-router-dom";
 

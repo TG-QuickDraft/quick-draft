@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
-import CaretDownIcon from "@/assets/icons/ui/actions/caret-down.svg?react";
+import { CaretDownIcon } from "@/shared/assets";
 
 interface SelectOption {
   value: string;
