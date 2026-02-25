@@ -1,10 +1,10 @@
 import { atualizarSenha, consultarUsuario } from "@/features/users/api/usuario.api";
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 
-import Input from "@/components/common/ui/Inputs/Input";
+import Input from "@/shared/components/ui/Inputs/Input";
 import type { Usuario } from "@/features/users/models/Usuario";
 import { useEffect, useState } from "react";
-import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
+import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);

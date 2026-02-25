@@ -1,14 +1,14 @@
 import { useState } from "react";
 
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 import { LuSave } from "react-icons/lu";
 
-import Title from "@/components/common/ui/Title";
+import Title from "@/shared/components/ui/Title";
 
 import { adicionarServico } from "@/features/services/api/servico.api";
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
-import Modal from "@/components/common/ui/Modal";
-import Input from "@/components/common/ui/Inputs/Input";
+import Modal from "@/shared/components/ui/Modal";
+import Input from "@/shared/components/ui/Inputs/Input";
 
 export const CadastrarServico = () => {
   const [nome, setNome] = useState("");

@@ -1,15 +1,15 @@
-import Stack from "@/components/common/Stack";
-import Button from "@/components/common/ui/Button";
+import Stack from "@/shared/components/Stack";
+import Button from "@/shared/components/ui/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import clsx from "clsx";
-import Search from "@/components/common/ui/Inputs/Search";
-import Select from "@/components/common/ui/Select";
+import Search from "@/shared/components/ui/Inputs/Search";
+import Select from "@/shared/components/ui/Select";
 
-import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
+import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useState } from "react";
 
 const Navbar = () => {

@@ -1,6 +1,6 @@
 import type { CartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CartaoCreditoDTO";
 import type { CriarCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CriarCartaoCreditoDTO";
-import { localStorageKeys } from "@/utils/localStorageKeys";
+import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/cartaoCredito`;
 

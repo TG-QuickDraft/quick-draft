@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 
-import Providers from "./components/providers/Providers.tsx";
+import Providers from "./providers/Providers.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
 
 createRoot(document.getElementById("root")!).render(

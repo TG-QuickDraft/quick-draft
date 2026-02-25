@@ -3,18 +3,18 @@ import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.
 import type { Freelancer } from "@/features/freelancers/models/Freelancer";
 import { useEffect, useState } from "react";
 
-import Title from "@/components/common/ui/Title";
+import Title from "@/shared/components/ui/Title";
 
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { TesteMarkdown } from "@/components/common/TesteMarkdown";
+import { TesteMarkdown } from "@/shared/components/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/features/freelancers/models/ProjetoFreelancer";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 import { PiEmptyLight } from "react-icons/pi";
 import MockProfile from "@/assets/mock-profile.png";
 
-import StarRating from "@/components/common/ui/StarRating";
-import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
+import StarRating from "@/shared/components/ui/StarRating";
+import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();

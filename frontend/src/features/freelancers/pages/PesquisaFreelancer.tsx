@@ -3,11 +3,11 @@ import type { Freelancer } from "@/features/freelancers/models/Freelancer";
 import { consultarFreelancers } from "@/features/freelancers/api/freelancer.api";
 import { Link } from "react-router-dom";
 
-import Button from "@/components/common/ui/Button";
-import Title from "@/components/common/ui/Title";
+import Button from "@/shared/components/ui/Button";
+import Title from "@/shared/components/ui/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
-import StarRating from "@/components/common/ui/StarRating";
+import StarRating from "@/shared/components/ui/StarRating";
 
 import MockProfile from "@/assets/mock-profile.png";
 

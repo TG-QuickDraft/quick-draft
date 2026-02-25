@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 import { LuSave } from "react-icons/lu";
 
 import {
@@ -9,9 +9,9 @@ import {
   consultarContaBancaria,
   consultarTiposConta,
 } from "@/features/finance/api/contaBancaria.api";
-import Input from "@/components/common/ui/Inputs/Input";
-import Modal from "@/components/common/ui/Modal";
-import Title from "@/components/common/ui/Title";
+import Input from "@/shared/components/ui/Inputs/Input";
+import Modal from "@/shared/components/ui/Modal";
+import Title from "@/shared/components/ui/Title";
 import type { CriarContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/CriarContaBancariaDTO";
 import type { ContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/ContaBancariaDTO";
 import type { TipoContaDTO } from "@/features/finance/dtos/contaBancaria/TipoContaDTO";

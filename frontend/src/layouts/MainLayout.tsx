@@ -2,7 +2,7 @@ import Navbar from "./elements/Navbar";
 import Container from "./elements/Container";
 import Content from "./elements/Content";
 import { Link } from "react-router-dom";
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 import { GoHome } from "react-icons/go";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {

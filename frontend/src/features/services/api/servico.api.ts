@@ -1,6 +1,6 @@
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
 import type { Servico } from "../models/Servico";
-import { localStorageKeys } from "@/utils/localStorageKeys";
+import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/servico`;

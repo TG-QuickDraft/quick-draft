@@ -3,12 +3,12 @@ import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 
 import { useEffect, useState } from "react";
 
-import Title from "@/components/common/ui/Title";
+import Title from "@/shared/components/ui/Title";
 
 import type { Cliente } from "@/features/clients/models/Cliente";
 
-import StarRating from "@/components/common/ui/StarRating";
-import ProfilePhoto from "@/components/common/ui/ProfilePhoto";
+import StarRating from "@/shared/components/ui/StarRating";
+import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 
 export const PerfilCliente = () => {
   const { id } = useParams();

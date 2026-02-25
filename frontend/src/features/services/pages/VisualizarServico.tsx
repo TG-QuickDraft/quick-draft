@@ -3,9 +3,9 @@ import { consultarServicoPorId } from "../api/servico.api";
 
 import { useEffect, useState } from "react";
 
-import Title from "@/components/common/ui/Title";
+import Title from "@/shared/components/ui/Title";
 
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { Servico } from "../models/Servico";
 

@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { adicionarUsuario, enviarFoto } from "@/features/users/api/usuario.api";
 
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 import { LuSave } from "react-icons/lu";
 
-import Title from "@/components/common/ui/Title";
+import Title from "@/shared/components/ui/Title";
 
 import { criarUsuarioSchema } from "@/features/users/validations/usuario.schema";
-import Modal from "@/components/common/ui/Modal";
-import Input from "@/components/common/ui/Inputs/Input";
+import Modal from "@/shared/components/ui/Modal";
+import Input from "@/shared/components/ui/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/features/users/dtos/CriarUsuarioDTO";
 import { TIPOS_USUARIO, type TipoUsuario } from "@/features/users/enums/tiposUsuario";
-import type { UploadImagemDTO } from "@/dtos/upload/UploadImagemDTO";
+import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/login/LoginDTO";
 

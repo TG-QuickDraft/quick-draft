@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { JSX } from "react";
-import { getRolesFromToken } from "@/utils/getRolesFromToken";
+import { getRolesFromToken } from "@/shared/utils/getRolesFromToken";
 
 type Props = {
   roles: string[];

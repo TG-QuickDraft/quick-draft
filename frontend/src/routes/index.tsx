@@ -4,8 +4,8 @@ import { freelancerRoutes } from "../features/freelancers/routes/freelancer.rout
 import { servicoRoutes } from "../features/services/routes/servico.routes";
 import { clienteRoutes } from "../features/clients/routes/cliente.routes";
 import { usuarioRoutes } from "../features/users/routes/usuario.routes";
-import { OldHome } from "@/pages/OldHome";
-import { Home } from "@/pages/Home";
+import { OldHome } from "@/home/OldHome";
+import { Home } from "@/home/Home";
 import { adminRoutes } from "../features/admin/routes/admin.routes";
 
 const AppRoutes = () => {

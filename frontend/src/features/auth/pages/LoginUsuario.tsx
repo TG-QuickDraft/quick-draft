@@ -1,10 +1,10 @@
-import Button from "@/components/common/ui/Button";
+import Button from "@/shared/components/ui/Button";
 
-import Title from "@/components/common/ui/Title";
-import Input from "@/components/common/ui/Inputs/Input";
+import Title from "@/shared/components/ui/Title";
+import Input from "@/shared/components/ui/Inputs/Input";
 
 import { CiLogin } from "react-icons/ci";
-import InputGroup from "@/components/common/ui/Inputs/InputGroup";
+import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
 import { useForm } from "react-hook-form";
 
 import { useNavigate } from "react-router-dom";
