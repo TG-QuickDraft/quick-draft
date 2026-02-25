@@ -43,6 +43,12 @@ jobs:
         working-directory: frontend
         run: npm ci
 
+      - name: TypeScript type check
+        working-directory: frontend
+        run: |
+          set -o pipefail
+          npx tsc -p tsconfig.app.json --noEmit --pretty false 2>&1 | tee tsc.log
+
       - name: Run Jest tests
         working-directory: frontend
         run: npm test
