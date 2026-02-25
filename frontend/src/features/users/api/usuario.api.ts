@@ -3,7 +3,7 @@ import type { Usuario } from "../models/Usuario";
 import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import type { AtualizarSenhaDTO } from "@/features/users/dtos/AtualizarSenhaDTO";
-import type { MeResponseDTO } from "@/features/auth/dtos/login/MeResponseDTO";
+import type { MeResponseDTO } from "@/features/auth/dtos/MeResponseDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/usuario`;
 

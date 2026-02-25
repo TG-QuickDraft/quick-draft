@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { BannerImg } from "@/home/assets";
+import { BannerImg } from "@/features/home/assets";
 
 export const Banner = () => {
   const containerClasses = clsx(

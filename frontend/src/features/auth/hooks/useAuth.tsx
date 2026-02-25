@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import { loginApi } from "@/features/auth/api/auth.api";
 import { getRolesFromToken } from "@/shared/utils/getRolesFromToken";
-import type { LoginDTO } from "@/features/auth/dtos/login/LoginDTO";
+import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import type { Usuario } from "@/features/users/models/Usuario";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 

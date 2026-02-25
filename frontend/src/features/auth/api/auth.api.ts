@@ -1,4 +1,4 @@
-import type { LoginDTO } from "@/features/auth/dtos/login/LoginDTO";
+import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/auth`;
 

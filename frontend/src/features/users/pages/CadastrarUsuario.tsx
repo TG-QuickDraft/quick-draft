@@ -13,7 +13,7 @@ import type { CriarUsuarioDTO } from "@/features/users/dtos/CriarUsuarioDTO";
 import { TIPOS_USUARIO, type TipoUsuario } from "@/features/users/enums/tiposUsuario";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import type { LoginDTO } from "@/features/auth/dtos/login/LoginDTO";
+import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 
 export const CadastrarUsuario = () => {
   const [nome, setNome] = useState("");

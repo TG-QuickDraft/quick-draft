@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import type { LoginDTO } from "@/features/auth/dtos/login/LoginDTO";
+import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 
 export const LoginUsuario = () => {
   const navigate = useNavigate();
