@@ -24,30 +24,34 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 export const CadastrarUsuario = () => {
-  const [nome, setNome] = useState("");
   const [foto, setFoto] = useState<File | null>(null);
-  const [cpf, setCpf] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState("");
-
-  const [tipoUsuarioSelecionado, setTipoUsuarioSelecionado] =
-    useState<TipoUsuario | null>(null);
-
   const { login } = useAuth();
-
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useForm<IRegisterUserForm>({
+    mode: "onChange",
+    resolver: yupResolver(RegisterUserSchema),
+  });
+  const tipoSelecionado = watch("tipoUsuario");
+
   const enviar = async () => {
+    const { nome, cpf, email, senha, confirmarSenha, tipoUsuario } =
+      getValues();
     const usuario = {
-      nome: nome,
-      cpf: cpf,
-      email: email,
-      senha: senha,
-      confirmarSenha: confirmarSenha,
-      tipoUsuario: tipoUsuarioSelecionado,
+      nome,
+      cpf,
+      email,
+      senha,
+      confirmarSenha,
+      tipoUsuario,
     } as CriarUsuarioDTO;
 
     try {
@@ -81,15 +85,6 @@ export const CadastrarUsuario = () => {
       return;
     }
   };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IRegisterUserForm>({
-    mode: "onChange",
-    resolver: yupResolver(RegisterUserSchema),
-  });
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center h-full">
@@ -156,13 +151,11 @@ export const CadastrarUsuario = () => {
               {`${tipo} `}
 
               <Input
-                name="tipoUsuario"
+                key={tipo}
                 type="radio"
                 value={tipo}
-                checked={tipoUsuarioSelecionado === tipo}
-                onChange={() => {
-                  setTipoUsuarioSelecionado(tipo as TipoUsuario);
-                }}
+                {...register("tipoUsuario")}
+                checked={tipoSelecionado === tipo}
               />
             </label>
           ))}

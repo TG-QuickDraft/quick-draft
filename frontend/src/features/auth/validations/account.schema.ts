@@ -14,10 +14,7 @@ export const AccountSchema = yup.object({
     .required("E-mail é obrigatório")
     .email("Insira um e-mail válido"),
 
-  cpf: yup
-    .string()
-    .required("CPF é obrigatório")
-    .matches(/^\d{11}$/, "CPF deve conter 11 dígitos"),
+  cpf: yup.string().required("CPF é obrigatório"),
 });
 
 export type IChangePasswordForm = yup.InferType<typeof ChangePasswordSchema>;

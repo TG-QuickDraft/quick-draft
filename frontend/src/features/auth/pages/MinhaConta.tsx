@@ -26,16 +26,20 @@ export const MinhaConta = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<IAccountForm>({
     mode: "onChange",
     resolver: yupResolver(AccountSchema),
-    defaultValues: {
-      nome: usuario?.nome ?? "",
-      email: usuario?.email ?? "",
-      cpf: usuario?.cpf ?? "",
-    },
   });
+
+  useEffect(() => {
+    if (usuario) {
+      setValue("email", usuario.email);
+      setValue("nome", usuario.nome);
+      setValue("cpf", usuario.cpf);
+    }
+  }, [usuario, reset]);
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
@@ -47,9 +51,7 @@ export const MinhaConta = () => {
     obterDadosUsuario();
   }, []);
 
-  const submitInfo = () => {
-    reset();
-  };
+  const submitInfo = () => {};
 
   const submitEnviarSenha = async () => {
     try {
@@ -102,6 +104,7 @@ export const MinhaConta = () => {
           placeholder="Digite o CPF"
           showErrorMsg
           error={errors?.cpf?.message}
+          mask="000.000.000-00"
           {...register("cpf")}
         />
 
