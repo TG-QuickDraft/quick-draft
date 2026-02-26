@@ -9,6 +9,12 @@ import type { Usuario } from "@/features/users/models/Usuario";
 import { useEffect, useState } from "react";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import {
+  AccountSchema,
+  type IAccountForm,
+} from "../validations/account.schema";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
@@ -19,9 +25,16 @@ export const MinhaConta = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<IAccountForm>({
     mode: "onChange",
+    resolver: yupResolver(AccountSchema),
+    defaultValues: {
+      nome: usuario?.nome ?? "",
+      email: usuario?.email ?? "",
+      cpf: usuario?.cpf ?? "",
+    },
   });
 
   useEffect(() => {
@@ -33,6 +46,10 @@ export const MinhaConta = () => {
 
     obterDadosUsuario();
   }, []);
+
+  const submitInfo = () => {
+    reset();
+  };
 
   const submitEnviarSenha = async () => {
     try {
@@ -60,15 +77,33 @@ export const MinhaConta = () => {
           <h3>CPF: {usuario.cpf}</h3>
         </div>
       )}
-      <form className="flex flex-col gap-3 max-w-150 mx-auto mt-6">
+      <form
+        onSubmit={handleSubmit(submitInfo)}
+        className="flex flex-col gap-3 max-w-150 mx-auto mt-6"
+      >
         <label>Nome:</label>
-        <Input type="text" value={usuario?.nome || ""} />
+        <Input
+          placeholder="Digite o nome"
+          showErrorMsg
+          error={errors?.nome?.message}
+          {...register("nome")}
+        />
 
         <label>Email:</label>
-        <Input type="email" value={usuario?.email || ""} />
+        <Input
+          placeholder="Digite o email"
+          showErrorMsg
+          error={errors?.email?.message}
+          {...register("email")}
+        />
 
         <label>CPF:</label>
-        <Input type="text" value={usuario?.cpf || ""} />
+        <Input
+          placeholder="Digite o CPF"
+          showErrorMsg
+          error={errors?.cpf?.message}
+          {...register("cpf")}
+        />
 
         <div className="flex justify-center">
           <Button className="w-50 mt-2">Salvar</Button>

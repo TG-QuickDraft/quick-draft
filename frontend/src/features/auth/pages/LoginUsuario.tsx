@@ -16,11 +16,7 @@ export const LoginUsuario = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-  } = useForm({
+  const { register, handleSubmit, getValues } = useForm({
     mode: "onChange",
   });
 
