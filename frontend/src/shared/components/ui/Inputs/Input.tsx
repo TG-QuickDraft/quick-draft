@@ -81,9 +81,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         >
           {showPassword ? (
-            <FiEye className="cursor-pointer" />
+            <FiEye className="cursor-pointer" size={20} />
           ) : (
-            <FiEyeOff className="cursor-pointer" />
+            <FiEyeOff className="cursor-pointer" size={20} />
           )}
         </button>
       );
