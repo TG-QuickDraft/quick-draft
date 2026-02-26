@@ -1,16 +1,28 @@
-import { atualizarSenha, consultarUsuario } from "@/features/users/api/usuario.api";
+import {
+  atualizarSenha,
+  consultarUsuario,
+} from "@/features/users/api/usuario.api";
 import Button from "@/shared/components/ui/Button";
 
 import Input from "@/shared/components/ui/Inputs/Input";
 import type { Usuario } from "@/features/users/models/Usuario";
 import { useEffect, useState } from "react";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+import { useForm } from "react-hook-form";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
 
   const [novaSenha, setNovaSenha] = useState<string>("");
   const [confirmarNovaSenha, setConfirmarNovaSenha] = useState<string>("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
