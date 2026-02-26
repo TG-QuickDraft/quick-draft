@@ -6,14 +6,22 @@ import { LuSave } from "react-icons/lu";
 
 import Title from "@/shared/components/ui/Title";
 
-import { criarUsuarioSchema } from "@/features/users/validations/usuario.schema";
+import {
+  RegisterUserSchema,
+  type IRegisterUserForm,
+} from "@/features/users/validations/usuario.schema";
 import Modal from "@/shared/components/ui/Modal";
 import Input from "@/shared/components/ui/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/features/users/dtos/CriarUsuarioDTO";
-import { TIPOS_USUARIO, type TipoUsuario } from "@/features/users/enums/tiposUsuario";
+import {
+  TIPOS_USUARIO,
+  type TipoUsuario,
+} from "@/features/users/enums/tiposUsuario";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export const CadastrarUsuario = () => {
   const [nome, setNome] = useState("");
@@ -43,8 +51,6 @@ export const CadastrarUsuario = () => {
     } as CriarUsuarioDTO;
 
     try {
-      await criarUsuarioSchema().validate(usuario);
-
       await adicionarUsuario(usuario);
 
       const loginRequest: LoginDTO = {
@@ -76,44 +82,60 @@ export const CadastrarUsuario = () => {
     }
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IRegisterUserForm>({
+    mode: "onChange",
+    resolver: yupResolver(RegisterUserSchema),
+  });
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center h-full">
       <Title>Cadastrar Usuário</Title>
 
-      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
+      <form
+        onSubmit={handleSubmit(enviar)}
+        className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20"
+      >
         <Input
-          name="nome"
           placeholder="Seu nome"
-          onChange={(e) => setNome(e.target.value)}
+          showErrorMsg
+          error={errors?.nome?.message}
+          {...register("nome")}
         />
 
         <Input
-          name="cpf"
           placeholder="Seu CPF"
-          onChange={(e) => setCpf(e.target.value)}
+          showErrorMsg
+          error={errors?.cpf?.message}
+          {...register("cpf")}
+          mask="000.000.000-00"
         />
 
         <Input
-          name="email"
-          type="email"
           placeholder="Seu e-mail"
-          onChange={(e) => setEmail(e.target.value)}
+          showErrorMsg
+          error={errors?.email?.message}
+          {...register("email")}
         />
 
         <Input
-          name="senha"
-          type="password"
+          password
           placeholder="Sua senha"
-          onChange={(e) => setSenha(e.target.value)}
+          type="password"
+          showErrorMsg
+          error={errors?.senha?.message}
+          {...register("senha")}
         />
 
         <Input
-          name="confirmarSenha"
-          type="password"
           placeholder="Confirme sua senha"
-          onChange={(e) => {
-            setConfirmarSenha(e.target.value);
-          }}
+          password
+          showErrorMsg
+          error={errors?.confirmarSenha?.message}
+          {...register("confirmarSenha")}
         />
 
         <Input
@@ -146,10 +168,8 @@ export const CadastrarUsuario = () => {
           ))}
         </div>
 
-        <Button icon={<LuSave size={30} />} onClick={enviar}>
-          Salvar
-        </Button>
-      </div>
+        <Button icon={<LuSave size={30} />}>Salvar</Button>
+      </form>
 
       {foto && (
         <div className="pt-6">
