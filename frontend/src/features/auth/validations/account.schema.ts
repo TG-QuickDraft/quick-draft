@@ -19,3 +19,17 @@ export const AccountSchema = yup.object({
     .required("CPF é obrigatório")
     .matches(/^\d{11}$/, "CPF deve conter 11 dígitos"),
 });
+
+export type IChangePasswordForm = yup.InferType<typeof ChangePasswordSchema>;
+
+export const ChangePasswordSchema = yup.object({
+  password: yup
+    .string()
+    .required("Senha é obrigatória")
+    .min(8, "Mínimo de 8 digitos"),
+
+  confirmPassword: yup
+    .string()
+    .required("Confirme sua senha")
+    .oneOf([yup.ref("password")], "Senhas diferentes"),
+});

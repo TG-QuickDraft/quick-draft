@@ -12,3 +12,4 @@ export const LoginSchema = yup.object({
     .min(8, "Mínimo de 8 digitos")
     .required("Senha é obrigatória"),
 });
+

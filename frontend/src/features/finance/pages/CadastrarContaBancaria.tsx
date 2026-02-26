@@ -15,6 +15,13 @@ import Title from "@/shared/components/ui/Title";
 import type { CriarContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/CriarContaBancariaDTO";
 import type { ContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/ContaBancariaDTO";
 import type { TipoContaDTO } from "@/features/finance/dtos/contaBancaria/TipoContaDTO";
+import { AccountSchema } from "@/features/auth/validations/account.schema";
+import {
+  BankAccountSchema,
+  type IBankAccountForm,
+} from "../validations/finance.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 export const CadastrarContaBancaria = () => {
   const [cpfTitular, setCpfTitular] = useState("");
@@ -116,8 +123,20 @@ export const CadastrarContaBancaria = () => {
     }
   };
 
+  const {} = useForm<IBankAccountForm>({
+    mode: "onChange",
+    resolver: yupResolver(BankAccountSchema),
+    defaultValues: {
+      cpf: cpfTitular,
+      nomeTitular: nomeTitular,
+      banco: banco,
+      agencia: agencia,
+      numeroConta: numeroConta,
+    },
+  });
+
   return (
-    <div className="flex flex-1 flex-col items-center justify-center h-full">
+    <form className="flex flex-1 flex-col items-center justify-center h-full">
       <Title>Cadastrar Conta Bancária</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
@@ -186,6 +205,6 @@ export const CadastrarContaBancaria = () => {
       >
         {modalMsg}
       </Modal>
-    </div>
+    </form>
   );
 };

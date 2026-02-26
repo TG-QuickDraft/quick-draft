@@ -11,13 +11,21 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoginSchema, type ILoginForm } from "../validations/login.schema";
 
 export const LoginUsuario = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const { register, handleSubmit, getValues } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<ILoginForm>({
     mode: "onChange",
+    resolver: yupResolver(LoginSchema),
   });
 
   const enviar = async () => {
@@ -44,6 +52,8 @@ export const LoginUsuario = () => {
           <h2>E-mail</h2>
           <Input
             type="email"
+            showErrorMsg
+            error={errors.email?.message}
             placeholder="Digite o seu e-mail"
             {...register("email")}
           />
@@ -52,7 +62,9 @@ export const LoginUsuario = () => {
         <InputGroup>
           <h2>Senha</h2>
           <Input
-            type="password"
+            password
+            showErrorMsg
+            error={errors.senha?.message}
             placeholder="Digite a sua senha"
             {...register("senha")}
           />
