@@ -32,8 +32,9 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
             className={clsx(
               "w-6 h-6 rounded-full border border-gray-600/20 bg-white",
               "transition-all duration-200 ease-in-out",
-              "peer-checked:border-[5px] peer-checked:border-primary-60",
-              "peer-focus-visible:ring-2 peer-focus-visible:ring-green-600/50 peer-focus-visible:ring-offset-2",
+              "peer-checked:border-[5px] peer-checked:border-primary-80",
+              "peer-focus-visible:ring-2 peer-focus-visible:ring-green-600/50 ",
+              "peer-focus-visible:ring-offset-2",
             )}
           />
         </div>

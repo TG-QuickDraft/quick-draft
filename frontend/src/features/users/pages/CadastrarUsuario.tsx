@@ -40,6 +40,9 @@ export const CadastrarUsuario = () => {
   } = useForm<IRegisterUserForm>({
     mode: "onChange",
     resolver: yupResolver(RegisterUserSchema),
+    defaultValues: {
+      tipoUsuario: TIPOS_USUARIO[0],
+    },
   });
   const tipoSelecionado = watch("tipoUsuario");
 
