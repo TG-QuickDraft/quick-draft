@@ -25,7 +25,6 @@ export const MinhaConta = () => {
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     formState: { errors },
   } = useForm<IAccountForm>({
@@ -39,7 +38,7 @@ export const MinhaConta = () => {
       setValue("nome", usuario.nome);
       setValue("cpf", usuario.cpf);
     }
-  }, [usuario, reset]);
+  }, [usuario]);
 
   useEffect(() => {
     const obterDadosUsuario = async () => {

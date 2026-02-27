@@ -15,7 +15,6 @@ import Title from "@/shared/components/ui/Title";
 import type { CriarContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/CriarContaBancariaDTO";
 import type { ContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/ContaBancariaDTO";
 import type { TipoContaDTO } from "@/features/finance/dtos/contaBancaria/TipoContaDTO";
-import { AccountSchema } from "@/features/auth/validations/account.schema";
 import {
   BankAccountSchema,
   type IBankAccountForm,
@@ -123,51 +122,67 @@ export const CadastrarContaBancaria = () => {
     }
   };
 
-  const {} = useForm<IBankAccountForm>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IBankAccountForm>({
     mode: "onChange",
     resolver: yupResolver(BankAccountSchema),
-    defaultValues: {
-      cpf: cpfTitular,
-      nomeTitular: nomeTitular,
-      banco: banco,
-      agencia: agencia,
-      numeroConta: numeroConta,
-    },
   });
 
+  useEffect(() => {
+    setValue("cpf", cpfTitular);
+    setValue("nomeTitular", nomeTitular);
+    setValue("banco", banco);
+    setValue("agencia", agencia);
+    setValue("numeroConta", numeroConta);
+  }, []);
+
   return (
-    <form className="flex flex-1 flex-col items-center justify-center h-full">
+    <form
+      onSubmit={handleSubmit(
+        hasContaCadastrada ? enviarAtualizarConta : enviarNovaConta,
+      )}
+      className="flex flex-1 flex-col items-center justify-center h-full"
+    >
       <Title>Cadastrar Conta Bancária</Title>
 
       <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
         <Input
-          value={cpfTitular}
-          onChange={(e) => setCpfTitular(e.target.value)}
           placeholder="CPF do titular"
+          showErrorMsg
+          error={errors.cpf?.message}
+          {...register("cpf")}
         />
 
         <Input
-          value={nomeTitular}
-          onChange={(e) => setNomeTitular(e.target.value)}
           placeholder="Nome do titular"
+          showErrorMsg
+          error={errors?.nomeTitular?.message}
+          {...register("nomeTitular")}
         />
 
         <Input
-          value={banco}
-          onChange={(e) => setBanco(e.target.value)}
           placeholder="Banco"
+          showErrorMsg
+          error={errors?.banco?.message}
+          {...register("banco")}
         />
 
         <Input
-          value={agencia}
-          onChange={(e) => setAgencia(e.target.value)}
           placeholder="Agência"
+          showErrorMsg
+          error={errors?.agencia?.message}
+          {...register("agencia")}
         />
 
         <Input
-          value={numeroConta}
-          onChange={(e) => setNumeroConta(e.target.value)}
           placeholder="Nº da conta"
+          showErrorMsg
+          error={errors?.numeroConta?.message}
+          {...register("numeroConta")}
         />
 
         <label>
@@ -185,17 +200,9 @@ export const CadastrarContaBancaria = () => {
           </select>
         </label>
 
-        {hasContaCadastrada === true && (
-          <Button icon={<LuSave size={30} />} onClick={enviarAtualizarConta}>
-            Atualizar
-          </Button>
-        )}
-
-        {hasContaCadastrada === false && (
-          <Button icon={<LuSave size={30} />} onClick={enviarNovaConta}>
-            Salvar
-          </Button>
-        )}
+        <Button icon={<LuSave size={30} />}>
+          {hasContaCadastrada ? "Atualizar" : "Salvar"}
+        </Button>
       </div>
 
       <Modal
