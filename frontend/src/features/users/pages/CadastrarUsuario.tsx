@@ -22,6 +22,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Radio from "@/shared/components/ui/Inputs/Radio";
 
 export const CadastrarUsuario = () => {
   const [foto, setFoto] = useState<File | null>(null);
@@ -144,21 +145,19 @@ export const CadastrarUsuario = () => {
         />
 
         <div>
-          <h2>Tipo de Usuário</h2>
+          <h2 className="mb-5 text-[20px]">Tipo de Usuário</h2>
 
-          {TIPOS_USUARIO.map((tipo, index) => (
-            <label key={index} className="mx-4">
-              {`${tipo} `}
-
-              <Input
-                key={tipo}
-                type="radio"
+          <div className="flex gap-2 justify-evenly mb-4">
+            {TIPOS_USUARIO.map((tipo, index) => (
+              <Radio
+                key={index}
                 value={tipo}
-                {...register("tipoUsuario")}
+                label={tipo}
                 checked={tipoSelecionado === tipo}
+                {...register("tipoUsuario")}
               />
-            </label>
-          ))}
+            ))}
+          </div>
         </div>
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>

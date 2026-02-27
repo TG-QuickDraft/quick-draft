@@ -10,10 +10,7 @@ export const RegisterUserSchema = yup.object().shape({
     .string()
     .email("Por favor, digite um e-mail válido!")
     .required("Por favor, digite o seu e-mail!"),
-  senha: yup
-    .string()
-    .min(6, "A senha deve ter pelo menos 6 caracteres!")
-    .required("Por favor, digite a sua senha!"),
+  senha: yup.string().required("Por favor, digite a sua senha!"),
   confirmarSenha: yup
     .string()
     .oneOf([yup.ref("senha")], "As senhas não coincidem!")
