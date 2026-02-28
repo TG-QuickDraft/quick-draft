@@ -1,4 +1,4 @@
 export type TipoContaDTO = {
-  id:   number;
+  id: number;
   nome: string;
 };

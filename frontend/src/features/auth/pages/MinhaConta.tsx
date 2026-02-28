@@ -18,7 +18,6 @@ import {
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-
   const [novaSenha, setNovaSenha] = useState<string>("");
   const [confirmarNovaSenha, setConfirmarNovaSenha] = useState<string>("");
 

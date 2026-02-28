@@ -21,18 +21,12 @@ import {
 } from "../validations/finance.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import Select from "@/shared/components/ui/Select";
 
 export const CadastrarContaBancaria = () => {
-  const [cpfTitular, setCpfTitular] = useState("");
-  const [nomeTitular, setNomeTitular] = useState("");
-  const [banco, setBanco] = useState("");
-  const [agencia, setAgencia] = useState("");
-  const [numeroConta, setNumeroConta] = useState("");
-  const [tipoContaId, setTipoContaId] = useState(0);
-
   const [tiposConta, setTiposConta] = useState<TipoContaDTO[]>([]);
-
   const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean>(false);
+  const [conta, setConta] = useState<ContaBancariaDTO>();
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -49,47 +43,44 @@ export const CadastrarContaBancaria = () => {
 
     const obterTiposConta = async () => {
       const tiposConta = await consultarTiposConta();
-
-      setTiposConta([
-        {
-          id: 0,
-          nome: "Selecione o tipo",
-        },
-        ...tiposConta,
-      ]);
+      setTiposConta(tiposConta);
     };
 
     obterDadosConta();
     obterTiposConta();
   }, []);
 
-  const getConta = (): ContaBancariaDTO => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    trigger,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm<IBankAccountForm>({
+    mode: "onChange",
+    resolver: yupResolver(BankAccountSchema),
+    defaultValues: {
+      tipoConta: 1,
+    },
+  });
+
+  const toCriarContaDTO = (form: IBankAccountForm): CriarContaBancariaDTO => {
     return {
-      id: 0,
-      cpfTitular: cpfTitular,
-      nomeTitular: nomeTitular,
-      banco: banco,
-      agencia: agencia,
-      numeroConta: numeroConta,
-      tipoContaId: tipoContaId,
+      cpfTitular: form.cpf,
+      nomeTitular: form.nomeTitular,
+      banco: form.banco,
+      agencia: form.agencia,
+      numeroConta: form.numeroConta,
+      tipoContaId: form.tipoConta,
     };
   };
 
-  const setConta = (conta: ContaBancariaDTO) => {
-    setCpfTitular(conta.cpfTitular);
-    setNomeTitular(conta.nomeTitular);
-    setBanco(conta.banco);
-    setAgencia(conta.agencia);
-    setNumeroConta(conta.numeroConta);
-    setTipoContaId(conta.tipoContaId);
-  };
-
   const enviarNovaConta = async () => {
-    const conta: CriarContaBancariaDTO = getConta();
-
+    const conta: CriarContaBancariaDTO = toCriarContaDTO(getValues());
     try {
       setConta(await adicionarContaBancaria(conta));
-
       setModalStatus("Sucesso");
       setModalMsg("Conta cadastrada com sucesso!");
       setShowModal(true);
@@ -105,11 +96,13 @@ export const CadastrarContaBancaria = () => {
   };
 
   const enviarAtualizarConta = async () => {
-    const conta: ContaBancariaDTO = getConta();
+    const conta: ContaBancariaDTO = {
+      id: 0,
+      ...toCriarContaDTO(getValues()),
+    };
 
     try {
       setConta(await atualizarContaBancaria(conta));
-
       setModalStatus("Sucesso");
       setModalMsg("Conta atualizada com sucesso!");
       setShowModal(true);
@@ -117,28 +110,28 @@ export const CadastrarContaBancaria = () => {
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
+        console.log(error);
         setShowModal(true);
       }
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<IBankAccountForm>({
-    mode: "onChange",
-    resolver: yupResolver(BankAccountSchema),
-  });
-
   useEffect(() => {
-    setValue("cpf", cpfTitular);
-    setValue("nomeTitular", nomeTitular);
-    setValue("banco", banco);
-    setValue("agencia", agencia);
-    setValue("numeroConta", numeroConta);
-  }, []);
+    if (!conta || !tiposConta.length) return;
+
+    setValue("cpf", conta.cpfTitular || "");
+    setValue("nomeTitular", conta.nomeTitular || "");
+    setValue("banco", conta.banco || "");
+    setValue("agencia", conta.agencia || "");
+    setValue("numeroConta", conta.numeroConta || "");
+    setValue("tipoConta", conta.tipoContaId || 1);
+  }, [conta, setValue]);
+
+  const tipoContaSelecionada = watch("tipoConta");
+  const handleSelectChange = (value: number) => {
+    setValue("tipoConta", value);
+    trigger("tipoConta");
+  };
 
   return (
     <form
@@ -155,6 +148,7 @@ export const CadastrarContaBancaria = () => {
           showErrorMsg
           error={errors.cpf?.message}
           {...register("cpf")}
+          mask="000.000.000-00"
         />
 
         <Input
@@ -185,20 +179,20 @@ export const CadastrarContaBancaria = () => {
           {...register("numeroConta")}
         />
 
-        <label>
+        <div className="flex flex-col gap-4 w-1/2">
           <p>Tipo de Conta</p>
-
-          <select
-            value={tipoContaId}
-            onChange={(e) => setTipoContaId(Number(e.target.value))}
-          >
-            {tiposConta.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.nome}
-              </option>
-            ))}
-          </select>
-        </label>
+          <Select
+            className="w-full"
+            value={tipoContaSelecionada ? String(tipoContaSelecionada) : ""}
+            onChange={(selectedValue) =>
+              handleSelectChange(Number(selectedValue))
+            }
+            options={tiposConta.map((tipo) => ({
+              value: String(tipo.id),
+              label: tipo.nome,
+            }))}
+          />
+        </div>
 
         <Button icon={<LuSave size={30} />}>
           {hasContaCadastrada ? "Atualizar" : "Salvar"}

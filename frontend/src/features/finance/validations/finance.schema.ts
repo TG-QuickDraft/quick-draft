@@ -3,10 +3,7 @@ import * as yup from "yup";
 export type IBankAccountForm = yup.InferType<typeof BankAccountSchema>;
 
 export const BankAccountSchema = yup.object({
-  cpf: yup
-    .string()
-    .required("CPF é obrigatório")
-    .matches(/^\d{11}$/, "CPF deve conter 11 dígitos"),
+  cpf: yup.string().required("CPF é obrigatório"),
 
   nomeTitular: yup
     .string()
@@ -26,7 +23,7 @@ export const BankAccountSchema = yup.object({
     .min(4, "Número da conta inválido"),
 
   tipoConta: yup
-    .string()
+    .number()
     .required("Selecione o tipo da conta")
-    .oneOf(["corrente", "poupanca"], "Tipo de conta inválido"),
+    .oneOf([1, 2], "Tipo de conta inválido"),
 });
