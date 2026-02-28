@@ -23,7 +23,7 @@ class Cliente {
 class Proposta {
     +Integer id
     +Numeric valorPorHora
-    +Date orcamentoDeTempo
+    +Date prazoEntrega
     +String mensagem
     +String itensPropostos
     +Integer valorTotal
@@ -34,7 +34,7 @@ class Servico {
     +Integer id
     +String nome
     +String descricao
-    +Numeric orcamento
+    +Boolean orcamentoIsAberto
     +Date prazo
     +Numeric valorMinimo
     +Boolean isEntregue
