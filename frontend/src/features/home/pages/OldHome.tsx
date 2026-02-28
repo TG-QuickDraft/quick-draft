@@ -7,6 +7,7 @@ import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { FaChartBar } from "react-icons/fa";
 export const OldHome = () => {
   const [count, setCount] = useState(0);
   const { isAuthenticated } = useAuth();
@@ -51,6 +52,14 @@ export const OldHome = () => {
                 <Button icon={<GoPlus size={30} />}>
                   Cadastrar Conta Bancária
                 </Button>
+              </Link>
+            </div>
+          )}
+
+          {isAuthenticated && roles.includes("Admin") && (
+            <div className="flex flex-col gap-3 items-center">
+              <Link to={"/analise"}>
+                <Button icon={<FaChartBar size={30} />}>Tela de Análise</Button>
               </Link>
             </div>
           )}

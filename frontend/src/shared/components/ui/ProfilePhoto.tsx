@@ -18,7 +18,10 @@ const ProfilePhoto = ({
     <div className="flex w-full justify-center items-center">
       <img
         className={clsx("rounded-full shadow-xl", sizes[size])}
-        src={photoPath ? photoPath : MockProfile}
+        src={photoPath || MockProfile}
+        onError={(e) => {
+          e.currentTarget.src = MockProfile;
+        }}
         height={200}
       />
     </div>

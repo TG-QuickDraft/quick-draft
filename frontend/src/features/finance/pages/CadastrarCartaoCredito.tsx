@@ -46,12 +46,12 @@ export const CadastrarCartaoCredito = () => {
 
   useEffect(() => {
     const obterDadosCartao = async () => {
-      const cartao = await consultarCartaoCredito();
+      const cartao: CriarCartaoCreditoDTO = await consultarCartaoCredito();
       if (cartao) {
         setHasCartaoCadastrado(true);
-        setValue("name", cartao.NomeImpresso);
-        setValue("cvv", cartao.CodigoSeguranca);
-        setValue("flag", cartao.BandeiraId);
+        setValue("name", cartao.nomeImpresso);
+        setValue("cvv", cartao.codigoSeguranca);
+        setValue("flag", cartao.bandeiraId);
       }
     };
 
@@ -140,6 +140,7 @@ export const CadastrarCartaoCredito = () => {
           showErrorMsg
           error={errors?.cvv?.message}
           {...register("cvv")}
+          mask="000"
         />
 
         <div className="w-1/2">
