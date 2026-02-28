@@ -13,10 +13,7 @@ import {
 import Modal from "@/shared/components/ui/Modal";
 import Input from "@/shared/components/ui/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/features/users/dtos/CriarUsuarioDTO";
-import {
-  TIPOS_USUARIO,
-  type TipoUsuario,
-} from "@/features/users/enums/tiposUsuario";
+import { TIPOS_USUARIO } from "@/features/users/enums/tiposUsuario";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
@@ -34,7 +31,6 @@ export const CadastrarUsuario = () => {
   const {
     register,
     handleSubmit,
-    getValues,
     watch,
     formState: { errors },
   } = useForm<IRegisterUserForm>({
@@ -46,24 +42,22 @@ export const CadastrarUsuario = () => {
   });
   const tipoSelecionado = watch("tipoUsuario");
 
-  const enviar = async () => {
-    const { nome, cpf, email, senha, confirmarSenha, tipoUsuario } =
-      getValues();
+  const enviar = async (data: IRegisterUserForm) => {
     const usuario = {
-      nome,
-      cpf,
-      email,
-      senha,
-      confirmarSenha,
-      tipoUsuario,
+      nome: data.nome,
+      cpf: data.cpf,
+      email: data.email,
+      senha: data.senha,
+      confirmarSenha: data.confirmarSenha,
+      tipoUsuario: data.tipoUsuario,
     } as CriarUsuarioDTO;
 
     try {
       await adicionarUsuario(usuario);
 
       const loginRequest: LoginDTO = {
-        email: email,
-        senha: senha,
+        email: data.email,
+        senha: data.senha,
       };
 
       await login(loginRequest);

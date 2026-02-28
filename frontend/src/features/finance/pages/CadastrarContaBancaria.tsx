@@ -26,7 +26,6 @@ import Select from "@/shared/components/ui/Select";
 export const CadastrarContaBancaria = () => {
   const [tiposConta, setTiposConta] = useState<TipoContaDTO[]>([]);
   const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean>(false);
-  const [conta, setConta] = useState<ContaBancariaDTO>();
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -34,10 +33,15 @@ export const CadastrarContaBancaria = () => {
 
   useEffect(() => {
     const obterDadosConta = async () => {
-      const conta = await consultarContaBancaria();
+      const conta: ContaBancariaDTO = await consultarContaBancaria();
       if (conta) {
         setHasContaCadastrada(true);
-        setConta(conta);
+        setValue("cpf", conta.cpfTitular);
+        setValue("nomeTitular", conta.nomeTitular);
+        setValue("banco", conta.banco);
+        setValue("agencia", conta.agencia);
+        setValue("numeroConta", conta.numeroConta);
+        setValue("tipoConta", conta.tipoContaId);
       }
     };
 
@@ -56,7 +60,6 @@ export const CadastrarContaBancaria = () => {
     setValue,
     trigger,
     watch,
-    getValues,
     formState: { errors },
   } = useForm<IBankAccountForm>({
     mode: "onChange",
@@ -77,10 +80,10 @@ export const CadastrarContaBancaria = () => {
     };
   };
 
-  const enviarNovaConta = async () => {
-    const conta: CriarContaBancariaDTO = toCriarContaDTO(getValues());
+  const enviarNovaConta = async (data: IBankAccountForm) => {
+    const conta: CriarContaBancariaDTO = toCriarContaDTO(data);
     try {
-      setConta(await adicionarContaBancaria(conta));
+      await adicionarContaBancaria(conta);
       setModalStatus("Sucesso");
       setModalMsg("Conta cadastrada com sucesso!");
       setShowModal(true);
@@ -95,14 +98,14 @@ export const CadastrarContaBancaria = () => {
     }
   };
 
-  const enviarAtualizarConta = async () => {
+  const enviarAtualizarConta = async (data: IBankAccountForm) => {
     const conta: ContaBancariaDTO = {
       id: 0,
-      ...toCriarContaDTO(getValues()),
+      ...toCriarContaDTO(data),
     };
 
     try {
-      setConta(await atualizarContaBancaria(conta));
+      await atualizarContaBancaria(conta);
       setModalStatus("Sucesso");
       setModalMsg("Conta atualizada com sucesso!");
       setShowModal(true);
@@ -110,22 +113,10 @@ export const CadastrarContaBancaria = () => {
       if (error instanceof Error) {
         setModalStatus("Erro");
         setModalMsg(error.message);
-        console.log(error);
         setShowModal(true);
       }
     }
   };
-
-  useEffect(() => {
-    if (!conta || !tiposConta.length) return;
-
-    setValue("cpf", conta.cpfTitular || "");
-    setValue("nomeTitular", conta.nomeTitular || "");
-    setValue("banco", conta.banco || "");
-    setValue("agencia", conta.agencia || "");
-    setValue("numeroConta", conta.numeroConta || "");
-    setValue("tipoConta", conta.tipoContaId || 1);
-  }, [conta, setValue]);
 
   const tipoContaSelecionada = watch("tipoConta");
   const handleSelectChange = (value: number) => {
