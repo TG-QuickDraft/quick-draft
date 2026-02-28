@@ -13,6 +13,9 @@ import Input from "@/components/common/ui/Inputs/Input";
 export const CadastrarServico = () => {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [orcamento, setOrcamento] = useState("");
+  const [valorMinimo, setValorMinimo] = useState("");
+  const [prazo, setPrazo] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -22,6 +25,9 @@ export const CadastrarServico = () => {
     const servico: CriarServicoDTO = {
       nome: nome,
       descricao: descricao,
+      orcamento: Number(orcamento),
+      valorMinimo: Number(valorMinimo),
+      prazo:  new Date(prazo).toISOString(),
     };
 
     try {
@@ -49,6 +55,27 @@ export const CadastrarServico = () => {
         <Input
           placeholder="Descrição"
           onChange={(e) => setDescricao(e.target.value)}
+        />
+        
+         <Input
+          type="number"
+          placeholder="Orçamento"
+          value={orcamento}
+          onChange={(e) => setOrcamento(e.target.value)}
+        />
+
+        <Input
+          type="number"
+          placeholder="Valor Mínimo"
+          value={valorMinimo}
+          onChange={(e) => setValorMinimo(e.target.value)}
+        />
+
+        <Input
+          type="datetime-local"
+          placeholder="Prazo"
+          value={prazo}
+          onChange={(e) => setPrazo(e.target.value)}
         />
 
         <Button icon={<LuSave size={30} />} onClick={enviar}>
