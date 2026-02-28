@@ -38,5 +38,5 @@ export const CardSchema = yup.object({
     .min(3, "CVV inválido")
     .max(3, "CVV inválido"),
 
-  flag: yup.string().required("Bandeira é obrigatória"),
+  flag: yup.number().required("Bandeira é obrigatória"),
 });
