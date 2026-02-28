@@ -148,9 +148,9 @@ export const CadastrarUsuario = () => {
         />
 
         <div>
-          <h2 className="mb-5 text-[20px]">Tipo de Usuário</h2>
+          <h2 className="mb-5 text-[16px]">Tipo de Usuário</h2>
 
-          <div className="flex gap-2 justify-evenly mb-4">
+          <div className="flex gap-2 justify-evenly mb-4 border-y border-gray-600/20 py-5">
             {TIPOS_USUARIO.map((tipo, index) => (
               <Radio
                 key={index}

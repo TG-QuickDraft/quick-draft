@@ -39,7 +39,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
           />
         </div>
 
-        <span className="text-[20px] font-semibold group-hover:text-primary-20 transition-colors">
+        <span className="text-[18px] font-normal group-hover:text-primary-20 transition-colors">
           {label}
         </span>
       </label>

@@ -23,7 +23,8 @@ export const CadastrarCartaoCredito = () => {
 
   const [bandeiras, setBandeiras] = useState<BandeiraCartaoCreditoDTO[]>([]);
 
-  const [hasCartaoCadastrado, setHasCartaoCadastrado] = useState<boolean>(false);
+  const [hasCartaoCadastrado, setHasCartaoCadastrado] =
+    useState<boolean>(false);
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -59,7 +60,7 @@ export const CadastrarCartaoCredito = () => {
       id: 0,
       nomeImpresso: nomeImpresso,
       codigoSeguranca: codigoSeguranca,
-      bandeiraId: bandeiraId
+      bandeiraId: bandeiraId,
     };
   };
 
@@ -117,7 +118,7 @@ export const CadastrarCartaoCredito = () => {
           onChange={(e) => setNomeImpresso(e.target.value)}
           placeholder="Nome Impresso"
         />
-        
+
         <Input
           value={codigoSeguranca}
           onChange={(e) => setCodigoSeguranca(e.target.value)}
