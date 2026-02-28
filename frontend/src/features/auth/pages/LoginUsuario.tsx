@@ -13,68 +13,83 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema, type ILoginForm } from "../validations/login.schema";
+import Modal from "@/shared/components/ui/Modal";
+import { useState } from "react";
 
 export const LoginUsuario = () => {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
+  const [modalMsg, setModalMsg] = useState("");
+
   const { login } = useAuth();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm<ILoginForm>({
     mode: "onChange",
     resolver: yupResolver(LoginSchema),
   });
 
-  const enviar = async () => {
+  const enviar = async (data: ILoginForm) => {
     try {
-      const { email, senha } = getValues();
-      const loginRequest: LoginDTO = { email, senha };
-
+      const loginRequest: LoginDTO = { email: data.email, senha: data.senha };
       await login(loginRequest);
 
       navigate("/");
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        setModalStatus("Erro");
+        setModalMsg(error.message);
+        setShowModal(true);
+      }
     }
   };
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center h-full">
-      <form
-        onSubmit={handleSubmit(enviar)}
-        className="flex flex-col max-w-md w-full my-8 p-12 rounded-xl shadow-2xl border border-gray-600/20"
+    <>
+      <div className="flex flex-1 flex-col items-center justify-center h-full">
+        <form
+          onSubmit={handleSubmit(enviar)}
+          className="flex flex-col max-w-md w-full my-8 p-12 rounded-xl shadow-2xl border border-gray-600/20"
+        >
+          <Title className="mb-6">Login Usuário</Title>
+          <InputGroup>
+            <h2>E-mail</h2>
+            <Input
+              type="email"
+              showErrorMsg
+              error={errors.email?.message}
+              placeholder="Digite o seu e-mail"
+              {...register("email")}
+            />
+          </InputGroup>
+          <InputGroup>
+            <h2>Senha</h2>
+            <Input
+              password
+              showErrorMsg
+              error={errors.senha?.message}
+              placeholder="Digite a sua senha"
+              {...register("senha")}
+            />
+          </InputGroup>
+          <Button type="submit" icon={<CiLogin size={30} />}>
+            Entrar
+          </Button>
+        </form>
+      </div>
+
+      <Modal
+        show={showModal}
+        title={modalStatus}
+        onClose={() => setShowModal(false)}
       >
-        <Title className="mb-6">Login Usuário</Title>
-        <InputGroup>
-          <h2>E-mail</h2>
-          <Input
-            type="email"
-            showErrorMsg
-            error={errors.email?.message}
-            placeholder="Digite o seu e-mail"
-            {...register("email")}
-          />
-        </InputGroup>
-
-        <InputGroup>
-          <h2>Senha</h2>
-          <Input
-            password
-            showErrorMsg
-            error={errors.senha?.message}
-            placeholder="Digite a sua senha"
-            {...register("senha")}
-          />
-        </InputGroup>
-
-        <Button type="submit" icon={<CiLogin size={30} />}>
-          Entrar
-        </Button>
-      </form>
-    </div>
+        {modalMsg}
+      </Modal>
+    </>
   );
 };
 
