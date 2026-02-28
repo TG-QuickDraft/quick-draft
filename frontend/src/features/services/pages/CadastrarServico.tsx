@@ -25,7 +25,6 @@ export const CadastrarServico = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm<INewServiceForm>({
     mode: "onChange",
     resolver: yupResolver(NewServiceSchema),

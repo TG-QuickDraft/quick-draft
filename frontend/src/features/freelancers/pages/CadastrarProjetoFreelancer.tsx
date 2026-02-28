@@ -12,22 +12,33 @@ import {
   enviarImagemProjeto,
 } from "@/features/freelancers/api/projetoFreelancer.api";
 import Input from "@/shared/components/ui/Inputs/Input";
+import {
+  NewProjectSchema,
+  type INewProjectForm,
+} from "../validations/freelancers.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 export const CadastrarProjetoFreelancer = () => {
-  const [nome, setNome] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [link, setLink] = useState("");
   const [imagem, setImagem] = useState<File | null>(null);
-
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
-  const enviar = async () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<INewProjectForm>({
+    mode: "onChange",
+    resolver: yupResolver(NewProjectSchema),
+  });
+
+  const enviar = async (data: INewProjectForm) => {
     const projeto: CriarProjetoFreelancerDTO = {
-      nome: nome,
-      descricao: descricao,
-      link: link,
+      nome: data.name,
+      descricao: data.description,
+      link: data.link,
     };
 
     try {
@@ -57,15 +68,30 @@ export const CadastrarProjetoFreelancer = () => {
     <div className="flex flex-1 flex-col items-center justify-center h-full">
       <Title>Cadastrar Projeto</Title>
 
-      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <Input placeholder="Nome" onChange={(e) => setNome(e.target.value)} />
+      <form
+        onSubmit={handleSubmit(enviar)}
+        className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20"
+      >
+        <Input
+          placeholder="Nome"
+          showErrorMsg
+          error={errors?.name?.message}
+          {...register("name")}
+        />
 
         <Input
           placeholder="Descrição"
-          onChange={(e) => setDescricao(e.target.value)}
+          showErrorMsg
+          error={errors?.description?.message}
+          {...register("description")}
         />
 
-        <Input placeholder="Link" onChange={(e) => setLink(e.target.value)} />
+        <Input
+          placeholder="Link"
+          showErrorMsg
+          error={errors?.link?.message}
+          {...register("link")}
+        />
 
         <Input
           name="imagem"
@@ -77,10 +103,8 @@ export const CadastrarProjetoFreelancer = () => {
           }}
         />
 
-        <Button icon={<LuSave size={30} />} onClick={enviar}>
-          Salvar
-        </Button>
-      </div>
+        <Button icon={<LuSave size={30} />}>Salvar</Button>
+      </form>
 
       <Modal
         show={showModal}
