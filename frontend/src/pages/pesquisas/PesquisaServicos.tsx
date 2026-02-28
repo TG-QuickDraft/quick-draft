@@ -68,6 +68,9 @@ export function PesquisaServico() {
               <th className="p-3">Id</th>
               <th className="p-3">Nome</th>
               <th className="p-3">Descrição</th>
+              <th className="p-3">Orçamento</th>
+              <th className="p-3">Valor Mínimo</th>
+              <th className="p-3">Prazo</th>
               <th className="p-3">Ir para Serviço</th>
             </tr>
           </thead>
@@ -80,6 +83,9 @@ export function PesquisaServico() {
                 <td className="p-3">{servico.id}</td>
                 <td className="p-3">{servico.nome}</td>
                 <td className="p-3">{servico.descricao}</td>
+                <td className="p-3">{servico.orcamento}</td>
+                <td className="p-3">{servico.valorMinimo}</td>
+                <td className="p-3">{servico.prazo}</td>
                 <td className="p-3">
                   <Link to={`/visualizarServico/${servico.id}`}>
                     <Button>Ver Serviço</Button>
