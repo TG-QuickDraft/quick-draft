@@ -47,6 +47,21 @@ export const OldHome = () => {
               </Link>
             </div>
           )}
+
+          {isAuthenticated && roles.includes("Admin") && (
+            <div className="flex flex-col gap-3 items-center">
+              <Link to={"/analise"}>
+                <Button icon={<GoPlus size={30} />}>
+                  Análise
+                </Button>
+              </Link>
+              <Link to={"/auditoria"}>
+                <Button icon={<GoPlus size={30} />}>
+                  Auditoria
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>
