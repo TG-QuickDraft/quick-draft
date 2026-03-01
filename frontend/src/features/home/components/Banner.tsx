@@ -41,7 +41,7 @@ export const Banner = () => {
 
   return (
     <div className={containerClasses}>
-      <img src={BannerImg} alt="Banner" className={imageClasses} />
+      <img src={BannerImg} alt="" className={imageClasses} />
       <div className={overlayClasses} />
       <div className={textWrapperClasses}>
         <p className={textClasses}>

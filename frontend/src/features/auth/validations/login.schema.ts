@@ -7,8 +7,5 @@ export const LoginSchema = yup.object({
     .string()
     .required("E-mail é obrigatório")
     .email("Insira um e-mail válido"),
-  senha: yup
-    .string()
-    .min(8, "Mínimo de 8 digitos")
-    .required("Senha é obrigatória"),
+  senha: yup.string().required("Senha é obrigatória"),
 });

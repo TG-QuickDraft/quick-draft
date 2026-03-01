@@ -9,24 +9,35 @@ import { adicionarServico } from "@/features/services/api/servico.api";
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
 import Modal from "@/shared/components/ui/Modal";
 import Input from "@/shared/components/ui/Inputs/Input";
+import {
+  NewServiceSchema,
+  type INewServiceForm,
+} from "../validations/services.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 export const CadastrarServico = () => {
-  const [nome, setNome] = useState("");
-  const [descricao, setDescricao] = useState("");
-
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
-  const enviar = async () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<INewServiceForm>({
+    mode: "onChange",
+    resolver: yupResolver(NewServiceSchema),
+  });
+
+  const enviar = async (data: INewServiceForm) => {
     const servico: CriarServicoDTO = {
-      nome: nome,
-      descricao: descricao,
+      nome: data.name,
+      descricao: data.description,
     };
 
     try {
       await adicionarServico(servico);
-
       setModalStatus("Sucesso");
       setModalMsg("Serviço cadastrado com sucesso!");
       setShowModal(true);
@@ -43,18 +54,26 @@ export const CadastrarServico = () => {
     <div className="flex flex-1 flex-col items-center justify-center h-full">
       <Title>Cadastrar Serviço</Title>
 
-      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
-        <Input placeholder="Nome" onChange={(e) => setNome(e.target.value)} />
+      <form
+        onClick={handleSubmit(enviar)}
+        className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20"
+      >
+        <Input
+          placeholder="Nome"
+          showErrorMsg
+          error={errors.name?.message}
+          {...register("name")}
+        />
 
         <Input
           placeholder="Descrição"
-          onChange={(e) => setDescricao(e.target.value)}
+          showErrorMsg
+          error={errors.description?.message}
+          {...register("description")}
         />
 
-        <Button icon={<LuSave size={30} />} onClick={enviar}>
-          Salvar
-        </Button>
-      </div>
+        <Button icon={<LuSave size={30} />}>Salvar</Button>
+      </form>
 
       <Modal
         show={showModal}

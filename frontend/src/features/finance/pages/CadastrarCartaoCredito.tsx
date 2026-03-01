@@ -15,66 +15,69 @@ import Title from "@/shared/components/ui/Title";
 import type { BandeiraCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/BandeiraCartaoCreditoDTO";
 import type { CartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CartaoCreditoDTO";
 import type { CriarCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CriarCartaoCreditoDTO";
+import { CardSchema, type ICardForm } from "../validations/finance.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import Select from "@/shared/components/ui/Select";
 
 export const CadastrarCartaoCredito = () => {
-  const [nomeImpresso, setNomeImpresso] = useState("");
-  const [codigoSeguranca, setCodigoSeguranca] = useState("");
-  const [bandeiraId, setBandeiraId] = useState(0);
-
   const [bandeiras, setBandeiras] = useState<BandeiraCartaoCreditoDTO[]>([]);
-
-  const [hasCartaoCadastrado, setHasCartaoCadastrado] = useState<boolean>(false);
+  const [hasCartaoCadastrado, setHasCartaoCadastrado] =
+    useState<boolean>(false);
 
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    trigger,
+    watch,
+  } = useForm<ICardForm>({
+    mode: "onChange",
+    resolver: yupResolver(CardSchema),
+    defaultValues: {
+      flag: 1,
+    },
+  });
+
   useEffect(() => {
     const obterDadosCartao = async () => {
-      const cartao = await consultarCartaoCredito();
+      const cartao: CriarCartaoCreditoDTO = await consultarCartaoCredito();
       if (cartao) {
         setHasCartaoCadastrado(true);
-        setCartao(cartao);
+        setValue("name", cartao.nomeImpresso);
+        setValue("cvv", cartao.codigoSeguranca);
+        setValue("flag", cartao.bandeiraId);
       }
     };
 
     const obterBandeiras = async () => {
       const bandeiras = await consultarBandeiras();
 
-      setBandeiras([
-        {
-          id: 0,
-          nome: "Selecione o tipo",
-        },
-        ...bandeiras,
-      ]);
+      setBandeiras(bandeiras);
     };
 
     obterDadosCartao();
     obterBandeiras();
   }, []);
 
-  const getCartao = (): CartaoCreditoDTO => {
+  const toCardDTO = (data: ICardForm): CriarCartaoCreditoDTO => {
     return {
-      id: 0,
-      nomeImpresso: nomeImpresso,
-      codigoSeguranca: codigoSeguranca,
-      bandeiraId: bandeiraId
+      nomeImpresso: data.name,
+      codigoSeguranca: data.cvv,
+      bandeiraId: data.flag,
     };
   };
 
-  const setCartao = (cartao: CartaoCreditoDTO) => {
-    setCodigoSeguranca(cartao.codigoSeguranca);
-    setNomeImpresso(cartao.nomeImpresso);
-    setBandeiraId(cartao.bandeiraId);
-  };
-
-  const enviarNovoCartao = async () => {
-    const cartao: CriarCartaoCreditoDTO = getCartao();
+  const enviarNovoCartao = async (data: ICardForm) => {
+    const cartao: CriarCartaoCreditoDTO = toCardDTO(data);
 
     try {
-      setCartao(await adicionarCartaoCredito(cartao));
-
+      await adicionarCartaoCredito(cartao);
       setModalStatus("Sucesso");
       setModalMsg("Cartão cadastrado com sucesso!");
       setShowModal(true);
@@ -89,12 +92,14 @@ export const CadastrarCartaoCredito = () => {
     }
   };
 
-  const enviarAtualizarConta = async () => {
-    const cartao: CartaoCreditoDTO = getCartao();
+  const enviarAtualizarConta = async (data: ICardForm) => {
+    const cartao: CartaoCreditoDTO = {
+      id: 0,
+      ...toCardDTO(data),
+    };
 
     try {
-      setCartao(await atualizarCartaoCredito(cartao));
-
+      await atualizarCartaoCredito(cartao);
       setModalStatus("Sucesso");
       setModalMsg("Cartão atualizado com sucesso!");
       setShowModal(true);
@@ -107,50 +112,57 @@ export const CadastrarCartaoCredito = () => {
     }
   };
 
+  const cardFlag = watch("flag");
+  const handleSelectChange = (value: number) => {
+    setValue("flag", value);
+    trigger("flag");
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-col flex-1 items-center justify-center h-full">
       <Title>Cadastrar Cartão Crédito</Title>
 
-      <div className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20">
+      <form
+        onSubmit={handleSubmit(
+          hasCartaoCadastrado ? enviarAtualizarConta : enviarNovoCartao,
+        )}
+        className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20"
+      >
         <Input
-          value={nomeImpresso}
-          onChange={(e) => setNomeImpresso(e.target.value)}
           placeholder="Nome Impresso"
+          showErrorMsg
+          error={errors?.name?.message}
+          {...register("name")}
         />
-        
+
         <Input
-          value={codigoSeguranca}
-          onChange={(e) => setCodigoSeguranca(e.target.value)}
           placeholder="Código de Segurança"
+          showErrorMsg
+          error={errors?.cvv?.message}
+          {...register("cvv")}
+          mask="000"
         />
 
-        <label>
-          <p>Bandeira</p>
+        <div className="w-1/2">
+          <p className="mb-4">Bandeira</p>
 
-          <select
-            value={bandeiraId}
-            onChange={(e) => setBandeiraId(Number(e.target.value))}
-          >
-            {bandeiras.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.nome}
-              </option>
-            ))}
-          </select>
-        </label>
+          <Select
+            className="w-full"
+            value={cardFlag ? String(cardFlag) : ""}
+            onChange={(selectedValue) =>
+              handleSelectChange(Number(selectedValue))
+            }
+            options={bandeiras.map((tipo) => ({
+              value: String(tipo.id),
+              label: tipo.nome,
+            }))}
+          />
+        </div>
 
-        {hasCartaoCadastrado === true && (
-          <Button icon={<LuSave size={30} />} onClick={enviarAtualizarConta}>
-            Atualizar
-          </Button>
-        )}
-
-        {hasCartaoCadastrado === false && (
-          <Button icon={<LuSave size={30} />} onClick={enviarNovoCartao}>
-            Salvar
-          </Button>
-        )}
-      </div>
+        <Button icon={<LuSave size={30} />}>
+          {hasCartaoCadastrado ? "Atualizar" : "Salvar"}
+        </Button>
+      </form>
 
       <Modal
         show={showModal}
