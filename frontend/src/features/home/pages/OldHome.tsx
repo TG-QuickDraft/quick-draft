@@ -5,6 +5,7 @@ import Button from "@/shared/components/ui/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
+import { MdOutlineFactCheck } from "react-icons/md";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { FaChartBar } from "react-icons/fa";
@@ -55,14 +56,17 @@ export const OldHome = () => {
               </Link>
             </div>
           )}
-
           {isAuthenticated && roles.includes("Admin") && (
             <div className="flex flex-col gap-3 items-center">
               <Link to={"/analise"}>
                 <Button icon={<FaChartBar size={30} />}>Tela de Análise</Button>
               </Link>
+              <Link to={"/auditoria"}>
+                <Button icon={<MdOutlineFactCheck size={30} />}>Auditoria</Button>
+              </Link>
             </div>
           )}
+
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>
