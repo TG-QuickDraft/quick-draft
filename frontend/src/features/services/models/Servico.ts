@@ -2,7 +2,7 @@ export type Servico = {
   id: number;
   nome: string;
   descricao: string;
-  orcamento: number;
+  orcamentoIsAberto: boolean;
   prazo: string;
   valorMinimo: number;
   clienteId: number;

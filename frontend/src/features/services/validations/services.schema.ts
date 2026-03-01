@@ -11,12 +11,6 @@ export const NewServiceSchema = yup.object({
 
   descricao: yup.string().required("Descrição é obrigatório"),
 
-  orcamento: yup
-    .number()
-    .typeError("Orçamento deve ser um número")
-    .required("Orçamento é obrigatório")
-    .positive("Deve ser maior que zero"),
-
   valorMinimo: yup
     .number()
     .typeError("Valor mínimo deve ser um número")

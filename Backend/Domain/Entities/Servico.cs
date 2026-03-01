@@ -19,9 +19,9 @@ namespace Backend.Domain.Entities
         [Required]
         public string? Descricao { get; set; }
 
-        [Column("ser_orcamento", TypeName = "numeric(6,2)")]
+        [Column("ser_orcamento_is_aberto")]
         [Required]
-        public decimal Orcamento { get; set; }
+        public bool OrcamentoIsAberto { get; set; } = true;
 
         [Column("ser_prazo")]
         [Required]

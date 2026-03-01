@@ -20,7 +20,6 @@ namespace Backend.Application.Services
             {
                 Nome = criarServico.Nome,
                 Descricao = criarServico.Descricao,
-                Orcamento = criarServico.Orcamento,
                 Prazo = criarServico.Prazo,
                 ValorMinimo = criarServico.ValorMinimo,
                 ClienteId = usuarioId,
@@ -62,7 +61,6 @@ namespace Backend.Application.Services
 
             servicoEntidade.Nome = dto.Nome;
             servicoEntidade.Descricao = dto.Descricao;
-            servicoEntidade.Orcamento = dto.Orcamento;
             servicoEntidade.Prazo = dto.Prazo;
             servicoEntidade.ValorMinimo = dto.ValorMinimo;
 

@@ -36,7 +36,9 @@ export const VisualizarServico = () => {
         <Title>Página de Serviço</Title>
         <h3>{servico?.nome}</h3>
         <h4>{servico?.descricao}</h4>
-        <h3>{servico?.orcamento}</h3>
+        <h3>
+          {servico?.orcamentoIsAberto ? "Serviço aberto" : "Serviço fechado"}
+        </h3>
         <h4>{servico?.valorMinimo}</h4>
         <h3>{servico?.prazo}</h3>
 
