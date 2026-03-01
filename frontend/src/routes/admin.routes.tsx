@@ -1,6 +1,6 @@
 import { RequireRole } from "@/components/guards/RequireRole";
 import { Analise } from "@/pages/admin/Analise";
-import { Auditoria } from "@/pages/admin/Auditoria";
+import { Auditoria } from "@/features/admin/pages/Auditoria";
 
 export const adminRoutes = [
   {

@@ -1,18 +1,26 @@
-import { consultarAuditoria } from "@/api/audit.api";
+import { consultarAuditoria } from "@/features/admin/api/audit.api";
 import Title from "@/components/common/ui/Title";
-import type { AuditLogDTO } from "@/dtos/audit/AuditLogDTO";
+import type { AuditLogDTO } from "@/shared/dtos/audit/AuditLogDTO";
 import { useEffect, useState } from "react";
+import type { PagedResult } from "@/shared/types/PagedResult";
+import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
+import { usePagination } from "@/shared/hooks/usePagination";
 
 export const Auditoria = () => {
-  const [auditoria, setAuditoria] = useState<AuditLogDTO[]>();
+  const [auditoria, setAuditoria] = useState<PagedResult<AuditLogDTO>>();
+
+  const {
+    pagina: pagina,
+    onPageChange,
+  } = usePagination({ totalPaginas: auditoria?.totalPaginas });
 
   useEffect(() => {
     const obterDados = async () => {
-      setAuditoria(await consultarAuditoria());
+      setAuditoria(await consultarAuditoria(pagina, 30));
     };
 
     obterDados();
-  }, []);
+  }, [pagina]);
 
   return (
     <div className="flex flex-col gap-10 p-8 w-full">
@@ -39,31 +47,29 @@ export const Auditoria = () => {
           </tr>
         </thead>
         <tbody>
-          {auditoria &&
-            auditoria.map((auditoria, index) => (
+          {auditoria?.itens &&
+            auditoria.itens.map((auditoria, index) => (
               <tr key={index}>
                 <td>{auditoria.user}</td>
                 <td>{auditoria.action}</td>
                 <td>{auditoria.entityName}</td>
-                <td>
-                  {auditoria.changes && (
-                    <td className="px-3 py-2 align-top">
-                      {Object.entries(auditoria.changes ?? {}).map(
-                        ([chave, valor]) => (
-                          <div
-                            key={chave}
-                            className="flex justify-between gap-4"
-                          >
-                            <span className="font-medium">{chave}:</span>
-                            <span className="text-right break-words max-w-[60%]">
-                              {String(valor)}
-                            </span>
-                          </div>
-                        ),
-                      )}
-                    </td>
-                  )}
-                </td>
+                {auditoria.changes && (
+                  <td className="px-3 py-2 align-top">
+                    {Object.entries(auditoria.changes ?? {}).map(
+                      ([chave, valor]) => (
+                        <div
+                          key={chave}
+                          className="flex justify-between gap-4"
+                        >
+                          <span className="font-medium">{chave}:</span>
+                          <span className="text-right break-words max-w-[60%]">
+                            {String(valor)}
+                          </span>
+                        </div>
+                      ),
+                    )}
+                  </td>
+                )}
                 <td className="whitespace-nowrap">
                   {new Date(auditoria.dateTime).toLocaleString("pt-BR", {
                     timeZone: "America/Sao_Paulo",
@@ -75,6 +81,12 @@ export const Auditoria = () => {
             ))}
         </tbody>
       </table>
+
+      <SeletorPaginas
+        pagina={pagina}
+        totalPaginas={auditoria?.totalPaginas || 1}
+        onPaginaChange={onPageChange}
+      />
     </div>
   );
 };
