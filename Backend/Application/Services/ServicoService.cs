@@ -20,12 +20,14 @@ namespace Backend.Application.Services
             {
                 Nome = criarServico.Nome,
                 Descricao = criarServico.Descricao,
-                ClienteId = usuarioId
+                Prazo = criarServico.Prazo,
+                ValorMinimo = criarServico.ValorMinimo,
+                ClienteId = usuarioId,
+                IsEntregue = false,
+                PropostaAceitaId = null
             };
 
-            Servico servicoCriado = await _repository.CriarAsync(
-                servico
-            );
+            Servico servicoCriado = await _repository.CriarAsync(servico);
 
             return _mapper.Map<ServicoDTO>(servicoCriado);
         }
@@ -59,6 +61,8 @@ namespace Backend.Application.Services
 
             servicoEntidade.Nome = dto.Nome;
             servicoEntidade.Descricao = dto.Descricao;
+            servicoEntidade.Prazo = dto.Prazo;
+            servicoEntidade.ValorMinimo = dto.ValorMinimo;
 
             return await _repository.AtualizarAsync(servicoEntidade);
         }

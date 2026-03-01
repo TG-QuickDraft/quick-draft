@@ -1,4 +1,6 @@
-export type CriarServicoDTO = {
-  nome: string,
-  descricao: string,
-};
+export interface CriarServicoDTO {
+  nome: string;
+  descricao: string;
+  prazo: string;
+  valorMinimo: number;
+}

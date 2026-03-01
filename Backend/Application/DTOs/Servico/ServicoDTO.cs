@@ -5,6 +5,11 @@ namespace Backend.Application.DTOs.Servico
         public int Id { get; set; }
         public required string Nome { get; set; }
         public required string Descricao { get; set; }
+        public bool OrcamentoIsAberto { get; set; }
+        public DateTime Prazo { get; set; }
+        public decimal ValorMinimo { get; set; }
+        public bool IsEntregue { get; set; }
+        public int? PropostaAceitaId { get; set; }
         public required int ClienteId { get; set; }
     }
 }

@@ -32,10 +32,12 @@ export const CadastrarServico = () => {
 
   const enviar = async (data: INewServiceForm) => {
     const servico: CriarServicoDTO = {
-      nome: data.name,
-      descricao: data.description,
+      nome: data.nome,
+      descricao: data.descricao,
+      valorMinimo: Number(data.valorMinimo),
+      prazo: new Date(data.prazo).toISOString(),
     };
-
+  
     try {
       await adicionarServico(servico);
       setModalStatus("Sucesso");
@@ -55,21 +57,37 @@ export const CadastrarServico = () => {
       <Title>Cadastrar Serviço</Title>
 
       <form
-        onClick={handleSubmit(enviar)}
+        onSubmit={handleSubmit(enviar)}
         className="flex flex-col w-1/2 gap-5 my-8 p-16 rounded-xl shadow-2xl border border-gray-600/20"
       >
         <Input
           placeholder="Nome"
           showErrorMsg
-          error={errors.name?.message}
-          {...register("name")}
+          error={errors.nome?.message}
+          {...register("nome")}
         />
 
         <Input
           placeholder="Descrição"
           showErrorMsg
-          error={errors.description?.message}
-          {...register("description")}
+          error={errors.descricao?.message}
+          {...register("descricao")}
+        />
+
+        <Input
+          type="number"
+          placeholder="Valor Mínimo"
+          showErrorMsg
+          error={errors.valorMinimo?.message}
+          {...register("valorMinimo")}
+        />
+
+        <Input
+          type="datetime-local"
+          placeholder="Prazo"
+          showErrorMsg
+          error={errors.prazo?.message}
+          {...register("prazo")}
         />
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
