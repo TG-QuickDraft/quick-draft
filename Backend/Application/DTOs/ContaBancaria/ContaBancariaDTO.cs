@@ -21,6 +21,6 @@ namespace Backend.Application.DTOs.ContaBancaria {
         public required string NumeroConta { get; set; }
         
         [Required]
-        public required string TipoContaId { get; set; }
+        public required int TipoContaId { get; set; }
     }
 }
