@@ -1,0 +1,87 @@
+import { useEffect, useState } from "react";
+import type { Freelancer } from "@/features/freelancers/models/Freelancer";
+import { consultarFreelancers } from "@/features/freelancers/api/freelancer.api";
+import { Link } from "react-router-dom";
+
+import Button from "@/shared/components/ui/Button";
+import Title from "@/shared/components/ui/Title";
+
+import { PiEmptyLight } from "react-icons/pi";
+import StarRating from "@/shared/components/ui/StarRating";
+
+import { MockProfile } from "@/shared/assets";
+
+import { useSearchParams } from "react-router-dom";
+
+export function PesquisaFreelancer() {
+  const TABLE_SPACING = "p-3";
+  const [freelancers, setFreelancers] = useState<Freelancer[]>([]);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const nomeUrl = searchParams.get("nome") || "";
+
+    const obterDados = async () => {
+      const dados = await consultarFreelancers(nomeUrl);
+
+      if (dados !== undefined) {
+        setFreelancers(dados);
+      }
+    };
+
+    obterDados();
+  }, [searchParams]);
+
+  return (
+    <div className="flex flex-1 flex-col items-center gap-8 h-full justify-center">
+      <Title>Minha tabela de freelancers</Title>
+
+      {freelancers.length === 0 ? (
+        <PiEmptyLight size={30} />
+      ) : (
+        <table className="w-1/2 text-center shadow-2xl">
+          <thead>
+            <tr className="bg-white text-black">
+              <th className={TABLE_SPACING}>Id</th>
+              <th className={TABLE_SPACING}>Nome</th>
+              <th className={TABLE_SPACING}>Foto de Perfil</th>
+              <th className={TABLE_SPACING}>Avaliação</th>
+              <th className={TABLE_SPACING}>Ir para Perfil</th>
+            </tr>
+          </thead>
+          <tbody>
+            {freelancers.map((freelancer, index) => (
+              <tr
+                key={index}
+                className="border border-gray-500/20 hover:bg-gray-500/5"
+              >
+                <td className={TABLE_SPACING}>{freelancer.id}</td>
+                <td className={TABLE_SPACING}>{freelancer.nome}</td>
+                <td className={TABLE_SPACING}>
+                  <img
+                    src={
+                      freelancer?.fotoPerfilUrl
+                        ? freelancer.fotoPerfilUrl
+                        : MockProfile
+                    }
+                    className="h-11 w-11 rounded-full inline-block object-cover"
+                  />
+                </td>
+                <td className={TABLE_SPACING}>
+                  <StarRating rating={4.2} />
+                </td>
+                <td className={TABLE_SPACING}>
+                  <Link to={`/perfilFreelancer/${freelancer.id}`}>
+                    <Button>Ver Perfil</Button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
+
+export default PesquisaFreelancer;

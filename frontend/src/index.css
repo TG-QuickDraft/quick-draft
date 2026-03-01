@@ -20,4 +20,35 @@ html {
   --color-secondary-60: #f5f34d;
   --color-secondary-40: #f5f34d;
   --color-secondary-20: #f5f34d;
+
+  /* Cores de status */
+  --color-success-1: #2dac3e;
+  --color-success-2: #abdeb1;
+  --color-error-1: #de3737;
+  --color-error-2: #ffd2d2;
+  --color-warning-1: #ff8500;
+  --color-warning-2: #fffacb;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-3px);
+  }
+  40% {
+    transform: translateX(3px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
 }
