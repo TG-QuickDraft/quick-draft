@@ -5,6 +5,7 @@ import Button from "@/shared/components/ui/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
+import { MdOutlineFactCheck } from "react-icons/md";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { FaChartBar } from "react-icons/fa";
@@ -61,7 +62,7 @@ export const OldHome = () => {
                 <Button icon={<FaChartBar size={30} />}>Tela de Análise</Button>
               </Link>
               <Link to={"/auditoria"}>
-                <Button icon={<GoPlus size={30} />}>Auditoria</Button>
+                <Button icon={<MdOutlineFactCheck size={30} />}>Auditoria</Button>
               </Link>
             </div>
           )}
