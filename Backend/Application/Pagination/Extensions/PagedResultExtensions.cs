@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Backend.Application.Pagination
+namespace Backend.Application.Pagination.Extensions
 {
     public static class PagedResultExtensions
     {
