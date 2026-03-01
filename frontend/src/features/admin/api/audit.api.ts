@@ -1,6 +1,6 @@
 import type { AuditLogDTO } from "@/shared/dtos/audit/AuditLogDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
-import { localStorageKeys } from "@/utils/localStorageKeys";
+import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/audit`;
 
