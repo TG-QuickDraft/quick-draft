@@ -1,4 +1,4 @@
-import type { AuditLogDTO } from "@/shared/dtos/audit/AuditLogDTO";
+import type { AuditLogDTO } from "@/features/admin/dtos/AuditLogDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
 import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 

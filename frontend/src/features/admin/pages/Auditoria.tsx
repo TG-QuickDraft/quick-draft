@@ -1,6 +1,6 @@
 import { consultarAuditoria } from "@/features/admin/api/audit.api";
 import Title from "@/shared/components/ui/Title";
-import type { AuditLogDTO } from "@/shared/dtos/audit/AuditLogDTO";
+import type { AuditLogDTO } from "@/features/admin/dtos/AuditLogDTO";
 import { useEffect, useState } from "react";
 import type { PagedResult } from "@/shared/types/PagedResult";
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
