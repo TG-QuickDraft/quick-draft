@@ -1,9 +1,13 @@
-import type { AuditLogDTO } from "@/dtos/audit/AuditLogDTO";
+import type { AuditLogDTO } from "@/shared/dtos/audit/AuditLogDTO";
+import type { PagedResult } from "@/shared/types/PagedResult";
 import { localStorageKeys } from "@/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/audit`;
 
-export const consultarAuditoria = async () => {
+export const consultarAuditoria = async (
+  pagina: number,
+  tamanhoPagina: number
+): Promise<PagedResult<AuditLogDTO>> => {
   const option = {
     method: "GET",
     headers: {
@@ -12,13 +16,14 @@ export const consultarAuditoria = async () => {
     },
   };
 
-  const resposta = await fetch(PATH, option);
+  const resposta = await fetch(
+    `${PATH}?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}`,
+    option
+  );
 
   if (resposta.status !== 200) {
     throw new Error("Erro ao consultar logs de auditoria.");
   }
 
-  const auditoriaLogs: AuditLogDTO[] = await resposta.json();
-
-  return auditoriaLogs;
+  return await resposta.json();
 };
