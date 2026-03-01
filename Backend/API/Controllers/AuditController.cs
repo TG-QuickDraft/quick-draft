@@ -1,6 +1,4 @@
 using Backend.API.Authorization;
-using Backend.API.Extensions;
-using Backend.Application.DTOs.CartaoCredito;
 using Backend.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +13,10 @@ namespace Backend.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Consultar()
+        public async Task<IActionResult> Consultar(int pagina, int tamanhoPagina)
         {
             return Ok(
-                await _service.ConsultarAsync()
+                await _service.ConsultarAsync(pagina, tamanhoPagina)
             );
         }
 
