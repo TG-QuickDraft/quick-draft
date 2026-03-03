@@ -37,7 +37,7 @@ export const VisualizarServico = () => {
         <h3>{servico?.nome}</h3>
         <h4>{servico?.descricao}</h4>
         <h3>
-          {servico?.orcamentoIsAberto ? "Serviço aberto" : "Serviço fechado"}
+          {servico?.orcamentoIsAberto ? "Orcamento aberto" : "Orcamento fechado"}
         </h3>
         <h4>{servico?.valorMinimo}</h4>
         <h3>{servico?.prazo}</h3>
