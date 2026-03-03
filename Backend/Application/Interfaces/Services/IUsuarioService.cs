@@ -11,7 +11,7 @@ namespace Backend.Application.Interfaces.Services
         
         public Task<UsuarioDTO> CriarAsync(CriarUsuarioDTO usuario);
 
-        public Task<bool> AtualizarAsync(UsuarioDTO usuario);
+        public Task<bool> AtualizarAsync(AtualizarDadosUsuarioDTO usuario, int usuarioId);
         public Task<bool> AtualizarSenha(AtualizarSenhaDTO dto, int usuarioId);
 
         public Task<bool> DeletarAsync(int id);
