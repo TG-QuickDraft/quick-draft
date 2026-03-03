@@ -80,12 +80,18 @@ namespace Backend.Application.Services
             return _mapper.Map<UsuarioDTO>(usuarioCriado);
         }
 
-        // TODO: Método do serviço não funciona
-        public async Task<bool> AtualizarAsync(UsuarioDTO usuario)
+        public async Task<bool> AtualizarAsync(AtualizarDadosUsuarioDTO dto, int usuarioId)
         {
-            // TODO: Fazer lógica corretamente (hash senha possívelmente deletado nessa atualização)
+            var usuarioBanco = await _repository.ConsultarPorIdAsync(usuarioId);
 
-            return await _repository.AtualizarAsync(_mapper.Map<Usuario>(usuario));
+            if (usuarioBanco == null)
+                return false;
+
+            usuarioBanco.Nome = dto.Nome;
+            usuarioBanco.Cpf = dto.Cpf;
+            usuarioBanco.Email = dto.Email;
+
+            return await _repository.AtualizarAsync(usuarioBanco);
         }
 
         public async Task<bool> AtualizarSenha(AtualizarSenhaDTO dto, int usuarioId)

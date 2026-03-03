@@ -64,6 +64,18 @@ namespace Backend.API.Controllers
                 Ok(new { mensagem = "Senha atualizada com sucesso!" });
         }
 
+        [HttpPut("atualizar-dados")]
+        [Authorize]
+        public async Task<IActionResult> AtualizarDados([FromBody] AtualizarDadosUsuarioDTO dto)
+        {
+            int usuarioId = User.GetUserId();
+
+            bool resultado = await _service.AtualizarAsync(dto, usuarioId);
+
+            return
+                resultado == false ? NotFound("Usuário não encontrado.") :
+                Ok(new { mensagem = "Dados atualizados com sucesso!" });
+        }
 
         [HttpDelete("{id}")]
         [Authorize]
