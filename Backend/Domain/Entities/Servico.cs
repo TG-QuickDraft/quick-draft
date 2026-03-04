@@ -19,7 +19,9 @@ namespace Backend.Domain.Entities
         [Required]
         public string? Descricao { get; set; }
 
+        /// <summary>
         /// Define se o cliente está disposto a aceitar valores diferentes do valor mínimo definido
+        /// </summary>
         [Column("ser_orcamento_is_aberto")]
         [Required]
         public bool OrcamentoIsAberto { get; set; } = true;
