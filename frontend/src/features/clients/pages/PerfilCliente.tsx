@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import Title from "@/shared/components/ui/Title";
 
-import type { Cliente } from "@/features/clients/models/Cliente";
+import type { Cliente } from "@/features/clients/dtos/Cliente";
 
 import StarRating from "@/shared/components/ui/StarRating";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";

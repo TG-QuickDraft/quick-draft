@@ -1,5 +1,5 @@
-import type { ProjetoFreelancer } from "@/features/freelancers/models/ProjetoFreelancer";
-import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/CriarProjetoFreelancerDTO";
+import type { ProjetoFreelancer } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancer";
+import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/projetoFreelancer`;

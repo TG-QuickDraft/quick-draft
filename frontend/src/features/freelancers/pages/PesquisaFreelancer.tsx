@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Freelancer } from "@/features/freelancers/models/Freelancer";
+import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelancer";
 import { consultarFreelancers } from "@/features/freelancers/api/freelancer.api";
 import { Link } from "react-router-dom";
 

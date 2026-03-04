@@ -1,4 +1,4 @@
-import type { Cliente } from "../models/Cliente";
+import type { Cliente } from "@/features/clients/dtos/Cliente";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/cliente`;
 
