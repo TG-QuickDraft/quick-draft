@@ -54,6 +54,8 @@ const PropostaFreelancer = () => {
         </div>
       </div>
 
+      <p className="text-xl mt-3">Projetos Selecionados em Destaque:</p>
+
       <div className="flex gap-5 flex-wrap justify-center">
         {[Image01, Image02, Image03].map((image, index) => (
           <ProposalCards key={index} img={image} />
