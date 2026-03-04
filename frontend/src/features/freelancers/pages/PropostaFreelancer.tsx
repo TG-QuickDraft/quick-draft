@@ -9,8 +9,8 @@ import ProposalCards from "../components/ProposalCards";
 
 const PropostaFreelancer = () => {
   return (
-    <div className="flex flex-col gap-5 w-full">
-      <div className="flex gap-5 items-center">
+    <div className="flex flex-col gap-5 max-w-310 mx-auto w-full">
+      <div className="flex gap-5 items-center flex-wrap">
         <div className="h-50 w-50 rounded-full border-2">
           <img
             src={MockProfile}
@@ -27,7 +27,7 @@ const PropostaFreelancer = () => {
         <StarRating rating={4.2} />
       </div>
 
-      <div className="flex gap-5">
+      <div className="flex gap-5 flex-wrap">
         <div className="flex flex-col gap-2 w-50">
           <p className="text-[20px] font-semibold">Proposta</p>
           <div className="flex flex-col gap-1">
@@ -42,7 +42,7 @@ const PropostaFreelancer = () => {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col gap-3">
+        <div className="flex-1 flex flex-col gap-3 min-w-50">
           <p className="text-[20px] font-semibold">
             Olá! sou João Luiz, profissional da área do design à 5 ano...
           </p>
@@ -54,7 +54,7 @@ const PropostaFreelancer = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+      <div className="flex gap-5 flex-wrap justify-center">
         {[Image01, Image02, Image03].map((image, index) => (
           <ProposalCards key={index} img={image} />
         ))}
