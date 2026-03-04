@@ -48,7 +48,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
       {/* Foto */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-12 h-12 rounded-full overflow-hidden bg-gray-200"
+        className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 cursor-pointer"
       >
         <ProfilePhoto size="sm" photoPath={photoPath ?? ""} />
       </button>
@@ -70,7 +70,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
           {!isAuthenticated && (
             <button
                 onClick={() => handleNavigate("/login")}
-                className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                 >
                 <CiLogin size={18} />
                 <span>Entrar</span>
@@ -82,7 +82,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
             <>
               <button
                 onClick={() => handleNavigate("/minhaConta")}
-                className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                 >
                 <CiUser size={18} />
                 <span>Minha Conta</span>
@@ -93,7 +93,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <>
                   <button
                     onClick={() => handleNavigate("/analise")}
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
                   <FaChartBar size={18} />
                   <span>Tela de Análise</span>
@@ -101,7 +101,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
 
                   <button
                     onClick={() => handleNavigate("/auditoria")}
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
                   <MdOutlineFactCheck size={18} />
                   <span>Auditoria</span>
@@ -114,7 +114,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <>
                   <button
                     onClick={() => handleNavigate("/cadastrarServico")}
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
                   <GoPlus size={18} />
                   <span>Cadastrar Serviço</span>
@@ -124,7 +124,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                     onClick={() =>
                       handleNavigate("/cadastrarCartaoCredito")
                     }
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
                   <GoPlus size={18} />
                   <span>Cadastrar Cartão de Crédito</span>
@@ -139,7 +139,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                     onClick={() =>
                       handleNavigate("/cadastrarProjetoFreelancer")
                     }
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
                   <GoPlus size={18} />
                   <span>Cadastrar Projeto Freelancer</span>
@@ -149,7 +149,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                     onClick={() =>
                       handleNavigate("/cadastrarContaBancaria")
                     }
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition"
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
                   <GoPlus size={18} />
                   <span>Cadastrar Conta Bancária</span>
@@ -161,7 +161,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
 
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 text-left w-full hover:bg-red-50 text-red-500 transition"
+                className="flex items-center gap-2 px-4 py-2 text-left w-full hover:bg-red-50 text-red-500 transition cursor-pointer"
               >
                 <CiLogout size={18} />
                 <span>Sair</span>
