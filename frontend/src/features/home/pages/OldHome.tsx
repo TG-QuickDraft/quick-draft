@@ -54,6 +54,9 @@ export const OldHome = () => {
                   Cadastrar Conta Bancária
                 </Button>
               </Link>
+              <Link to={"/propostaFreelancer"}>
+                <Button icon={<GoPlus size={30} />}>Proposta</Button>
+              </Link>
             </div>
           )}
           {isAuthenticated && roles.includes("Admin") && (
@@ -62,11 +65,12 @@ export const OldHome = () => {
                 <Button icon={<FaChartBar size={30} />}>Tela de Análise</Button>
               </Link>
               <Link to={"/auditoria"}>
-                <Button icon={<MdOutlineFactCheck size={30} />}>Auditoria</Button>
+                <Button icon={<MdOutlineFactCheck size={30} />}>
+                  Auditoria
+                </Button>
               </Link>
             </div>
           )}
-
         </div>
         <div className="flex flex-col items-center justify-center">
           <h3 className="p-6">Testes Cypress</h3>
