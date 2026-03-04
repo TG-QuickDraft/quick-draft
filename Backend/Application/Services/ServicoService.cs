@@ -20,6 +20,7 @@ namespace Backend.Application.Services
             {
                 Nome = criarServico.Nome,
                 Descricao = criarServico.Descricao,
+                OrcamentoIsAberto = criarServico.OrcamentoIsAberto,
                 Prazo = criarServico.Prazo,
                 ValorMinimo = criarServico.ValorMinimo,
                 ClienteId = usuarioId,
