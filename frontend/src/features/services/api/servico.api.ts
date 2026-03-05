@@ -1,47 +1,41 @@
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
 import type { Servico } from "../models/Servico";
-import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
+import api from "@/shared/api/api";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/servico`;
+const BASE_PATH = "/api/servico";
 
-export const consultarServicos = async (filtro: FiltroServicoDTO) => {
-  const resposta = await fetch(`${PATH}?nome=${filtro?.nome ?? ""}`);
-
-  if (resposta.status !== 200) {
+export const consultarServicos = async (
+  filtro: FiltroServicoDTO,
+): Promise<Servico[]> => {
+  try {
+    const { data } = await api.get<Servico[]>(BASE_PATH, {
+      params: {
+        nome: filtro?.nome ?? "",
+      },
+    });
+    return data;
+  } catch {
     throw new Error("Erro ao consultar serviços.");
   }
-
-  const servicos: Servico[] = await resposta.json();
-
-  return servicos;
 };
 
-export const consultarServicoPorId = async (id: number) => {
-  const resposta = await fetch(`${PATH}/${id}`);
-
-  if (resposta.status !== 200) {
+export const consultarServicoPorId = async (id: number): Promise<Servico> => {
+  try {
+    const { data } = await api.get<Servico>(`${BASE_PATH}/${id}`);
+    return data;
+  } catch {
     throw new Error("Erro ao consultar serviço.");
   }
-
-  return await resposta.json();
 };
 
-export const adicionarServico = async (servico: CriarServicoDTO) => {
-  const option = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
-    },
-    body: JSON.stringify(servico),
-  };
-
-  const resposta = await fetch(PATH, option);
-
-  if (resposta.status !== 201) {
+export const adicionarServico = async (
+  servico: CriarServicoDTO,
+): Promise<Servico> => {
+  try {
+    const { data } = await api.post<Servico>(BASE_PATH, servico);
+    return data;
+  } catch {
     throw new Error("Erro ao adicionar serviço.");
   }
-
-  return resposta.json();
-}
+};

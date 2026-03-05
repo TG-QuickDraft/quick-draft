@@ -1,16 +1,11 @@
+import api from "@/shared/api/api";
 import type { Cliente } from "../models/Cliente";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/cliente`;
-
-export const consultarClientePorId = async (
-  id: number,
-): Promise<Cliente> => {
-  const resposta = await fetch(`${PATH}/${id}`);
-
-  if (resposta.status !== 200) {
+export const consultarClientePorId = async (id: number): Promise<Cliente> => {
+  try {
+    const { data } = await api.get<Cliente>(`/api/cliente/${id}`);
+    return data;
+  } catch {
     throw new Error("Erro ao consultar cliente.");
   }
-
-  return await resposta.json();
 };
-

@@ -27,10 +27,6 @@ export const PerfilCliente = () => {
     obterDados();
   }, [id]);
 
-  useEffect(() => {
-    console.log(cliente);
-  }, [cliente]);
-
   // HOOK FORM YUP VALIDATION
 
   /**
