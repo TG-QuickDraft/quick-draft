@@ -1,4 +1,5 @@
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
+import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/auth`;
 
@@ -15,3 +16,7 @@ export const loginApi = async (userLogin: LoginDTO) => {
 
   return response.json() as Promise<{ token: string }>;
 };
+
+export function logout() {
+  localStorage.removeItem(localStorageKeys.accessToken);
+}
