@@ -7,7 +7,7 @@ import Title from "@/shared/components/ui/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
 import { consultarServicos } from "@/features/services/api/servico.api";
-import type { Servico } from "@/features/services/models/Servico";
+import type { Servico } from "@/features/services/dtos/Servico";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
 
 import { useSearchParams } from "react-router-dom";

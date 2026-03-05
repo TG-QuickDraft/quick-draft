@@ -7,7 +7,7 @@ import Title from "@/shared/components/ui/Title";
 
 import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import type { Servico } from "../models/Servico";
+import type { Servico } from "../dtos/Servico";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
