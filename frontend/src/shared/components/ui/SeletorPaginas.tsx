@@ -1,8 +1,8 @@
 type Props = {
-    pagina: number;
-    totalPaginas: number;
-    onPaginaChange: (novaPagina: number) => void;
-}
+  pagina: number;
+  totalPaginas: number;
+  onPaginaChange: (novaPagina: number) => void;
+};
 export const SeletorPaginas = ({
   pagina,
   totalPaginas,
@@ -31,4 +31,4 @@ export const SeletorPaginas = ({
       </button>
     </div>
   );
-}
+};
