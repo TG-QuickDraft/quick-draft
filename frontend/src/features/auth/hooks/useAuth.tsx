@@ -6,6 +6,7 @@ import { getRolesFromToken } from "@/shared/utils/getRolesFromToken";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import type { Usuario } from "@/features/users/dtos/Usuario";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
+import Spinner from "@/shared/components/ui/Spinner";
 
 interface IUserProvider {
   isAuthenticated: boolean;
@@ -79,7 +80,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{ isAuthenticated, login, logout, roles, usuario }}
     >
-      {loading ? null : !isAuthenticated && !isPublicRoute ? (
+      {loading ? (
+        <Spinner />
+      ) : !isAuthenticated && !isPublicRoute ? (
         <Navigate to="/login" replace />
       ) : isAuthenticated && pathname === "/login" ? (
         <Navigate to="/" replace />

@@ -1,17 +1,17 @@
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
+import { localStorageKeys } from "@/shared/utils/localStorageKeys";
+import { publicApi } from "@/shared/apis/publicApi";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/auth`;
-
-export const loginApi = async (userLogin: LoginDTO) => {
-  const response = await fetch(`${PATH}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userLogin),
-  });
-
-  if (!response.ok) {
+export const loginApi = async (
+  userLogin: LoginDTO,
+): Promise<{ token: string }> => {
+  try {
+    const { data } = await publicApi.post<{ token: string }>(
+      "/api/auth/login",
+      userLogin,
+    );
+    return data;
+  } catch {
     throw new Error("Credenciais inválidas");
   }
-
-  return response.json() as Promise<{ token: string }>;
 };

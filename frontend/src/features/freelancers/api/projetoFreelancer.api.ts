@@ -1,53 +1,44 @@
-import type { ProjetoFreelancer } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancer";
-import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
-import { localStorageKeys } from "@/shared/utils/localStorageKeys";
+import api from "@/shared/apis/api";
+import type { ProjetoFreelancer } from "../dtos/projetoFreelancer/ProjetoFreelancer";
+import type { CriarProjetoFreelancerDTO } from "../dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/projetoFreelancer`;
+const BASE_PATH = "/api/projetoFreelancer";
 
-export const consultarProjetosFreelancerPorIdFreelancer =
-    async (freelancerId: number): Promise<ProjetoFreelancer[]> => {
-        const resposta = await fetch(`${PATH}/freelancer/${freelancerId}`);
+export const consultarProjetosFreelancerPorIdFreelancer = async (
+  freelancerId: number,
+): Promise<ProjetoFreelancer[]> => {
+  try {
+    const { data } = await api.get<ProjetoFreelancer[]>(
+      `${BASE_PATH}/freelancer/${freelancerId}`,
+    );
+    return data;
+  } catch {
+    throw new Error("Erro ao consultar projetos do Freelancer.");
+  }
+};
 
-        if (resposta.status !== 200) {
-            throw new Error("Erro ao consultar projetos do Freelancer.");
-        }
-
-        return await resposta.json();
-    }
-
-export const adicionarProjetoFreelancer = async (projeto: CriarProjetoFreelancerDTO) => {
-  const option = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
-    },
-    body: JSON.stringify(projeto),
-  };
-
-  const resposta = await fetch(PATH, option);
-
-  if (resposta.status !== 201) {
+export const adicionarProjetoFreelancer = async (
+  projeto: CriarProjetoFreelancerDTO,
+) => {
+  try {
+    const { data } = await api.post(BASE_PATH, projeto);
+    return data;
+  } catch {
     throw new Error("Erro ao adicionar serviço.");
   }
+};
 
-  return resposta.json();
-}
-
-export const enviarImagemProjeto = async (formData: FormData, projetoId: number) => {
-  const option = {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
-    },
-    body: formData,
-  };
-
-  const resposta = await fetch(`${PATH}/upload-foto/${projetoId}`, option);
-
-  if (resposta.status !== 200) {
+export const enviarImagemProjeto = async (
+  formData: FormData,
+  projetoId: number,
+) => {
+  try {
+    const { data } = await api.post(
+      `${BASE_PATH}/upload-foto/${projetoId}`,
+      formData,
+    );
+    return data;
+  } catch {
     throw new Error("Erro ao adicionar imagem do projeto.");
   }
-
-  return resposta.json();
 };

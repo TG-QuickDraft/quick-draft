@@ -7,11 +7,19 @@ type JwtPayload = {
 
 export const getRolesFromToken = (): string[] => {
   const token = localStorage.getItem(localStorageKeys.accessToken);
+
   if (!token) return [];
 
-  const decoded = jwtDecode<JwtPayload>(token);
-  const { roles } = decoded;
+  try {
+    const decoded = jwtDecode<JwtPayload>(token);
+    const { roles } = decoded;
 
-  if (!roles) return [];
-  return Array.isArray(roles) ? roles : [roles];
+    if (!roles) return [];
+    return Array.isArray(roles) ? roles : [roles];
+  } catch (error) {
+    console.error("Token malformado encontrado. Limpando sessão...", error);
+    localStorage.removeItem(localStorageKeys.accessToken);
+
+    return [];
+  }
 };
