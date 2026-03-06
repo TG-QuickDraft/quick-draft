@@ -15,7 +15,3 @@ export const loginApi = async (
     throw new Error("Credenciais inválidas");
   }
 };
-
-export function logout() {
-  localStorage.removeItem(localStorageKeys.accessToken);
-}

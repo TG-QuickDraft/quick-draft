@@ -1,4 +1,3 @@
-import { logout } from "@/features/auth/api/auth.api";
 import axios from "axios";
 import { localStorageKeys } from "../utils/localStorageKeys";
 
@@ -25,8 +24,11 @@ api.interceptors.response.use(
       localStorage.removeItem(localStorageKeys.accessToken);
 
       setTimeout(() => {
-        logout();
-        if (typeof window !== "undefined") window.location.href = "/login";
+        if (
+          typeof window !== "undefined" &&
+          window.location.pathname !== "/login"
+        )
+          window.location.href = "/login";
       }, 0);
     }
 
