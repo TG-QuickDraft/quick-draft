@@ -29,6 +29,7 @@ export const AtualizarDadosUsuario = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<IAccountForm>({
@@ -41,11 +42,9 @@ export const AtualizarDadosUsuario = () => {
       try {
         const usuario = await consultarUsuario();
 
-        reset({
-          nome: usuario.nome,
-          email: usuario.email,
-          cpf: usuario.cpf,
-        });
+        setValue("nome", usuario.nome);
+        setValue("email", usuario.email);
+        setValue("cpf", usuario.cpf);
       } catch (error) {
         setModalStatus("Erro");
         setModalMsg("Erro ao carregar dados do usuário.");

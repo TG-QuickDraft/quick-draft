@@ -21,11 +21,9 @@ export const MinhaConta = () => {
     <div className="px-12 py-10">
       {usuario && (
         <>
-          {/* ===== TOPO PERFIL ===== */}
           <div className="flex justify-between items-start mb-6">
-            {/* Lado esquerdo */}
             <div className="flex items-center gap-6">
-              <div className="w-36 h-36 w-full h-full rounded-full">
+              <div className="w-full h-full rounded-full">
                 <ProfilePhoto
                   photoPath={usuario.fotoPerfilUrl}
                 />
@@ -44,7 +42,6 @@ export const MinhaConta = () => {
               </div>
             </div>
 
-            {/* Cards estatística */}
             <div className="flex gap-12">
               <div className="bg-zinc-800 text-white px-10 py-6 rounded-2xl min-w-[180px]">
                 <p className="text-2xl font-bold">0</p>
@@ -53,7 +50,7 @@ export const MinhaConta = () => {
                 </p>
               </div>
 
-              <div className="bg-[var(--color-secondary-100)] text-black px-10 py-6 rounded-2xl min-w-[180px]">
+              <div className="bg-secondary-100 text-black px-10 py-6 rounded-2xl min-w-[180px]">
                 <p className="text-2xl font-bold">0</p>
                 <p className="text-sm">
                   Concluídos
@@ -78,13 +75,11 @@ export const MinhaConta = () => {
             </button>
           </div>
 
-          {/* ===== MEUS SERVIÇOS ===== */}
           <div>
             <h2 className="text-xl font-semibold mb-6">
               Meus Serviços
             </h2>
 
-            {/* Tabs */}
             <div className="flex gap-6 border-b border-gray-300 mb-16">
               <button className="pb-2 border-b-2 border-black font-medium">
                 Em Andamento
@@ -99,7 +94,6 @@ export const MinhaConta = () => {
               </button>
             </div>
 
-            {/* Estado vazio */}
             <div className="flex flex-col items-center justify-center mt-24">
               <h3 className="text-2xl font-semibold mb-2">
                 Nenhum Serviço Criado

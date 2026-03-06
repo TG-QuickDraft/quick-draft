@@ -45,7 +45,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
 
   return (
     <div ref={ref} className="relative">
-      {/* Foto */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 cursor-pointer"
@@ -53,7 +52,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
         <ProfilePhoto size="sm" photoPath={photoPath ?? ""} />
       </button>
 
-      {/* Dropdown */}
       <div
         className={clsx(
           "absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl border border-gray-200",
@@ -66,7 +64,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
       >
         <div className="flex flex-col py-2 text-sm">
 
-          {/* NÃO LOGADO */}
           {!isAuthenticated && (
             <button
                 onClick={() => handleNavigate("/login")}
@@ -77,7 +74,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
             </button>
           )}
 
-          {/* LOGADO */}
           {isAuthenticated && (
             <>
               <button
@@ -88,7 +84,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <span>Minha Conta</span>
               </button>
 
-              {/* ADMIN */}
               {roles.includes("Admin") && (
                 <>
                   <button
@@ -109,7 +104,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 </>
               )}
 
-              {/* CLIENTE */}
               {roles.includes("Cliente") && (
                 <>
                   <button
@@ -132,7 +126,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 </>
               )}
 
-              {/* FREELANCER */}
               {roles.includes("Freelancer") && (
                 <>
                   <button
