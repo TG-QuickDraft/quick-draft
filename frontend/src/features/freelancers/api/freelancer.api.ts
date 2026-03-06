@@ -8,7 +8,7 @@ export const consultarFreelancers = async (
 ): Promise<Freelancer[]> => {
   try {
     const { data } = await api.get<Freelancer[]>(BASE_PATH, {
-      params: { nome },
+      params: { nome, pagina: 1, tamanhoPagina: 10 },
     });
     return data;
   } catch {

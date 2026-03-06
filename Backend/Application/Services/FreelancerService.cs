@@ -4,6 +4,7 @@ using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
 using Backend.Application.Pagination;
+using Backend.Application.Pagination.Extensions;
 using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
@@ -24,11 +25,7 @@ namespace Backend.Application.Services
             int tamanhoPagina
         )
         {
-            PagedResult<Freelancer> list = await _repository.ConsultarTodosAsync(
-                nome,
-                pagina,
-                tamanhoPagina
-            );
+            var list = await _repository.ConsultarTodosAsync(nome, pagina, tamanhoPagina);
 
             foreach (var freelancer in list.Itens)
             {
@@ -39,7 +36,7 @@ namespace Backend.Application.Services
                 usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
             }
 
-            return _mapper.Map<PagedResult<FreelancerDTO>>(list);
+            return list.Map<Freelancer, FreelancerDTO>(_mapper);
         }
 
         public async Task<FreelancerDTO?> ConsultarPorIdAsync(int id)
