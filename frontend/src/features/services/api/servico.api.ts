@@ -1,5 +1,5 @@
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
-import type { Servico } from "../models/Servico";
+import type { Servico } from "../dtos/Servico";
 import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
 

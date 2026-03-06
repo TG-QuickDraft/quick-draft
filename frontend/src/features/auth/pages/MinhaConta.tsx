@@ -1,6 +1,6 @@
+import type { Usuario } from "@/features/users/dtos/Usuario";
 import { useEffect, useState } from "react";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
-import type { Usuario } from "@/features/users/models/Usuario";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { GoPlus } from "react-icons/go";
 import { useNavigate } from "react-router-dom";

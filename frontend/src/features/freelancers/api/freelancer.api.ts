@@ -1,4 +1,4 @@
-import type { Freelancer } from "../models/Freelancer";
+import type { Freelancer } from "../dtos/freelancer/Freelancer";
 
 const PATH = `${import.meta.env.VITE_API_URL}/api/freelancer`;
 

@@ -1,5 +1,5 @@
 import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
-import type { Usuario } from "../models/Usuario";
+import type { Usuario } from "../dtos/Usuario";
 import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import type { AtualizarSenhaDTO } from "@/features/users/dtos/AtualizarSenhaDTO";
