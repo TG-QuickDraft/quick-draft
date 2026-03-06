@@ -1,4 +1,4 @@
-import api from "@/shared/api/api";
+import api from "@/shared/apis/api";
 import type { Cliente } from "../models/Cliente";
 
 export const consultarClientePorId = async (id: number): Promise<Cliente> => {

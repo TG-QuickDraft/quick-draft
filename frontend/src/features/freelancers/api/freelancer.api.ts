@@ -1,4 +1,4 @@
-import api from "@/shared/api/api";
+import api from "@/shared/apis/api";
 import type { Freelancer } from "../models/Freelancer";
 
 const BASE_PATH = "/api/freelancer";

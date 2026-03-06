@@ -3,7 +3,7 @@ import type { Usuario } from "../models/Usuario";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import type { AtualizarSenhaDTO } from "@/features/users/dtos/AtualizarSenhaDTO";
 import type { MeResponseDTO } from "@/features/auth/dtos/MeResponseDTO";
-import api from "@/shared/api/api";
+import api from "@/shared/apis/api";
 
 const BASE_PATH = "/api/usuario";
 

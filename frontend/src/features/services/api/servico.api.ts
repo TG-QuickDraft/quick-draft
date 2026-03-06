@@ -1,7 +1,7 @@
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
 import type { Servico } from "../models/Servico";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
-import api from "@/shared/api/api";
+import api from "@/shared/apis/api";
 
 const BASE_PATH = "/api/servico";
 

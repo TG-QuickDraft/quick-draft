@@ -1,12 +1,12 @@
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
-import api from "@/shared/api/api";
 import { localStorageKeys } from "@/shared/utils/localStorageKeys";
+import { publicApi } from "@/shared/apis/publicApi";
 
 export const loginApi = async (
   userLogin: LoginDTO,
 ): Promise<{ token: string }> => {
   try {
-    const { data } = await api.post<{ token: string }>(
+    const { data } = await publicApi.post<{ token: string }>(
       "/api/auth/login",
       userLogin,
     );

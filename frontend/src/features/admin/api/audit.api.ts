@@ -1,6 +1,6 @@
 import type { AuditLogDTO } from "@/features/admin/dtos/AuditLogDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
-import api from "@/shared/api/api";
+import api from "@/shared/apis/api";
 
 export const consultarAuditoria = async (
   pagina: number,
