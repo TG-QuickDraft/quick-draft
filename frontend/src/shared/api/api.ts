@@ -22,10 +22,11 @@ api.interceptors.response.use(
 
     if ((status === 401 || status === 403) && !originalRequest._retry) {
       originalRequest._retry = true;
+      localStorage.removeItem(localStorageKeys.accessToken);
 
       setTimeout(() => {
         logout();
-        if (typeof window !== "undefined") window.location.href = "/";
+        if (typeof window !== "undefined") window.location.href = "/login";
       }, 0);
     }
 
