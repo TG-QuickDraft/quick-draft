@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
 {
-
     [ApiController]
     [Route("/api/[controller]")]
     public class FreelancerController(IFreelancerService service) : ControllerBase
@@ -15,11 +14,13 @@ namespace Backend.API.Controllers
         private readonly IFreelancerService _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> Consultar([FromQuery] string? nome)
+        public async Task<IActionResult> Consultar(
+            [FromQuery] string? nome,
+            int pagina,
+            int tamanhoPagina
+        )
         {
-            return Ok(
-                await _service.ConsultarTodosAsync(nome ?? null)
-            );
+            return Ok(await _service.ConsultarTodosAsync(nome ?? null, pagina, tamanhoPagina));
         }
 
         [HttpGet("{id}")]
@@ -44,6 +45,5 @@ namespace Backend.API.Controllers
 
             return NoContent();
         }
-
     }
 }
