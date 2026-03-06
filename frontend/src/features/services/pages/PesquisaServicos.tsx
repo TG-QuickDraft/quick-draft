@@ -7,7 +7,7 @@ import Title from "@/shared/components/ui/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
 import { consultarServicos } from "@/features/services/api/servico.api";
-import type { Servico } from "@/features/services/models/Servico";
+import type { Servico } from "@/features/services/dtos/Servico";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
 
 import { useSearchParams } from "react-router-dom";
@@ -47,6 +47,7 @@ export function PesquisaServico() {
               <th className="p-3">Id</th>
               <th className="p-3">Nome</th>
               <th className="p-3">Descrição</th>
+              <th className="p-3">Orcamento</th>
               <th className="p-3">Valor Mínimo</th>
               <th className="p-3">Prazo</th>
               <th className="p-3">Ir para Serviço</th>
@@ -61,6 +62,7 @@ export function PesquisaServico() {
                 <td className="p-3">{servico.id}</td>
                 <td className="p-3">{servico.nome}</td>
                 <td className="p-3">{servico.descricao}</td>
+                <td className="p-3">{servico?.orcamentoIsAberto ? "Aberto" : "Fechado"}</td>
                 <td className="p-3">{servico.valorMinimo}</td>
                 <td className="p-3">{servico.prazo}</td>
                 <td className="p-3">

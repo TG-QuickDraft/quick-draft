@@ -5,7 +5,7 @@ import {
 import Button from "@/shared/components/ui/Button";
 
 import Input from "@/shared/components/ui/Inputs/Input";
-import type { Usuario } from "@/features/users/models/Usuario";
+import type { Usuario } from "@/features/users/dtos/Usuario";
 import { useEffect, useState } from "react";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useForm } from "react-hook-form";

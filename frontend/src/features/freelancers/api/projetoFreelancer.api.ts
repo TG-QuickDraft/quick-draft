@@ -1,6 +1,6 @@
-import type { ProjetoFreelancer } from "@/features/freelancers/models/ProjetoFreelancer";
-import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/CriarProjetoFreelancerDTO";
 import api from "@/shared/apis/api";
+import type { ProjetoFreelancer } from "../dtos/projetoFreelancer/ProjetoFreelancer";
+import type { CriarProjetoFreelancerDTO } from "../dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 
 const BASE_PATH = "/api/projetoFreelancer";
 

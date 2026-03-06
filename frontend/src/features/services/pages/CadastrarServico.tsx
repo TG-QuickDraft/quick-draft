@@ -9,6 +9,7 @@ import { adicionarServico } from "@/features/services/api/servico.api";
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
 import Modal from "@/shared/components/ui/Modal";
 import Input from "@/shared/components/ui/Inputs/Input";
+import Radio from "@/shared/components/ui/Inputs/Radio";
 import {
   NewServiceSchema,
   type INewServiceForm,
@@ -34,6 +35,7 @@ export const CadastrarServico = () => {
     const servico: CriarServicoDTO = {
       nome: data.nome,
       descricao: data.descricao,
+      orcamentoIsAberto: data.orcamentoIsAberto,
       valorMinimo: Number(data.valorMinimo),
       prazo: new Date(data.prazo).toISOString(),
     };
@@ -89,6 +91,24 @@ export const CadastrarServico = () => {
           error={errors.prazo?.message}
           {...register("prazo")}
         />
+
+        <div>
+          <h2 className="mb-5 text-[16px]">Orçamento</h2>
+
+          <div className="flex gap-2 justify-evenly mb-4 border-y border-gray-600/20 py-5">
+            <Radio
+              value="true"
+              label="Aberto"
+              {...register("orcamentoIsAberto")}
+            />
+
+            <Radio
+              value="false"
+              label="Fechado"
+              {...register("orcamentoIsAberto")}
+            />
+          </div>
+        </div>
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
       </form>

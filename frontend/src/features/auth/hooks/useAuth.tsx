@@ -4,7 +4,7 @@ import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import { loginApi } from "@/features/auth/api/auth.api";
 import { getRolesFromToken } from "@/shared/utils/getRolesFromToken";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
-import type { Usuario } from "@/features/users/models/Usuario";
+import type { Usuario } from "@/features/users/dtos/Usuario";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import Spinner from "@/shared/components/ui/Spinner";
 

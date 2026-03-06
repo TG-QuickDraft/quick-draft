@@ -6,7 +6,7 @@ import { LuSave } from "react-icons/lu";
 import Title from "@/shared/components/ui/Title";
 
 import Modal from "@/shared/components/ui/Modal";
-import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/CriarProjetoFreelancerDTO";
+import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 import {
   adicionarProjetoFreelancer,
   enviarImagemProjeto,

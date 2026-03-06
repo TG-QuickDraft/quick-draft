@@ -1,5 +1,5 @@
 import api from "@/shared/apis/api";
-import type { Freelancer } from "../models/Freelancer";
+import type { Freelancer } from "../dtos/freelancer/Freelancer";
 
 const BASE_PATH = "/api/freelancer";
 
