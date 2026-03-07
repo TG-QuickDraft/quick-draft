@@ -45,7 +45,6 @@ namespace Backend.Domain.Entities
         [Required]
         public int ClienteId { get; set; }
 
-        [ForeignKey(nameof(ClienteId))]
         [JsonIgnore]
         public Cliente? Cliente { get; set; }
         

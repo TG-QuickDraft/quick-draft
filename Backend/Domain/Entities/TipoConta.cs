@@ -13,5 +13,7 @@ namespace Backend.Domain.Entities
         [Column("tpc_nome")]
         [Required]
         public string? Nome { get; set; }
+
+        public ICollection<ContaBancaria>? ContasBancarias { get; set; } = [];
     }
 }

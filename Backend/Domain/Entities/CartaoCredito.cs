@@ -24,7 +24,6 @@ namespace Backend.Domain.Entities
         [Required]
         public int BandeiraId { get; set; }
 
-        [ForeignKey(nameof(BandeiraId))]
         public BandeiraCartaoCredito? Bandeira { get; set; }
 
         [JsonIgnore]
