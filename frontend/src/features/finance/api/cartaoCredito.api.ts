@@ -1,71 +1,43 @@
 import type { CartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CartaoCreditoDTO";
 import type { CriarCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CriarCartaoCreditoDTO";
-import { localStorageKeys } from "@/shared/utils/localStorageKeys";
+import api from "@/shared/apis/api";
 
-const PATH = `${import.meta.env.VITE_API_URL}/api/cartaoCredito`;
+const BASE_PATH = "/api/cartaoCredito";
 
 export const consultarCartaoCredito = async () => {
-    const option = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
-        },
-    }
-    
-    const resposta = await fetch(PATH, option);
-
-    if (resposta.status !== 200) {
-        throw new Error("Erro ao consultar cartão.");
-    }
-
-    return await resposta.json();
-}
+  try {
+    const { data } = await api.get(BASE_PATH);
+    return data;
+  } catch {
+    throw new Error("Erro ao consultar cartão.");
+  }
+};
 
 export const consultarBandeiras = async () => {
-    const resposta = await fetch(`${PATH}/bandeiras`);
-
-    if (resposta.status !== 200) {
-        throw new Error("Erro ao consultar bandeiras de cartão de crédito.");
-    }
-
-    return await resposta.json();
-}
+  try {
+    const { data } = await api.get(`${BASE_PATH}/bandeiras`);
+    return data;
+  } catch {
+    throw new Error("Erro ao consultar bandeiras de cartão de crédito.");
+  }
+};
 
 export const adicionarCartaoCredito = async (cartao: CriarCartaoCreditoDTO) => {
-    const option = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
-        },
-        body: JSON.stringify(cartao),
-    };
-
-    const resposta = await fetch(PATH, option);
-
-    if (resposta.status !== 201) {
-        throw new Error("Erro ao adicionar cartão de crédito.");
-    }
-
-    return resposta.json();
-}
-
-export const atualizarCartaoCredito = async(dto: CartaoCreditoDTO) => {
-  const option = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem(localStorageKeys.accessToken)}`,
-    },
-    body: JSON.stringify(dto),
-  };
-
-  const resposta = await fetch(PATH, option);
-  
-  if (resposta.status !== 200) {
-    throw new Error("Erro ao atualizar cartão: ", (await resposta.json()));
+  try {
+    const { data } = await api.post(BASE_PATH, cartao);
+    return data;
+  } catch {
+    throw new Error("Erro ao adicionar cartão de crédito.");
   }
-  
-  return resposta.json();
-}
+};
+
+export const atualizarCartaoCredito = async (dto: CartaoCreditoDTO) => {
+  try {
+    const { data } = await api.put(BASE_PATH, dto);
+    return data;
+  } catch (error: any) {
+    const mensagem =
+      error?.response?.data?.message ?? "Erro ao atualizar cartão.";
+    throw new Error(mensagem);
+  }
+};
