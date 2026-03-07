@@ -39,7 +39,7 @@ export function PesquisaServico() {
     };
 
     obterDados();
-  }, [searchParams]);
+  }, [searchParams, pagina]);
 
   if (loading) return <Spinner />;
 
