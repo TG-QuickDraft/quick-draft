@@ -1,6 +1,7 @@
 import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import type { AtualizarSenhaDTO } from "@/features/users/dtos/AtualizarSenhaDTO";
+import type { AtualizarDadosUsuarioDTO } from "@/features/users/dtos/AtualizarDadosUsuarioDTO";
 import type { MeResponseDTO } from "@/features/auth/dtos/MeResponseDTO";
 import api from "@/shared/apis/api";
 import type { Usuario } from "../dtos/Usuario";

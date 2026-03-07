@@ -9,7 +9,8 @@ import clsx from "clsx";
 import Search from "@/shared/components/ui/Inputs/Search";
 import Select from "@/shared/components/ui/Select";
 
-import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+import ProfileNavbar from "@/layout/components/ProfileNavbar";
+import SystemLogo from "@/shared/components/ui/SystemLogo";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -20,12 +21,11 @@ const Navbar = () => {
   const [search, setSearch] = useState("");
   const [tipo, setTipo] = useState("freelancers");
 
-  const Profile = () => {
+  const Logo = () => {
     return (
       <div className="w-12 h-12 rounded-full bg-gray-200">
-        <ProfilePhoto
+        <SystemLogo
           size="sm"
-          photoPath={usuario ? usuario.fotoPerfilUrl : ""}
         />
       </div>
     );
@@ -86,7 +86,7 @@ const Navbar = () => {
       )}
     >
       <Stack direction="row" gap={6}>
-        <Profile />
+        <Logo />
         <div className="flex gap-2 items-center">
           <form
             onSubmit={(e) => {
@@ -122,6 +122,9 @@ const Navbar = () => {
       </Stack>
       <Stack direction="row" gap={6}>
         {renderButtons()}
+        <ProfileNavbar 
+          photoPath={usuario ? usuario.fotoPerfilUrl : ""}
+        />
       </Stack>
     </div>
   );
