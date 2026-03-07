@@ -38,6 +38,9 @@ namespace Backend.Application.Services
             int tamanhoPagina
         )
         {
+            tamanhoPagina = tamanhoPagina < 1 ? 30 : tamanhoPagina;
+            tamanhoPagina = tamanhoPagina > 100 ? 100 : tamanhoPagina;
+
             var list = await _repository.ConsultarTodosAsync(filtro, pagina, tamanhoPagina);
             return list.Map<Servico, ServicoDTO>(_mapper);
         }
