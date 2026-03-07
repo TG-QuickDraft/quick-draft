@@ -60,3 +60,14 @@ export const meApi = async (): Promise<MeResponseDTO> => {
     throw new Error("Erro ao obter dados do usuário.");
   }
 };
+
+export const atualizarDadosUsuario = async (
+  dados: AtualizarDadosUsuarioDTO,
+) => {
+  try {
+    const { data } = await api.put(`${BASE_PATH}/atualizar-dados`, dados);
+    return data;
+  } catch {
+    throw new Error("Erro ao atualizar dados do usuário");
+  }
+};
