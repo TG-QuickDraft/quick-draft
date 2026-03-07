@@ -1,11 +1,16 @@
 using Backend.Application.DTOs.Servico;
+using Backend.Application.Pagination;
 using Backend.Domain.Entities;
 
 namespace Backend.Application.Interfaces.Repositories
 {
     public interface IServicoRepository
     {
-        Task<IEnumerable<Servico>> ConsultarTodosAsync(FiltroServicoDTO filtro);
+        Task<PagedResult<Servico>> ConsultarTodosAsync(
+            FiltroServicoDTO filtro,
+            int pagina,
+            int tamanhoPagina
+        );
 
         Task<Servico?> ConsultarPorIdAsync(int id);
 

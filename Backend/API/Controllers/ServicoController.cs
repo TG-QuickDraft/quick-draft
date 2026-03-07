@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
 {
-
     [ApiController]
     [Route("/api/[controller]")]
     public class ServicoController(IServicoService service) : ControllerBase
@@ -15,24 +14,21 @@ namespace Backend.API.Controllers
         private readonly IServicoService _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> Consultar([FromQuery] string? nome)
+        public async Task<IActionResult> Consultar(
+            [FromQuery] string? nome,
+            int pagina,
+            int tamanhoPagina
+        )
         {
-            FiltroServicoDTO filtro = new()
-            {
-                Nome = nome
-            };
+            FiltroServicoDTO filtro = new() { Nome = nome };
 
-            return Ok(
-                await _service.ConsultarTodosAsync(filtro)
-            );
+            return Ok(await _service.ConsultarTodosAsync(filtro, pagina, tamanhoPagina));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ConsultarPorId(int id)
         {
-            return Ok(
-                await _service.ConsultarPorIdAsync(id)
-            );
+            return Ok(await _service.ConsultarPorIdAsync(id));
         }
 
         [HttpPost]
@@ -43,7 +39,11 @@ namespace Backend.API.Controllers
 
             ServicoDTO novoServico = await _service.CriarAsync(servico, usuarioId);
 
-            return CreatedAtAction(nameof(ConsultarPorId), new { id = novoServico.Id }, novoServico);
+            return CreatedAtAction(
+                nameof(ConsultarPorId),
+                new { id = novoServico.Id },
+                novoServico
+            );
         }
 
         [HttpPut]
@@ -60,6 +60,5 @@ namespace Backend.API.Controllers
 
             return NoContent();
         }
-
     }
 }
