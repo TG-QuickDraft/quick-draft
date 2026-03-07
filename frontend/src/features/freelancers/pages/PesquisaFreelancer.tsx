@@ -15,31 +15,41 @@ import { useSearchParams } from "react-router-dom";
 import type { PagedResult } from "@/shared/types/PagedResult";
 import { usePagination } from "@/shared/hooks/usePagination";
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
+import Spinner from "@/shared/components/ui/Spinner";
 
 export function PesquisaFreelancer() {
   const TABLE_SPACING = "p-3";
   const [freelancers, setFreelancers] = useState<PagedResult<Freelancer>>();
   const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
 
   const { pagina: pagina, onPageChange } = usePagination({
     totalPaginas: freelancers?.totalPaginas,
   });
 
   useEffect(() => {
-    const nomeUrl = searchParams.get("nome") || "";
-
     const obterDados = async () => {
-      setFreelancers(await consultarFreelancers(nomeUrl, pagina, 10));
+      let timer = setTimeout(() => setLoading(true), 200);
+      try {
+        const nomeUrl = searchParams.get("nome") || "";
+        const dados = await consultarFreelancers(nomeUrl, pagina, 10);
+        setFreelancers(dados);
+      } finally {
+        clearTimeout(timer);
+        setLoading(false);
+      }
     };
 
     obterDados();
   }, [pagina, searchParams]);
 
+  if (loading) return <Spinner />;
+
   return (
     <div className="flex flex-1 flex-col items-center gap-8 h-full justify-center">
       <Title>Minha tabela de freelancers</Title>
 
-      {!freelancers ? (
+      {freelancers?.itens.length === 0 ? (
         <PiEmptyLight size={30} />
       ) : (
         <table className="w-1/2 text-center shadow-2xl">
@@ -53,7 +63,7 @@ export function PesquisaFreelancer() {
             </tr>
           </thead>
           <tbody>
-            {freelancers.itens.map((freelancer, index) => (
+            {freelancers?.itens.map((freelancer, index) => (
               <tr
                 key={index}
                 className="border border-gray-500/20 hover:bg-gray-500/5"
