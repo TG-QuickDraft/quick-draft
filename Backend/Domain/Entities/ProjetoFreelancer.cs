@@ -31,5 +31,8 @@ namespace Backend.Domain.Entities
         [ForeignKey(nameof(FreelancerId))]
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
+
+        [JsonIgnore]
+        public ICollection<ProjetoDestacadoProposta>? ProjetosDestacados { get; set; } = [];
     }
 }

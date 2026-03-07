@@ -13,8 +13,10 @@ namespace Backend.Application
             services.AddScoped<IFreelancerService, FreelancerService>();
             services.AddScoped<IProjetoFreelancerService, ProjetoFreelancerService>();
             services.AddScoped<IServicoService, ServicoService>();
+            services.AddScoped<IPropostaService, PropostaService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IAuthService, AuthService>();
+            
             services.AddScoped<IAuditService, AuditService>();
 
             return services;

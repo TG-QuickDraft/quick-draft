@@ -10,6 +10,8 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Servico> Servicos { get; set; }
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
+        public DbSet<Proposta> Propostas { get; set; }
+        public DbSet<ProjetoDestacadoProposta> ProjetosDestacadosProposta { get; set; }
         public DbSet<ContaBancaria> ContasBancarias { get; set; }
         public DbSet<TipoConta> TiposContas { get; set; }
         public DbSet<CartaoCredito> CartoesCredito { get; set; }
@@ -35,6 +37,59 @@ namespace Backend.Infrastructure.Persistence
                     .HasForeignKey<Freelancer>(f => f.Id)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_freelancers_usuarios");
+            });
+
+            modelBuilder.Entity<Servico>(entity =>
+            {
+                entity.HasOne(s => s.Cliente)
+                    .WithMany(c => c.Servicos)
+                    .HasForeignKey(s => s.ClienteId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_ser_cli");
+
+                entity.HasMany(s => s.Propostas)
+                    .WithOne(p => p.Servico)
+                    .HasForeignKey(p => p.ServicoId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_ser_pro");
+
+                entity.HasOne(s => s.PropostaAceita)
+                    .WithOne(p => p.ServicoOndeFoiAceita)
+                    .HasForeignKey<Servico>(s => s.PropostaAceitaId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_ser_pro_aceita");
+            });
+
+            modelBuilder.Entity<Proposta>(entity =>
+            {
+                entity.HasOne(p => p.Freelancer)
+                    .WithMany(f => f.Propostas)
+                    .HasForeignKey(p => p.FreelancerId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pro_fre");
+
+                entity.HasOne(p => p.Servico)
+                    .WithMany(s => s.Propostas)
+                    .HasForeignKey(p => p.ServicoId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pro_ser");
+            });
+
+            modelBuilder.Entity<ProjetoDestacadoProposta>(entity =>
+            {
+                entity.HasKey(p => new { p.ProjetoFreelancerId, p.PropostaId });
+
+                entity.HasOne(p => p.ProjetoFreelancer)
+                    .WithMany(f => f.ProjetosDestacados)
+                    .HasForeignKey(p => p.ProjetoFreelancerId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pde_prj");
+
+                entity.HasOne(prj => prj.Proposta)
+                    .WithMany(pro => pro.ProjetosDestacados)
+                    .HasForeignKey(p => p.PropostaId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pde_pro");
             });
 
             modelBuilder.Entity<Cliente>(entity =>

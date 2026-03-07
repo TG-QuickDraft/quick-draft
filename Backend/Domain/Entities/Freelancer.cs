@@ -21,6 +21,7 @@ namespace Backend.Domain.Entities
         public Usuario? Usuario { get; set; }
 
         public ICollection<ProjetoFreelancer> ProjetosFreelancer { get; set; } = [];
+        public ICollection<Proposta>? Propostas { get; set; } = [];
         public ContaBancaria? ContaBancaria { get; set; }
     }
 }

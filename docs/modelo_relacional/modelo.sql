@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS "propostas" (
 	"pro_id" INTEGER NOT NULL,
 	"pro_fre_id" INTEGER NOT NULL,
 	"pro_ser_id" INTEGER NOT NULL,
-	"pro_valor_por_hora" NUMERIC(5) NOT NULL,
+	"pro_valor_por_hora" NUMERIC(5,2) NOT NULL,
 	"pro_prazo_entrega" TIMESTAMPTZ NOT NULL,
 	"pro_mensagem" TEXT NOT NULL,
 	"pro_itens_propostos" TEXT NOT NULL,
-	"pro_valor_total" INTEGER NOT NULL,
+	"pro_valor_total" NUMERIC(6,2) NOT NULL,
 	"pro_taxa_sistema_adicionada_ao_total" BOOLEAN NOT NULL,
 	PRIMARY KEY("pro_id")
 );
