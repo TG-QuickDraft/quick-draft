@@ -45,5 +45,10 @@ namespace Backend.Domain.Entities
         [ForeignKey(nameof(ClienteId))]
         [JsonIgnore]
         public Cliente? Cliente { get; set; }
+        
+        public ICollection<Proposta>? Propostas { get; set; } = [];
+        
+        [ForeignKey(nameof(PropostaAceitaId))]
+        public Proposta? PropostaAceita { get; set; }
     }
 }
