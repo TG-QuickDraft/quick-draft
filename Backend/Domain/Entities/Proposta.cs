@@ -54,6 +54,8 @@ namespace Backend.Domain.Entities
         [JsonIgnore]
         public Servico? Servico { get; set; }
 
+        public Servico? ServicoOndeFoiAceita { get; set; }
+
         public ICollection<ProjetoDestacadoProposta> ProjetosDestacados { get; set; } = [];
     }
 }

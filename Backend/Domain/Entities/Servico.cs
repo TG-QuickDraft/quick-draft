@@ -47,8 +47,6 @@ namespace Backend.Domain.Entities
         public Cliente? Cliente { get; set; }
         
         public ICollection<Proposta>? Propostas { get; set; } = [];
-        
-        [ForeignKey(nameof(PropostaAceitaId))]
         public Proposta? PropostaAceita { get; set; }
     }
 }
