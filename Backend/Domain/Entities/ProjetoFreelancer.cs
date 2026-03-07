@@ -28,7 +28,6 @@ namespace Backend.Domain.Entities
         [Required]
         public int FreelancerId { get; set; }
 
-        [ForeignKey(nameof(FreelancerId))]
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
 

@@ -13,5 +13,7 @@ namespace Backend.Domain.Entities
         [Column("bcc_nome")]
         [Required]
         public string? Nome { get; set; }
+
+        public ICollection<CartaoCredito>? CartoesCredito { get; set; } = [];
     }
 }

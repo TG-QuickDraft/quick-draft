@@ -10,7 +10,6 @@ namespace Backend.Domain.Entities
         [Column("cli_id")]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(Id))]
         public Usuario? Usuario { get; set; }
 
         public ICollection<Servico> Servicos { get; set; } = [];

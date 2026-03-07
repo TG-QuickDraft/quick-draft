@@ -36,7 +36,17 @@ namespace Backend.Infrastructure.Persistence
                     .WithOne(u => u.Freelancer)
                     .HasForeignKey<Freelancer>(f => f.Id)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_freelancers_usuarios");
+                    .HasConstraintName("fk_fre_usu");
+            });
+
+            modelBuilder.Entity<ProjetoFreelancer>(entity =>
+            {
+                entity
+                    .HasOne(pro => pro.Freelancer)
+                    .WithMany(f => f.ProjetosFreelancer)
+                    .HasForeignKey(pro => pro.FreelancerId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_prj_fre");
             });
 
             modelBuilder.Entity<Servico>(entity =>
@@ -95,12 +105,13 @@ namespace Backend.Infrastructure.Persistence
             modelBuilder.Entity<Cliente>(entity =>
             {
                 entity.Property(c => c.Id).ValueGeneratedNever();
+
                 entity
                     .HasOne(c => c.Usuario)
                     .WithOne(u => u.Cliente)
                     .HasForeignKey<Cliente>(c => c.Id)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_clientes_usuarios");
+                    .HasConstraintName("fk_cli_usu");
             });
 
             modelBuilder
@@ -109,6 +120,14 @@ namespace Backend.Infrastructure.Persistence
                 .WithOne(f => f.ContaBancaria)
                 .HasForeignKey<ContaBancaria>(c => c.Id)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .Entity<ContaBancaria>()
+                .HasOne(c => c.TipoConta)
+                .WithMany(t => t.ContasBancarias)
+                .HasForeignKey(c => c.TipoContaId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_con_tpc");
 
             modelBuilder.Entity<CartaoCredito>()
                 .HasOne(car => car.Cliente)
@@ -122,6 +141,13 @@ namespace Backend.Infrastructure.Persistence
                     new TipoConta { Id = 1, Nome = "Corrente" },
                     new TipoConta { Id = 2, Nome = "Poupança" }
                 );
+
+            modelBuilder.Entity<CartaoCredito>()
+                .HasOne(c => c.Bandeira)
+                .WithMany(b => b.CartoesCredito)
+                .HasForeignKey(c => c.BandeiraId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_cre_bcc");
 
             modelBuilder
                 .Entity<BandeiraCartaoCredito>()

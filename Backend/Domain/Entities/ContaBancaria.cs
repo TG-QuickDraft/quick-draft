@@ -35,7 +35,6 @@ namespace Backend.Domain.Entities
         [Required]
         public int TipoContaId { get; set; }
 
-        [ForeignKey(nameof(TipoContaId))]
         public TipoConta? TipoConta { get; set; }
 
         [JsonIgnore]

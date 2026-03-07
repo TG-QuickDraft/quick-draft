@@ -46,16 +46,12 @@ namespace Backend.Domain.Entities
         [Required]
         public int ServicoId { get; set; }
 
-        [ForeignKey(nameof(FreelancerId))]
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
 
-        [ForeignKey(nameof(ServicoId))]
         [JsonIgnore]
         public Servico? Servico { get; set; }
-
         public Servico? ServicoOndeFoiAceita { get; set; }
-
         public ICollection<ProjetoDestacadoProposta> ProjetosDestacados { get; set; } = [];
     }
 }
