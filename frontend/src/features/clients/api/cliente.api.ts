@@ -1,5 +1,5 @@
 import api from "@/shared/apis/api";
-import type { Cliente } from "../dtos/Cliente";
+import type { Cliente } from "@/features/clients/dtos/Cliente";
 
 export const consultarClientePorId = async (id: number): Promise<Cliente> => {
   try {

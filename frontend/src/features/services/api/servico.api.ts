@@ -20,7 +20,7 @@ export const consultarServicos = async (
       },
     });
     return data;
-} catch {
+  } catch {
     throw new Error("Erro ao consultar serviços.");
   }
 };

@@ -25,9 +25,9 @@ export const Auditoria = () => {
     <div className="flex flex-col gap-10 p-8 w-full">
       <Title>Auditoria</Title>
 
-      <table>
-        <thead>
-          <tr>
+      <table className="w-full border border-gray-200 rounded-lg overflow-hidden text-sm">
+        <thead className="bg-gray-50 border-b border-gray-200">
+          <tr className="border-t border-gray-100">
             <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
               Usuário
             </th>
@@ -48,10 +48,10 @@ export const Auditoria = () => {
         <tbody>
           {auditoria?.itens &&
             auditoria.itens.map((auditoria, index) => (
-              <tr key={index}>
-                <td>{auditoria.user}</td>
-                <td>{auditoria.action}</td>
-                <td>{auditoria.entityName}</td>
+              <tr key={index} className="border-t border-gray-100">
+                <td className="px-4 py-3">{auditoria.user}</td>
+                <td className="px-4 py-3">{auditoria.action}</td>
+                <td className="px-4 py-3">{auditoria.entityName}</td>
                 {auditoria.changes && (
                   <td className="px-3 py-2 align-top">
                     {Object.entries(auditoria.changes ?? {}).map(
@@ -66,7 +66,7 @@ export const Auditoria = () => {
                     )}
                   </td>
                 )}
-                <td className="whitespace-nowrap">
+                <td className="px-4 py-3 whitespace-nowrap">
                   {new Date(auditoria.dateTime).toLocaleString("pt-BR", {
                     timeZone: "America/Sao_Paulo",
                     dateStyle: "short",

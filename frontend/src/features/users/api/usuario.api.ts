@@ -1,6 +1,7 @@
 import type { CriarUsuarioDTO } from "../dtos/CriarUsuarioDTO";
 import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import type { AtualizarSenhaDTO } from "@/features/users/dtos/AtualizarSenhaDTO";
+import type { AtualizarDadosUsuarioDTO } from "@/features/users/dtos/AtualizarDadosUsuarioDTO";
 import type { MeResponseDTO } from "@/features/auth/dtos/MeResponseDTO";
 import api from "@/shared/apis/api";
 import type { Usuario } from "../dtos/Usuario";
@@ -57,5 +58,16 @@ export const meApi = async (): Promise<MeResponseDTO> => {
     return data;
   } catch {
     throw new Error("Erro ao obter dados do usuário.");
+  }
+};
+
+export const atualizarDadosUsuario = async (
+  dados: AtualizarDadosUsuarioDTO,
+) => {
+  try {
+    const { data } = await api.put(`${BASE_PATH}/atualizar-dados`, dados);
+    return data;
+  } catch {
+    throw new Error("Erro ao atualizar dados do usuário");
   }
 };
