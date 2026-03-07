@@ -27,6 +27,8 @@ namespace Backend.Application.Services
             if (proposta == null)
                 return null;
 
+            MapearUrlsImagens(proposta);
+
             return _mapper.Map<PropostaDTO>(proposta);
         }
 
@@ -38,7 +40,7 @@ namespace Backend.Application.Services
 
             foreach (var proposta in list)
             {
-                MapearUrls(proposta);
+                MapearUrlsImagens(proposta);
             }
 
             return list;
@@ -54,7 +56,7 @@ namespace Backend.Application.Services
 
             foreach (var proposta in list)
             {
-                MapearUrls(proposta);
+                MapearUrlsImagens(proposta);
             }
 
             return list;
@@ -72,12 +74,12 @@ namespace Backend.Application.Services
                 await _repository.CriarAsync(propostaToAdd)
             );
 
-            MapearUrls(propostaAdicionada);
+            MapearUrlsImagens(propostaAdicionada);
 
             return _mapper.Map<PropostaDTO>(propostaAdicionada);
         }
 
-        private void MapearUrls(PropostaDTO proposta)
+        private void MapearUrlsImagens(PropostaDTO proposta)
         {
             foreach (var projeto in proposta.ProjetosDestacados)
             {
