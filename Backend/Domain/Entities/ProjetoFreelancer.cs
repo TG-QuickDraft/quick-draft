@@ -32,8 +32,7 @@ namespace Backend.Domain.Entities
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
 
-        [ForeignKey(nameof(FreelancerId))]
         [JsonIgnore]
-         public ICollection<ProjetoDestacadoProposta>? ProjetosDestacados { get; set; } = [];
+        public ICollection<ProjetoDestacadoProposta>? ProjetosDestacados { get; set; } = [];
     }
 }
