@@ -3,6 +3,8 @@ using Backend.Application.DTOs.Freelancer;
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
+using Backend.Application.Pagination;
+using Backend.Application.Pagination.Extensions;
 using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
@@ -17,11 +19,18 @@ namespace Backend.Application.Services
         private readonly IMapper _mapper = mapper;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
-        public async Task<IEnumerable<FreelancerDTO>> ConsultarTodosAsync(string? nome)
+        public async Task<PagedResult<FreelancerDTO>> ConsultarTodosAsync(
+            string? nome,
+            int pagina,
+            int tamanhoPagina
+        )
         {
-            IEnumerable<Freelancer> list = await _repository.ConsultarTodosAsync(nome);
+            tamanhoPagina = tamanhoPagina < 1 ? 30 : tamanhoPagina;
+            tamanhoPagina = tamanhoPagina > 100 ? 100 : tamanhoPagina;
 
-            foreach (var freelancer in list)
+            var list = await _repository.ConsultarTodosAsync(nome, pagina, tamanhoPagina);
+
+            foreach (var freelancer in list.Itens)
             {
                 var usuario =
                     freelancer.Usuario
@@ -30,7 +39,7 @@ namespace Backend.Application.Services
                 usuario.FotoPerfilUrl = _urlBuilder.ConstruirUrl(usuario.FotoPerfilUrl ?? "");
             }
 
-            return _mapper.Map<IEnumerable<FreelancerDTO>>(list);
+            return list.Map<Freelancer, FreelancerDTO>(_mapper);
         }
 
         public async Task<FreelancerDTO?> ConsultarPorIdAsync(int id)

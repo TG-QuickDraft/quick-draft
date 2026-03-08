@@ -1,7 +1,9 @@
-using Backend.Domain.Entities;
-using Backend.Application.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Backend.Application.DTOs.Servico;
+using Backend.Application.Interfaces.Repositories;
+using Backend.Application.Pagination;
+using Backend.Application.Pagination.Extensions;
+using Backend.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infrastructure.Persistence.Repositories
 {
@@ -14,11 +16,17 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return await _context.Servicos.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Servico>> ConsultarTodosAsync(FiltroServicoDTO filtro)
+        public async Task<PagedResult<Servico>> ConsultarTodosAsync(
+            FiltroServicoDTO filtro,
+            int pagina,
+            int tamanhoPagina
+        )
         {
-            return await _context.Servicos
-                .Where(s => EF.Functions.ILike(s.Nome ?? "", $"%{filtro.Nome}%"))
-                .ToListAsync();
+            var query = _context.Servicos.Where(s =>
+                EF.Functions.ILike(s.Nome ?? "", $"%{filtro.Nome}%")
+            );
+
+            return await query.OrderBy(s => s.Nome).ToPagedResultAsync(pagina, tamanhoPagina);
         }
 
         public async Task<Servico> CriarAsync(Servico servico)
@@ -38,6 +46,5 @@ namespace Backend.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-
     }
 }

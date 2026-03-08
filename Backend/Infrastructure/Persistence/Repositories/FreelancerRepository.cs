@@ -1,25 +1,34 @@
+using Backend.Application.Interfaces.Repositories;
+using Backend.Application.Pagination;
+using Backend.Application.Pagination.Extensions;
+using Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-using Backend.Domain.Entities;
-using Backend.Application.Interfaces.Repositories;
 namespace Backend.Infrastructure.Persistence.Repositories
 {
     public class FreelancerRepository(AppDbContext context) : IFreelancerRepository
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<IEnumerable<Freelancer>> ConsultarTodosAsync(string? nome)
+        public async Task<PagedResult<Freelancer>> ConsultarTodosAsync(
+            string? nome,
+            int pagina,
+            int tamanhoPagina
+        )
         {
-            return await _context.Freelancers
-                .Include(f => f.Usuario)
-                .Where(f => f.Usuario != null && EF.Functions.ILike(f.Usuario.Nome, $"%{nome}%"))
-                .ToListAsync();
+            var query = _context
+                .Freelancers.Include(f => f.Usuario)
+                .Where(f => f.Usuario != null && EF.Functions.ILike(f.Usuario.Nome, $"%{nome}%"));
+
+            return await query
+                .OrderBy(f => f.Usuario!.Nome)
+                .ToPagedResultAsync(pagina, tamanhoPagina);
         }
 
         public async Task<Freelancer?> ConsultarPorIdAsync(int id)
         {
-            return await _context.Freelancers
-                .Include(f => f.Usuario)
+            return await _context
+                .Freelancers.Include(f => f.Usuario)
                 .FirstOrDefaultAsync(f => f.Id == id);
         }
 
@@ -40,6 +49,5 @@ namespace Backend.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-
     }
 }

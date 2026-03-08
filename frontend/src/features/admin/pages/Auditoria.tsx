@@ -9,10 +9,9 @@ import { usePagination } from "@/shared/hooks/usePagination";
 export const Auditoria = () => {
   const [auditoria, setAuditoria] = useState<PagedResult<AuditLogDTO>>();
 
-  const {
-    pagina: pagina,
-    onPageChange,
-  } = usePagination({ totalPaginas: auditoria?.totalPaginas });
+  const { pagina: pagina, onPageChange } = usePagination({
+    totalPaginas: auditoria?.totalPaginas,
+  });
 
   useEffect(() => {
     const obterDados = async () => {
@@ -57,10 +56,7 @@ export const Auditoria = () => {
                   <td className="px-3 py-2 align-top">
                     {Object.entries(auditoria.changes ?? {}).map(
                       ([chave, valor]) => (
-                        <div
-                          key={chave}
-                          className="flex justify-between gap-4"
-                        >
+                        <div key={chave} className="flex justify-between gap-4">
                           <span className="font-medium">{chave}:</span>
                           <span className="text-right break-words max-w-[60%]">
                             {String(valor)}

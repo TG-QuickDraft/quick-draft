@@ -14,7 +14,7 @@ namespace Backend.Application.Pagination.Extensions
                 Itens = mapper.Map<IEnumerable<TDest>>(source.Itens),
                 Total = source.Total,
                 Pagina = source.Pagina,
-                TamanhoPagina = source.TamanhoPagina
+                TamanhoPagina = source.TamanhoPagina,
             };
         }
     }

@@ -2,16 +2,21 @@ import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
 import api from "@/shared/apis/api";
 import type { Servico } from "../dtos/Servico";
+import type { PagedResult } from "@/shared/types/PagedResult";
 
 const BASE_PATH = "/api/servico";
 
 export const consultarServicos = async (
   filtro: FiltroServicoDTO,
-): Promise<Servico[]> => {
+  pagina: number,
+  tamanhoPagina: number,
+): Promise<PagedResult<Servico>> => {
   try {
-    const { data } = await api.get<Servico[]>(BASE_PATH, {
+    const { data } = await api.get<PagedResult<Servico>>(BASE_PATH, {
       params: {
         nome: filtro?.nome ?? "",
+        pagina,
+        tamanhoPagina,
       },
     });
     return data;
