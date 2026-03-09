@@ -13,13 +13,6 @@ cd /app/Backend
 echo "Restoring .NET dependencies..."
 dotnet restore
 
-echo "Resetting database schema..."
-
-psql "$ConnectionStrings__DefaultConnection" <<EOF
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-EOF
-
 echo "Running database migrations..."
 
 MIGRATION_NAME="AutoMigration_$(date +%s)"
