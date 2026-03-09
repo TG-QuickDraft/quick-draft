@@ -34,6 +34,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y postgresql-client
+
 # copia código fonte (necessário para migrations)
 COPY . .
 
@@ -51,6 +53,6 @@ RUN chmod +x /entrypoint.sh
 
 EXPOSE 5191
 
-ENV ASPNETCORE_URLS=http://+:$PORT
+ENV ASPNETCORE_URLS=http://+:5191
 
 ENTRYPOINT ["/entrypoint.sh"]
