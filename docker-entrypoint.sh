@@ -10,17 +10,6 @@ fi
 
 cd /app/Backend
 
-echo "Restoring .NET dependencies..."
-dotnet restore
-
-echo "Running database migrations..."
-
-MIGRATION_NAME="AutoMigration_$(date +%s)"
-
-dotnet ef migrations add $MIGRATION_NAME -o Infrastructure/Persistence/Migrations || true
-
-dotnet ef database update
-
 echo "Starting ASP.NET..."
 
 exec dotnet ../publish/Backend.dll

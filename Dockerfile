@@ -30,27 +30,16 @@ RUN dotnet publish -c Release -o /app/publish
 
 
 # ---------- RUNTIME ----------
-FROM mcr.microsoft.com/dotnet/sdk:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
 WORKDIR /app
 
-# copia código fonte (necessário para migrations)
-COPY . .
+COPY --from=backend-build /app/publish .
 
-# copia build publicado
-COPY --from=backend-build /app/publish ./publish
-
-# instala dotnet ef
-RUN dotnet tool install --global dotnet-ef
-
-ENV PATH="$PATH:/root/.dotnet/tools"
-
-# script de inicialização
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 5191
-
-ENV ASPNETCORE_URLS=http://+:5191
+EXPOSE 10000
+ENV ASPNETCORE_URLS=http://+:10000
 
 ENTRYPOINT ["/entrypoint.sh"]
