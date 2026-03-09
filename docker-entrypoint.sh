@@ -10,6 +10,9 @@ fi
 
 cd /app/Backend
 
+echo "Restoring .NET dependencies..."
+dotnet restore
+
 echo "Running database migrations..."
 
 MIGRATION_NAME="AutoMigration_$(date +%s)"
