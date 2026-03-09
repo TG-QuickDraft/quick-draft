@@ -83,8 +83,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseCors("PermitirOrigemFrontend");
 
+app.UseDefaultFiles();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.MapFallbackToFile("index.html");
 
 app.UseRouting();
 
