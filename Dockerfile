@@ -50,6 +50,7 @@ COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 5191
-ENV ASPNETCORE_URLS=http://+:5191
+
+ENV ASPNETCORE_URLS=http://+:$PORT
 
 ENTRYPOINT ["/entrypoint.sh"]
