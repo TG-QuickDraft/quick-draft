@@ -125,7 +125,7 @@ namespace Backend.Application.Services
               usuarioId.ToString()  
             );
 
-            usuario.FotoPerfilUrl = await _uploadService.UploadImagem(dto.Imagem, "uploads/fotos-perfil");
+            usuario.FotoPerfilUrl = await _uploadService.UploadImagem(dto.Imagem, path);
             
             return await _repository.AtualizarAsync(usuario);
         }
