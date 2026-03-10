@@ -1,12 +1,6 @@
 services:
   # TODO: Adicionar Backend e Frontend também, no futuro
-  quickdraft:
-  build: .
-  ports:
-    - "8080:8080"
-  environment:
-    - ASPNETCORE_ENVIRONMENT=Production
-
+  
   postgres:
     image: postgres:16
     container_name: postgres
