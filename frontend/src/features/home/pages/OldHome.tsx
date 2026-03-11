@@ -54,7 +54,7 @@ export const OldHome = () => {
                   Cadastrar Conta Bancária
                 </Button>
               </Link>
-              <Link to={"/propostaFreelancer"}>
+              <Link to={"/proposal/view"}>
                 <Button icon={<GoPlus size={30} />}>Proposta</Button>
               </Link>
             </div>
