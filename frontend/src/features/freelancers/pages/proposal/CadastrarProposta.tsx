@@ -3,7 +3,8 @@ import Input from "@/shared/components/ui/Inputs/Input";
 import Stack from "@/shared/components/Stack";
 import Button from "@/shared/components/ui/Button";
 
-import TextArea from "@/shared/components/ui/TextArea";
+import TextArea from "@/shared/components/ui/Inputs/TextArea";
+import Checkbox from "@/shared/components/ui/Checkbox";
 
 const CadastrarProposta = () => {
   return (
@@ -11,7 +12,7 @@ const CadastrarProposta = () => {
       <Title>Envio de Proposta</Title>
 
       <div className="flex border border-neutral-20 flex-1 rounded-xl">
-        <div className="flex flex-col gap-5 flex-1 p-5">
+        <div className="flex flex-col gap-5 flex-1 p-6">
           <h2 className="font-semibold text-xl">Logo para loja de materiais</h2>
 
           <div>
@@ -36,7 +37,7 @@ const CadastrarProposta = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8 flex-1 p-5 bg-neutral-10 rounded-xl">
+        <div className="flex flex-col gap-8 flex-1 p-6 bg-neutral-10 rounded-xl">
           <h2 className="font-semibold text-xl">Cliente: Joesvaldo</h2>
 
           <div className="flex justify-evenly gap-10">
@@ -67,8 +68,10 @@ const CadastrarProposta = () => {
 
           <div className="mt-auto">
             <div className="flex gap-2 items-center">
-              <input type="checkbox" />
-              <span>Adicione taxa do sistema ao total</span>
+              <Checkbox
+                label="Adicione taxa do sistema ao total"
+                checkboxSize="md"
+              />
             </div>
             <Stack className="mt-5" align="right">
               <Button>Enviar proposta</Button>
