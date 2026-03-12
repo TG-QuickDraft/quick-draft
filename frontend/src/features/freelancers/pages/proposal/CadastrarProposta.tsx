@@ -5,6 +5,10 @@ import Button from "@/shared/components/ui/Button";
 
 import TextArea from "@/shared/components/ui/Inputs/TextArea";
 import Checkbox from "@/shared/components/ui/Checkbox";
+import clsx from "clsx";
+
+import Label from "@/shared/components/ui/Label";
+import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
 
 const CadastrarProposta = () => {
   return (
@@ -14,22 +18,22 @@ const CadastrarProposta = () => {
       </Title>
 
       <div className="flex border border-neutral-20 flex-1 rounded-xl">
-        <div className="flex flex-col gap-5 flex-1 p-6">
-          <h2 className="font-semibold text-xl">Logo para loja de materiais</h2>
+        <ProposalWrapper>
+          <Subtitle>Logo para loja de materiais</Subtitle>
 
-          <div>
-            <h3 className="mb-3">Descrição da proposta</h3>
+          <InputGroup notSpaced>
+            <Label>Descrição da proposta</Label>
             <TextArea
               className="min-h-30"
               placeholder="Descrição da proposta..."
             />
-          </div>
+          </InputGroup>
 
           <div className="flex flex-col gap-5">
-            <div>
-              <h3 className="mb-3">Itens propostos</h3>
+            <InputGroup notSpaced>
+              <Label>Itens propostos</Label>
               <Input placeholder="Adicionar item..." />
-            </div>
+            </InputGroup>
 
             <ul className="list-disc ml-6">
               <li>Item 1</li>
@@ -37,34 +41,37 @@ const CadastrarProposta = () => {
               <li>Item 3</li>
             </ul>
           </div>
-        </div>
+        </ProposalWrapper>
 
-        <div className="flex flex-col gap-8 flex-1 p-6 bg-neutral-10 rounded-xl">
-          <h2 className="font-semibold text-xl">Cliente: Joesvaldo</h2>
+        <ProposalWrapper variant="secondary">
+          <Subtitle>Cliente: Joesvaldo</Subtitle>
 
           <div className="flex justify-evenly gap-10">
-            <div className="flex flex-col gap-1">
-              <span>Valor por hora</span>
+            <InputGroup notSpaced>
+              <Label>Valor por hora</Label>
               <Input placeholder="R$ 00,00" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <span>Prazo de entrega</span>
+            </InputGroup>
+            <InputGroup notSpaced>
+              <Label>Prazo de entrega</Label>
               <Input placeholder="1 dia" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <span>Valor total</span>
+            </InputGroup>
+            <InputGroup notSpaced>
+              <Label>Valor total</Label>
               <Input placeholder="R$ 00,00" />
-            </div>
+            </InputGroup>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <h3>Selecione projetos de destaque:</h3>
-            <div className="flex flex-wrap gap-2 justify-center">
-              <div className="cursor-pointer h-40 aspect-square bg-neutral-20 rounded-xl" />
-              <div className="cursor-pointer h-40 aspect-square bg-neutral-20 rounded-xl" />
-              <div className="cursor-pointer h-40 aspect-square bg-neutral-20 rounded-xl" />
-              <div className="cursor-pointer h-40 aspect-square bg-neutral-20 rounded-xl" />
-              <div className="cursor-pointer h-40 aspect-square bg-neutral-20 rounded-xl" />
+          <div className="flex flex-col gap-3">
+            <Label>Selecione projetos de destaque:</Label>
+            <div
+              className={clsx(
+                "flex flex-wrap gap-2 justify-center ",
+                "max-h-100 overflow-auto overscroll-contain",
+              )}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                <ProposalProjects key={item} />
+              ))}
             </div>
           </div>
 
@@ -79,10 +86,42 @@ const CadastrarProposta = () => {
               <Button>Enviar proposta</Button>
             </Stack>
           </div>
-        </div>
+        </ProposalWrapper>
       </div>
     </div>
   );
 };
 
 export default CadastrarProposta;
+
+const ProposalWrapper = ({
+  children,
+  variant = "primary",
+}: {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+}) => {
+  const base = clsx("flex flex-col flex-1 p-6");
+  const variants = {
+    primary: clsx(base, "gap-5"),
+    secondary: clsx(base, "bg-neutral-10 rounded-xl gap-8"),
+  };
+
+  return <div className={variants[variant]}>{children}</div>;
+};
+
+const ProposalProjects = () => {
+  return (
+    <button
+      className={clsx(
+        "cursor-pointer h-40 aspect-square hover:-translate-y-1",
+        "bg-neutral-20 rounded-xl duration-200 transition",
+        "active:scale-90",
+      )}
+    />
+  );
+};
+
+const Subtitle = ({ children }: { children: React.ReactNode }) => {
+  return <h2 className="font-semibold text-xl">{children}</h2>;
+};
