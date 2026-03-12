@@ -1,6 +1,6 @@
-type PrimitiveValue = string | number | boolean | null;
+export type PrimitiveValue = string | number | boolean | null;
 
-type ModifiedValue = {
+export type ModifiedValue = {
   Old: PrimitiveValue;
   New: PrimitiveValue;
 };
