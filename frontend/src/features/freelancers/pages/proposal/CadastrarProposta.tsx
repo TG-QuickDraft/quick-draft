@@ -9,7 +9,9 @@ import Checkbox from "@/shared/components/ui/Checkbox";
 const CadastrarProposta = () => {
   return (
     <div className="flex flex-col gap-5 flex-1 max-w-300 mx-auto w-full">
-      <Title>Envio de Proposta</Title>
+      <Title className="font-semibold! text-2xl" onClick={() => {}}>
+        Envio de Proposta
+      </Title>
 
       <div className="flex border border-neutral-20 flex-1 rounded-xl">
         <div className="flex flex-col gap-5 flex-1 p-6">
