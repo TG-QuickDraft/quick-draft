@@ -3,6 +3,8 @@ import Input from "@/shared/components/ui/Inputs/Input";
 import Stack from "@/shared/components/Stack";
 import Button from "@/shared/components/ui/Button";
 
+import TextArea from "@/shared/components/ui/TextArea";
+
 const CadastrarProposta = () => {
   return (
     <div className="flex flex-col gap-5 flex-1 max-w-300 mx-auto w-full">
@@ -14,10 +16,10 @@ const CadastrarProposta = () => {
 
           <div>
             <h3 className="mb-3">Descrição da proposta</h3>
-            <textarea
-              className="border border-neutral-20 rounded-lg w-full p-3"
+            <TextArea
+              className="min-h-30"
               placeholder="Descrição da proposta..."
-            ></textarea>
+            />
           </div>
 
           <div className="flex flex-col gap-5">
