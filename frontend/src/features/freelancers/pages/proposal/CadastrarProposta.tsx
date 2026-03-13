@@ -166,6 +166,7 @@ const CadastrarProposta = () => {
                     key={item.id}
                     active={selectedProjects.includes(item.id)}
                     onClick={() => handleProjectSelection(item.id)}
+                    {...item}
                   />
                 ))}
             </div>
@@ -207,9 +208,13 @@ const ProposalWrapper = ({
 };
 
 const ProposalProjects = ({
+  nome,
+  imagemUrl,
   onClick,
   active,
 }: {
+  nome?: string;
+  imagemUrl?: string;
   onClick?: () => void;
   active?: boolean;
 }) => {
@@ -217,12 +222,28 @@ const ProposalProjects = ({
     <button
       onClick={onClick}
       className={clsx(
-        "cursor-pointer h-40 aspect-square hover:-translate-y-1",
-        "bg-neutral-20 rounded-xl duration-200 transition",
-        "active:scale-90 border-3 border-transparent",
-        active && "border-secondary-100!",
+        "cursor-pointer h-50 aspect-square hover:-translate-y-1 overflow-hidden",
+        "bg-neutral-20 rounded-xl duration-200 transition relative",
+        "active:scale-95 border-3 border-transparent",
+        active && "border-secondary-100! ",
       )}
-    />
+    >
+      <img
+        src={imagemUrl}
+        className={clsx(
+          "object-cover w-full h-full transition duration-200 hover:scale-110",
+        )}
+      />
+      <div className="absolute inset-0 bg-black/20"></div>
+      <span
+        className={clsx(
+          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full",
+          "text-white text-xl font-bold",
+        )}
+      >
+        {nome}
+      </span>
+    </button>
   );
 };
 
