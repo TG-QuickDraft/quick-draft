@@ -9,8 +9,10 @@ import clsx from "clsx";
 
 import Label from "@/shared/components/ui/Label";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
-import { CiCirclePlus } from "react-icons/ci";
 import { useState } from "react";
+
+import { CiCirclePlus } from "react-icons/ci";
+import { FiX } from "react-icons/fi";
 
 const CadastrarProposta = () => {
   const [items, setItems] = useState<string[]>([]);
@@ -19,7 +21,7 @@ const CadastrarProposta = () => {
   const handleAddItem = () => {
     if (inputValue.trim() === "") return;
 
-    setItems((prevItems) => [...prevItems, inputValue]);
+    setItems((prevItems) => [inputValue, ...prevItems]);
     setInputValue("");
   };
 
@@ -28,6 +30,10 @@ const CadastrarProposta = () => {
       e.preventDefault();
       handleAddItem();
     }
+  };
+
+  const handleDeleteItem = (indexToRemove: number) => {
+    setItems((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
 
   return (
@@ -51,7 +57,7 @@ const CadastrarProposta = () => {
           <div className="flex flex-col gap-5">
             <InputGroup notSpaced>
               <Label>Itens propostos</Label>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <Input
                   placeholder="Adicionar item..."
                   value={inputValue}
@@ -62,19 +68,40 @@ const CadastrarProposta = () => {
                 <button
                   className={clsx(
                     "active:scale-90 transition duration-200 cursor-pointer",
-                    "hover:scale-108",
+                    "hover:scale-110 flex justify-center items-center",
                   )}
                   type="button"
                   onClick={handleAddItem}
+                  aria-label="Adicionar item"
                 >
-                  <CiCirclePlus size={40} />
+                  <CiCirclePlus size={36} />
                 </button>
               </div>
             </InputGroup>
 
-            <ul className="list-disc ml-6">
+            <ul className="flex flex-col gap-3 max-h-100 overflow-y-auto">
               {items.map((item, index) => (
-                <li key={index}>{item}</li>
+                <li key={index} className="flex items-center gap-3">
+                  <span
+                    className={clsx(
+                      "p-3 text-neutral-80 border-b border-neutral-20",
+                      "flex-1",
+                    )}
+                  >
+                    {item}
+                  </span>
+
+                  <button
+                    onClick={() => handleDeleteItem(index)}
+                    className={clsx(
+                      "active:scale-90 transition duration-200 cursor-pointer",
+                      "hover:scale-110 flex justify-center items-center text-red-400 hover:text-red-600 p-2",
+                    )}
+                    aria-label="Remover item"
+                  >
+                    <FiX size={24} />
+                  </button>
+                </li>
               ))}
             </ul>
           </div>
