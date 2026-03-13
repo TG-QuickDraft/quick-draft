@@ -9,8 +9,27 @@ import clsx from "clsx";
 
 import Label from "@/shared/components/ui/Label";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
+import { CiCirclePlus } from "react-icons/ci";
+import { useState } from "react";
 
 const CadastrarProposta = () => {
+  const [items, setItems] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleAddItem = () => {
+    if (inputValue.trim() === "") return;
+
+    setItems((prevItems) => [...prevItems, inputValue]);
+    setInputValue("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAddItem();
+    }
+  };
+
   return (
     <div className="flex flex-col gap-5 flex-1 max-w-300 mx-auto w-full">
       <Title className="font-semibold! text-2xl" onClick={() => {}}>
@@ -32,13 +51,31 @@ const CadastrarProposta = () => {
           <div className="flex flex-col gap-5">
             <InputGroup notSpaced>
               <Label>Itens propostos</Label>
-              <Input placeholder="Adicionar item..." />
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Adicionar item..."
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+
+                <button
+                  className={clsx(
+                    "active:scale-90 transition duration-200 cursor-pointer",
+                    "hover:scale-108",
+                  )}
+                  type="button"
+                  onClick={handleAddItem}
+                >
+                  <CiCirclePlus size={40} />
+                </button>
+              </div>
             </InputGroup>
 
             <ul className="list-disc ml-6">
-              <li>Item 1</li>
-              <li>Item 2</li>
-              <li>Item 3</li>
+              {items.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
             </ul>
           </div>
         </ProposalWrapper>
