@@ -9,21 +9,27 @@ import clsx from "clsx";
 
 import Label from "@/shared/components/ui/Label";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CiCirclePlus } from "react-icons/ci";
 import { FiX } from "react-icons/fi";
+import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
+import type { ProjetoFreelancer } from "../../dtos/projetoFreelancer/ProjetoFreelancer";
 
 const CadastrarProposta = () => {
   const [items, setItems] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [projectIds, setProjectIds] = useState<number[]>([]);
+
+  const [selectedProjects, setSelectedProjects] = useState<number[]>([]);
+  const [freelancerProjects, setFreelancerProjects] = useState<
+    ProjetoFreelancer[]
+  >([]);
 
   const handleProjectSelection = (projectId: number) => {
-    if (projectIds.includes(projectId)) {
-      setProjectIds(projectIds.filter((id) => id !== projectId));
+    if (selectedProjects.includes(projectId)) {
+      setSelectedProjects(selectedProjects.filter((id) => id !== projectId));
     } else {
-      setProjectIds([...projectIds, projectId]);
+      setSelectedProjects([...selectedProjects, projectId]);
     }
   };
 
@@ -44,6 +50,18 @@ const CadastrarProposta = () => {
   const handleDeleteItem = (indexToRemove: number) => {
     setItems((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const projects = await consultarProjetosFreelancerPorIdFreelancer(2);
+        setFreelancerProjects(projects);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   return (
     <div className="flex flex-col gap-5 flex-1 max-w-300 mx-auto w-full">
@@ -139,16 +157,17 @@ const CadastrarProposta = () => {
             <div
               className={clsx(
                 "flex flex-wrap gap-2 justify-center ",
-                "max-h-100 overflow-auto overscroll-contain",
+                "max-h-100 overflow-auto overscroll-contain p-2",
               )}
             >
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                <ProposalProjects
-                  key={item}
-                  active={projectIds.includes(item)}
-                  onClick={() => handleProjectSelection(item)}
-                />
-              ))}
+              {freelancerProjects &&
+                freelancerProjects.map((item) => (
+                  <ProposalProjects
+                    key={item.id}
+                    active={selectedProjects.includes(item.id)}
+                    onClick={() => handleProjectSelection(item.id)}
+                  />
+                ))}
             </div>
           </div>
 
