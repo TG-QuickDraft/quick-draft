@@ -25,6 +25,7 @@ const CadastrarProposta = () => {
     ProjetoFreelancer[]
   >([]);
 
+  const countSelectedProjects = selectedProjects.length;
   const handleProjectSelection = (projectId: number) => {
     if (selectedProjects.includes(projectId)) {
       setSelectedProjects(selectedProjects.filter((id) => id !== projectId));
@@ -154,6 +155,20 @@ const CadastrarProposta = () => {
 
           <div className="flex flex-col gap-3">
             <Label>Selecione projetos de destaque:</Label>
+
+            <div
+              className={clsx(
+                "grid transition-all duration-300 ease-in-out overflow-hidden",
+                countSelectedProjects > 0
+                  ? "grid-rows-[1fr] opacity-100 translate-y-0"
+                  : "grid-rows-[0fr] opacity-0 -translate-y-2",
+              )}
+            >
+              <p className="min-h-0 text-neutral-60">
+                {countSelectedProjects} projetos selecionados
+              </p>
+            </div>
+
             <div
               className={clsx(
                 "flex flex-wrap gap-2 justify-center ",
@@ -222,7 +237,7 @@ const ProposalProjects = ({
     <button
       onClick={onClick}
       className={clsx(
-        "cursor-pointer h-50 aspect-square hover:-translate-y-1 overflow-hidden",
+        "cursor-pointer h-43 aspect-square hover:-translate-y-1 overflow-hidden",
         "bg-neutral-20 rounded-xl duration-200 transition relative",
         "active:scale-95 border-3 border-transparent",
         active && "border-secondary-100! ",
@@ -234,14 +249,19 @@ const ProposalProjects = ({
           "object-cover w-full h-full transition duration-200 hover:scale-110",
         )}
       />
-      <div className="absolute inset-0 bg-black/20"></div>
+      <div
+        className={clsx(
+          "absolute inset-0 bg-black/20 backdrop-blur-sm",
+          active && "hidden",
+        )}
+      ></div>
       <span
         className={clsx(
           "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full",
           "text-white text-xl font-bold",
         )}
       >
-        {nome}
+        {!active && nome}
       </span>
     </button>
   );
