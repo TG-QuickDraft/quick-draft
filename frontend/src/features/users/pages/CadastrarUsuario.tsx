@@ -131,15 +131,38 @@ export const CadastrarUsuario = () => {
           {...register("confirmarSenha")}
         />
 
-        <Input
-          name="foto"
-          type="file"
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              setFoto(e.target.files[0]);
-            }
-          }}
-        />
+        <label className="flex flex-col items-center justify-center border border-gray-300 rounded-lg h-32 cursor-pointer hover:bg-gray-50 transition">
+
+          <input
+            type="file"
+            name="foto"
+            accept="image/png, image/jpeg, image/jpg, image/gif"
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setFoto(e.target.files[0]);
+              }
+            }}
+          />
+
+          {!foto && (
+            <div className="flex flex-col items-center text-gray-500 gap-2">
+              <span className="text-sm">Escolher foto de perfil</span>
+            </div>
+          )}
+
+          {foto && (
+            <div className="flex flex-col items-center gap-2">
+              <img
+                src={URL.createObjectURL(foto)}
+                className="w-20 h-20 rounded-full object-cover"
+              />
+              <span className="text-xs text-gray-500">
+                Clique para alterar
+              </span>
+            </div>
+          )}
+        </label>
 
         <div>
           <h2 className="mb-5 text-[16px]">Tipo de Usuário</h2>
@@ -159,16 +182,6 @@ export const CadastrarUsuario = () => {
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
       </form>
-
-      {foto && (
-        <div className="pt-6">
-          <img
-            src={foto ? URL.createObjectURL(foto) : ""}
-            alt="Preview"
-            style={{ width: 200, height: "auto", marginTop: 10 }}
-          />
-        </div>
-      )}
 
       <Modal
         show={showModal}

@@ -4,10 +4,17 @@ import { consultarUsuario } from "@/features/users/api/usuario.api";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { GoPlus } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { FaCamera } from "react-icons/fa";
+import ConfirmarUploadFotoModal from "@/features/auth/components/ConfirmarUploadFotoModal";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [modalAberto, setModalAberto] = useState(false);
   useEffect(() => {
     const obterDadosUsuario = async () => {
       const dadosUsuario: Usuario = await consultarUsuario();
@@ -17,15 +24,49 @@ export const MinhaConta = () => {
     obterDadosUsuario();
   }, []);
 
+  const selecionarFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Apenas imagens são permitidas.");
+      return;
+    }
+
+    setImagemSelecionada(file);
+    setPreview(URL.createObjectURL(file));
+    setModalAberto(true);
+  };
+
   return (
     <div className="px-12 py-10">
       {usuario && (
         <>
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-center gap-6">
-              <div className="w-full h-full rounded-full">
-                <ProfilePhoto
-                  photoPath={usuario.fotoPerfilUrl}
+              <div className="relative w-50 h-50">
+                <div className="w-full h-full rounded-full overflow-hidden">
+                  <ProfilePhoto photoPath={usuario.fotoPerfilUrl} />
+                </div>
+
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="absolute bottom-1 right-1
+                            bg-black text-white 
+                            p-3 rounded-full 
+                            border-3 border-white
+                            shadow-md
+                            hover:scale-105 transition"
+                >
+                  <FaCamera size={14} />
+                </button>
+
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={selecionarFoto}
+                  accept="image/png, image/jpeg, image/jpg, image/gif"
+                  className="hidden"
                 />
               </div>
 
@@ -113,6 +154,17 @@ export const MinhaConta = () => {
           </div>
         </>
       )}
+
+      <ConfirmarUploadFotoModal
+        imagem={imagemSelecionada}
+        preview={preview}
+        aberto={modalAberto}
+        onClose={() => setModalAberto(false)}
+        onSuccess={async () => {
+          const dadosUsuario: Usuario = await consultarUsuario();
+          setUsuario(dadosUsuario);
+        }}
+      />
     </div>
   );
 };
