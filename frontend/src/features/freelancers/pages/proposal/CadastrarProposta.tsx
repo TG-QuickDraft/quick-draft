@@ -17,6 +17,15 @@ import { FiX } from "react-icons/fi";
 const CadastrarProposta = () => {
   const [items, setItems] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [projectIds, setProjectIds] = useState<number[]>([]);
+
+  const handleProjectSelection = (projectId: number) => {
+    if (projectIds.includes(projectId)) {
+      setProjectIds(projectIds.filter((id) => id !== projectId));
+    } else {
+      setProjectIds([...projectIds, projectId]);
+    }
+  };
 
   const handleAddItem = () => {
     if (inputValue.trim() === "") return;
@@ -134,7 +143,11 @@ const CadastrarProposta = () => {
               )}
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                <ProposalProjects key={item} />
+                <ProposalProjects
+                  key={item}
+                  active={projectIds.includes(item)}
+                  onClick={() => handleProjectSelection(item)}
+                />
               ))}
             </div>
           </div>
@@ -174,13 +187,21 @@ const ProposalWrapper = ({
   return <div className={variants[variant]}>{children}</div>;
 };
 
-const ProposalProjects = () => {
+const ProposalProjects = ({
+  onClick,
+  active,
+}: {
+  onClick?: () => void;
+  active?: boolean;
+}) => {
   return (
     <button
+      onClick={onClick}
       className={clsx(
         "cursor-pointer h-40 aspect-square hover:-translate-y-1",
         "bg-neutral-20 rounded-xl duration-200 transition",
-        "active:scale-90",
+        "active:scale-90 border-3 border-transparent",
+        active && "border-secondary-100!",
       )}
     />
   );
