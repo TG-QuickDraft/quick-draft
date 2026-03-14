@@ -7,11 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { FaCamera } from "react-icons/fa";
 import ConfirmarUploadFotoModal from "@/features/auth/components/ConfirmarUploadFotoModal";
+import UploadFotoButton from "@/features/auth/components/UploadPhotoButton";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const navigate = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [modalAberto, setModalAberto] = useState(false);
@@ -24,20 +24,6 @@ export const MinhaConta = () => {
     obterDadosUsuario();
   }, []);
 
-  const selecionarFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      alert("Apenas imagens são permitidas.");
-      return;
-    }
-
-    setImagemSelecionada(file);
-    setPreview(URL.createObjectURL(file));
-    setModalAberto(true);
-  };
-
   return (
     <div className="px-12 py-10">
       {usuario && (
@@ -49,24 +35,12 @@ export const MinhaConta = () => {
                   <ProfilePhoto photoPath={usuario.fotoPerfilUrl} />
                 </div>
 
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="absolute bottom-1 right-1
-                            bg-black text-white 
-                            p-3 rounded-full 
-                            border-3 border-white
-                            shadow-md
-                            hover:scale-105 transition"
-                >
-                  <FaCamera size={14} />
-                </button>
-
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={selecionarFoto}
-                  accept="image/png, image/jpeg, image/jpg, image/gif"
-                  className="hidden"
+                <UploadFotoButton
+                  onSelect={(file, preview) => {
+                    setImagemSelecionada(file);
+                    setPreview(preview);
+                    setModalAberto(true);
+                  }}
                 />
               </div>
 
