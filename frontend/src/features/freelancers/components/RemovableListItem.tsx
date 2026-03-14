@@ -22,6 +22,7 @@ export const RemovableListItem = ({
       >
         {item}
         <button
+          type="button"
           onClick={() => onDelete(index)}
           className={clsx(
             "active:scale-90 transition duration-200 cursor-pointer border-l border-neutral-20",

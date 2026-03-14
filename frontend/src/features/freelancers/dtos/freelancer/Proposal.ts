@@ -1,6 +1,6 @@
 export interface ProposalRequest {
   valorPorHora: number;
-  prazoEntrega: Date;
+  prazoEntrega: string;
   valorTotal: number;
   mensagem: string;
   itensPropostos: string;
