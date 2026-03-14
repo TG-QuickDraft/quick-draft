@@ -13,7 +13,7 @@ export const RemovableListItem = ({
   onDelete,
 }: RemovableListItemProps) => {
   return (
-    <li className="flex items-center gap-3 overflow-x-hidden">
+    <li className="flex items-center gap-3">
       <span
         className={clsx(
           "p-3 text-neutral-80 border-b border-neutral-20",
@@ -27,7 +27,7 @@ export const RemovableListItem = ({
         onClick={() => onDelete(index)}
         className={clsx(
           "active:scale-90 transition duration-200 cursor-pointer",
-          "hover:scale-110 flex justify-center items-center text-red-400 hover:text-red-600 p-2",
+          "flex justify-center items-center text-red-400 hover:text-red-600 p-2",
         )}
         aria-label="Remover item"
       >

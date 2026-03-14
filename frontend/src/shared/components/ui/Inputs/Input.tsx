@@ -109,7 +109,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={baseClasses}
             onValueChange={onCurrencyChange}
             value={value as string}
+            ref={ref}
+            {...(props as any)}
           />
+          {error && showErrorMsg && (
+            <span className={errorClasses}>{error}</span>
+          )}
         </div>
       );
     }

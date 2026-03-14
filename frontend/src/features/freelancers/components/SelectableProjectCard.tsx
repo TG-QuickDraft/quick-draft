@@ -13,6 +13,7 @@ const SelectableProjectCard = ({
 }) => {
   return (
     <button
+      type="button"
       onClick={onClick}
       className={clsx(
         "group",

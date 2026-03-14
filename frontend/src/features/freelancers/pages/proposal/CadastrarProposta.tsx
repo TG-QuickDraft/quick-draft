@@ -20,6 +20,12 @@ import ProposalSection from "../../components/ProposalSection";
 import useProposalForm from "../../hooks/useProposalForm";
 import { RemovableListItem } from "../../components/RemovableListItem";
 import { AnimatedCollapse } from "@/shared/components/AnimatedCollapse";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  NewProposalSchema,
+  type INewProposalForm,
+} from "../../validations/proposal.schema";
 
 const CadastrarProposta = () => {
   const {
@@ -37,6 +43,20 @@ const CadastrarProposta = () => {
     ProjetoFreelancer[]
   >([]);
   const countSelectedProjects = selectedProjects.length;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<INewProposalForm>({
+    resolver: yupResolver(NewProposalSchema),
+    mode: "onChange",
+  });
+
+  const onValid = (formData: INewProposalForm) => {
+    reset();
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -56,7 +76,10 @@ const CadastrarProposta = () => {
         Envio de Proposta
       </Title>
 
-      <div className="flex border border-neutral-20 flex-1 rounded-xl">
+      <form
+        onSubmit={handleSubmit(onValid)}
+        className="flex border border-neutral-20 flex-1 rounded-xl"
+      >
         <ProposalSection>
           <Subtitle>Logo para loja de materiais</Subtitle>
 
@@ -65,6 +88,9 @@ const CadastrarProposta = () => {
             <TextArea
               className="min-h-30"
               placeholder="Descrição da proposta..."
+              showErrorMsg
+              error={errors.description?.message}
+              {...register("description")}
             />
           </InputGroup>
 
@@ -112,15 +138,33 @@ const CadastrarProposta = () => {
           <div className="flex justify-evenly gap-10">
             <InputGroup notSpaced>
               <Label>Valor por hora</Label>
-              <Input placeholder="R$ 00,00" />
+              <Input
+                mask="currency"
+                placeholder="R$ 00,00"
+                error={errors?.hourlyValue?.message}
+                showErrorMsg
+                {...register("hourlyValue")}
+              />
             </InputGroup>
             <InputGroup notSpaced>
               <Label>Prazo de entrega</Label>
-              <Input placeholder="1 dia" />
+              <Input
+                mask="00/00/0000"
+                placeholder="1 dia"
+                error={errors?.deadline?.message}
+                showErrorMsg
+                {...register("deadline")}
+              />
             </InputGroup>
             <InputGroup notSpaced>
               <Label>Valor total</Label>
-              <Input placeholder="R$ 00,00" />
+              <Input
+                mask="currency"
+                placeholder="R$ 00,00"
+                error={errors?.totalCost?.message}
+                showErrorMsg
+                {...register("totalCost")}
+              />
             </InputGroup>
           </div>
 
@@ -156,14 +200,15 @@ const CadastrarProposta = () => {
               <Checkbox
                 label="Adicione taxa do sistema ao total"
                 checkboxSize="md"
+                {...register("addSystemTax")}
               />
             </div>
             <Stack className="mt-5" align="right">
-              <Button disabled>Enviar proposta</Button>
+              <Button>Enviar proposta</Button>
             </Stack>
           </div>
         </ProposalSection>
-      </div>
+      </form>
     </div>
   );
 };

@@ -10,7 +10,7 @@ const ProposalSection = ({
   const base = clsx("flex flex-col flex-1 p-6");
   const variants = {
     primary: clsx(base, "gap-5"),
-    secondary: clsx(base, "bg-neutral-10 rounded-xl gap-8"),
+    secondary: clsx(base, "bg-neutral-10 gap-8"),
   };
 
   return <div className={variants[variant]}>{children}</div>;

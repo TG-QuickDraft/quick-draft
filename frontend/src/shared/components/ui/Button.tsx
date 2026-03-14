@@ -37,7 +37,7 @@ const Button = ({
         variants[variant],
         className,
         "disabled:bg-neutral-20",
-        "disabled:cursor-not-allowed hover:scale-100! shadow-none!",
+        "disabled:cursor-not-allowed disabled:hover:scale-100! shadow-none!",
       )}
       {...props}
     >
