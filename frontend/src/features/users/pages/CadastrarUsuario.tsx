@@ -4,7 +4,7 @@ import { adicionarUsuario, enviarFoto } from "@/features/users/api/usuario.api";
 import Button from "@/shared/components/ui/Button";
 import { LuSave } from "react-icons/lu";
 
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 
 import {
   RegisterUserSchema,

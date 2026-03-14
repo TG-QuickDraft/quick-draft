@@ -4,7 +4,7 @@ import { consultarFreelancers } from "@/features/freelancers/api/freelancer.api"
 import { Link } from "react-router-dom";
 
 import Button from "@/shared/components/ui/Button";
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
 import StarRating from "@/shared/components/ui/StarRating";

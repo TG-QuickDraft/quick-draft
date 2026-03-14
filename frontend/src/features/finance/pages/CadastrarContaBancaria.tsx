@@ -11,7 +11,7 @@ import {
 } from "@/features/finance/api/contaBancaria.api";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Modal from "@/shared/components/ui/Modal";
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 import type { CriarContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/CriarContaBancariaDTO";
 import type { ContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/ContaBancariaDTO";
 import type { TipoContaDTO } from "@/features/finance/dtos/contaBancaria/TipoContaDTO";

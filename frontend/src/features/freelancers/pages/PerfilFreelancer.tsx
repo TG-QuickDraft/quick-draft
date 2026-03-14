@@ -3,7 +3,7 @@ import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.
 import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelancer";
 import { useEffect, useState } from "react";
 
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 
 import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "@/shared/components/ui/Button";
 import { LuSave } from "react-icons/lu";
 
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 
 import Modal from "@/shared/components/ui/Modal";
 import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";

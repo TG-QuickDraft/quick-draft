@@ -11,7 +11,7 @@ import {
 } from "@/features/finance/api/cartaoCredito.api";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Modal from "@/shared/components/ui/Modal";
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 import type { BandeiraCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/BandeiraCartaoCreditoDTO";
 import type { CartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CartaoCreditoDTO";
 import type { CriarCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CriarCartaoCreditoDTO";

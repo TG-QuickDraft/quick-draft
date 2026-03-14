@@ -1,4 +1,4 @@
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Stack from "@/shared/components/Stack";
 import Button from "@/shared/components/ui/Button";
@@ -15,42 +15,29 @@ import { CiCirclePlus } from "react-icons/ci";
 import { FiX } from "react-icons/fi";
 import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
 import type { ProjetoFreelancer } from "../../dtos/projetoFreelancer/ProjetoFreelancer";
+import Subtitle from "@/shared/components/ui/titles/Subtitle";
+import SelectableProjectCard from "../../components/SelectableProjectCard";
+import ProposalSection from "../../components/ProposalSection";
+import useProposalForm from "../../hooks/useProposalForm";
+import { RemovableListItem } from "../../components/RemovableListItem";
+import { AnimatedCollapse } from "@/shared/components/AnimatedCollapse";
 
 const CadastrarProposta = () => {
-  const [items, setItems] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState("");
+  const {
+    selectedProjects,
+    inputValue,
+    handleProjectSelection,
+    handleKeyDown,
+    handleAddItem,
+    handleDeleteItem,
+    setInputValue,
+    items,
+  } = useProposalForm();
 
-  const [selectedProjects, setSelectedProjects] = useState<number[]>([]);
   const [freelancerProjects, setFreelancerProjects] = useState<
     ProjetoFreelancer[]
   >([]);
-
   const countSelectedProjects = selectedProjects.length;
-  const handleProjectSelection = (projectId: number) => {
-    if (selectedProjects.includes(projectId)) {
-      setSelectedProjects(selectedProjects.filter((id) => id !== projectId));
-    } else {
-      setSelectedProjects([...selectedProjects, projectId]);
-    }
-  };
-
-  const handleAddItem = () => {
-    if (inputValue.trim() === "") return;
-
-    setItems((prevItems) => [inputValue, ...prevItems]);
-    setInputValue("");
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleAddItem();
-    }
-  };
-
-  const handleDeleteItem = (indexToRemove: number) => {
-    setItems((prev) => prev.filter((_, index) => index !== indexToRemove));
-  };
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -71,7 +58,7 @@ const CadastrarProposta = () => {
       </Title>
 
       <div className="flex border border-neutral-20 flex-1 rounded-xl">
-        <ProposalWrapper>
+        <ProposalSection>
           <Subtitle>Logo para loja de materiais</Subtitle>
 
           <InputGroup notSpaced>
@@ -109,33 +96,18 @@ const CadastrarProposta = () => {
 
             <ul className="flex flex-col gap-3 max-h-100 overflow-y-auto">
               {items.map((item, index) => (
-                <li key={index} className="flex items-center gap-3">
-                  <span
-                    className={clsx(
-                      "p-3 text-neutral-80 border-b border-neutral-20",
-                      "flex-1",
-                    )}
-                  >
-                    {item}
-                  </span>
-
-                  <button
-                    onClick={() => handleDeleteItem(index)}
-                    className={clsx(
-                      "active:scale-90 transition duration-200 cursor-pointer",
-                      "hover:scale-110 flex justify-center items-center text-red-400 hover:text-red-600 p-2",
-                    )}
-                    aria-label="Remover item"
-                  >
-                    <FiX size={24} />
-                  </button>
-                </li>
+                <RemovableListItem
+                  key={index}
+                  item={item}
+                  index={index}
+                  onDelete={handleDeleteItem}
+                />
               ))}
             </ul>
           </div>
-        </ProposalWrapper>
+        </ProposalSection>
 
-        <ProposalWrapper variant="secondary">
+        <ProposalSection variant="secondary">
           <Subtitle>Cliente: Joesvaldo</Subtitle>
 
           <div className="flex justify-evenly gap-10">
@@ -156,18 +128,11 @@ const CadastrarProposta = () => {
           <div className="flex flex-col gap-3">
             <Label>Selecione projetos de destaque:</Label>
 
-            <div
-              className={clsx(
-                "grid transition-all duration-300 ease-in-out overflow-hidden",
-                countSelectedProjects > 0
-                  ? "grid-rows-[1fr] opacity-100 translate-y-0"
-                  : "grid-rows-[0fr] opacity-0 -translate-y-2",
-              )}
-            >
-              <p className="min-h-0 text-neutral-60">
+            <AnimatedCollapse show={countSelectedProjects > 0}>
+              <p className="text-neutral-60">
                 {countSelectedProjects} projetos selecionados
               </p>
-            </div>
+            </AnimatedCollapse>
 
             <div
               className={clsx(
@@ -177,7 +142,7 @@ const CadastrarProposta = () => {
             >
               {freelancerProjects &&
                 freelancerProjects.map((item) => (
-                  <ProposalProjects
+                  <SelectableProjectCard
                     key={item.id}
                     active={selectedProjects.includes(item.id)}
                     onClick={() => handleProjectSelection(item.id)}
@@ -198,75 +163,10 @@ const CadastrarProposta = () => {
               <Button>Enviar proposta</Button>
             </Stack>
           </div>
-        </ProposalWrapper>
+        </ProposalSection>
       </div>
     </div>
   );
 };
 
 export default CadastrarProposta;
-
-const ProposalWrapper = ({
-  children,
-  variant = "primary",
-}: {
-  children: React.ReactNode;
-  variant?: "primary" | "secondary";
-}) => {
-  const base = clsx("flex flex-col flex-1 p-6");
-  const variants = {
-    primary: clsx(base, "gap-5"),
-    secondary: clsx(base, "bg-neutral-10 rounded-xl gap-8"),
-  };
-
-  return <div className={variants[variant]}>{children}</div>;
-};
-
-const ProposalProjects = ({
-  nome,
-  imagemUrl,
-  onClick,
-  active,
-}: {
-  nome?: string;
-  imagemUrl?: string;
-  onClick?: () => void;
-  active?: boolean;
-}) => {
-  return (
-    <button
-      onClick={onClick}
-      className={clsx(
-        "cursor-pointer h-43 aspect-square hover:-translate-y-1 overflow-hidden",
-        "bg-neutral-20 rounded-xl duration-200 transition relative",
-        "active:scale-95 border-3 border-transparent",
-        active && "border-secondary-100! ",
-      )}
-    >
-      <img
-        src={imagemUrl}
-        className={clsx(
-          "object-cover w-full h-full transition duration-200 hover:scale-110",
-        )}
-      />
-      <div
-        className={clsx(
-          "absolute inset-0 bg-black/20 backdrop-blur-sm",
-          active && "hidden",
-        )}
-      ></div>
-      <span
-        className={clsx(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full",
-          "text-white text-xl font-bold",
-        )}
-      >
-        {!active && nome}
-      </span>
-    </button>
-  );
-};
-
-const Subtitle = ({ children }: { children: React.ReactNode }) => {
-  return <h2 className="font-semibold text-xl">{children}</h2>;
-};
