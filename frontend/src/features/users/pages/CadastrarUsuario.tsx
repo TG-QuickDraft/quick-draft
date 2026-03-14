@@ -20,6 +20,7 @@ import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Radio from "@/shared/components/ui/Inputs/Radio";
+import ImagePicker from "@/features/users/components/ImagePicker";
 
 export const CadastrarUsuario = () => {
   const [foto, setFoto] = useState<File | null>(null);
@@ -131,38 +132,7 @@ export const CadastrarUsuario = () => {
           {...register("confirmarSenha")}
         />
 
-        <label className="flex flex-col items-center justify-center border border-gray-300 rounded-lg h-32 cursor-pointer hover:bg-gray-50 transition">
-
-          <input
-            type="file"
-            name="foto"
-            accept="image/png, image/jpeg, image/jpg, image/gif"
-            className="hidden"
-            onChange={(e) => {
-              if (e.target.files && e.target.files[0]) {
-                setFoto(e.target.files[0]);
-              }
-            }}
-          />
-
-          {!foto && (
-            <div className="flex flex-col items-center text-gray-500 gap-2">
-              <span className="text-sm">Escolher foto de perfil</span>
-            </div>
-          )}
-
-          {foto && (
-            <div className="flex flex-col items-center gap-2">
-              <img
-                src={URL.createObjectURL(foto)}
-                className="w-20 h-20 rounded-full object-cover"
-              />
-              <span className="text-xs text-gray-500">
-                Clique para alterar
-              </span>
-            </div>
-          )}
-        </label>
+        <ImagePicker onChange={setFoto} />
 
         <div>
           <h2 className="mb-5 text-[16px]">Tipo de Usuário</h2>
