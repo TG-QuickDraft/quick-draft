@@ -32,6 +32,11 @@ import type { ProposalRequest } from "../../dtos/freelancer/proposal";
 import Modal from "@/shared/components/ui/Modal";
 import { parseCurrencyToNumber } from "@/shared/utils/numbers.utils";
 import { useNavigate, useParams } from "react-router-dom";
+import type { Servico } from "@/features/services/dtos/Servico";
+import { consultarServicoPorId } from "@/features/services/api/servico.api";
+import Spinner from "@/shared/components/ui/Spinner";
+import type { Cliente } from "@/features/clients/dtos/Cliente";
+import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 
 const CadastrarProposta = () => {
   const [showModal, setShowModal] = useState(false);
@@ -53,15 +58,18 @@ const CadastrarProposta = () => {
     items,
   } = useProposalForm();
 
+  const countSelectedProjects = selectedProjects.length;
+
   const [freelancerProjects, setFreelancerProjects] = useState<
     ProjetoFreelancer[]
   >([]);
-  const countSelectedProjects = selectedProjects.length;
+  const [servico, setServico] = useState<Servico | null>(null);
+  const [cliente, setCliente] = useState<Cliente | null>(null);
 
   const {
     register,
     handleSubmit,
-    reset,
+
     formState: { errors },
   } = useForm<INewProposalForm>({
     resolver: yupResolver(NewProposalSchema),
@@ -101,16 +109,24 @@ const CadastrarProposta = () => {
   };
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const projects = await consultarProjetosFreelancerPorIdFreelancer(2);
-        setFreelancerProjects(projects);
-      } catch (e) {
-        console.log(e);
+    const obterDados = async () => {
+      const service = await consultarServicoPorId(Number(serviceId));
+
+      if (service) {
+        setServico(service);
+        const client = await consultarClientePorId(service.clienteId);
+        client && setCliente(client);
       }
+
+      const projects = await consultarProjetosFreelancerPorIdFreelancer(2);
+      projects && setFreelancerProjects(projects);
     };
-    fetchProjects();
-  }, []);
+
+    obterDados();
+  }, [serviceId]);
+
+  if (!servico || !cliente || freelancerProjects.length === 0)
+    return <Spinner />;
 
   return (
     <>
@@ -126,7 +142,7 @@ const CadastrarProposta = () => {
           className="flex border border-neutral-20 flex-1 rounded-xl"
         >
           <ProposalSection>
-            <Subtitle>Logo para loja de materiais</Subtitle>
+            <Subtitle>{servico.nome}</Subtitle>
             <InputGroup notSpaced>
               <Label>Descrição da proposta</Label>
               <TextArea
@@ -173,7 +189,7 @@ const CadastrarProposta = () => {
             </div>
           </ProposalSection>
           <ProposalSection variant="secondary">
-            <Subtitle>Cliente: Joesvaldo</Subtitle>
+            <Subtitle>Cliente: {cliente.nome}</Subtitle>
             <div className="flex justify-evenly gap-10">
               <InputGroup notSpaced>
                 <Label>Valor por hora</Label>
