@@ -24,37 +24,25 @@ export const MinhaConta = () => {
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-center gap-6">
               <div className="w-full h-full rounded-full">
-                <ProfilePhoto
-                  photoPath={usuario.fotoPerfilUrl}
-                />
+                <ProfilePhoto photoPath={usuario.fotoPerfilUrl} />
               </div>
 
               <div>
-                <h1 className="text-3xl font-semibold">
-                  {usuario.nome}
-                </h1>
-                <h2>
-                  {usuario.email}
-                </h2>
-                <h2>
-                  {usuario.cpf}
-                </h2>
+                <h1 className="text-3xl font-semibold">{usuario.nome}</h1>
+                <h2>{usuario.email}</h2>
+                <h2>{usuario.cpf}</h2>
               </div>
             </div>
 
             <div className="flex gap-12">
               <div className="bg-zinc-800 text-white px-10 py-6 rounded-2xl min-w-[180px]">
                 <p className="text-2xl font-bold">0</p>
-                <p className="text-sm opacity-80">
-                  Projetos Criados
-                </p>
+                <p className="text-sm opacity-80">Projetos Criados</p>
               </div>
 
               <div className="bg-secondary-100 text-black px-10 py-6 rounded-2xl min-w-[180px]">
                 <p className="text-2xl font-bold">0</p>
-                <p className="text-sm">
-                  Concluídos
-                </p>
+                <p className="text-sm">Concluídos</p>
               </div>
             </div>
           </div>
@@ -76,22 +64,16 @@ export const MinhaConta = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-6">
-              Meus Serviços
-            </h2>
+            <h2 className="text-xl font-semibold mb-6">Meus Serviços</h2>
 
             <div className="flex gap-6 border-b border-gray-300 mb-16">
               <button className="pb-2 border-b-2 border-black font-medium">
                 Em Andamento
               </button>
 
-              <button className="pb-2 text-gray-500">
-                Sem Atribuição
-              </button>
+              <button className="pb-2 text-gray-500">Sem Atribuição</button>
 
-              <button className="pb-2 text-gray-500">
-                Todos
-              </button>
+              <button className="pb-2 text-gray-500">Todos</button>
             </div>
 
             <div className="flex flex-col items-center justify-center mt-24">
@@ -99,11 +81,9 @@ export const MinhaConta = () => {
                 Nenhum Serviço Criado
               </h3>
 
-              <p className="text-sm text-gray-500 mb-6">
-                Criar novo serviço
-              </p>
+              <p className="text-sm text-gray-500 mb-6">Criar novo serviço</p>
 
-              <button 
+              <button
                 onClick={() => navigate("/cadastrarServico")}
                 className="w-14 h-14 flex items-center justify-center border border-gray-400 rounded-full hover:bg-gray-100 transition cursor-pointer"
               >

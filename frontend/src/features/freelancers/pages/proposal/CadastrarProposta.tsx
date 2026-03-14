@@ -37,8 +37,11 @@ import { consultarServicoPorId } from "@/features/services/api/servico.api";
 import Spinner from "@/shared/components/ui/Spinner";
 import type { Cliente } from "@/features/clients/dtos/Cliente";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
+import { consultarUsuario } from "@/features/users/api/usuario.api";
 
 const CadastrarProposta = () => {
+  const [loading, setLoading] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
   const [modalMsg, setModalMsg] = useState("");
@@ -110,23 +113,33 @@ const CadastrarProposta = () => {
 
   useEffect(() => {
     const obterDados = async () => {
-      const service = await consultarServicoPorId(Number(serviceId));
+      setLoading(true);
+      try {
+        const service = await consultarServicoPorId(Number(serviceId));
 
-      if (service) {
-        setServico(service);
-        const client = await consultarClientePorId(service.clienteId);
-        client && setCliente(client);
+        if (service) {
+          setServico(service);
+          const client = await consultarClientePorId(service.clienteId);
+          client && setCliente(client);
+        }
+
+        const user = await consultarUsuario();
+
+        if (user) {
+          const projects = await consultarProjetosFreelancerPorIdFreelancer(
+            user.id,
+          );
+          projects && setFreelancerProjects(projects);
+        }
+      } finally {
+        setLoading(false);
       }
-
-      const projects = await consultarProjetosFreelancerPorIdFreelancer(2);
-      projects && setFreelancerProjects(projects);
     };
 
     obterDados();
   }, [serviceId]);
 
-  if (!servico || !cliente || freelancerProjects.length === 0)
-    return <Spinner />;
+  if (loading) return <Spinner />;
 
   return (
     <>
@@ -142,7 +155,7 @@ const CadastrarProposta = () => {
           className="flex border border-neutral-20 flex-1 rounded-xl"
         >
           <ProposalSection>
-            <Subtitle>{servico.nome}</Subtitle>
+            <Subtitle>{servico?.nome}</Subtitle>
             <InputGroup notSpaced>
               <Label>Descrição da proposta</Label>
               <TextArea
@@ -189,7 +202,7 @@ const CadastrarProposta = () => {
             </div>
           </ProposalSection>
           <ProposalSection variant="secondary">
-            <Subtitle>Cliente: {cliente.nome}</Subtitle>
+            <Subtitle>Cliente: {cliente?.nome}</Subtitle>
             <div className="flex justify-evenly gap-10">
               <InputGroup notSpaced>
                 <Label>Valor por hora</Label>
