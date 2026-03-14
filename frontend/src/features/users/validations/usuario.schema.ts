@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import { TIPOS_USUARIO } from "../enums/tiposUsuario";
+import { uploadImagemSchema } from "@/shared/validations/uploadImagem.schema";
 
 export type IRegisterUserForm = yup.InferType<typeof RegisterUserSchema>;
 
@@ -19,4 +20,5 @@ export const RegisterUserSchema = yup.object().shape({
     .mixed()
     .oneOf(TIPOS_USUARIO, "Tipo de usuário inválido.")
     .required(),
+  fotoPerfil: uploadImagemSchema
 });

@@ -20,7 +20,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
 export const CadastrarProjetoFreelancer = () => {
-  const [imagem, setImagem] = useState<File | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
@@ -43,6 +42,8 @@ export const CadastrarProjetoFreelancer = () => {
 
     try {
       const projetoAdicionado = await adicionarProjetoFreelancer(projeto);
+
+      const imagem = data.imagem?.imagem?.[0];
 
       if (imagem && projetoAdicionado) {
         const form = new FormData();
@@ -94,13 +95,10 @@ export const CadastrarProjetoFreelancer = () => {
         />
 
         <Input
-          name="imagem"
           type="file"
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              setImagem(e.target.files[0]);
-            }
-          }}
+          showErrorMsg
+          error={errors?.imagem?.imagem?.message}
+          {...register("imagem.imagem")}
         />
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
