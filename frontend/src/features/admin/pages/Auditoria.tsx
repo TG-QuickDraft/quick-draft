@@ -6,6 +6,8 @@ import type { PagedResult } from "@/shared/types/PagedResult";
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import { usePagination } from "@/shared/hooks/usePagination";
 
+import ValorMudanca from "../components/ValorMudanca";
+
 export const Auditoria = () => {
   const [auditoria, setAuditoria] = useState<PagedResult<AuditLogDTO>>();
 
@@ -47,27 +49,46 @@ export const Auditoria = () => {
         </thead>
         <tbody>
           {auditoria?.itens &&
-            auditoria.itens.map((auditoria, index) => (
+            auditoria.itens.map((item: AuditLogDTO, index: number) => (
               <tr key={index} className="border-t border-gray-100">
-                <td className="px-4 py-3">{auditoria.user}</td>
-                <td className="px-4 py-3">{auditoria.action}</td>
-                <td className="px-4 py-3">{auditoria.entityName}</td>
-                {auditoria.changes && (
-                  <td className="px-3 py-2 align-top">
-                    {Object.entries(auditoria.changes ?? {}).map(
-                      ([chave, valor]) => (
-                        <div key={chave} className="flex justify-between gap-4">
-                          <span className="font-medium">{chave}:</span>
-                          <span className="text-right break-words max-w-[60%]">
-                            {String(valor)}
+                <td className="px-4 py-3">{item.user}</td>
+                <td className="px-4 py-3">
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full font-medium ${
+                      item.action === "Added"
+                        ? "bg-green-100 text-green-700"
+                        : item.action === "Modified"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {item.action}
+                  </span>
+                </td>
+                <td className="px-4 py-3">{item.entityName}</td>
+
+                <td className="px-3 py-2 align-top">
+                  {item.changes && (
+                    <div className="flex flex-col gap-1">
+                      {Object.entries(item.changes).map(([chave, valor]) => (
+                        <div
+                          key={chave}
+                          className="flex justify-between items-center gap-4 text-sm"
+                        >
+                          <span className="font-semibold text-gray-700 min-w-25">
+                            {chave}:
                           </span>
+                          <div className="text-right wrap-break-word max-w-[70%]">
+                            <ValorMudanca valor={valor} />
+                          </div>
                         </div>
-                      ),
-                    )}
-                  </td>
-                )}
-                <td className="px-4 py-3 whitespace-nowrap">
-                  {new Date(auditoria.dateTime).toLocaleString("pt-BR", {
+                      ))}
+                    </div>
+                  )}
+                </td>
+
+                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                  {new Date(item.dateTime).toLocaleString("pt-BR", {
                     timeZone: "America/Sao_Paulo",
                     dateStyle: "short",
                     timeStyle: "medium",
