@@ -24,9 +24,7 @@ const Navbar = () => {
   const Logo = () => {
     return (
       <div className="w-12 h-12 rounded-full bg-gray-200">
-        <SystemLogo
-          size="sm"
-        />
+        <SystemLogo size="sm" />
       </div>
     );
   };
@@ -92,10 +90,15 @@ const Navbar = () => {
             onSubmit={(e) => {
               e.preventDefault();
 
-              if (tipo === "freelancers") {
-                navigate(`/pesquisaFreelancer?nome=${search}`);
+              const basePath =
+                tipo === "freelancers"
+                  ? "/pesquisaFreelancer"
+                  : "/pesquisaServico";
+
+              if (search.trim() === "") {
+                navigate(basePath);
               } else {
-                navigate(`/pesquisaServico?nome=${search}`);
+                navigate(`${basePath}?nome=${search}`);
               }
             }}
             className="flex gap-2 items-center"
@@ -122,9 +125,7 @@ const Navbar = () => {
       </Stack>
       <Stack direction="row" gap={6}>
         {renderButtons()}
-        <ProfileNavbar 
-          photoPath={usuario ? usuario.fotoPerfilUrl : ""}
-        />
+        <ProfileNavbar photoPath={usuario ? usuario.fotoPerfilUrl : ""} />
       </Stack>
     </div>
   );
