@@ -28,6 +28,7 @@ import {
 
 import { GoPlus } from "react-icons/go";
 import { useCreateProposal } from "../../hooks/useCreateProposal";
+import type { ProposalRequest } from "../../dtos/freelancer/proposal";
 
 const CadastrarProposta = () => {
   const { mutate: doProposal, isPending } = useCreateProposal();
@@ -58,6 +59,30 @@ const CadastrarProposta = () => {
   });
 
   const onValid = (formData: INewProposalForm) => {
+    const proposalData: ProposalRequest = {
+      mensagem: formData.description,
+      valorPorHora: Number(formData.hourlyValue),
+      prazoEntrega: new Date(formData.deadline),
+      valorTotal: Number(formData.totalCost),
+      itensPropostos: items.join("; "),
+      taxaSistemaAdicionadaAoTotal: formData.addSystemTax,
+      servicoId: 4,
+      projetosDestacados: selectedProjects.map((id) => ({
+        id,
+        nome: "",
+        link: "",
+        descricao: "",
+        imagemUrl: "",
+      })),
+    };
+
+    doProposal(proposalData, {
+      onSuccess: () => {},
+      onError: (error) => {
+        console.log("error" + error);
+      },
+    });
+
     reset();
   };
 
@@ -207,7 +232,7 @@ const CadastrarProposta = () => {
               />
             </div>
             <Stack className="mt-5" align="right">
-              <Button>Enviar proposta</Button>
+              <Button disabled={isPending}>Enviar proposta</Button>
             </Stack>
           </div>
         </ProposalSection>
