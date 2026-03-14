@@ -11,7 +11,6 @@ import Label from "@/shared/components/ui/Label";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
 import { useEffect, useState } from "react";
 
-import { CiCirclePlus } from "react-icons/ci";
 import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
 import type { ProjetoFreelancer } from "../../dtos/projetoFreelancer/ProjetoFreelancer";
 import Subtitle from "@/shared/components/ui/titles/Subtitle";
