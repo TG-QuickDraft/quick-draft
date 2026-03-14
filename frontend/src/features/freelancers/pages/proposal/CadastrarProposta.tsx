@@ -30,7 +30,7 @@ import { GoPlus } from "react-icons/go";
 import { useCreateProposal } from "../../hooks/useCreateProposal";
 import type { ProposalRequest } from "../../dtos/freelancer/proposal";
 import Modal from "@/shared/components/ui/Modal";
-import { parseCurrencyToNumber } from "@/shared/utils/numbers.utils";
+import { parseCurrencyToNumber } from "@/shared/utils/number.utils";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Servico } from "@/features/services/dtos/Servico";
 import { consultarServicoPorId } from "@/features/services/api/servico.api";
@@ -39,6 +39,8 @@ import type { Cliente } from "@/features/clients/dtos/Cliente";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
+
+import { capitalize } from "@/shared/utils/string.utils";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
@@ -88,7 +90,7 @@ const CadastrarProposta = () => {
       valorTotal: parseCurrencyToNumber(formData.totalCost),
       itensPropostos: items.join("; "),
       taxaSistemaAdicionadaAoTotal: formData.addSystemTax,
-      servicoId: 4,
+      servicoId: Number(serviceId),
       projetosDestacados: selectedProjects.map((id) => ({
         id,
         nome: "",
@@ -153,10 +155,20 @@ const CadastrarProposta = () => {
         </Title>
         <form
           onSubmit={handleSubmit(onValid)}
-          className="flex border border-neutral-20 flex-1 rounded-xl"
+          className={clsx(
+            "flex border border-neutral-20 flex-1 rounded-xl ",
+            "overflow-hidden",
+          )}
         >
           <ProposalSection>
-            <Subtitle>{servico?.nome}</Subtitle>
+            <Subtitle>
+              <span className="text-neutral-60 font-normal text-sm mr-2 block">
+                Serviço
+              </span>
+              <span className="text-neutral-100">
+                {capitalize(servico?.nome || "")}
+              </span>
+            </Subtitle>
             <InputGroup notSpaced>
               <Label>Descrição da proposta</Label>
               <TextArea
@@ -191,19 +203,30 @@ const CadastrarProposta = () => {
                 </div>
               </InputGroup>
               <ul className="flex flex-col gap-3 max-h-100 overflow-y-auto">
-                {items.map((item, index) => (
-                  <RemovableListItem
-                    key={index}
-                    item={item}
-                    index={index}
-                    onDelete={handleDeleteItem}
-                  />
-                ))}
+                {items.length > 0 ? (
+                  items.map((item, index) => (
+                    <RemovableListItem
+                      key={index}
+                      item={item}
+                      index={index}
+                      onDelete={handleDeleteItem}
+                    />
+                  ))
+                ) : (
+                  <p className="text-neutral-60">Nenhum item adicionado</p>
+                )}
               </ul>
             </div>
           </ProposalSection>
           <ProposalSection variant="secondary">
-            <Subtitle>Cliente: {cliente?.nome}</Subtitle>
+            <Subtitle>
+              <span className="text-neutral-60 block font-normal text-sm mr-2">
+                Cliente
+              </span>
+              <span className="text-neutral-100">
+                {capitalize(cliente?.nome || "")}
+              </span>
+            </Subtitle>
             <div className="flex justify-evenly gap-10">
               <InputGroup notSpaced>
                 <Label>Valor por hora</Label>
@@ -249,7 +272,7 @@ const CadastrarProposta = () => {
                   "max-h-100 overflow-auto overscroll-contain p-2",
                 )}
               >
-                {freelancerProjects &&
+                {freelancerProjects.length > 0 ? (
                   freelancerProjects.map((item) => (
                     <SelectableProjectCard
                       key={item.id}
@@ -257,7 +280,10 @@ const CadastrarProposta = () => {
                       onClick={() => handleProjectSelection(item.id)}
                       {...item}
                     />
-                  ))}
+                  ))
+                ) : (
+                  <p className="text-neutral-60">Nenhum projeto cadastrado</p>
+                )}
               </div>
               <Stack>
                 <AddButton
