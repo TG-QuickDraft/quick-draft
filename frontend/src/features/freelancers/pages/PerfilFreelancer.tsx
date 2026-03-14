@@ -7,7 +7,7 @@ import Title from "@/shared/components/ui/Title";
 
 import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { TesteMarkdown } from "@/shared/components/TesteMarkdown";
+import { TesteMarkdown } from "@/features/freelancers/components/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancer";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 import { PiEmptyLight } from "react-icons/pi";
