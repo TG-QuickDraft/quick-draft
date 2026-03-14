@@ -1,7 +1,7 @@
 import Title from "@/shared/components/ui/titles/Title";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Stack from "@/shared/components/Stack";
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 
 import TextArea from "@/shared/components/ui/Inputs/TextArea";
 import Checkbox from "@/shared/components/ui/Checkbox";
@@ -38,6 +38,7 @@ import Spinner from "@/shared/components/ui/Spinner";
 import type { Cliente } from "@/features/clients/dtos/Cliente";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
+import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
@@ -258,6 +259,12 @@ const CadastrarProposta = () => {
                     />
                   ))}
               </div>
+              <Stack>
+                <AddButton
+                  className="mt-4"
+                  onClick={() => navigate("/cadastrarProjetoFreelancer")}
+                />
+              </Stack>
             </div>
             <div className="mt-auto">
               <div className="flex gap-2 items-center">

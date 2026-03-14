@@ -1,5 +1,5 @@
 import Stack from "@/shared/components/Stack";
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { CiLogout } from "react-icons/ci";

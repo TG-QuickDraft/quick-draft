@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 import { LuSave } from "react-icons/lu";
 
 import {

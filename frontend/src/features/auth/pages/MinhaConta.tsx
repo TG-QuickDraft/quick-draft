@@ -4,6 +4,7 @@ import { consultarUsuario } from "@/features/users/api/usuario.api";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { GoPlus } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
@@ -83,12 +84,7 @@ export const MinhaConta = () => {
 
               <p className="text-sm text-gray-500 mb-6">Criar novo serviço</p>
 
-              <button
-                onClick={() => navigate("/cadastrarServico")}
-                className="w-14 h-14 flex items-center justify-center border border-gray-400 rounded-full hover:bg-gray-100 transition cursor-pointer"
-              >
-                <GoPlus size={28} />
-              </button>
+              <AddButton onClick={() => navigate("/cadastrarServico")} />
             </div>
           </div>
         </>

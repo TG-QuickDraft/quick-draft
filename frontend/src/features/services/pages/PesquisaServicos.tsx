@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 import Title from "@/shared/components/ui/titles/Title";
 
 import { PiEmptyLight } from "react-icons/pi";
