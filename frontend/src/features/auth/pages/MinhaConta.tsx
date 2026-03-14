@@ -157,6 +157,7 @@ export const MinhaConta = () => {
 
       <ConfirmarUploadFotoModal
         imagem={imagemSelecionada}
+        message="Tem certeza que deseja alterar sua foto de perfil?"
         preview={preview}
         aberto={modalAberto}
         onClose={() => setModalAberto(false)}

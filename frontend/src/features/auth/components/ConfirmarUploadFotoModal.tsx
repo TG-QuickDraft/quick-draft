@@ -2,6 +2,7 @@ import { enviarFoto } from "@/features/users/api/usuario.api";
 
 type Props = {
   imagem: File | null;
+  message: string;
   preview: string | null;
   aberto: boolean;
   onClose: () => void;
@@ -10,6 +11,7 @@ type Props = {
 
 export default function ConfirmarUploadFotoModal({
   imagem,
+  message,
   preview,
   aberto,
   onClose,
@@ -42,7 +44,7 @@ export default function ConfirmarUploadFotoModal({
         )}
 
         <p className="mb-6">
-          Tem certeza que deseja alterar sua foto de perfil?
+          {message}
         </p>
 
         <div className="flex justify-center gap-4">
