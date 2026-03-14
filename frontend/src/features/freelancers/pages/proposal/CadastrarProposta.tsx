@@ -27,6 +27,8 @@ import {
   type INewProposalForm,
 } from "../../validations/proposal.schema";
 
+import { GoPlus } from "react-icons/go";
+
 const CadastrarProposta = () => {
   const {
     selectedProjects,
@@ -107,14 +109,14 @@ const CadastrarProposta = () => {
 
                 <button
                   className={clsx(
-                    "active:scale-90 transition duration-200 cursor-pointer",
-                    "hover:scale-110 flex justify-center items-center",
+                    "group active:scale-90 transition duration-200 cursor-pointer bg-primary-100",
+                    "hover:scale-105 flex justify-center items-center p-2 rounded-lg",
                   )}
                   type="button"
                   onClick={handleAddItem}
                   aria-label="Adicionar item"
                 >
-                  <CiCirclePlus size={36} />
+                  <GoPlus size={30} color="white" />
                 </button>
               </div>
             </InputGroup>
