@@ -8,6 +8,7 @@ import Title from "@/shared/components/ui/titles/Title";
 import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { Servico } from "../dtos/Servico";
+import { IoMdSend } from "react-icons/io";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -37,15 +38,24 @@ export const VisualizarServico = () => {
         <h3>{servico?.nome}</h3>
         <h4>{servico?.descricao}</h4>
         <h3>
-          {servico?.orcamentoIsAberto ? "Orcamento aberto" : "Orcamento fechado"}
+          {servico?.orcamentoIsAberto
+            ? "Orcamento aberto"
+            : "Orcamento fechado"}
         </h3>
         <h4>{servico?.valorMinimo}</h4>
         <h3>{servico?.prazo}</h3>
 
-
         <Link to={`/perfilCliente/${servico?.clienteId}`}>
           <Button className="mt-6">Ver Perfil do Cliente</Button>
         </Link>
+
+        {servico && (
+          <Link to={`/servico/${servico.id}/proposta/nova`}>
+            <Button className="mt-6" icon={<IoMdSend size={25} />}>
+              Enviar proposta
+            </Button>
+          </Link>
+        )}
 
         <Link to={"/pesquisaServico"}>
           <Button

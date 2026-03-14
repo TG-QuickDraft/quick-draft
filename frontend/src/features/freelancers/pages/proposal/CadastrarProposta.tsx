@@ -31,11 +31,15 @@ import { useCreateProposal } from "../../hooks/useCreateProposal";
 import type { ProposalRequest } from "../../dtos/freelancer/proposal";
 import Modal from "@/shared/components/ui/Modal";
 import { parseCurrencyToNumber } from "@/shared/utils/numbers.utils";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CadastrarProposta = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
   const [modalMsg, setModalMsg] = useState("");
+
+  const navigate = useNavigate();
+  const { serviceId } = useParams();
 
   const { mutate: doProposal, isPending } = useCreateProposal();
   const {
@@ -111,7 +115,10 @@ const CadastrarProposta = () => {
   return (
     <>
       <div className="flex flex-col gap-5 flex-1 max-w-300 mx-auto w-full">
-        <Title className="font-semibold! text-2xl" onClick={() => {}}>
+        <Title
+          className="font-semibold! text-2xl"
+          onClick={() => navigate(`/visualizarServico/${serviceId}`)}
+        >
           Envio de Proposta
         </Title>
         <form

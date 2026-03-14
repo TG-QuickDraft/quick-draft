@@ -14,5 +14,5 @@ export const freelancerRoutes = [
   },
   { path: "/cadastrarContaBancaria", element: <CadastrarContaBancaria /> },
   { path: "/proposal/view", element: <VisualizarProposta /> },
-  { path: "/proposal/new", element: <CadastroProposta /> },
+  { path: "/servico/:serviceId/proposta/nova", element: <CadastroProposta /> },
 ];

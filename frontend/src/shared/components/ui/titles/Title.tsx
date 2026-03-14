@@ -14,6 +14,7 @@ const Title = ({
     <div className="flex items-center">
       {onClick && (
         <RxCaretLeft
+          onClick={onClick}
           size={40}
           className={clsx(
             "transition duration-200 cursor-pointer",
