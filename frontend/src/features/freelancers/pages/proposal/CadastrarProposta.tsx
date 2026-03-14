@@ -157,7 +157,7 @@ const CadastrarProposta = () => {
           onSubmit={handleSubmit(onValid)}
           className={clsx(
             "flex flex-col md:flex-row border border-neutral-20 flex-1 rounded-xl ",
-            "overflow-hidden",
+            "overflow-hidden shadow-2xl",
           )}
         >
           <ProposalSection>
