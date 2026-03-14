@@ -39,7 +39,7 @@ import type { Cliente } from "@/features/clients/dtos/Cliente";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
-
+import { IoMdSend } from "react-icons/io";
 import { capitalize } from "@/shared/utils/string.utils";
 
 const CadastrarProposta = () => {
@@ -146,7 +146,7 @@ const CadastrarProposta = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-5 flex-1 max-w-300 mx-auto w-full">
+      <div className="flex flex-col gap-5 flex-1 max-w-7xl mx-auto w-full">
         <Title
           className="font-semibold! text-2xl"
           onClick={() => navigate(`/visualizarServico/${serviceId}`)}
@@ -156,7 +156,7 @@ const CadastrarProposta = () => {
         <form
           onSubmit={handleSubmit(onValid)}
           className={clsx(
-            "flex border border-neutral-20 flex-1 rounded-xl ",
+            "flex flex-col md:flex-row border border-neutral-20 flex-1 rounded-xl ",
             "overflow-hidden",
           )}
         >
@@ -227,7 +227,7 @@ const CadastrarProposta = () => {
                 {capitalize(cliente?.nome || "")}
               </span>
             </Subtitle>
-            <div className="flex justify-evenly gap-10">
+            <div className="flex flex-col xl:flex-row justify-evenly gap-5 xl:gap-10">
               <InputGroup notSpaced>
                 <Label>Valor por hora</Label>
                 <Input
@@ -263,7 +263,9 @@ const CadastrarProposta = () => {
               <Label>Selecione projetos de destaque:</Label>
               <AnimatedCollapse show={countSelectedProjects > 0}>
                 <p className="text-neutral-60">
-                  {countSelectedProjects} projetos selecionados
+                  {countSelectedProjects > 1
+                    ? `${countSelectedProjects} Projetos selecionados`
+                    : `1 Projeto selecionado`}
                 </p>
               </AnimatedCollapse>
               <div
@@ -301,7 +303,9 @@ const CadastrarProposta = () => {
                 />
               </div>
               <Stack className="mt-5" align="right">
-                <Button disabled={isPending}>Enviar proposta</Button>
+                <Button disabled={isPending} icon={<IoMdSend size={25} />}>
+                  Enviar proposta
+                </Button>
               </Stack>
             </div>
           </ProposalSection>
