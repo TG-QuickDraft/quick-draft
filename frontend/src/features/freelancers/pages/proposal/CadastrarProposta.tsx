@@ -12,7 +12,6 @@ import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
 import { useEffect, useState } from "react";
 
 import { CiCirclePlus } from "react-icons/ci";
-import { FiX } from "react-icons/fi";
 import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
 import type { ProjetoFreelancer } from "../../dtos/projetoFreelancer/ProjetoFreelancer";
 import Subtitle from "@/shared/components/ui/titles/Subtitle";
@@ -160,7 +159,7 @@ const CadastrarProposta = () => {
               />
             </div>
             <Stack className="mt-5" align="right">
-              <Button>Enviar proposta</Button>
+              <Button disabled>Enviar proposta</Button>
             </Stack>
           </div>
         </ProposalSection>

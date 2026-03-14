@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 const base = clsx(
   "px-4 py-2 rounded cursor-pointer border border-gray-600/20",
-  "transition hover:scale-105 hover:shadow-lg",
+  "transition hover:scale-105 hover:shadow-lg active:scale-95",
 );
 
 const widths = {
@@ -32,7 +32,13 @@ const Button = ({
 }) => {
   return (
     <button
-      className={clsx(widths[width], variants[variant], className)}
+      className={clsx(
+        widths[width],
+        variants[variant],
+        className,
+        "disabled:bg-neutral-20",
+        "disabled:cursor-not-allowed hover:scale-100! shadow-none!",
+      )}
       {...props}
     >
       <div className="flex items-center justify-center gap-2">
