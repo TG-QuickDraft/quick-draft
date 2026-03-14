@@ -24,7 +24,7 @@ export const adicionarProjetoFreelancer = async (
     const { data } = await api.post(BASE_PATH, projeto);
     return data;
   } catch {
-    throw new Error("Erro ao adicionar serviço.");
+    throw new Error("Erro ao adicionar projeto.");
   }
 };
 
