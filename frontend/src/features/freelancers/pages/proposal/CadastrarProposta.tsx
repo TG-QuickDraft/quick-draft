@@ -28,7 +28,7 @@ import {
 
 import { GoPlus } from "react-icons/go";
 import { useCreateProposal } from "../../hooks/useCreateProposal";
-import type { ProposalRequest } from "../../dtos/freelancer/proposal";
+import type { ProposalRequest } from "../../dtos/freelancer/proposal-temp";
 import Modal from "@/shared/components/ui/Modal";
 import { parseCurrencyToNumber } from "@/shared/utils/number.utils";
 import { useNavigate, useParams } from "react-router-dom";

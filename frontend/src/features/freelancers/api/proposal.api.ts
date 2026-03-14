@@ -2,7 +2,7 @@ import api from "@/shared/apis/api";
 import type {
   ProposalRequest,
   ProposalResponse,
-} from "../dtos/freelancer/proposal";
+} from "../dtos/freelancer/proposal-temp";
 
 const BASE_PATH = "/api/proposta";
 
