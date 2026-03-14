@@ -5,7 +5,7 @@ namespace Backend.Application.Validators
         private const int TAMANHO_MAXIMO_MB = 5;
         private const long TAMANHO_MAXIMO_BYTES = TAMANHO_MAXIMO_MB * 1024 * 1024;
 
-        private readonly string[] ExtensoesPermitidas = [
+        private readonly string[] EXTENSOES_PERMITIDAS = [
             ".jpg",
             ".jpeg",
             ".png",
@@ -16,7 +16,7 @@ namespace Backend.Application.Validators
         {
             var extensao = Path.GetExtension(arquivo.FileName).ToLower();
 
-            if (!ExtensoesPermitidas.Contains(extensao))
+            if (!EXTENSOES_PERMITIDAS.Contains(extensao))
                 throw new Exception("Formato de imagem inválido.");
 
             if (arquivo.Length > TAMANHO_MAXIMO_BYTES)
