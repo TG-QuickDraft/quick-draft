@@ -27,8 +27,10 @@ import {
 } from "../../validations/proposal.schema";
 
 import { GoPlus } from "react-icons/go";
+import { useCreateProposal } from "../../hooks/useCreateProposal";
 
 const CadastrarProposta = () => {
+  const { mutate: doProposal, isPending } = useCreateProposal();
   const {
     selectedProjects,
     inputValue,
