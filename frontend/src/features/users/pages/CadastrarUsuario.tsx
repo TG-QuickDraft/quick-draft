@@ -19,6 +19,7 @@ import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Radio from "@/shared/components/ui/Inputs/Radio";
+import ImagePicker from "@/features/users/components/ImagePicker";
 
 export const CadastrarUsuario = () => {
   const { login } = useAuth();
@@ -29,6 +30,7 @@ export const CadastrarUsuario = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<IRegisterUserForm>({
@@ -131,12 +133,25 @@ export const CadastrarUsuario = () => {
           {...register("confirmarSenha")}
         />
 
-        <Input
-          type="file"
-          showErrorMsg
-          error={errors?.fotoPerfil?.imagem?.message}
-          {...register("fotoPerfil.imagem")}
+        <ImagePicker
+          onChange={(file) => {
+            if (!file) {
+              setValue("fotoPerfil.imagem", undefined);
+              return;
+            }
+
+            const dt = new DataTransfer();
+            dt.items.add(file);
+
+            setValue("fotoPerfil.imagem", dt.files);
+          }}
         />
+
+        {errors?.fotoPerfil?.imagem?.message && (
+          <p className="text-red-500 text-sm">
+            {errors.fotoPerfil.imagem.message}
+          </p>
+        )}
 
         <div>
           <h2 className="mb-5 text-[16px]">Tipo de Usuário</h2>
@@ -156,16 +171,6 @@ export const CadastrarUsuario = () => {
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
       </form>
-
-      {foto && (
-        <div className="pt-6">
-          <img
-            src={foto ? URL.createObjectURL(foto) : ""}
-            alt="Preview"
-            style={{ width: 200, height: "auto", marginTop: 10 }}
-          />
-        </div>
-      )}
 
       <Modal
         show={showModal}
