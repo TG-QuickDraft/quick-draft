@@ -1,6 +1,6 @@
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 import Input from "@/shared/components/ui/Inputs/Input";
 
 import { CiLogin } from "react-icons/ci";

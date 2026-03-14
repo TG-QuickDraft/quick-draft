@@ -1,4 +1,4 @@
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 import {
   Chart as ChartJS,
   CategoryScale,

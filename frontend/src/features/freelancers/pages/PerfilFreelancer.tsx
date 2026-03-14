@@ -3,9 +3,9 @@ import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.
 import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelancer";
 import { useEffect, useState } from "react";
 
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { TesteMarkdown } from "@/shared/components/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancer";

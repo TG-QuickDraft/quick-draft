@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
@@ -54,7 +54,7 @@ export const OldHome = () => {
                   Cadastrar Conta Bancária
                 </Button>
               </Link>
-              <Link to={"/propostaFreelancer"}>
+              <Link to={"/proposal/view"}>
                 <Button icon={<GoPlus size={30} />}>Proposta</Button>
               </Link>
             </div>

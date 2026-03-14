@@ -2,7 +2,8 @@ import PesquisaFreelancer from "@/features/freelancers/pages/PesquisaFreelancer"
 import { PerfilFreelancer } from "@/features/freelancers/pages/PerfilFreelancer";
 import { CadastrarProjetoFreelancer } from "@/features/freelancers/pages/CadastrarProjetoFreelancer";
 import { CadastrarContaBancaria } from "@/features/finance/pages/CadastrarContaBancaria";
-import PropostaFreelancer from "../pages/PropostaFreelancer";
+import VisualizarProposta from "../pages/proposal/VisualizarProposta";
+import CadastroProposta from "../pages/proposal/CadastrarProposta";
 
 export const freelancerRoutes = [
   { path: "/pesquisaFreelancer", element: <PesquisaFreelancer /> },
@@ -12,5 +13,6 @@ export const freelancerRoutes = [
     element: <CadastrarProjetoFreelancer />,
   },
   { path: "/cadastrarContaBancaria", element: <CadastrarContaBancaria /> },
-  { path: "/propostaFreelancer", element: <PropostaFreelancer /> },
+  { path: "/proposal/view", element: <VisualizarProposta /> },
+  { path: "/servico/:serviceId/proposta/nova", element: <CadastroProposta /> },
 ];
