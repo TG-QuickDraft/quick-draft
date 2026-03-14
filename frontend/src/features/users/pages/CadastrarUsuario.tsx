@@ -14,7 +14,6 @@ import Modal from "@/shared/components/ui/Modal";
 import Input from "@/shared/components/ui/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/features/users/dtos/CriarUsuarioDTO";
 import { TIPOS_USUARIO } from "@/features/users/enums/tiposUsuario";
-import type { UploadImagemDTO } from "@/shared/dtos/UploadImagemDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { useForm } from "react-hook-form";
@@ -22,7 +21,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Radio from "@/shared/components/ui/Inputs/Radio";
 
 export const CadastrarUsuario = () => {
-  const [foto, setFoto] = useState<File | null>(null);
   const { login } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
@@ -40,7 +38,11 @@ export const CadastrarUsuario = () => {
       tipoUsuario: TIPOS_USUARIO[0],
     },
   });
+
   const tipoSelecionado = watch("tipoUsuario");
+
+  const fotoPerfilImagem = watch("fotoPerfil.imagem");
+  const foto = fotoPerfilImagem?.[0];
 
   const enviar = async (data: IRegisterUserForm) => {
     const usuario = {
@@ -62,12 +64,10 @@ export const CadastrarUsuario = () => {
 
       await login(loginRequest);
 
-      if (foto) {
-        const upload: UploadImagemDTO = {
-          imagem: foto,
-        };
+      const imagemProjeto = data.fotoPerfil.imagem?.[0];
 
-        await enviarFoto(upload);
+      if (imagemProjeto) {
+        await enviarFoto({ imagem: imagemProjeto, });
       }
 
       setModalStatus("Sucesso");
@@ -132,13 +132,10 @@ export const CadastrarUsuario = () => {
         />
 
         <Input
-          name="foto"
           type="file"
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              setFoto(e.target.files[0]);
-            }
-          }}
+          showErrorMsg
+          error={errors?.fotoPerfil?.imagem?.message}
+          {...register("fotoPerfil.imagem")}
         />
 
         <div>
