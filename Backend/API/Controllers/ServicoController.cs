@@ -15,13 +15,11 @@ namespace Backend.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Consultar(
-            [FromQuery] string? nome,
-            int pagina,
-            int tamanhoPagina
+            [FromQuery] FiltroServicoDTO filtro,
+            [FromQuery] int pagina,
+            [FromQuery] int tamanhoPagina
         )
         {
-            FiltroServicoDTO filtro = new() { Nome = nome };
-
             return Ok(await _service.ConsultarTodosAsync(filtro, pagina, tamanhoPagina));
         }
 
