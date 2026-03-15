@@ -6,10 +6,15 @@ import { GoPlus } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
 import { servicoPaths } from "@/features/services/routes/servicoPaths"
+import ConfirmarUploadFotoModal from "@/features/auth/components/ConfirmarUploadFotoModal";
+import UploadFotoButton from "@/features/auth/components/UploadPhotoButton";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const navigate = useNavigate();
+  const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [modalAberto, setModalAberto] = useState(false);
   useEffect(() => {
     const obterDadosUsuario = async () => {
       const dadosUsuario: Usuario = await consultarUsuario();
@@ -25,9 +30,17 @@ export const MinhaConta = () => {
         <>
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-center gap-6">
-              <div className="w-full h-full rounded-full">
-                <ProfilePhoto
-                  photoPath={usuario.fotoPerfilUrl}
+              <div className="relative w-50 h-50">
+                <div className="w-full h-full rounded-full overflow-hidden">
+                  <ProfilePhoto photoPath={usuario.fotoPerfilUrl} />
+                </div>
+
+                <UploadFotoButton
+                  onSelect={(file, preview) => {
+                    setImagemSelecionada(file);
+                    setPreview(preview);
+                    setModalAberto(true);
+                  }}
                 />
               </div>
 
@@ -115,6 +128,18 @@ export const MinhaConta = () => {
           </div>
         </>
       )}
+
+      <ConfirmarUploadFotoModal
+        imagem={imagemSelecionada}
+        message="Tem certeza que deseja alterar sua foto de perfil?"
+        preview={preview}
+        aberto={modalAberto}
+        onClose={() => setModalAberto(false)}
+        onSuccess={async () => {
+          const dadosUsuario: Usuario = await consultarUsuario();
+          setUsuario(dadosUsuario);
+        }}
+      />
     </div>
   );
 };
