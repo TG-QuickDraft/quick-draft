@@ -145,13 +145,8 @@ export const CadastrarUsuario = () => {
 
             setValue("fotoPerfil.imagem", dt.files);
           }}
+          error={errors?.fotoPerfil?.imagem?.message}
         />
-
-        {errors?.fotoPerfil?.imagem?.message && (
-          <p className="text-red-500 text-sm">
-            {errors.fotoPerfil.imagem.message}
-          </p>
-        )}
 
         <div>
           <h2 className="mb-5 text-[16px]">Tipo de Usuário</h2>
