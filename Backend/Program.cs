@@ -71,6 +71,10 @@ builder
         };
     });
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5191";
+
+builder.WebHost.UseUrls($"http://*:{port}");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -81,10 +85,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
 app.UseCors("PermitirOrigemFrontend");
+
+app.UseDefaultFiles();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.MapFallbackToFile("index.html");
 
 app.UseRouting();
 
