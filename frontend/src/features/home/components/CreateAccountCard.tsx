@@ -3,6 +3,8 @@ import { MockProfile } from "@/shared/assets";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
+
 export const CreateAccountCard = () => {
   const { isAuthenticated } = useAuth();
 
@@ -33,7 +35,7 @@ export const CreateAccountCard = () => {
 
   return (
     <div className="flex flex-col items-center justify-center flex-1">
-      <Link to="/cadastrarUsuario">
+      <Link to={usuarioPaths.cadastrarUsuario}>
         <button className={buttonClasses} disabled={isAuthenticated}>
           <div className={imageWrapperClasses}>
             <img src={MockProfile} alt="Account" />

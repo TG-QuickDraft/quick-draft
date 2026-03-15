@@ -4,12 +4,12 @@ import { freelancerRoutes } from "../features/freelancers/routes/freelancer.rout
 import { servicoRoutes } from "../features/services/routes/servico.routes";
 import { clienteRoutes } from "../features/clients/routes/cliente.routes";
 import { usuarioRoutes } from "../features/users/routes/usuario.routes";
-import { OldHome } from "@/features/home/pages/OldHome";
-import { Home } from "@/features/home/pages/Home";
 import { adminRoutes } from "../features/admin/routes/admin.routes";
+import { homeRoutes } from "../features/home/routes/home.routes";
 
 const AppRoutes = () => {
   const routes = [
+    ...homeRoutes,
     ...freelancerRoutes,
     ...clienteRoutes,
     ...usuarioRoutes,
@@ -19,8 +19,6 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route index path="/" element={<Home />} />
-      <Route index path="/old-home" element={<OldHome />} />
       {routes.map((route) => (
         <Route key={route.path} path={route.path} element={route.element} />
       ))}
