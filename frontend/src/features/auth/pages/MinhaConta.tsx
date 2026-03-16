@@ -83,7 +83,7 @@ export const MinhaConta = () => {
             </button>
 
             <button
-              onClick={() => navigate(usuarioPaths.atualizarDados)}
+              onClick={() => navigate(usuarioPaths.atualizarSenha)}
               className="px-4 py-1 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
             >
               Alterar Senha
