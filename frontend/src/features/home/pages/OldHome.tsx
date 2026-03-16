@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 
 import { IoIosSearch } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
@@ -9,11 +9,11 @@ import { MdOutlineFactCheck } from "react-icons/md";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { FaChartBar } from "react-icons/fa";
-import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
-import { adminPaths } from "@/features/admin/routes/adminPaths"
-import { clientePaths } from "@/features/clients/routes/clientePaths"
-import { servicoPaths } from "@/features/services/routes/servicoPaths"
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import { adminPaths } from "@/features/admin/routes/adminPaths";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const OldHome = () => {
   const [count, setCount] = useState(0);
@@ -60,7 +60,7 @@ export const OldHome = () => {
                   Cadastrar Conta Bancária
                 </Button>
               </Link>
-              <Link to={freelancerPaths.propostaFreelancer}>
+              <Link to={freelancerPaths.visualizarProposta}>
                 <Button icon={<GoPlus size={30} />}>Proposta</Button>
               </Link>
             </div>

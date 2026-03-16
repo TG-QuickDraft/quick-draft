@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 import Container from "./components/Container";
 import Content from "./components/Content";
 import { Link } from "react-router-dom";
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 import { GoHome } from "react-icons/go";
 import { homePaths } from "@/features/home/routes/homePaths"
 

@@ -3,7 +3,7 @@ import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 
 import { useEffect, useState } from "react";
 
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 
 import type { Cliente } from "@/features/clients/dtos/Cliente";
 

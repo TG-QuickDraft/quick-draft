@@ -5,9 +5,9 @@ import Image02 from "@/features/freelancers/assets/image02.jpg";
 import Image03 from "@/features/freelancers/assets/image03.jpg";
 
 import { MockProfile } from "@/shared/assets";
-import ProposalCards from "../components/ProposalCards";
+import ProposalCards from "../../components/ProposalCards";
 
-const PropostaFreelancer = () => {
+const VisualizarProposta = () => {
   return (
     <div className="flex flex-col gap-5 max-w-310 mx-auto w-full">
       <div className="flex gap-5 items-center flex-wrap">
@@ -65,4 +65,4 @@ const PropostaFreelancer = () => {
   );
 };
 
-export default PropostaFreelancer;
+export default VisualizarProposta;

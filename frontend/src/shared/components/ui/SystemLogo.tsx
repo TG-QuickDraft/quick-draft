@@ -9,18 +9,14 @@ const sizes = {
   lg: "h-20",
 };
 
-const SystemLogo = ({
-  size = "lg",
-}: {
-  size?: keyof typeof sizes;
-}) => {
+const SystemLogo = ({ size = "lg" }: { size?: keyof typeof sizes }) => {
   return (
     <div className="flex w-full justify-center items-center">
       <Link to={homePaths.home}>
         <img
           className={clsx(
             "object-contain transition-transform duration-200 hover:scale-105",
-            sizes[size]
+            sizes[size],
           )}
           src={LogoIcon}
           onError={(e) => {

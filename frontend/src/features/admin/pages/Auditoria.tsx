@@ -1,5 +1,5 @@
 import { consultarAuditoria } from "@/features/admin/api/audit.api";
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 import type { AuditLogDTO } from "@/features/admin/dtos/AuditLogDTO";
 import { useEffect, useState } from "react";
 import type { PagedResult } from "@/shared/types/PagedResult";

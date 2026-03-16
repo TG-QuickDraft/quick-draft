@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 
 import { consultarServicos } from "@/features/services/api/servico.api";
 import type { Servico } from "@/features/services/dtos/Servico";

@@ -3,13 +3,15 @@ import { consultarServicoPorId } from "../api/servico.api";
 
 import { useEffect, useState } from "react";
 
-import Title from "@/shared/components/ui/Title";
+import Title from "@/shared/components/ui/titles/Title";
 
-import Button from "@/shared/components/ui/Button";
+import Button from "@/shared/components/ui/buttons/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { Servico } from "../dtos/Servico";
-import { clientePaths } from "@/features/clients/routes/clientePaths"
-import { servicoPaths } from "@/features/services/routes/servicoPaths"
+import { IoMdSend } from "react-icons/io";
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { servicoPaths } from "../routes/servicoPaths";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -39,16 +41,25 @@ export const VisualizarServico = () => {
         <h3>{servico?.nome}</h3>
         <h4>{servico?.descricao}</h4>
         <h3>
-          {servico?.orcamentoIsAberto ? "Orcamento aberto" : "Orcamento fechado"}
+          {servico?.orcamentoIsAberto
+            ? "Orcamento aberto"
+            : "Orcamento fechado"}
         </h3>
         <h4>{servico?.valorMinimo}</h4>
         <h3>{servico?.prazo}</h3>
 
-
         {servico?.clienteId && (
-        <Link to={clientePaths.perfilClienteById(servico.clienteId)}>
-          <Button className="mt-6">Ver Perfil do Cliente</Button>
-        </Link>
+          <Link to={clientePaths.perfilClienteById(servico.clienteId)}>
+            <Button className="mt-6">Ver Perfil do Cliente</Button>
+          </Link>
+        )}
+
+        {servico && (
+          <Link to={freelancerPaths.cadastrarPropostaById(servico.id)}>
+            <Button className="mt-6" icon={<IoMdSend size={25} />}>
+              Enviar proposta
+            </Button>
+          </Link>
         )}
 
         <Link to={servicoPaths.pesquisaServico}>

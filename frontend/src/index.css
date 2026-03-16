@@ -28,6 +28,14 @@ html {
   --color-error-2: #ffd2d2;
   --color-warning-1: #ff8500;
   --color-warning-2: #fffacb;
+
+  /* Cores neutras */
+  --color-neutral-100: #342d23;
+  --color-neutral-80: #5d574f;
+  --color-neutral-60: #85817b;
+  --color-neutral-40: #aeaba7;
+  --color-neutral-20: #d6d5d3;
+  --color-neutral-10: #f0f0f0;
 }
 
 .animate-shake {
