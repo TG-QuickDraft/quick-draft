@@ -22,9 +22,29 @@ namespace Backend.Infrastructure.Persistence.Repositories
             int tamanhoPagina
         )
         {
-            var query = _context.Servicos.Where(s =>
+            var query = _context.Servicos.Where(s => 
                 EF.Functions.ILike(s.Nome ?? "", $"%{filtro.Nome}%")
             );
+
+            if (filtro.IsEntregue.HasValue)
+            {
+                query = query.Where(s => s.IsEntregue == filtro.IsEntregue.Value);
+            }
+
+            if (filtro.OrcamentoIsAberto.HasValue)
+            {
+                query = query.Where(s => s.OrcamentoIsAberto == filtro.OrcamentoIsAberto.Value);
+            }
+
+            if (filtro.PrazoMaximo.HasValue)
+            {
+                query = query.Where(s => s.Prazo <= filtro.PrazoMaximo.Value);
+            }
+
+            if (filtro.ValorMinimo.HasValue)
+            {
+                query = query.Where(s => s.ValorMinimo >= filtro.ValorMinimo.Value);
+            }
 
             return await query.OrderBy(s => s.Nome).ToPagedResultAsync(pagina, tamanhoPagina);
         }

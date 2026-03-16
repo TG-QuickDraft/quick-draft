@@ -13,10 +13,10 @@ import ProfileNavbar from "@/layout/components/ProfileNavbar";
 import SystemLogo from "@/shared/components/ui/SystemLogo";
 import { useState } from "react";
 
-import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
-import { servicoPaths } from "@/features/services/routes/servicoPaths"
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
-import { homePaths } from "@/features/home/routes/homePaths"
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { homePaths } from "@/features/home/routes/homePaths";
 
 const Navbar = () => {
   const { logout, isAuthenticated, usuario } = useAuth();
@@ -29,9 +29,7 @@ const Navbar = () => {
   const Logo = () => {
     return (
       <div className="w-12 h-12 rounded-full bg-gray-200">
-        <SystemLogo
-          size="sm"
-        />
+        <SystemLogo size="sm" />
       </div>
     );
   };
@@ -98,7 +96,9 @@ const Navbar = () => {
               e.preventDefault();
 
               if (tipo === "freelancers") {
-                navigate(freelancerPaths.pesquisaFreelancer + `?nome=${search}`);
+                navigate(
+                  freelancerPaths.pesquisaFreelancer + `?nome=${search}`,
+                );
               } else {
                 navigate(servicoPaths.pesquisaServico + `?nome=${search}`);
               }
@@ -127,9 +127,7 @@ const Navbar = () => {
       </Stack>
       <Stack direction="row" gap={6}>
         {renderButtons()}
-        <ProfileNavbar 
-          photoPath={usuario ? usuario.fotoPerfilUrl : ""}
-        />
+        <ProfileNavbar photoPath={usuario ? usuario.fotoPerfilUrl : ""} />
       </Stack>
     </div>
   );

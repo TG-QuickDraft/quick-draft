@@ -15,6 +15,7 @@ namespace Backend.Application.Services
 
         public async Task<PagedResult<AuditLogDTO>> ConsultarAsync(int pagina, int tamanhoPagina)
         {
+            pagina = pagina < 1 ? 1 : pagina;
             tamanhoPagina = tamanhoPagina < 1 ? 30 : tamanhoPagina;
             tamanhoPagina = tamanhoPagina > 100 ? 100 : tamanhoPagina;
 
