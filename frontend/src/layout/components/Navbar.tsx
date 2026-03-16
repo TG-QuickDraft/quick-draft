@@ -13,6 +13,11 @@ import ProfileNavbar from "@/layout/components/ProfileNavbar";
 import SystemLogo from "@/shared/components/ui/SystemLogo";
 import { useState } from "react";
 
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
+import { servicoPaths } from "@/features/services/routes/servicoPaths"
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
+import { homePaths } from "@/features/home/routes/homePaths"
+
 const Navbar = () => {
   const { logout, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
@@ -35,7 +40,7 @@ const Navbar = () => {
     if (isAuthenticated) {
       return (
         <>
-          <Link to="/minhaConta">
+          <Link to={usuarioPaths.minhaConta}>
             <Button>Minha Conta</Button>
           </Link>
           <Button
@@ -43,7 +48,7 @@ const Navbar = () => {
             variant="danger"
             onClick={() => {
               logout();
-              navigate("/");
+              navigate(homePaths.home);
             }}
           >
             Sair
@@ -52,12 +57,12 @@ const Navbar = () => {
       );
     }
 
-    if (location.pathname !== "/login") {
+    if (location.pathname !== usuarioPaths.login) {
       return (
         <>
           <Button
             icon={<CiLogin size={20} />}
-            onClick={() => navigate("/login")}
+            onClick={() => navigate(usuarioPaths.login)}
           >
             Entrar
           </Button>
@@ -69,7 +74,7 @@ const Navbar = () => {
       <>
         <Button
           icon={<MdKeyboardDoubleArrowLeft size={25} />}
-          onClick={() => navigate("/")}
+          onClick={() => navigate(homePaths.home)}
         >
           Voltar
         </Button>
@@ -93,9 +98,9 @@ const Navbar = () => {
               e.preventDefault();
 
               if (tipo === "freelancers") {
-                navigate(`/pesquisaFreelancer?nome=${search}`);
+                navigate(freelancerPaths.pesquisaFreelancer + `?nome=${search}`);
               } else {
-                navigate(`/pesquisaServico?nome=${search}`);
+                navigate(servicoPaths.pesquisaServico + `?nome=${search}`);
               }
             }}
             className="flex gap-2 items-center"

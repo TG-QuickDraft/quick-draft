@@ -4,8 +4,8 @@ import { consultarUsuario } from "@/features/users/api/usuario.api";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { GoPlus } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
-import { FaCamera } from "react-icons/fa";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
+import { servicoPaths } from "@/features/services/routes/servicoPaths"
 import ConfirmarUploadFotoModal from "@/features/auth/components/ConfirmarUploadFotoModal";
 import UploadFotoButton from "@/features/auth/components/UploadPhotoButton";
 
@@ -76,14 +76,14 @@ export const MinhaConta = () => {
 
           <div className="flex gap-4 mb-5">
             <button
-              onClick={() => navigate("/atualizar-dados")}
+              onClick={() => navigate(usuarioPaths.atualizarDados)}
               className="px-4 py-1 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
             >
               Atualizar Dados
             </button>
 
             <button
-              onClick={() => navigate("/atualizar-senha")}
+              onClick={() => navigate(usuarioPaths.atualizarSenha)}
               className="px-4 py-1 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
             >
               Alterar Senha
@@ -119,7 +119,7 @@ export const MinhaConta = () => {
               </p>
 
               <button 
-                onClick={() => navigate("/cadastrarServico")}
+                onClick={() => navigate(servicoPaths.cadastrarServico)}
                 className="w-14 h-14 flex items-center justify-center border border-gray-400 rounded-full hover:bg-gray-100 transition cursor-pointer"
               >
                 <GoPlus size={28} />

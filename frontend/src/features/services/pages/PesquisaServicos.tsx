@@ -14,6 +14,7 @@ import type { PagedResult } from "@/shared/types/PagedResult";
 import { usePagination } from "@/shared/hooks/usePagination";
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
+import { servicoPaths } from "@/features/services/routes/servicoPaths"
 
 export function PesquisaServico() {
   const [servicos, setServicos] = useState<PagedResult<Servico>>();
@@ -77,7 +78,7 @@ export function PesquisaServico() {
                 <td className="p-3">{servico.valorMinimo}</td>
                 <td className="p-3">{servico.prazo}</td>
                 <td className="p-3">
-                  <Link to={`/visualizarServico/${servico.id}`}>
+                  <Link to={servicoPaths.visualizarServicoById(servico.id)}>
                     <Button>Ver Serviço</Button>
                   </Link>
                 </td>

@@ -8,6 +8,8 @@ import Title from "@/shared/components/ui/Title";
 import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { Servico } from "../dtos/Servico";
+import { clientePaths } from "@/features/clients/routes/clientePaths"
+import { servicoPaths } from "@/features/services/routes/servicoPaths"
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -43,11 +45,13 @@ export const VisualizarServico = () => {
         <h3>{servico?.prazo}</h3>
 
 
-        <Link to={`/perfilCliente/${servico?.clienteId}`}>
+        {servico?.clienteId && (
+        <Link to={clientePaths.perfilClienteById(servico.clienteId)}>
           <Button className="mt-6">Ver Perfil do Cliente</Button>
         </Link>
+        )}
 
-        <Link to={"/pesquisaServico"}>
+        <Link to={servicoPaths.pesquisaServico}>
           <Button
             className="mt-6"
             icon={<MdKeyboardDoubleArrowLeft size={30} />}
