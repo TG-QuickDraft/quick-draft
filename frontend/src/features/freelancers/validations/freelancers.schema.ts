@@ -1,3 +1,4 @@
+import { uploadImagemSchema } from "@/shared/validations/uploadImagem.schema";
 import * as yup from "yup";
 
 export type INewProjectForm = yup.InferType<typeof NewProjectSchema>;
@@ -11,4 +12,5 @@ export const NewProjectSchema = yup.object({
 
   description: yup.string().required("Descrição é obrigatório"),
   link: yup.string().required("Link é obrigatório"),
+  imagem: uploadImagemSchema
 });

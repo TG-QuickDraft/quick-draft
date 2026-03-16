@@ -1,5 +1,6 @@
 using Backend.Application.Interfaces.Services;
 using Backend.Application.Services;
+using Backend.Application.Validators;
 
 namespace Backend.Application
 {
@@ -18,6 +19,8 @@ namespace Backend.Application
             services.AddScoped<IAuthService, AuthService>();
             
             services.AddScoped<IAuditService, AuditService>();
+
+            services.AddScoped<ImagemValidator>();
 
             return services;
         }

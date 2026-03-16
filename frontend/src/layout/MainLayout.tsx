@@ -4,6 +4,7 @@ import Content from "./components/Content";
 import { Link } from "react-router-dom";
 import Button from "@/shared/components/ui/Button";
 import { GoHome } from "react-icons/go";
+import { homePaths } from "@/features/home/routes/homePaths"
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,12 +12,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <Navbar />
       <Content>{children}</Content>
       <div className="fixed bottom-0 left-0 flex p-6 gap-5">
-        <Link to="/">
+        <Link to={homePaths.home}>
           <Button icon={<GoHome />} variant="secondary">
             New Home
           </Button>
         </Link>
-        <Link to="/old-home">
+        <Link to={homePaths.oldHome}>
           <Button icon={<GoHome />} variant="secondary">
             Old Home
           </Button>

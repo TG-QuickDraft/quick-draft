@@ -7,7 +7,7 @@ import Title from "@/shared/components/ui/Title";
 
 import Button from "@/shared/components/ui/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { TesteMarkdown } from "@/shared/components/TesteMarkdown";
+import { TesteMarkdown } from "@/features/freelancers/components/TesteMarkdown";
 import type { ProjetoFreelancer } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancer";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 import { PiEmptyLight } from "react-icons/pi";
@@ -15,6 +15,8 @@ import { MockProfile } from "@/shared/assets";
 
 import StarRating from "@/shared/components/ui/StarRating";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
@@ -85,7 +87,7 @@ export const PerfilFreelancer = () => {
             </tbody>
           </table>
         )}
-        <Link to={"/pesquisaFreelancer"}>
+        <Link to={freelancerPaths.pesquisaFreelancer}>
           <Button
             className="mt-6"
             icon={<MdKeyboardDoubleArrowLeft size={30} />}
