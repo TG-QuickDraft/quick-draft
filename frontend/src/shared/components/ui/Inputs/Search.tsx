@@ -41,17 +41,19 @@ const Search = ({
         placeholder={placeholder}
         {...props}
       />
-      <span
+      <button
+        type="submit"
         className={clsx(
           "absolute right-4 top-1/2 -translate-y-1/2",
-          "text-gray-400 pointer-events-none",
+          "text-gray-400",
           "transition-all duration-200",
           "group-focus-within:text-gray-700",
           "group-focus-within:scale-110",
+          "cursor-pointer"
         )}
       >
         <SearchIcon />
-      </span>
+      </button>
     </div>
   );
 };

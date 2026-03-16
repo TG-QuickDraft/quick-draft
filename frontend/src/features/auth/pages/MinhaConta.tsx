@@ -2,13 +2,19 @@ import type { Usuario } from "@/features/users/dtos/Usuario";
 import { useEffect, useState } from "react";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import { GoPlus } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import ConfirmarUploadFotoModal from "@/features/auth/components/ConfirmarUploadFotoModal";
+import UploadFotoButton from "@/features/auth/components/UploadPhotoButton";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const navigate = useNavigate();
+  const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [modalAberto, setModalAberto] = useState(false);
   useEffect(() => {
     const obterDadosUsuario = async () => {
       const dadosUsuario: Usuario = await consultarUsuario();
@@ -24,8 +30,18 @@ export const MinhaConta = () => {
         <>
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-center gap-6">
-              <div className="w-full h-full rounded-full">
-                <ProfilePhoto photoPath={usuario.fotoPerfilUrl} />
+              <div className="relative w-50 h-50">
+                <div className="w-full h-full rounded-full overflow-hidden">
+                  <ProfilePhoto photoPath={usuario.fotoPerfilUrl} />
+                </div>
+
+                <UploadFotoButton
+                  onSelect={(file, preview) => {
+                    setImagemSelecionada(file);
+                    setPreview(preview);
+                    setModalAberto(true);
+                  }}
+                />
               </div>
 
               <div>
@@ -36,12 +52,12 @@ export const MinhaConta = () => {
             </div>
 
             <div className="flex gap-12">
-              <div className="bg-zinc-800 text-white px-10 py-6 rounded-2xl min-w-[180px]">
+              <div className="bg-zinc-800 text-white px-10 py-6 rounded-2xl min-w-45">
                 <p className="text-2xl font-bold">0</p>
                 <p className="text-sm opacity-80">Projetos Criados</p>
               </div>
 
-              <div className="bg-secondary-100 text-black px-10 py-6 rounded-2xl min-w-[180px]">
+              <div className="bg-secondary-100 text-black px-10 py-6 rounded-2xl min-w-45">
                 <p className="text-2xl font-bold">0</p>
                 <p className="text-sm">Concluídos</p>
               </div>
@@ -50,14 +66,14 @@ export const MinhaConta = () => {
 
           <div className="flex gap-4 mb-5">
             <button
-              onClick={() => navigate("/atualizar-dados")}
+              onClick={() => navigate(usuarioPaths.atualizarDados)}
               className="px-4 py-1 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
             >
               Atualizar Dados
             </button>
 
             <button
-              onClick={() => navigate("/atualizar-senha")}
+              onClick={() => navigate(usuarioPaths.atualizarSenha)}
               className="px-4 py-1 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
             >
               Alterar Senha
@@ -84,11 +100,25 @@ export const MinhaConta = () => {
 
               <p className="text-sm text-gray-500 mb-6">Criar novo serviço</p>
 
-              <AddButton onClick={() => navigate("/cadastrarServico")} />
+              <AddButton
+                onClick={() => navigate(servicoPaths.cadastrarServico)}
+              />
             </div>
           </div>
         </>
       )}
+
+      <ConfirmarUploadFotoModal
+        imagem={imagemSelecionada}
+        message="Tem certeza que deseja alterar sua foto de perfil?"
+        preview={preview}
+        aberto={modalAberto}
+        onClose={() => setModalAberto(false)}
+        onSuccess={async () => {
+          const dadosUsuario: Usuario = await consultarUsuario();
+          setUsuario(dadosUsuario);
+        }}
+      />
     </div>
   );
 };

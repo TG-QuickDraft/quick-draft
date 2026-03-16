@@ -14,7 +14,7 @@ export const consultarServicos = async (
   try {
     const { data } = await api.get<PagedResult<Servico>>(BASE_PATH, {
       params: {
-        nome: filtro?.nome ?? "",
+        ...filtro,
         pagina,
         tamanhoPagina,
       },

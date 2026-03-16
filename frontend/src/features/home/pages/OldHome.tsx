@@ -9,6 +9,12 @@ import { MdOutlineFactCheck } from "react-icons/md";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { FaChartBar } from "react-icons/fa";
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import { adminPaths } from "@/features/admin/routes/adminPaths";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+
 export const OldHome = () => {
   const [count, setCount] = useState(0);
   const { isAuthenticated } = useAuth();
@@ -19,23 +25,23 @@ export const OldHome = () => {
     <div className="flex flex-1 flex-col items-center justify-center h-full">
       <div>
         <div className="flex flex-col gap-3 items-center">
-          <Link to={"/pesquisaFreelancer"}>
+          <Link to={freelancerPaths.pesquisaFreelancer}>
             <Button icon={<IoIosSearch size={30} />}>
               Pesquisar freelancers
             </Button>
           </Link>
-          <Link to={"/pesquisaServico"}>
+          <Link to={servicoPaths.pesquisaServico}>
             <Button icon={<IoIosSearch size={30} />}>Pesquisar serviços</Button>
           </Link>
-          <Link to={"/cadastrarUsuario"}>
+          <Link to={usuarioPaths.cadastrarUsuario}>
             <Button icon={<GoPlus size={30} />}>Cadastrar usuário</Button>
           </Link>
           {isAuthenticated && roles.includes("Cliente") && (
             <div className="flex flex-col gap-3 items-center">
-              <Link to={"/cadastrarServico"}>
+              <Link to={servicoPaths.cadastrarServico}>
                 <Button icon={<GoPlus size={30} />}>Cadastrar serviço</Button>
               </Link>
-              <Link to={"/cadastrarCartaoCredito"}>
+              <Link to={clientePaths.cadastrarCartaoCredito}>
                 <Button icon={<GoPlus size={30} />}>
                   Cadastrar Cartão de Crédito
                 </Button>
@@ -44,27 +50,27 @@ export const OldHome = () => {
           )}
           {isAuthenticated && roles.includes("Freelancer") && (
             <div className="flex flex-col gap-3 items-center">
-              <Link to={"/cadastrarProjetoFreelancer"}>
+              <Link to={freelancerPaths.cadastrarProjetoFreelancer}>
                 <Button icon={<GoPlus size={30} />}>
                   Cadastrar Projeto Freelancer
                 </Button>
               </Link>
-              <Link to={"/cadastrarContaBancaria"}>
+              <Link to={freelancerPaths.cadastrarContaBancaria}>
                 <Button icon={<GoPlus size={30} />}>
                   Cadastrar Conta Bancária
                 </Button>
               </Link>
-              <Link to={"/proposal/view"}>
+              <Link to={freelancerPaths.visualizarProposta}>
                 <Button icon={<GoPlus size={30} />}>Proposta</Button>
               </Link>
             </div>
           )}
           {isAuthenticated && roles.includes("Admin") && (
             <div className="flex flex-col gap-3 items-center">
-              <Link to={"/analise"}>
+              <Link to={adminPaths.analise}>
                 <Button icon={<FaChartBar size={30} />}>Tela de Análise</Button>
               </Link>
-              <Link to={"/auditoria"}>
+              <Link to={adminPaths.auditoria}>
                 <Button icon={<MdOutlineFactCheck size={30} />}>
                   Auditoria
                 </Button>

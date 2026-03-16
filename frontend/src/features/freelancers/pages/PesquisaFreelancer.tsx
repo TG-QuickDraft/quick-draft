@@ -17,6 +17,8 @@ import { usePagination } from "@/shared/hooks/usePagination";
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
 
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
+
 export function PesquisaFreelancer() {
   const TABLE_SPACING = "p-3";
   const [freelancers, setFreelancers] = useState<PagedResult<Freelancer>>();
@@ -84,7 +86,7 @@ export function PesquisaFreelancer() {
                   <StarRating rating={4.2} />
                 </td>
                 <td className={TABLE_SPACING}>
-                  <Link to={`/perfilFreelancer/${freelancer.id}`}>
+                  <Link to={freelancerPaths.perfilFreelancerById(freelancer.id)}>
                     <Button>Ver Perfil</Button>
                   </Link>
                 </td>

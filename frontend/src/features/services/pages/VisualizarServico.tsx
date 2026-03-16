@@ -9,6 +9,9 @@ import Button from "@/shared/components/ui/buttons/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { Servico } from "../dtos/Servico";
 import { IoMdSend } from "react-icons/io";
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { servicoPaths } from "../routes/servicoPaths";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -45,19 +48,21 @@ export const VisualizarServico = () => {
         <h4>{servico?.valorMinimo}</h4>
         <h3>{servico?.prazo}</h3>
 
-        <Link to={`/perfilCliente/${servico?.clienteId}`}>
-          <Button className="mt-6">Ver Perfil do Cliente</Button>
-        </Link>
+        {servico?.clienteId && (
+          <Link to={clientePaths.perfilClienteById(servico.clienteId)}>
+            <Button className="mt-6">Ver Perfil do Cliente</Button>
+          </Link>
+        )}
 
         {servico && (
-          <Link to={`/servico/${servico.id}/proposta/nova`}>
+          <Link to={freelancerPaths.cadastrarPropostaById(servico.id)}>
             <Button className="mt-6" icon={<IoMdSend size={25} />}>
               Enviar proposta
             </Button>
           </Link>
         )}
 
-        <Link to={"/pesquisaServico"}>
+        <Link to={servicoPaths.pesquisaServico}>
           <Button
             className="mt-6"
             icon={<MdKeyboardDoubleArrowLeft size={30} />}

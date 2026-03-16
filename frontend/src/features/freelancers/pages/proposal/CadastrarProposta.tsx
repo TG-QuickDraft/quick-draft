@@ -41,6 +41,8 @@ import { consultarUsuario } from "@/features/users/api/usuario.api";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 import { IoMdSend } from "react-icons/io";
 import { capitalize } from "@/shared/utils/string.utils";
+import { freelancerPaths } from "../../routes/freelancerPaths";
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
@@ -149,7 +151,9 @@ const CadastrarProposta = () => {
       <div className="flex flex-col gap-5 flex-1 max-w-7xl mx-auto w-full">
         <Title
           className="font-semibold! text-2xl"
-          onClick={() => navigate(`/visualizarServico/${serviceId}`)}
+          onClick={() =>
+            navigate(servicoPaths.visualizarServicoById(Number(serviceId)))
+          }
         >
           Envio de Proposta
         </Title>
@@ -290,7 +294,9 @@ const CadastrarProposta = () => {
               <Stack>
                 <AddButton
                   className="mt-4"
-                  onClick={() => navigate("/cadastrarProjetoFreelancer")}
+                  onClick={() =>
+                    navigate(freelancerPaths.cadastrarProjetoFreelancer)
+                  }
                 />
               </Stack>
             </div>
