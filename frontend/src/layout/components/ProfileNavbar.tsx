@@ -8,17 +8,17 @@ import { MdOutlineFactCheck } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
-import { CiLock } from "react-icons/ci";
+import { FiEye } from "react-icons/fi";
 
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
-import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
-import { adminPaths } from "@/features/admin/routes/adminPaths"
-import { clientePaths } from "@/features/clients/routes/clientePaths"
-import { servicoPaths } from "@/features/services/routes/servicoPaths"
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
-import { homePaths } from "@/features/home/routes/homePaths"
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import { adminPaths } from "@/features/admin/routes/adminPaths";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { homePaths } from "@/features/home/routes/homePaths";
 
 const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +35,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleNavigate = (path: string) => {
@@ -66,18 +65,17 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
           "text-gray-800",
           isOpen
             ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-2 pointer-events-none"
+            : "opacity-0 -translate-y-2 pointer-events-none",
         )}
       >
         <div className="flex flex-col py-2 text-sm">
-
           {!isAuthenticated && (
             <button
-                onClick={() => handleNavigate(usuarioPaths.login)}
-                className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
-                >
-                <CiLogin size={18} />
-                <span>Entrar</span>
+              onClick={() => handleNavigate(usuarioPaths.login)}
+              className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
+            >
+              <CiLogin size={18} />
+              <span>Entrar</span>
             </button>
           )}
 
@@ -86,7 +84,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
               <button
                 onClick={() => handleNavigate(usuarioPaths.minhaConta)}
                 className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
-                >
+              >
                 <CiUser size={18} />
                 <span>Minha Conta</span>
               </button>
@@ -97,16 +95,16 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                     onClick={() => handleNavigate(adminPaths.analise)}
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
-                  <FaChartBar size={18} />
-                  <span>Tela de Análise</span>
+                    <FaChartBar size={18} />
+                    <span>Tela de Análise</span>
                   </button>
 
                   <button
                     onClick={() => handleNavigate(adminPaths.auditoria)}
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
-                  <MdOutlineFactCheck size={18} />
-                  <span>Auditoria</span>
+                    <MdOutlineFactCheck size={18} />
+                    <span>Auditoria</span>
                   </button>
                 </>
               )}
@@ -114,11 +112,13 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
               {roles.includes("Cliente") && (
                 <>
                   <button
-                    onClick={() => handleNavigate(servicoPaths.cadastrarServico)}
+                    onClick={() =>
+                      handleNavigate(servicoPaths.cadastrarServico)
+                    }
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
-                  <GoPlus size={18} />
-                  <span>Cadastrar Serviço</span>
+                    <GoPlus size={18} />
+                    <span>Cadastrar Serviço</span>
                   </button>
 
                   <button
@@ -127,8 +127,8 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                     }
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
-                  <GoPlus size={18} />
-                  <span>Cadastrar Cartão de Crédito</span>
+                    <GoPlus size={18} />
+                    <span>Cadastrar Cartão de Crédito</span>
                   </button>
                 </>
               )}
@@ -137,12 +137,22 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <>
                   <button
                     onClick={() =>
+                      handleNavigate(freelancerPaths.visualizarProposta)
+                    }
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
+                  >
+                    <FiEye size={18} />
+                    <span>Ver minhas propostas</span>
+                  </button>
+
+                  <button
+                    onClick={() =>
                       handleNavigate(freelancerPaths.cadastrarProjetoFreelancer)
                     }
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
-                  <GoPlus size={18} />
-                  <span>Cadastrar Projeto Freelancer</span>
+                    <GoPlus size={18} />
+                    <span>Cadastrar Projeto Freelancer</span>
                   </button>
 
                   <button
@@ -151,8 +161,8 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                     }
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >
-                  <GoPlus size={18} />
-                  <span>Cadastrar Conta Bancária</span>
+                    <GoPlus size={18} />
+                    <span>Cadastrar Conta Bancária</span>
                   </button>
                 </>
               )}
