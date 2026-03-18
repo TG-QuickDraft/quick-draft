@@ -1,10 +1,6 @@
 import Stack from "@/shared/components/Stack";
-import Button from "@/shared/components/ui/buttons/Button";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { CiLogout } from "react-icons/ci";
-import { CiLogin } from "react-icons/ci";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import clsx from "clsx";
 import Search from "@/shared/components/ui/Inputs/Search";
 import Select from "@/shared/components/ui/Select";
@@ -15,13 +11,10 @@ import { useState } from "react";
 
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
-import { homePaths } from "@/features/home/routes/homePaths";
 
 const Navbar = () => {
-  const { logout, isAuthenticated, usuario } = useAuth();
+  const { usuario } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [search, setSearch] = useState("");
   const [tipo, setTipo] = useState("freelancers");
@@ -31,52 +24,6 @@ const Navbar = () => {
       <div className="w-12 h-12 rounded-full bg-gray-200">
         <SystemLogo size="sm" />
       </div>
-    );
-  };
-
-  const renderButtons = () => {
-    if (isAuthenticated) {
-      return (
-        <>
-          <Link to={usuarioPaths.minhaConta}>
-            <Button>Minha Conta</Button>
-          </Link>
-          <Button
-            icon={<CiLogout size={20} />}
-            variant="danger"
-            onClick={() => {
-              logout();
-              navigate(homePaths.home);
-            }}
-          >
-            Sair
-          </Button>
-        </>
-      );
-    }
-
-    if (location.pathname !== usuarioPaths.login) {
-      return (
-        <>
-          <Button
-            icon={<CiLogin size={20} />}
-            onClick={() => navigate(usuarioPaths.login)}
-          >
-            Entrar
-          </Button>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <Button
-          icon={<MdKeyboardDoubleArrowLeft size={25} />}
-          onClick={() => navigate(homePaths.home)}
-        >
-          Voltar
-        </Button>
-      </>
     );
   };
 
@@ -126,7 +73,6 @@ const Navbar = () => {
         </div>
       </Stack>
       <Stack direction="row" gap={6}>
-        {renderButtons()}
         <ProfileNavbar photoPath={usuario ? usuario.fotoPerfilUrl : ""} />
       </Stack>
     </div>
