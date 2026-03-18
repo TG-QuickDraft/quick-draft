@@ -3,7 +3,7 @@ export const freelancerPaths = {
   perfilFreelancer: "/perfil-freelancer",
   cadastrarProjetoFreelancer: "/cadastrar-projeto-freelancer",
   cadastrarContaBancaria: "/cadastrar-conta-bancaria",
-  visualizarProposta: "/proposal/view",
+  visualizarProposta: "/proposta/visualizar",
   cadastrarProposta: "/servico/:serviceId/proposta/nova",
 
   cadastrarPropostaById: (servicoId: string | number) =>
