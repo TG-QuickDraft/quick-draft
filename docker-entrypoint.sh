@@ -10,8 +10,5 @@ fi
 
 cd /app
 
-echo "Running migrations..."
-dotnet ef database update
-
 echo "Starting ASP.NET..."
 exec dotnet Backend.dll
