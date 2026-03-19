@@ -8,6 +8,13 @@ import type { Usuario } from "@/features/users/dtos/Usuario";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import Spinner from "@/shared/components/ui/Spinner";
 
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { homePaths } from "@/features/home/routes/homePaths";
+import { authPaths } from "../routes/authPaths";
+
 interface IUserProvider {
   isAuthenticated: boolean;
   login: (loginDTO: LoginDTO) => Promise<void>;
@@ -28,14 +35,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = location.pathname;
 
   const publicRoutes = [
-    "/",
-    "/login",
-    "/pesquisaFreelancer",
-    "/perfilFreelancer",
-    "/perfilCliente",
-    "/pesquisaServico",
-    "/visualizarServico",
-    "/cadastrarUsuario",
+    homePaths.home,
+    authPaths.login,
+    freelancerPaths.pesquisaFreelancer,
+    freelancerPaths.perfilFreelancer,
+    clientePaths.perfilCliente,
+    servicoPaths.pesquisaServico,
+    servicoPaths.visualizarServico,
+    usuarioPaths.cadastrarUsuario,
   ];
 
   const isAuthenticated = !!localStorage.getItem(localStorageKeys.accessToken);
@@ -72,9 +79,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem(localStorageKeys.accessToken);
   };
 
-  const isPublicRoute = publicRoutes.some((route) =>
-    pathname.startsWith(route),
-  );
+  const isPublicRoute = publicRoutes.some((route) => {
+    if (route === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(route);
+  });
 
   return (
     <AuthContext.Provider
