@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useRef } from "react";
 import { FaCamera } from "react-icons/fa";
 
@@ -26,12 +27,14 @@ const UploadFotoButton = ({ onSelect }: UploadFotoButtonProps) => {
     <>
       <button
         onClick={() => fileInputRef.current?.click()}
-        className="absolute bottom-1 right-1
-                  bg-black text-white 
-                  p-3 rounded-full 
-                  border-3 border-white
-                  shadow-md
-                  hover:scale-105 transition"
+        className={clsx(
+          "absolute bottom-1 right-1",
+          "bg-black text-white ",
+          "p-3 rounded-full ",
+          "border-3 border-white",
+          "shadow-md",
+          "hover:scale-105 transition",
+        )}
       >
         <FaCamera size={14} />
       </button>

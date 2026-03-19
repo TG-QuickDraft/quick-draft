@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
-import ConfirmarUploadFotoModal from "@/features/auth/components/ConfirmarUploadFotoModal";
-import UploadFotoButton from "@/features/auth/components/UploadPhotoButton";
+import ConfirmarUploadFotoModal from "@/features/users/components/ConfirmarUploadFotoModal";
+import UploadFotoButton from "@/features/users/components/UploadPhotoButton";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);

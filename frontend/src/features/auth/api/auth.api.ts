@@ -1,5 +1,4 @@
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
-import { localStorageKeys } from "@/shared/utils/localStorageKeys";
 import { publicApi } from "@/shared/apis/publicApi";
 
 export const loginApi = async (
