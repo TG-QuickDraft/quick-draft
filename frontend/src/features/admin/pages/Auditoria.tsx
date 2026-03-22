@@ -7,6 +7,7 @@ import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import { usePagination } from "@/shared/hooks/usePagination";
 
 import ValorMudanca from "../components/ValorMudanca";
+import { toLocaleString } from "@/shared/utils/date.utils";
 
 export const Auditoria = () => {
   const [auditoria, setAuditoria] = useState<PagedResult<AuditLogDTO>>();
@@ -88,11 +89,7 @@ export const Auditoria = () => {
                 </td>
 
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                  {new Date(item.dateTime).toLocaleString("pt-BR", {
-                    timeZone: "America/Sao_Paulo",
-                    dateStyle: "short",
-                    timeStyle: "medium",
-                  })}
+                  {toLocaleString(item.dateTime)}
                 </td>
               </tr>
             ))}
