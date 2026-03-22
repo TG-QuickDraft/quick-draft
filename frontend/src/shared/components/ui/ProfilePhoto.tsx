@@ -10,14 +10,18 @@ const sizes = {
 const ProfilePhoto = ({
   photoPath,
   size = "lg",
+  className,
+  imgClassName
 }: {
   photoPath: string | undefined;
   size?: keyof typeof sizes;
+  className?: string;
+  imgClassName?: string;
 }) => {
   return (
-    <div className="flex w-full justify-center items-center">
+    <div className={clsx("flex w-full justify-center items-center", className)}>
       <img
-        className={clsx("rounded-full shadow-xl, object-cover", sizes[size])}
+        className={clsx("rounded-full shadow-xl, object-cover", sizes[size], imgClassName)}
         src={photoPath || MockProfile}
         onError={(e) => {
           e.currentTarget.src = MockProfile;
