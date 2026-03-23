@@ -40,6 +40,17 @@ export const VisualizarServico = () => {
     obterDados();
   }, [id]);
 
+  const detalhes = {
+    Categoria: <p>CATEGORIA</p>,
+    Prazo: <p>{toLocaleString(servico?.prazo ?? "")}</p>,
+    Orçamento:
+      servico?.orcamentoIsAberto === true ? (
+        <p className="text-green-500">Aberto</p>
+      ) : (
+        <p className="text-red-500">Fechado</p>
+      ),
+  };
+
   return (
     <div className="w-full">
       <Link to={servicoPaths.pesquisaServico}>
@@ -82,27 +93,13 @@ export const VisualizarServico = () => {
           <hr className="m-4 text-neutral-40" />
 
           <div>
-            <div className="flex items-center gap-2 my-2">
-              <p>Categoria</p>
-              <span className="flex-1 border-t-2 border-dashed" />
-              <p>{"CATEGORIA"}</p>
-            </div>
-
-            <div className="flex items-center gap-2 my-2">
-              <p>Prazo</p>
-              <span className="flex-1 border-t-2 border-dashed" />
-              <p>{toLocaleString(servico?.prazo ?? "")}</p>
-            </div>
-
-            <div className="flex items-center gap-2 my-2">
-              <p>Orçamento</p>
-              <span className="flex-1 border-t-2 border-dashed" />
-              {servico?.orcamentoIsAberto === true ? (
-                <p className="text-green-500">Aberto</p>
-              ) : (
-                <p className="text-red-500">Fechado</p>
-              )}
-            </div>
+            {Object.entries(detalhes).map(([label, value]) => (
+              <div key={label} className="flex items-center gap-2 my-2">
+                <p>{label}</p>
+                <span className="flex-1 border-t-2 border-dashed" />
+                <p>{value}</p>
+              </div>
+            ))}
           </div>
 
           {isAuthenticated && roles.includes("Freelancer") && (
