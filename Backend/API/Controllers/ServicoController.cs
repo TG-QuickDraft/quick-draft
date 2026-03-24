@@ -58,5 +58,19 @@ namespace Backend.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{servicoId}/aceitar-proposta/{propostaId}")]
+        [Authorize(Roles = Roles.Cliente)]
+        public async Task<IActionResult> AceitarProposta(int servicoId, int propostaId)
+        {
+            int clienteId = User.GetUserId();
+
+            bool result = await _service.AceitarPropostaAsync(servicoId, propostaId, clienteId);
+
+            if (!result)
+                return BadRequest("Não foi possível aceitar a proposta");
+
+            return NoContent();
+        }
     }
 }

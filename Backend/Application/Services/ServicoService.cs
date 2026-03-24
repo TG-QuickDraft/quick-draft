@@ -76,5 +76,26 @@ namespace Backend.Application.Services
 
             return await _repository.AtualizarAsync(servicoEntidade);
         }
+
+        public async Task<bool> AceitarPropostaAsync(int servicoId, int propostaId, int clienteId)
+        {
+            var servico = await _repository.ConsultarPorIdAsync(servicoId)
+                ?? throw new InvalidOperationException("Serviço não encontrado");
+
+            if (servico.ClienteId != clienteId)
+                throw new UnauthorizedAccessException("Não autorizado");
+
+            if (servico.PropostaAceitaId != null)
+                throw new InvalidOperationException("Serviço já possui proposta aceita");
+
+            var proposta = servico.Propostas?.FirstOrDefault(p => p.Id == propostaId);
+
+            if (proposta == null)
+                throw new InvalidOperationException("Proposta não pertence ao serviço");
+
+            servico.PropostaAceitaId = propostaId;
+
+            return await _repository.AtualizarAsync(servico);
+        }
     }
 }

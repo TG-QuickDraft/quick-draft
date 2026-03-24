@@ -67,6 +67,12 @@ namespace Backend.Application.Services
             int freelancerId
         )
         {
+            var servico = await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
+                ?? throw new InvalidOperationException("Serviço não encontrado");
+
+            if (servico.PropostaAceitaId != null)
+                throw new InvalidOperationException("Serviço já possui proposta aceita");
+
             Proposta propostaToAdd = _mapper.Map<Proposta>(dto);
             propostaToAdd.FreelancerId = freelancerId;
 
