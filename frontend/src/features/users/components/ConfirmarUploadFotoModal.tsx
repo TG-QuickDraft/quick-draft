@@ -31,7 +31,7 @@ export default function ConfirmarUploadFotoModal({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-      <div className="bg-white p-6 rounded-xl w-[380px] text-center">
+      <div className="bg-white p-6 rounded-xl w-95 text-center">
         <h2 className="text-lg font-semibold mb-4">
           Confirmar alteração
         </h2>
