@@ -34,6 +34,7 @@ export default function ImagePicker({
           accept="image/png, image/jpeg, image/jpg, image/gif"
           className="hidden"
           onChange={handleChange}
+          data-cy="upload-imagem"
         />
 
         {!preview && (
