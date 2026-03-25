@@ -97,5 +97,20 @@ namespace Backend.Application.Services
 
             return await _repository.AtualizarAsync(servico);
         }
+
+        public async Task<PagedResult<ServicoDTO>> ConsultarPorClienteAsync(
+            int clienteId,
+            int pagina,
+            int tamanhoPagina
+        )
+        {
+            pagina = pagina < 1 ? 1 : pagina;
+            tamanhoPagina = tamanhoPagina < 1 ? 30 : tamanhoPagina;
+            tamanhoPagina = tamanhoPagina > 100 ? 100 : tamanhoPagina;
+
+            var list = await _repository.ConsultarPorClienteAsync(clienteId, pagina, tamanhoPagina);
+
+            return list.Map<Servico, ServicoDTO>(_mapper);
+        }
     }
 }

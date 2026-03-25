@@ -11,12 +11,14 @@ namespace Backend.Application.Services
         IPropostaRepository repository,
         
         IMapper mapper,
-        IUrlBuilder urlBuilder
+        IUrlBuilder urlBuilder,
+        IServicoRepository servicoRepository
     ) : IPropostaService
     {
         private readonly IPropostaRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
+        private readonly IServicoRepository _servicoRepository = servicoRepository;
 
         public async Task<PropostaDTO?> ConsultarPorIdAsync(int id)
         {
