@@ -44,3 +44,32 @@ export const adicionarServico = async (
     throw new Error("Erro ao adicionar serviço.");
   }
 };
+
+export const consultarMeusServicos = async (
+  pagina: number,
+  tamanhoPagina: number,
+): Promise<PagedResult<Servico>> => {
+  try {
+    const { data } = await api.get<PagedResult<Servico>>(BASE_PATH, {
+      params: {
+        pagina,
+        tamanhoPagina,
+      },
+    });
+    return data;
+  } catch {
+    throw new Error("Erro ao consultar seus serviços.");
+  }
+};
+
+export const aceitarProposta = async (
+  servicoId: number,
+  propostaId: number,
+) => {
+  try{
+    const { data } = await api.post(`${BASE_PATH}/${servicoId}/aceitar-proposta/${propostaId}`)
+    return data;
+  } catch {
+    throw new Error("Erro ao aceitar proposta");
+  }
+};
