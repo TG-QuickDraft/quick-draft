@@ -246,7 +246,7 @@ const CadastrarProposta = () => {
                 <Label>Prazo de entrega</Label>
                 <Input
                   mask="00/00/0000"
-                  placeholder="1 dia"
+                  placeholder="Inserir prazo de entrega"
                   error={errors?.deadline?.message}
                   showErrorMsg
                   {...register("deadline")}
