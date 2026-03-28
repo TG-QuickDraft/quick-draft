@@ -66,6 +66,7 @@ const CadastrarProposta = () => {
     handleDeleteItem,
     setInputValue,
     items,
+    clearAuxiliaryCache,
   } = useProposalForm();
 
   const countSelectedProjects = selectedProjects.length;
@@ -135,6 +136,7 @@ const CadastrarProposta = () => {
       onSuccess: () => {
         isSubmitting.current = true;
         sessionStorage.removeItem(sessionStorageKeys.proposalCache);
+        clearAuxiliaryCache();
         reset();
         setModalStatus("Sucesso");
         setModalMsg("Proposta enviada com sucesso!");

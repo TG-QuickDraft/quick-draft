@@ -4,4 +4,6 @@ export const localStorageKeys = {
 
 export const sessionStorageKeys = {
   proposalCache: "proposal-cache",
+  proposalProjects: "proposal-projects",
+  proposalItems: "proposal-items",
 };
