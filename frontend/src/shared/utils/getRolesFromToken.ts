@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { localStorageKeys } from "@/shared/utils/localStorageKeys";
+import { localStorageKeys } from "@/shared/utils/storageKeys";
 
 type JwtPayload = {
   roles?: string[] | string;

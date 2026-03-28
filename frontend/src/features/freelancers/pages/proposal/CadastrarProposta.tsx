@@ -44,6 +44,7 @@ import { capitalize } from "@/shared/utils/string.utils";
 import { freelancerPaths } from "../../routes/freelancerPaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
+import { sessionStorageKeys } from "@/shared/utils/storageKeys";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
@@ -79,11 +80,37 @@ const CadastrarProposta = () => {
     register,
     handleSubmit,
     control,
+    watch,
+    reset,
     formState: { errors },
   } = useForm<INewProposalForm>({
     resolver: yupResolver(NewProposalSchema),
     mode: "onChange",
   });
+
+  const formValues = watch();
+
+  useEffect(() => {
+    if (Object.keys(formValues).length > 0) {
+      sessionStorage.setItem(
+        sessionStorageKeys.proposalCache,
+        JSON.stringify(formValues),
+      );
+    }
+  }, [formValues]);
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem(sessionStorageKeys.proposalCache);
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+
+      if (parsedData.deadline) {
+        parsedData.deadline = new Date(parsedData.deadline);
+      }
+
+      reset(parsedData);
+    }
+  }, [reset]);
 
   const onValid = (formData: INewProposalForm) => {
     const proposalData: ProposalRequest = {
@@ -105,6 +132,7 @@ const CadastrarProposta = () => {
 
     doProposal(proposalData, {
       onSuccess: () => {
+        sessionStorage.removeItem(sessionStorageKeys.proposalCache);
         setModalStatus("Sucesso");
         setModalMsg("Proposta enviada com sucesso!");
         setShowModal(true);
