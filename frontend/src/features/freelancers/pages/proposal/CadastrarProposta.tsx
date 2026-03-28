@@ -271,7 +271,7 @@ const CadastrarProposta = () => {
               </InputGroup>
             </div>
             <div className="flex flex-col gap-3">
-              <Label>Selecione projetos de destaque:</Label>
+              <Label>Selecione até 3 projetos para destaque:</Label>
               <AnimatedCollapse show={countSelectedProjects > 0}>
                 <p className="text-neutral-60">
                   {countSelectedProjects > 1
@@ -302,7 +302,10 @@ const CadastrarProposta = () => {
                 <AddButton
                   className="mt-4"
                   onClick={() =>
-                    navigate(freelancerPaths.cadastrarProjetoFreelancer)
+                    navigate(
+                      freelancerPaths.cadastrarProjetoFreelancer +
+                        `${serviceId ? `?from=${freelancerPaths.cadastrarPropostaById(serviceId)}` : ""}`,
+                    )
                   }
                 />
               </Stack>

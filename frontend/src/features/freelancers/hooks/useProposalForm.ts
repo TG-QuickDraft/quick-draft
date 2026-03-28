@@ -9,9 +9,14 @@ const useProposalForm = () => {
   const handleProjectSelection = (projectId: number) => {
     if (selectedProjects.includes(projectId)) {
       setSelectedProjects(selectedProjects.filter((id) => id !== projectId));
-    } else {
-      setSelectedProjects([...selectedProjects, projectId]);
+      return;
     }
+
+    if (selectedProjects.length >= 3) {
+      return;
+    }
+
+    setSelectedProjects([...selectedProjects, projectId]);
   };
 
   const handleAddItem = () => {

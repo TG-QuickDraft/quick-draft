@@ -18,11 +18,17 @@ import {
 } from "../validations/freelancers.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export const CadastrarProjetoFreelancer = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
+
+  const [params] = useSearchParams();
+  const from = params.get("from");
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -107,7 +113,10 @@ export const CadastrarProjetoFreelancer = () => {
       <Modal
         show={showModal}
         title={modalStatus}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          from && navigate(from);
+        }}
       >
         {modalMsg}
       </Modal>
