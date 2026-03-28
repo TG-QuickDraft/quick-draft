@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,7 +18,10 @@ const DateInput = ({
         onChange={onChange}
         dateFormat="dd/MM/yyyy"
         placeholderText={placeholder || "Insira a data"}
-        className="w-full px-4 py-4 border border-neutral-60/20 rounded-lg outline-none text-neutral-80 placeholder-[#A2A2A2]"
+        className={clsx(
+          "w-full px-4 py-3 border border-[#D1D0D0] rounded-lg outline-none ",
+          "text-neutral-80 placeholder:text-neutral-40 bg-white",
+        )}
       />
     </div>
   );

@@ -43,9 +43,12 @@ import { IoMdSend } from "react-icons/io";
 import { capitalize } from "@/shared/utils/string.utils";
 import { freelancerPaths } from "../../routes/freelancerPaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import DateInput from "@/shared/components/ui/Inputs/DateInput";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const [showModal, setShowModal] = useState(false);
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
@@ -244,13 +247,18 @@ const CadastrarProposta = () => {
               </InputGroup>
               <InputGroup notSpaced>
                 <Label>Prazo de entrega</Label>
-                <Input
+
+                <DateInput
+                  selectedDate={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                />
+                {/* <Input
                   mask="00/00/0000"
                   placeholder="Inserir prazo de entrega"
                   error={errors?.deadline?.message}
                   showErrorMsg
                   {...register("deadline")}
-                />
+                /> */}
               </InputGroup>
               <InputGroup notSpaced>
                 <Label>Valor total</Label>
