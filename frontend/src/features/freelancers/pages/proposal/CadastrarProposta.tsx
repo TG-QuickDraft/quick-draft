@@ -263,12 +263,28 @@ const CadastrarProposta = () => {
             <div className="flex flex-col xl:flex-row justify-evenly gap-5 xl:gap-10">
               <InputGroup notSpaced>
                 <Label>Valor por hora</Label>
-                <Input
-                  mask="currency"
-                  placeholder="R$ 00,00"
-                  error={errors?.hourlyValue?.message}
-                  showErrorMsg
-                  {...register("hourlyValue")}
+
+                <Controller
+                  control={control}
+                  name="hourlyValue"
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      mask="currency"
+                      placeholder="R$ 00,00"
+                      error={errors?.hourlyValue?.message}
+                      showErrorMsg
+                      value={value}
+                      ref={ref}
+                      onCurrencyChange={(val) => {
+                        if (!val) {
+                          onChange(undefined);
+                          return;
+                        }
+
+                        onChange(Number(val));
+                      }}
+                    />
+                  )}
                 />
               </InputGroup>
               <InputGroup notSpaced>
@@ -289,12 +305,27 @@ const CadastrarProposta = () => {
               </InputGroup>
               <InputGroup notSpaced>
                 <Label>Valor total</Label>
-                <Input
-                  mask="currency"
-                  placeholder="R$ 00,00"
-                  error={errors?.totalCost?.message}
-                  showErrorMsg
-                  {...register("totalCost")}
+                <Controller
+                  control={control}
+                  name="totalCost"
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      mask="currency"
+                      placeholder="R$ 00,00"
+                      error={errors?.hourlyValue?.message}
+                      showErrorMsg
+                      value={value}
+                      ref={ref}
+                      onCurrencyChange={(val) => {
+                        if (!val) {
+                          onChange(undefined);
+                          return;
+                        }
+
+                        onChange(Number(val));
+                      }}
+                    />
+                  )}
                 />
               </InputGroup>
             </div>
