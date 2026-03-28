@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ptBR } from "date-fns/locale";
 
 const DateInput = ({
   placeholder,
@@ -23,6 +24,7 @@ const DateInput = ({
       <DatePicker
         selected={selectedDate}
         onChange={onChange}
+        locale={ptBR}
         dateFormat="dd/MM/yyyy"
         placeholderText={placeholder || "Insira a data"}
         className={clsx(
