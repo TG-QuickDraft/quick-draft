@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 import Label from "@/shared/components/ui/Label";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
 import type { ProjetoFreelancer } from "../../dtos/projetoFreelancer/ProjetoFreelancer";
@@ -89,9 +89,10 @@ const CadastrarProposta = () => {
   });
 
   const formValues = watch();
+  const isSubmitting = useRef(false);
 
   useEffect(() => {
-    if (Object.keys(formValues).length > 0) {
+    if (!isSubmitting.current && Object.keys(formValues).length > 0) {
       sessionStorage.setItem(
         sessionStorageKeys.proposalCache,
         JSON.stringify(formValues),
@@ -132,7 +133,9 @@ const CadastrarProposta = () => {
 
     doProposal(proposalData, {
       onSuccess: () => {
+        isSubmitting.current = true;
         sessionStorage.removeItem(sessionStorageKeys.proposalCache);
+        reset();
         setModalStatus("Sucesso");
         setModalMsg("Proposta enviada com sucesso!");
         setShowModal(true);
@@ -381,7 +384,7 @@ const CadastrarProposta = () => {
         title={modalStatus}
         onClose={() => {
           setShowModal(false);
-          navigate(servicoPaths.pesquisaServico);
+          modalStatus === "Sucesso" && navigate(servicoPaths.pesquisaServico);
         }}
       >
         {modalMsg}
