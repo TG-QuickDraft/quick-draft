@@ -115,7 +115,7 @@ export const CadastrarProjetoFreelancer = () => {
         title={modalStatus}
         onClose={() => {
           setShowModal(false);
-          from && navigate(from);
+          from && modalStatus === "Sucesso" && navigate(from);
         }}
       >
         {modalMsg}
