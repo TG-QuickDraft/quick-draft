@@ -253,6 +253,8 @@ const CadastrarProposta = () => {
                     <DateInput
                       selectedDate={field.value ? new Date(field.value) : null}
                       onChange={(date) => field.onChange(date)}
+                      error={errors?.deadline?.message}
+                      showErrorMsg
                     />
                   )}
                 />
@@ -327,7 +329,7 @@ const CadastrarProposta = () => {
         title={modalStatus}
         onClose={() => {
           setShowModal(false);
-          navigate(servicoPaths.visualizarServico);
+          navigate(servicoPaths.pesquisaServico);
         }}
       >
         {modalMsg}

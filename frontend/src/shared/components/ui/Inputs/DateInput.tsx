@@ -6,23 +6,34 @@ const DateInput = ({
   placeholder,
   selectedDate,
   onChange,
+  error,
+  showErrorMsg,
 }: {
   placeholder?: string;
   selectedDate: Date | null;
   onChange: (date: Date | null) => void;
+  error?: string;
+  showErrorMsg?: boolean;
 }) => {
+  const errorClasses = clsx("block text-error-1 text-sm mt-0.5");
+  const hasError = Boolean(error);
+
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex gap-0.5 flex-col w-full">
       <DatePicker
         selected={selectedDate}
         onChange={onChange}
         dateFormat="dd/MM/yyyy"
         placeholderText={placeholder || "Insira a data"}
         className={clsx(
-          "w-full px-4 py-3 border border-[#D1D0D0] rounded-lg outline-none ",
+          "w-full px-4 py-3 rounded-lg outline-none ",
           "text-neutral-80 placeholder:text-neutral-40 bg-white",
+          hasError
+            ? "border border-error-1 focus:border-error-1 animate-shake"
+            : "border border-[#D1D0D0] focus:border-gray-400",
         )}
       />
+      {error && showErrorMsg && <span className={errorClasses}>{error}</span>}
     </div>
   );
 };
