@@ -276,12 +276,7 @@ const CadastrarProposta = () => {
                       value={value}
                       ref={ref}
                       onCurrencyChange={(val) => {
-                        if (!val) {
-                          onChange(undefined);
-                          return;
-                        }
-
-                        onChange(Number(val));
+                        onChange(val ? Number(val) : null);
                       }}
                     />
                   )}
@@ -312,17 +307,12 @@ const CadastrarProposta = () => {
                     <Input
                       mask="currency"
                       placeholder="R$ 00,00"
-                      error={errors?.hourlyValue?.message}
+                      error={errors?.totalCost?.message}
                       showErrorMsg
                       value={value}
                       ref={ref}
                       onCurrencyChange={(val) => {
-                        if (!val) {
-                          onChange(undefined);
-                          return;
-                        }
-
-                        onChange(Number(val));
+                        onChange(val ? Number(val) : null);
                       }}
                     />
                   )}
