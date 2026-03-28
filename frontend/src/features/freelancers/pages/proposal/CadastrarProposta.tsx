@@ -320,7 +320,10 @@ const CadastrarProposta = () => {
       <Modal
         show={showModal}
         title={modalStatus}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          navigate(servicoPaths.visualizarServico);
+        }}
       >
         {modalMsg}
       </Modal>
