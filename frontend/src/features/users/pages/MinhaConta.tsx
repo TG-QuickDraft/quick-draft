@@ -9,12 +9,18 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import ConfirmarUploadFotoModal from "@/features/users/components/ConfirmarUploadFotoModal";
 import UploadFotoButton from "@/features/users/components/UploadPhotoButton";
 
+import { MeusServicosList } from "@/features/users/components/MeusServicosList";
+import { consultarMeusServicos } from "@/features/services/api/servico.api";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const navigate = useNavigate();
   const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [modalAberto, setModalAberto] = useState(false);
+  const { roles } = useAuth();
+  const [temServicos, setTemServicos] = useState<boolean | null>(null);
   useEffect(() => {
     const obterDadosUsuario = async () => {
       const dadosUsuario: Usuario = await consultarUsuario();
@@ -23,6 +29,21 @@ export const MinhaConta = () => {
 
     obterDadosUsuario();
   }, []);
+
+  useEffect(() => {
+    const verificarServicos = async () => {
+      if (!roles.includes("Cliente")) return;
+
+      try {
+        const response = await consultarMeusServicos(1, 1);
+        setTemServicos(response.itens.length > 0);
+      } catch {
+        setTemServicos(false);
+      }
+    };
+
+    verificarServicos();
+  }, [roles]);
 
   return (
     <div className="px-12 py-10">
@@ -93,17 +114,27 @@ export const MinhaConta = () => {
               <button className="pb-2 text-gray-500">Todos</button>
             </div>
 
-            <div className="flex flex-col items-center justify-center mt-24">
-              <h3 className="text-2xl font-semibold mb-2">
-                Nenhum Serviço Criado
-              </h3>
+            {roles.includes("Cliente") && temServicos !== null && (
+              <>
+                {temServicos ? (
+                  <MeusServicosList />
+                ) : (
+                  <div className="flex flex-col items-center justify-center mt-24">
+                    <h3 className="text-2xl font-semibold mb-2">
+                      Nenhum Serviço Criado
+                    </h3>
 
-              <p className="text-sm text-gray-500 mb-6">Criar novo serviço</p>
+                    <p className="text-sm text-gray-500 mb-6">
+                      Criar novo serviço
+                    </p>
 
-              <AddButton
-                onClick={() => navigate(servicoPaths.cadastrarServico)}
-              />
-            </div>
+                    <AddButton
+                      onClick={() => navigate(servicoPaths.cadastrarServico)}
+                    />
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </>
       )}

@@ -50,7 +50,7 @@ export const consultarMeusServicos = async (
   tamanhoPagina: number,
 ): Promise<PagedResult<Servico>> => {
   try {
-    const { data } = await api.get<PagedResult<Servico>>(BASE_PATH, {
+    const { data } = await api.get<PagedResult<Servico>>(`${BASE_PATH}/meus-servicos`, {
       params: {
         pagina,
         tamanhoPagina,
