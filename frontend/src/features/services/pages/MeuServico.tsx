@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { consultarServicoPorId } from "@/features/services/api/servico.api";
 import { buscarPropostasPorServico } from "@/features/freelancers/api/proposal.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
+import { useNavigate } from "react-router-dom";
 
 import type { Servico } from "@/features/services/dtos/Servico";
 import type { ProposalResponse } from "@/features/freelancers/dtos/freelancer/Proposal";
@@ -10,10 +11,13 @@ import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelanc
 
 import { FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+import StarRating from "@/shared/components/ui/StarRating";
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 
 export const MeuServico = () => {
   const { id } = useParams();
   const servicoId = Number(id);
+  const navigate = useNavigate();
 
   const [servico, setServico] = useState<Servico | null>(null);
   const [propostas, setPropostas] = useState<ProposalResponse[]>([]);
@@ -113,7 +117,11 @@ return (
                         </div>
                     </div>
 
-                    <button className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 text-gray-600 rounded-lg hover:text-black">
+                    <button 
+                        onClick={() =>
+                            navigate(freelancerPaths.verPropostaById(p.id))
+                        }
+                        className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 text-gray-600 rounded-lg hover:text-black">
                         <FaEye />
                         Ver proposta
                     </button>

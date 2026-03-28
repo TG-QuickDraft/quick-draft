@@ -23,3 +23,14 @@ export const buscarPropostasPorServico = async (
     throw new Error("Não foi possível buscar as propostas com base no serviço")
   }
 }
+
+export const buscarPropostaPorId = async (
+  id: number,
+): Promise<ProposalResponse> => {
+  try {
+    const { data } = await api.get<ProposalResponse>(`${BASE_PATH}/${id}`);
+    return data;
+  } catch {
+    throw new Error("Não foi possível buscar a proposta");
+  }
+};

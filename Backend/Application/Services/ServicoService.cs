@@ -8,10 +8,22 @@ using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
 {
-    public class ServicoService(IServicoRepository repository, IMapper mapper) : IServicoService
+    public class ServicoService : IServicoService
     {
-        private readonly IServicoRepository _repository = repository;
-        private readonly IMapper _mapper = mapper;
+        private readonly IServicoRepository _repository;
+        private readonly IPropostaRepository _propostaRepository;
+        private readonly IMapper _mapper;
+
+        public ServicoService(
+            IServicoRepository repository,
+            IPropostaRepository propostaRepository,
+            IMapper mapper
+        )
+        {
+            _repository = repository;
+            _propostaRepository = propostaRepository;
+            _mapper = mapper;
+        }
 
         public async Task<ServicoDTO> CriarAsync(CriarServicoDTO criarServico, int usuarioId)
         {
@@ -88,9 +100,9 @@ namespace Backend.Application.Services
             if (servico.PropostaAceitaId != null)
                 throw new InvalidOperationException("Serviço já possui proposta aceita");
 
-            var proposta = servico.Propostas?.FirstOrDefault(p => p.Id == propostaId);
+            var proposta = await _propostaRepository.ConsultarPorIdAsync(propostaId);
 
-            if (proposta == null)
+            if (proposta == null || proposta.ServicoId != servicoId)
                 throw new InvalidOperationException("Proposta não pertence ao serviço");
 
             servico.PropostaAceitaId = propostaId;
