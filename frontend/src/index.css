@@ -63,7 +63,23 @@ html {
 
 /* react-date-picker nice styles */
 
+@keyframes datepicker-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.react-datepicker-popper {
+  z-index: 50 !important;
+}
+
 .react-datepicker {
+  animation: datepicker-pop 0.2s ease-out forwards !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 16px !important;
   font-family: inherit !important;
