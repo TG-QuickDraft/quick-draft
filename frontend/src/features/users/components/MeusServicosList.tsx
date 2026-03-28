@@ -4,6 +4,7 @@ import type { Servico } from "@/features/services/dtos/Servico";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 import { FiEye } from "react-icons/fi";
+import { servicoPaths } from "@/features/services/routes/servicoPaths"
 
 export const MeusServicosList = () => {
   const [servicos, setServicos] = useState<Servico[]>([]);
@@ -54,7 +55,7 @@ export const MeusServicosList = () => {
 
             <button
             onClick={() =>
-                navigate(`/visualizar-servico/${servico.id}`)
+                navigate(servicoPaths.visualizarMeuServicoById(servico.id))
             }
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-lg text-gray-700 hover:bg-gray-100 hover:text-black transition"
             >
