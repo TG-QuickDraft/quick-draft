@@ -58,7 +58,7 @@ export const ChatServico = () => {
 
   const [chat, setChat] = useState(chats[0]);
 
-  const adicionarMensagem = () => {
+  const enviarMensagem = () => {
     if (mensagem && mensagem.trim().length > 0) {
       setChat({
         ...chat,
@@ -91,7 +91,7 @@ export const ChatServico = () => {
           <Chat
             mensagem={mensagem}
             setMensagem={setMensagem}
-            adicionarMensagem={adicionarMensagem}
+            enviarMensagem={enviarMensagem}
             mensagens={chat.mensagens}
             destinatario={chat.destinario}
           />

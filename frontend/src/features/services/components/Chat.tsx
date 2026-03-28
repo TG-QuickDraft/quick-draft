@@ -4,23 +4,25 @@ import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import clsx from "clsx";
 import { MdOutlineSend } from "react-icons/md";
 
+type ChatProps = {
+  mensagem: string;
+  setMensagem: (value: string) => void;
+  mensagens: any[];
+  enviarMensagem: () => void;
+  destinatario: string;
+};
+
 export const Chat = ({
   mensagem,
   setMensagem,
   mensagens,
-  adicionarMensagem,
+  enviarMensagem,
   destinatario,
-}: {
-  mensagem: any;
-  setMensagem: (value: string) => void;
-  mensagens: any[];
-  adicionarMensagem: () => void;
-  destinatario: string;
-}) => {
+}: ChatProps) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      adicionarMensagem();
+      enviarMensagem();
     }
   };
 
@@ -49,7 +51,7 @@ export const Chat = ({
           onKeyDown={handleKeyDown}
         />
 
-        <Button icon={<MdOutlineSend />} onClick={adicionarMensagem} />
+        <Button icon={<MdOutlineSend />} onClick={enviarMensagem} />
       </section>
     </div>
   );
