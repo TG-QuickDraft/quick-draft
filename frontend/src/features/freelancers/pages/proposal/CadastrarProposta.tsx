@@ -19,7 +19,7 @@ import ProposalSection from "../../components/ProposalSection";
 import useProposalForm from "../../hooks/useProposalForm";
 import { RemovableListItem } from "../../components/RemovableListItem";
 import { AnimatedCollapse } from "@/shared/components/AnimatedCollapse";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   NewProposalSchema,
@@ -47,8 +47,6 @@ import DateInput from "@/shared/components/ui/Inputs/DateInput";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const [showModal, setShowModal] = useState(false);
   const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
@@ -80,7 +78,7 @@ const CadastrarProposta = () => {
   const {
     register,
     handleSubmit,
-
+    control,
     formState: { errors },
   } = useForm<INewProposalForm>({
     resolver: yupResolver(NewProposalSchema),
@@ -248,17 +246,16 @@ const CadastrarProposta = () => {
               <InputGroup notSpaced>
                 <Label>Prazo de entrega</Label>
 
-                <DateInput
-                  selectedDate={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
+                <Controller
+                  control={control}
+                  name="deadline"
+                  render={({ field }) => (
+                    <DateInput
+                      selectedDate={field.value ? new Date(field.value) : null}
+                      onChange={(date) => field.onChange(date)}
+                    />
+                  )}
                 />
-                {/* <Input
-                  mask="00/00/0000"
-                  placeholder="Inserir prazo de entrega"
-                  error={errors?.deadline?.message}
-                  showErrorMsg
-                  {...register("deadline")}
-                /> */}
               </InputGroup>
               <InputGroup notSpaced>
                 <Label>Valor total</Label>

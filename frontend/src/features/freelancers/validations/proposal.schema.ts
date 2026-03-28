@@ -21,14 +21,17 @@ export const NewProposalSchema = yup.object({
     ),
 
   deadline: yup
-    .string()
+    .date()
+    .nullable()
+    .transform((value, originalValue) => {
+      return originalValue &&
+        new Date(originalValue).toString() !== "Invalid Date"
+        ? value
+        : null;
+    })
+    .typeError("Informe uma data válida")
     .required("O Prazo é obrigatório")
-    .test("valid-date", "Informe uma data válida", (value) =>
-      validateDate(value),
-    )
-    .test("future-date", "Informe uma data futura", (value) =>
-      validateFutureDate(value),
-    ),
+    .min(new Date(), "Informe uma data futura"),
 
   totalCost: yup
     .string()
