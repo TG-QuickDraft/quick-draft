@@ -7,7 +7,7 @@ const Content = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const isHome = location.pathname === homePaths.home;
   return (
-    <div className={clsx("flex-1 flex flex-col", !isHome && "p-6")}>
+    <div className={clsx("flex flex-col h-full", !isHome && "p-6")}>
       {children}
     </div>
   );
