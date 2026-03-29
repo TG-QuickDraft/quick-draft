@@ -78,4 +78,5 @@ npx cypress open
 
 - [Vite](https://vite.dev)
 - [React](https://react.dev)
+- [React Icons](https://react-icons.github.io/react-icons/icons/md/)
 - [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
