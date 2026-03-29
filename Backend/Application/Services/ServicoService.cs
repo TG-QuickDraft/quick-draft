@@ -8,22 +8,11 @@ using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
 {
-    public class ServicoService : IServicoService
+    public class ServicoService(IServicoRepository repository, IPropostaRepository propostaRepository, IMapper mapper) : IServicoService
     {
-        private readonly IServicoRepository _repository;
-        private readonly IPropostaRepository _propostaRepository;
-        private readonly IMapper _mapper;
-
-        public ServicoService(
-            IServicoRepository repository,
-            IPropostaRepository propostaRepository,
-            IMapper mapper
-        )
-        {
-            _repository = repository;
-            _propostaRepository = propostaRepository;
-            _mapper = mapper;
-        }
+        private readonly IServicoRepository _repository = repository;
+        private readonly IPropostaRepository _propostaRepository = propostaRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<ServicoDTO> CriarAsync(CriarServicoDTO criarServico, int usuarioId)
         {
