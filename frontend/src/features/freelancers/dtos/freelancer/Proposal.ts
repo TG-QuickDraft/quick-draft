@@ -18,6 +18,7 @@ export interface ProposalResponse {
   itensPropostos: string;
   taxaSistemaAdicionadaAoTotal: boolean;
   servicoId: number;
+  freelancerId: number;
   projetosDestacados: ProjetosDestacados[];
 }
 

@@ -51,6 +51,8 @@ export const VisualizarServico = () => {
       ),
   };
 
+  const temPropostaAceita = !!servico?.propostaAceitaId;
+
   return (
     <div className="w-full">
       <Link to={servicoPaths.pesquisaServico}>
@@ -103,13 +105,21 @@ export const VisualizarServico = () => {
           </div>
 
           {isAuthenticated && roles.includes("Freelancer") && (
-            <Link
-              className="flex"
-              to={freelancerPaths.cadastrarPropostaById(servico?.id ?? "")}
-            >
-              <Button className="flex-1 mt-6 p-4!">Enviar Proposta</Button>
-            </Link>
-          )}
+            temPropostaAceita ? (
+              <Button className="flex-1 mt-6 p-4! bg-gray-400 text-white cursor-not-allowed">
+                Este serviço já tem uma proposta aceita
+              </Button>
+            ) : (
+              <Link
+                className="flex"
+                to={freelancerPaths.cadastrarPropostaById(servico?.id ?? "")}
+              >
+                <Button className="flex-1 mt-6 p-4!">
+                  Enviar Proposta
+                </Button>
+              </Link>
+            )
+          )}          
         </section>
       </main>
     </div>

@@ -11,12 +11,14 @@ namespace Backend.Application.Services
         IPropostaRepository repository,
         
         IMapper mapper,
-        IUrlBuilder urlBuilder
+        IUrlBuilder urlBuilder,
+        IServicoRepository servicoRepository
     ) : IPropostaService
     {
         private readonly IPropostaRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
+        private readonly IServicoRepository _servicoRepository = servicoRepository;
 
         public async Task<PropostaDTO?> ConsultarPorIdAsync(int id)
         {
@@ -67,6 +69,12 @@ namespace Backend.Application.Services
             int freelancerId
         )
         {
+            var servico = await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
+                ?? throw new InvalidOperationException("Serviço não encontrado");
+
+            if (servico.PropostaAceitaId != null)
+                throw new InvalidOperationException("Serviço já possui proposta aceita");
+
             Proposta propostaToAdd = _mapper.Map<Proposta>(dto);
             propostaToAdd.FreelancerId = freelancerId;
 

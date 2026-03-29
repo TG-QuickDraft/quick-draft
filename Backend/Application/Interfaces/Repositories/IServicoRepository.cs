@@ -17,5 +17,9 @@ namespace Backend.Application.Interfaces.Repositories
         Task<Servico> CriarAsync(Servico servico);
 
         Task<bool> AtualizarAsync(Servico servico);
+
+        Task<PagedResult<Servico>> ConsultarPorClienteAsync(
+            int clienteId, int pagina, int tamanhoPagina
+        );
     }
 }
