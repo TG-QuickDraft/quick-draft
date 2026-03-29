@@ -9,23 +9,23 @@ import Title from "@/shared/components/ui/titles/Title";
 
 type ChatProps = {
   mensagem: string;
-  setMensagem: (value: string) => void;
   mensagens: any[];
-  enviarMensagem: () => void;
   destinatario: {
     nome: string;
     fotoPerfilUrl: string;
   };
   servico: Servico;
+  setMensagem: (value: string) => void;
+  enviarMensagem: () => void;
 };
 
 export const Chat = ({
   mensagem,
-  setMensagem,
   mensagens,
-  enviarMensagem,
   destinatario,
   servico,
+  setMensagem,
+  enviarMensagem,
 }: ChatProps) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

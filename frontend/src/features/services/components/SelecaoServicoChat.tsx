@@ -4,15 +4,15 @@ import type { Servico } from "../dtos/Servico";
 import { toLocaleString } from "@/shared/utils/date.utils";
 
 export const SelecaoServicoChat = ({
+  selected = false,
   destinatario,
   servico,
   onClick,
-  selected = false
 }: {
+  selected?: boolean;
   destinatario: { nome: string; fotoPerfilUrl: string };
   servico: Servico;
   onClick: () => void;
-  selected?: boolean;
 }) => {
   return (
     <Button onClick={onClick} variant={selected ? "secondary" : "outline"}>

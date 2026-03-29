@@ -93,10 +93,10 @@ export const ChatServico = () => {
             {chats.map((chat, index) => (
               <SelecaoServicoChat
                 key={index}
+                selected={chatSelecionado === index}
                 destinatario={{ nome: chat.destinario, fotoPerfilUrl: "" }}
                 servico={chat.servico}
                 onClick={() => trocarChat(index)}
-                selected={chatSelecionado === index}
               />
             ))}
           </div>
@@ -105,11 +105,11 @@ export const ChatServico = () => {
         <section className="flex flex-1 min-h-0">
           <Chat
             mensagem={mensagem}
-            setMensagem={setMensagem}
-            enviarMensagem={enviarMensagem}
             mensagens={chat.mensagens}
             destinatario={{ nome: chat.destinario, fotoPerfilUrl: "" }}
             servico={chat.servico}
+            setMensagem={setMensagem}
+            enviarMensagem={enviarMensagem}
           />
         </section>
       </div>
