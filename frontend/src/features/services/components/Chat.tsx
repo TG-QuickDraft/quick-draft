@@ -61,7 +61,7 @@ export const Chat = ({
           <CaixaMensagem
             key={index}
             mensagem={m.mensagem}
-            isRemetente={m.isMeu}
+            isRemetente={m.usuarioId === 1} // TODO: substituir pelo ID do usuário logado
           />
         ))}
       </section>

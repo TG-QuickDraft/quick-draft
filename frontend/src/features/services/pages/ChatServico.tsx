@@ -8,19 +8,19 @@ const chats = [
   {
     mensagens: [
       {
-        isMeu: true,
+        usuarioId: 1,
         mensagem: "Oi, eu sou o a pessoa que tá escrevendo :sim:",
       },
       {
-        isMeu: false,
+        usuarioId: 2,
         mensagem: "Oi, eu sou a pessoa que está enviando mensagens para você",
       },
       {
-        isMeu: false,
+        usuarioId: 2,
         mensagem: "Mandei mais mensagens",
       },
       {
-        isMeu: true,
+        usuarioId: 1,
         mensagem: "Boa",
       },
     ],
@@ -39,11 +39,11 @@ const chats = [
   {
     mensagens: [
       {
-        isMeu: true,
+        usuarioId: 2,
         mensagem: "Oi, estou em outro chat agora",
       },
       {
-        isMeu: false,
+        usuarioId: 1,
         mensagem: "Legal",
       },
     ],
@@ -71,7 +71,7 @@ export const ChatServico = () => {
     if (mensagem && mensagem.trim().length > 0) {
       setChat({
         ...chat,
-        mensagens: [...chat.mensagens, { isMeu: true, mensagem: mensagem }],
+        mensagens: [...chat.mensagens, { usuarioId: 1, mensagem: mensagem }],
       });
 
       setMensagem("");
