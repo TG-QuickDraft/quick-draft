@@ -41,7 +41,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const baseClasses = clsx(
       "w-full py-3 px-4",
       "border border-[#D1D0D0] bg-white rounded-lg",
-      "text-[16px] font-normal text-neutral-60",
+      "text-[16px] font-normal text-neutral-80",
       "outline-none",
       "placeholder:text-neutral-40 placeholder:font-normal",
       "focus:shadow-md focus:transition-all focus:duration-200",

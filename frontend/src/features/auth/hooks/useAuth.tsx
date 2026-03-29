@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { localStorageKeys } from "@/shared/utils/localStorageKeys";
+import { localStorageKeys } from "@/shared/utils/storageKeys";
 import { loginApi } from "@/features/auth/api/auth.api";
 import { getRolesFromToken } from "@/shared/utils/getRolesFromToken";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";

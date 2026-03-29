@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 import Label from "@/shared/components/ui/Label";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
 import type { ProjetoFreelancer } from "../../dtos/projetoFreelancer/ProjetoFreelancer";
@@ -19,7 +19,7 @@ import ProposalSection from "../../components/ProposalSection";
 import useProposalForm from "../../hooks/useProposalForm";
 import { RemovableListItem } from "../../components/RemovableListItem";
 import { AnimatedCollapse } from "@/shared/components/AnimatedCollapse";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   NewProposalSchema,
@@ -43,6 +43,8 @@ import { IoMdSend } from "react-icons/io";
 import { capitalize } from "@/shared/utils/string.utils";
 import { freelancerPaths } from "../../routes/freelancerPaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import DateInput from "@/shared/components/ui/Inputs/DateInput";
+import { sessionStorageKeys } from "@/shared/utils/storageKeys";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
@@ -64,6 +66,7 @@ const CadastrarProposta = () => {
     handleDeleteItem,
     setInputValue,
     items,
+    clearAuxiliaryCache,
   } = useProposalForm();
 
   const countSelectedProjects = selectedProjects.length;
@@ -77,12 +80,39 @@ const CadastrarProposta = () => {
   const {
     register,
     handleSubmit,
-
+    control,
+    watch,
+    reset,
     formState: { errors },
   } = useForm<INewProposalForm>({
     resolver: yupResolver(NewProposalSchema),
     mode: "onChange",
   });
+
+  const formValues = watch();
+  const isSubmitting = useRef(false);
+
+  useEffect(() => {
+    if (!isSubmitting.current && Object.keys(formValues).length > 0) {
+      sessionStorage.setItem(
+        sessionStorageKeys.proposalCache,
+        JSON.stringify(formValues),
+      );
+    }
+  }, [formValues]);
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem(sessionStorageKeys.proposalCache);
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+
+      if (parsedData.deadline) {
+        parsedData.deadline = new Date(parsedData.deadline);
+      }
+
+      reset(parsedData);
+    }
+  }, [reset]);
 
   const onValid = (formData: INewProposalForm) => {
     const proposalData: ProposalRequest = {
@@ -104,6 +134,10 @@ const CadastrarProposta = () => {
 
     doProposal(proposalData, {
       onSuccess: () => {
+        isSubmitting.current = true;
+        sessionStorage.removeItem(sessionStorageKeys.proposalCache);
+        clearAuxiliaryCache();
+        reset();
         setModalStatus("Sucesso");
         setModalMsg("Proposta enviada com sucesso!");
         setShowModal(true);
@@ -234,37 +268,64 @@ const CadastrarProposta = () => {
             <div className="flex flex-col xl:flex-row justify-evenly gap-5 xl:gap-10">
               <InputGroup notSpaced>
                 <Label>Valor por hora</Label>
-                <Input
-                  mask="currency"
-                  placeholder="R$ 00,00"
-                  error={errors?.hourlyValue?.message}
-                  showErrorMsg
-                  {...register("hourlyValue")}
+
+                <Controller
+                  control={control}
+                  name="hourlyValue"
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      mask="currency"
+                      placeholder="R$ 00,00"
+                      error={errors?.hourlyValue?.message}
+                      showErrorMsg
+                      value={value}
+                      ref={ref}
+                      onCurrencyChange={(val) => {
+                        onChange(val ? Number(val) : null);
+                      }}
+                    />
+                  )}
                 />
               </InputGroup>
               <InputGroup notSpaced>
                 <Label>Prazo de entrega</Label>
-                <Input
-                  mask="00/00/0000"
-                  placeholder="1 dia"
-                  error={errors?.deadline?.message}
-                  showErrorMsg
-                  {...register("deadline")}
+
+                <Controller
+                  control={control}
+                  name="deadline"
+                  render={({ field }) => (
+                    <DateInput
+                      selectedDate={field.value ? new Date(field.value) : null}
+                      onChange={(date) => field.onChange(date)}
+                      error={errors?.deadline?.message}
+                      showErrorMsg
+                    />
+                  )}
                 />
               </InputGroup>
               <InputGroup notSpaced>
                 <Label>Valor total</Label>
-                <Input
-                  mask="currency"
-                  placeholder="R$ 00,00"
-                  error={errors?.totalCost?.message}
-                  showErrorMsg
-                  {...register("totalCost")}
+                <Controller
+                  control={control}
+                  name="totalCost"
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      mask="currency"
+                      placeholder="R$ 00,00"
+                      error={errors?.totalCost?.message}
+                      showErrorMsg
+                      value={value}
+                      ref={ref}
+                      onCurrencyChange={(val) => {
+                        onChange(val ? Number(val) : null);
+                      }}
+                    />
+                  )}
                 />
               </InputGroup>
             </div>
             <div className="flex flex-col gap-3">
-              <Label>Selecione projetos de destaque:</Label>
+              <Label>Selecione até 3 projetos para destaque:</Label>
               <AnimatedCollapse show={countSelectedProjects > 0}>
                 <p className="text-neutral-60">
                   {countSelectedProjects > 1
@@ -295,7 +356,10 @@ const CadastrarProposta = () => {
                 <AddButton
                   className="mt-4"
                   onClick={() =>
-                    navigate(freelancerPaths.cadastrarProjetoFreelancer)
+                    navigate(
+                      freelancerPaths.cadastrarProjetoFreelancer +
+                        `${serviceId ? `?from=${freelancerPaths.cadastrarPropostaById(serviceId)}` : ""}`,
+                    )
                   }
                 />
               </Stack>
@@ -320,7 +384,10 @@ const CadastrarProposta = () => {
       <Modal
         show={showModal}
         title={modalStatus}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          modalStatus === "Sucesso" && navigate(servicoPaths.pesquisaServico);
+        }}
       >
         {modalMsg}
       </Modal>
