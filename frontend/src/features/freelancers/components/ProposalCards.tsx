@@ -1,14 +1,7 @@
 import clsx from "clsx";
+import { formatUrl } from "@/shared/utils/url.utils";
 
 const ProposalCards = ({ img, url }: { img?: string; url?: string }) => {
-
-  const formatUrl = (url?: string) => {
-    if (!url) return "#";
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-      return url;
-    }
-    return `https://${url}`;
-  };
 
   return (
    <a href={formatUrl(url)} target="_blank" rel="noopener noreferrer">
