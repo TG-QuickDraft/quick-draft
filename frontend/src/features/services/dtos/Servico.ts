@@ -7,4 +7,5 @@ export type Servico = {
   prazo: string;
   valorMinimo: number;
   clienteId: number;
+  propostaAceitaId: number;
 };

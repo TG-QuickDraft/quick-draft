@@ -13,6 +13,7 @@ import { FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import StarRating from "@/shared/components/ui/StarRating";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import Spinner from "@/shared/components/ui/Spinner";
 
 export const MeuServico = () => {
   const { id } = useParams();
@@ -61,9 +62,17 @@ export const MeuServico = () => {
   }, [servicoId]);
 
   if (!servico) {
-    return <div className="p-4">Carregando...</div>;
+    return <Spinner />;
   }
 
+const propostasOrdenadas = [...propostas].sort((a, b) => {
+  if (!servico.propostaAceitaId) return 0;
+
+  if (a.id === servico.propostaAceitaId) return -1;
+  if (b.id === servico.propostaAceitaId) return 1;
+
+  return 0;
+});
 
 return (
     <div className="flex h-screen bg-white">
@@ -89,13 +98,26 @@ return (
             </p>
 
             <div className="divide-y divide-gray-200">
-                {propostas.map((p) => {
+                {propostasOrdenadas.map((p) => {
                 const freelancer = freelancers[p.freelancerId];
+                const isAceita = p.id === servico.propostaAceitaId;
+                const temAceita = !!servico.propostaAceitaId;
 
                 return (
                     <div
-                    key={p.id}
-                    className="p-3 flex items-center justify-between"
+                      key={p.id}
+                      className={`p-3 flex items-center justify-between transition-all
+                        ${
+                          temAceita && !isAceita
+                            ? "opacity-40"
+                            : ""
+                        }
+                        ${
+                          isAceita
+                            ? "bg-[var(--color-secondary-40)] border border-[var(--color-secondary-100)] rounded-lg"
+                            : ""
+                        }
+                      `}
                     >
                     <div className="flex items-center gap-3">
                         <ProfilePhoto
@@ -109,10 +131,14 @@ return (
                             {freelancer?.nome || "Carregando..."}
                         </p>
                         <p className="text-xs text-gray-500">
-                            Prazo:{" "}
-                            {new Date(
-                            p.prazoEntrega
-                            ).toLocaleDateString()}
+                            {
+                              isAceita
+                              ? "Proposta Aceita"
+                              : "Prazo: " +
+                                new Date(
+                                p.prazoEntrega
+                                ).toLocaleDateString()
+                            }
                         </p>
                         </div>
                     </div>

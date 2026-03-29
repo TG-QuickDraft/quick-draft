@@ -18,6 +18,8 @@ import type { Servico } from "@/features/services/dtos/Servico";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import ProposalCards from "../../components/ProposalCards";
+import Spinner from "@/shared/components/ui/Spinner";
+import Modal from "@/shared/components/ui/Modal";
 
 const VerProposta = () => {
   const { id } = useParams();
@@ -27,6 +29,10 @@ const VerProposta = () => {
   const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
   const [servico, setServico] = useState<Servico | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
+  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
   const { roles } = useAuth();
 
@@ -58,20 +64,30 @@ const VerProposta = () => {
 
     try {
       await aceitarProposta(servico.id, proposta.id);
-      alert("Proposta aceita com sucesso!");
+      setModalStatus("Sucesso");
+      setModalMsg("Proposta aceita com sucesso!");
+      setShowModal(true);
     } catch (error) {
       console.error(error);
-      alert("Erro ao aceitar proposta");
+      setModalStatus("Erro");
+      setModalMsg("Erro ao aceitar proposta");
+      setShowModal(true);
     }
   };
 
   if (loading) {
-    return <div className="p-4">Carregando...</div>;
+    return <Spinner />;
   }
 
   if (!proposta) {
     return <div className="p-4">Proposta não encontrada</div>;
   }
+
+  const propostaAceitaId = servico?.propostaAceitaId;
+  const isPropostaAceita = propostaAceitaId === proposta.id;
+  const temPropostaAceita = !!propostaAceitaId;
+  const outraPropostaAceita =
+    temPropostaAceita && !isPropostaAceita;
 
   const itens = proposta.itensPropostos
     ?.split(";")
@@ -96,7 +112,7 @@ const VerProposta = () => {
 
         <div>
           <h1 className="text-3xl font-bold">
-            {freelancer?.nome || "Carregando..."}
+            {freelancer?.nome || <Spinner />}
           </h1>
 
           <p className="text-[20px]">
@@ -143,12 +159,23 @@ const VerProposta = () => {
 
     {roles.includes("Cliente") && (
         <div className="sticky bottom-6 flex justify-end pointer-events-none">
-            <button
+          <button
             onClick={handleAceitar}
-            className="pointer-events-auto px-5 py-3 bg-black text-white rounded-xl shadow-lg hover:bg-gray-800 transition-all duration-300 hover:scale-[1.02]"
-            >
-            Aceitar proposta
-            </button>
+            disabled={temPropostaAceita}
+            className={`pointer-events-auto px-5 py-3 rounded-xl shadow-lg transition-all duration-300
+              ${
+                temPropostaAceita
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-black text-white hover:bg-gray-800 hover:scale-[1.02]"
+              }
+            `}
+          >
+            {isPropostaAceita
+              ? "Proposta já foi aceita!"
+              : outraPropostaAceita
+              ? "Este serviço já aceitou outra proposta"
+              : "Aceitar proposta"}
+          </button>
         </div>
     )}
 
@@ -165,6 +192,14 @@ const VerProposta = () => {
           />
         ))}
       </div>
+
+      <Modal
+        show={showModal}
+        title={modalStatus}
+        onClose={() => setShowModal(false)}
+      >
+        {modalMsg}
+      </Modal>
     </div>
   );
 };
