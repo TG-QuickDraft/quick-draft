@@ -38,22 +38,22 @@ const VerProposta = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
+      try {
         const propostaData = await buscarPropostaPorId(propostaId);
         setProposta(propostaData);
 
         const [freelancerData, servicoData] = await Promise.all([
-            consultarFreelancerPorId(propostaData.freelancerId),
-            consultarServicoPorId(propostaData.servicoId),
+          consultarFreelancerPorId(propostaData.freelancerId),
+          consultarServicoPorId(propostaData.servicoId),
         ]);
 
         setFreelancer(freelancerData);
         setServico(servicoData);
-        } catch (error) {
+      } catch (error) {
         console.error(error);
-        } finally {
+      } finally {
         setLoading(false);
-        }
+      }
     };
 
     fetchData();
@@ -157,27 +157,26 @@ const VerProposta = () => {
         </div>
       </div>
 
-    {roles.includes("Cliente") && (
+      {roles.includes("Cliente") && (
         <div className="sticky bottom-6 flex justify-end pointer-events-none">
           <button
             onClick={handleAceitar}
             disabled={temPropostaAceita}
             className={`pointer-events-auto px-5 py-3 rounded-xl shadow-lg transition-all duration-300
-              ${
-                temPropostaAceita
-                  ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-black text-white hover:bg-gray-800 hover:scale-[1.02]"
+              ${temPropostaAceita
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-black text-white hover:bg-gray-800 hover:scale-[1.02]"
               }
             `}
           >
             {isPropostaAceita
               ? "Proposta já foi aceita!"
               : outraPropostaAceita
-              ? "Este serviço já aceitou outra proposta"
-              : "Aceitar proposta"}
+                ? "Este serviço já aceitou outra proposta"
+                : "Aceitar proposta"}
           </button>
         </div>
-    )}
+      )}
 
       <p className="text-xl mt-3">
         Projetos Selecionados em Destaque:
@@ -185,9 +184,9 @@ const VerProposta = () => {
 
       <div className="flex gap-5 flex-wrap justify-center">
         {proposta.projetosDestacados?.map((proj) => (
-          <ProposalCards 
-            key={proj.id} 
-            img={proj.imagemUrl} 
+          <ProposalCards
+            key={proj.id}
+            img={proj.imagemUrl}
             url={proj.link}
           />
         ))}
