@@ -66,5 +66,18 @@ namespace Backend.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<PagedResult<Servico>> ConsultarPorClienteAsync(
+            int clienteId,
+            int pagina,
+            int tamanhoPagina
+        )
+        {
+            var query = _context.Servicos
+                .Where(s => s.ClienteId == clienteId)
+                .OrderByDescending(s => s.Id);
+
+            return await query.ToPagedResultAsync(pagina, tamanhoPagina);
+        }
     }
 }

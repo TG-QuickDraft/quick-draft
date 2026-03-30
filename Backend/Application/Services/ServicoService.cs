@@ -8,9 +8,10 @@ using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
 {
-    public class ServicoService(IServicoRepository repository, IMapper mapper) : IServicoService
+    public class ServicoService(IServicoRepository repository, IPropostaRepository propostaRepository, IMapper mapper) : IServicoService
     {
         private readonly IServicoRepository _repository = repository;
+        private readonly IPropostaRepository _propostaRepository = propostaRepository;
         private readonly IMapper _mapper = mapper;
 
         public async Task<ServicoDTO> CriarAsync(CriarServicoDTO criarServico, int usuarioId)
@@ -75,6 +76,42 @@ namespace Backend.Application.Services
             servicoEntidade.ValorMinimo = dto.ValorMinimo;
 
             return await _repository.AtualizarAsync(servicoEntidade);
+        }
+
+        public async Task<bool> AceitarPropostaAsync(int servicoId, int propostaId, int clienteId)
+        {
+            var servico = await _repository.ConsultarPorIdAsync(servicoId)
+                ?? throw new InvalidOperationException("Serviço não encontrado");
+
+            if (servico.ClienteId != clienteId)
+                throw new UnauthorizedAccessException("Não autorizado");
+
+            if (servico.PropostaAceitaId != null)
+                throw new InvalidOperationException("Serviço já possui proposta aceita");
+
+            var proposta = await _propostaRepository.ConsultarPorIdAsync(propostaId);
+
+            if (proposta == null || proposta.ServicoId != servicoId)
+                throw new InvalidOperationException("Proposta não pertence ao serviço");
+
+            servico.PropostaAceitaId = propostaId;
+
+            return await _repository.AtualizarAsync(servico);
+        }
+
+        public async Task<PagedResult<ServicoDTO>> ConsultarPorClienteAsync(
+            int clienteId,
+            int pagina,
+            int tamanhoPagina
+        )
+        {
+            pagina = pagina < 1 ? 1 : pagina;
+            tamanhoPagina = tamanhoPagina < 1 ? 30 : tamanhoPagina;
+            tamanhoPagina = tamanhoPagina > 100 ? 100 : tamanhoPagina;
+
+            var list = await _repository.ConsultarPorClienteAsync(clienteId, pagina, tamanhoPagina);
+
+            return list.Map<Servico, ServicoDTO>(_mapper);
         }
     }
 }
