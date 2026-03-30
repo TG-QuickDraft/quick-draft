@@ -34,6 +34,7 @@ const chats = [
       orcamentoIsAberto: true,
       prazo: "2026-03-04",
       valorMinimo: 0,
+      propostaAceitaId: 0,
     },
   },
   {
@@ -57,6 +58,7 @@ const chats = [
       orcamentoIsAberto: true,
       prazo: "2026-03-03",
       valorMinimo: 0,
+      propostaAceitaId: 0,
     },
   },
 ];
