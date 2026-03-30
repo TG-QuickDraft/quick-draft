@@ -1,5 +1,5 @@
 import axios from "axios";
-import { localStorageKeys } from "../utils/localStorageKeys";
+import { localStorageKeys } from "../utils/storageKeys";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "",

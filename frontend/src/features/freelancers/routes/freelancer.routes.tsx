@@ -7,6 +7,7 @@ import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import VisualizarProposta from "../pages/proposal/VisualizarProposta";
 import VerProposta from "../pages/proposal/VerProposta";
 import CadastrarProposta from "../pages/proposal/CadastrarProposta";
+import { RequireRole } from "@/features/auth/components/RequireRole";
 
 export const freelancerRoutes = [
   { path: freelancerPaths.pesquisaFreelancer, element: <PesquisaFreelancer /> },
@@ -18,15 +19,28 @@ export const freelancerRoutes = [
 
   {
     path: freelancerPaths.cadastrarProjetoFreelancer,
-    element: <CadastrarProjetoFreelancer />,
+    element: (
+      <RequireRole roles={["Freelancer"]}>
+        <CadastrarProjetoFreelancer />
+      </RequireRole>
+    ),
   },
   {
     path: freelancerPaths.cadastrarContaBancaria,
-    element: <CadastrarContaBancaria />,
+    element: (
+      <RequireRole roles={["Freelancer"]}>
+        <CadastrarContaBancaria />
+      </RequireRole>
+    ),
   },
   { path: freelancerPaths.visualizarProposta, element: <VisualizarProposta /> },
-
   { path: `${freelancerPaths.verProposta}/:id`, element: <VerProposta /> },
-
-  { path: freelancerPaths.cadastrarProposta, element: <CadastrarProposta /> },
+  {
+    path: freelancerPaths.cadastrarProposta,
+    element: (
+      <RequireRole roles={["Freelancer"]}>
+        <CadastrarProposta />
+      </RequireRole>
+    ),
+  },
 ];

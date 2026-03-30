@@ -43,9 +43,6 @@ export const CadastrarUsuario = () => {
 
   const tipoSelecionado = watch("tipoUsuario");
 
-  const fotoPerfilImagem = watch("fotoPerfil.imagem");
-  const foto = fotoPerfilImagem?.[0];
-
   const enviar = async (data: IRegisterUserForm) => {
     const usuario = {
       nome: data.nome,
