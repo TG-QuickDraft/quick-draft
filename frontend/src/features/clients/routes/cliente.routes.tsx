@@ -1,6 +1,7 @@
 import { CadastrarCartaoCredito } from "@/features/finance/pages/CadastrarCartaoCredito";
 import { PerfilCliente } from "@/features/clients/pages/PerfilCliente";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { RequireRole } from "@/features/auth/components/RequireRole";
 
 export const clienteRoutes = [
   {
@@ -9,6 +10,10 @@ export const clienteRoutes = [
   },
   {
     path: clientePaths.cadastrarCartaoCredito,
-    element: <CadastrarCartaoCredito />,
+    element: (
+      <RequireRole roles={["Cliente"]}>
+        <CadastrarCartaoCredito />
+      </RequireRole>
+    ),
   },
 ];

@@ -2,6 +2,7 @@ import { MockProfile } from "@/shared/assets";
 import clsx from "clsx";
 
 const sizes = {
+  xs: "w-8 h-8",
   sm: "w-12 h-12",
   md: "w-20 h-20",
   lg: "w-50 h-50",
