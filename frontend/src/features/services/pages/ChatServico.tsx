@@ -102,7 +102,7 @@ export const ChatServico = () => {
           </div>
         </section>
 
-        <section className="flex flex-1 min-h-0">
+        <section className="flex flex-1 min-h-0 max-h-[calc(100vh-140px)]">
           <Chat
             mensagem={mensagem}
             mensagens={chat.mensagens}
