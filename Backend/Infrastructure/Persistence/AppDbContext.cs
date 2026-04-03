@@ -17,6 +17,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<CartaoCredito> CartoesCredito { get; set; }
         public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<MensagemServico> MensagensServico { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
