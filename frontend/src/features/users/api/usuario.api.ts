@@ -4,24 +4,24 @@ import type { AtualizarSenhaDTO } from "@/features/users/dtos/AtualizarSenhaDTO"
 import type { AtualizarDadosUsuarioDTO } from "@/features/users/dtos/AtualizarDadosUsuarioDTO";
 import type { MeResponseDTO } from "@/features/auth/dtos/MeResponseDTO";
 import api from "@/shared/apis/api";
-import type { Usuario } from "../dtos/Usuario";
+import type { UsuarioDTO } from "../dtos/UsuarioDTO";
 
 const BASE_PATH = "/api/usuario";
 
 export const adicionarUsuario = async (
   usuario: CriarUsuarioDTO,
-): Promise<Usuario> => {
+): Promise<UsuarioDTO> => {
   try {
-    const { data } = await api.post<Usuario>(BASE_PATH, usuario);
+    const { data } = await api.post<UsuarioDTO>(BASE_PATH, usuario);
     return data;
   } catch {
     throw new Error("Erro ao adicionar usuário.");
   }
 };
 
-export const consultarUsuario = async (): Promise<Usuario> => {
+export const consultarUsuario = async (): Promise<UsuarioDTO> => {
   try {
-    const { data } = await api.get<Usuario>(BASE_PATH);
+    const { data } = await api.get<UsuarioDTO>(BASE_PATH);
     return data;
   } catch {
     throw new Error("Erro ao consultar usuário.");

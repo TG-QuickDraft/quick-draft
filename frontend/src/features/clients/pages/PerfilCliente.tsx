@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import Title from "@/shared/components/ui/titles/Title";
 
-import type { Cliente } from "@/features/clients/dtos/Cliente";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
 import StarRating from "@/shared/components/ui/StarRating";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
@@ -13,7 +13,7 @@ import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 export const PerfilCliente = () => {
   const { id } = useParams();
 
-  const [cliente, setCliente] = useState<Cliente | null>(null);
+  const [cliente, setCliente] = useState<ClienteDTO | null>(null);
 
   useEffect(() => {
     const obterDados = async () => {

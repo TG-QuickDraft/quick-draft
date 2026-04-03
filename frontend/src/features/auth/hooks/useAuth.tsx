@@ -4,7 +4,7 @@ import { localStorageKeys } from "@/shared/utils/storageKeys";
 import { loginApi } from "@/features/auth/api/auth.api";
 import { getRolesFromToken } from "@/shared/utils/getRolesFromToken";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
-import type { Usuario } from "@/features/users/dtos/Usuario";
+import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import Spinner from "@/shared/components/ui/Spinner";
 
@@ -20,7 +20,7 @@ interface IUserProvider {
   login: (loginDTO: LoginDTO) => Promise<void>;
   logout: () => void;
   roles: string[];
-  usuario: Usuario | null;
+  usuario: UsuarioDTO | null;
 }
 
 export const AuthContext = createContext({} as IUserProvider);
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [roles, setRoles] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(true);
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -61,7 +61,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const obterDadosUsuario = async () => {
-      const dadosUsuario: Usuario = await consultarUsuario();
+      const dadosUsuario: UsuarioDTO = await consultarUsuario();
       setUsuario(dadosUsuario);
     };
     obterDadosUsuario();

@@ -1,4 +1,4 @@
 export type BandeiraCartaoCreditoDTO = {
-  id:           number;
-  nome:         string;
+  id: number;
+  nome: string;
 };

@@ -1,7 +1,7 @@
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
 import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
 import api from "@/shared/apis/api";
-import type { Servico } from "../dtos/Servico";
+import type { ServicoDTO } from "../dtos/ServicoDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
 
 const BASE_PATH = "/api/servico";
@@ -10,9 +10,9 @@ export const consultarServicos = async (
   filtro: FiltroServicoDTO,
   pagina: number,
   tamanhoPagina: number,
-): Promise<PagedResult<Servico>> => {
+): Promise<PagedResult<ServicoDTO>> => {
   try {
-    const { data } = await api.get<PagedResult<Servico>>(BASE_PATH, {
+    const { data } = await api.get<PagedResult<ServicoDTO>>(BASE_PATH, {
       params: {
         ...filtro,
         pagina,
@@ -25,9 +25,9 @@ export const consultarServicos = async (
   }
 };
 
-export const consultarServicoPorId = async (id: number): Promise<Servico> => {
+export const consultarServicoPorId = async (id: number): Promise<ServicoDTO> => {
   try {
-    const { data } = await api.get<Servico>(`${BASE_PATH}/${id}`);
+    const { data } = await api.get<ServicoDTO>(`${BASE_PATH}/${id}`);
     return data;
   } catch {
     throw new Error("Erro ao consultar serviço.");
@@ -36,9 +36,9 @@ export const consultarServicoPorId = async (id: number): Promise<Servico> => {
 
 export const adicionarServico = async (
   servico: CriarServicoDTO,
-): Promise<Servico> => {
+): Promise<ServicoDTO> => {
   try {
-    const { data } = await api.post<Servico>(BASE_PATH, servico);
+    const { data } = await api.post<ServicoDTO>(BASE_PATH, servico);
     return data;
   } catch {
     throw new Error("Erro ao adicionar serviço.");
@@ -48,9 +48,9 @@ export const adicionarServico = async (
 export const consultarMeusServicos = async (
   pagina: number,
   tamanhoPagina: number,
-): Promise<PagedResult<Servico>> => {
+): Promise<PagedResult<ServicoDTO>> => {
   try {
-    const { data } = await api.get<PagedResult<Servico>>(`${BASE_PATH}/meus-servicos`, {
+    const { data } = await api.get<PagedResult<ServicoDTO>>(`${BASE_PATH}/meus-servicos`, {
       params: {
         pagina,
         tamanhoPagina,

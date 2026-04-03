@@ -7,12 +7,12 @@ import Title from "@/shared/components/ui/titles/Title";
 
 import Button from "@/shared/components/ui/buttons/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import type { Servico } from "../dtos/Servico";
+import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { servicoPaths } from "../routes/servicoPaths";
-import type { Cliente } from "@/features/clients/dtos/Cliente";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -21,8 +21,8 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 export const VisualizarServico = () => {
   const { id } = useParams();
 
-  const [servico, setServico] = useState<Servico | null>(null);
-  const [cliente, setCliente] = useState<Cliente | null>(null);
+  const [servico, setServico] = useState<ServicoDTO | null>(null);
+  const [cliente, setCliente] = useState<ClienteDTO | null>(null);
 
   const { isAuthenticated, roles } = useAuth();
 
@@ -104,8 +104,9 @@ export const VisualizarServico = () => {
             ))}
           </div>
 
-          {isAuthenticated && roles.includes("Freelancer") && (
-            temPropostaAceita ? (
+          {isAuthenticated &&
+            roles.includes("Freelancer") &&
+            (temPropostaAceita ? (
               <Button className="flex-1 mt-6 p-4! bg-gray-400 text-white cursor-not-allowed">
                 Este serviço já tem uma proposta aceita
               </Button>
@@ -114,12 +115,9 @@ export const VisualizarServico = () => {
                 className="flex"
                 to={freelancerPaths.cadastrarPropostaById(servico?.id ?? "")}
               >
-                <Button className="flex-1 mt-6 p-4!">
-                  Enviar Proposta
-                </Button>
+                <Button className="flex-1 mt-6 p-4!">Enviar Proposta</Button>
               </Link>
-            )
-          )}          
+            ))}
         </section>
       </main>
     </div>
