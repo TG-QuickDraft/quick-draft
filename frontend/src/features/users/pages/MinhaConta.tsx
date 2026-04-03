@@ -12,6 +12,8 @@ import UploadFotoButton from "@/features/users/components/UploadPhotoButton";
 import { MeusServicosList } from "@/features/users/components/MeusServicosList";
 import { consultarMeusServicos } from "@/features/services/api/servico.api";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { consultarMinhasPropostas } from "@/features/freelancers/api/proposal.api";
+import { MinhasPropostasList } from "../components/MinhasPropostasList";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
@@ -21,6 +23,8 @@ export const MinhaConta = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const { roles } = useAuth();
   const [temServicos, setTemServicos] = useState<boolean | null>(null);
+  const [temPropostas, setTemPropostas] = useState<boolean | null>(null);
+
   useEffect(() => {
     const obterDadosUsuario = async () => {
       const dadosUsuario: Usuario = await consultarUsuario();
@@ -42,7 +46,19 @@ export const MinhaConta = () => {
       }
     };
 
+    const verificarPropostas = async () => {
+      if (!roles.includes("Freelancer")) return;
+
+      try {
+        const response = await consultarMinhasPropostas();
+        setTemPropostas(response.length > 0);
+      } catch {
+        setTemPropostas(false);
+      }
+    };
+
     verificarServicos();
+    verificarPropostas();
   }, [roles]);
 
   return (
@@ -102,7 +118,10 @@ export const MinhaConta = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-6">Meus Serviços</h2>
+            <h2 className="text-xl font-semibold mb-6">
+              {roles.includes("Cliente") ? "Meus Serviços" : ""}
+              {roles.includes("Freelancer") ? "Minhas Propostas" : ""}
+            </h2>
 
             <div className="flex gap-6 border-b border-gray-300 mb-16">
               <button className="pb-2 border-b-2 border-black font-medium">
@@ -131,6 +150,20 @@ export const MinhaConta = () => {
                     <AddButton
                       onClick={() => navigate(servicoPaths.cadastrarServico)}
                     />
+                  </div>
+                )}
+              </>
+            )}
+
+            {roles.includes("Freelancer") && temPropostas !== null && (
+              <>
+                {temPropostas ? (
+                  <MinhasPropostasList />
+                ) : (
+                  <div className="flex flex-col items-center justify-center mt-24">
+                    <h3 className="text-2xl font-semibold mb-2">
+                      Nenhuma Proposta Realizada
+                    </h3>
                   </div>
                 )}
               </>
