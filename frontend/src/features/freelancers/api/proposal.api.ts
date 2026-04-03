@@ -29,7 +29,7 @@ export const consultarMinhasPropostas = async () => {
     const { data } = await api.get<ProposalResponse[]>(`${BASE_PATH}/minhas-propostas`);
     return data;
   } catch {
-    throw new Error("Não foi possível buscar as propostas com base no serviço")
+    throw new Error("Não foi possível buscar suas propostas")
   }
 }
 
