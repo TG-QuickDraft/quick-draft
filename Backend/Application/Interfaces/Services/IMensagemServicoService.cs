@@ -1,10 +1,11 @@
 using Backend.Application.DTOs.Mensagem;
+using Backend.Domain.Entities;
 
 namespace Backend.Application.Interfaces.Services
 {
     public interface IMensagemServicoService
     {
-        Task EnviarMensagemAsync(
+        Task<MensagemServico> EnviarMensagemAsync(
             EnviarMensagemDTO dto,
             int usuarioLogadoId
         );
