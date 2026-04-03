@@ -1,5 +1,8 @@
-public class EnviarMensagemDTO
+namespace Backend.Application.DTOs.Mensagem
 {
-    public int ServicoId { get; set; }
-    public string Mensagem { get; set; } = string.Empty;
+    public class EnviarMensagemDTO
+    {
+        public int ServicoId { get; set; }
+        public string Mensagem { get; set; } = string.Empty;
+    }
 }

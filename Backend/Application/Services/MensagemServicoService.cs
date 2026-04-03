@@ -1,4 +1,5 @@
-using Backend.Application.DTOs;
+using AutoMapper;
+using Backend.Application.DTOs.Mensagem;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
 using Backend.Domain.Entities;
@@ -6,12 +7,14 @@ using Backend.Domain.Entities;
 public class MensagemServicoService(
     IMensagemServicoRepository repository,
     IServicoRepository servicoRepository,
-    IPropostaRepository propostaRepository
+    IPropostaRepository propostaRepository,
+    IMapper mapper
 ) : IMensagemServicoService
 {
     private readonly IMensagemServicoRepository _repository = repository;
     private readonly IServicoRepository _servicoRepository = servicoRepository;
     private readonly IPropostaRepository _propostaRepository = propostaRepository;
+    private readonly IMapper _mapper = mapper;
 
     public async Task EnviarMensagemAsync(
         EnviarMensagemDTO dto,
@@ -78,12 +81,6 @@ public class MensagemServicoService(
 
         var mensagens = await _repository.ConsultarPorServicoIdAsync(servicoId);
 
-        return mensagens
-            .OrderBy(m => m.Data)
-            .Select(m => new MensagemChatDTO
-            {
-                UsuarioId = m.RemetenteUsuarioId,
-                Mensagem = m.Mensagem
-            });
+        return _mapper.Map<IEnumerable<MensagemChatDTO>>(mensagens);
     }
 }

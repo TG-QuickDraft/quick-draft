@@ -9,12 +9,13 @@ namespace Backend.Infrastructure.Persistence.Repositories
     {
         private readonly AppDbContext _context = context;
 
-        public async Task CriarAsync(MensagemServico mensagem)
+        public async Task<MensagemServico> CriarAsync(MensagemServico mensagem)
         {
             await _context.MensagensServico.AddAsync(mensagem);
             await _context.SaveChangesAsync();
+            return mensagem;
         }
-
+   
         public async Task<IEnumerable<MensagemServico>> ConsultarPorServicoIdAsync(int servicoId)
         {
             return await _context.MensagensServico
