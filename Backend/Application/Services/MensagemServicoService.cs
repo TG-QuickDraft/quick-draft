@@ -18,6 +18,9 @@ public class MensagemServicoService(
         int usuarioLogadoId
     )
     {
+        if (string.IsNullOrWhiteSpace(dto.Mensagem))
+            throw new ArgumentException("A mensagem não pode ser vazia");
+            
         var servico = await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
             ?? throw new InvalidOperationException("Serviço não encontrado");
 
