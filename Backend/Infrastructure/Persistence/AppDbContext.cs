@@ -171,6 +171,10 @@ namespace Backend.Infrastructure.Persistence
                     IsAdmin = true
                 }
             );
+
+            modelBuilder.Entity<Proposta>()
+            .HasIndex(p => new { p.ServicoId, p.FreelancerId })
+            .IsUnique();
         }
     }
 }
