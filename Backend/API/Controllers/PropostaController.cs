@@ -38,6 +38,15 @@ namespace Backend.API.Controllers
             );
         }
 
+        [HttpGet("minhas-propostas")]
+        public async Task<IActionResult> ConsultarMinhasPropostas()
+        {
+            int freelancerId = User.GetUserId();
+            return Ok(
+                await _service.ConsultarPorIdFreelancerAsync(freelancerId)
+            );
+        }
+
         [HttpPost]
         [Authorize(Roles = Roles.Freelancer)]
         public async Task<IActionResult> CriarProposta([FromBody] CriarPropostaDTO dto)

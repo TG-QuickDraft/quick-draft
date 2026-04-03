@@ -24,6 +24,15 @@ export const buscarPropostasPorServico = async (
   }
 }
 
+export const consultarMinhasPropostas = async () => {
+  try{
+    const { data } = await api.get<ProposalResponse[]>(`${BASE_PATH}/minhas-propostas`);
+    return data;
+  } catch {
+    throw new Error("Não foi possível buscar as propostas com base no serviço")
+  }
+}
+
 export const buscarPropostaPorId = async (
   id: number,
 ): Promise<ProposalResponse> => {
