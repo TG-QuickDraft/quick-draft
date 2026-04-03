@@ -20,6 +20,7 @@ namespace Backend.Infrastructure
             services.AddScoped<IPropostaRepository, PropostaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IAuditRepository, AuditRepository>();
+            services.AddScoped<IMensagemServicoRepository, MensagemServicoRepository>();
 
             services.AddScoped<ITokenService, JwtService>();
             services.AddScoped<IUploadService, LocalUploadService>();
