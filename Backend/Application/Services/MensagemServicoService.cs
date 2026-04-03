@@ -30,14 +30,16 @@ public class MensagemServicoService(
         var clienteId = servico.ClienteId;
         var freelancerId = proposta.FreelancerId;
 
-        if (usuarioLogadoId != clienteId && usuarioLogadoId != freelancerId)
+        int destinatarioId;
+
+        if (usuarioLogadoId == clienteId)
+            destinatarioId = freelancerId;
+
+        else if (usuarioLogadoId == freelancerId)
+            destinatarioId = clienteId;
+
+        else
             throw new UnauthorizedAccessException("Você não faz parte deste chat");
-
-        if (dto.DestinatarioUsuarioId != clienteId && dto.DestinatarioUsuarioId != freelancerId)
-            throw new InvalidOperationException("Destinatário inválido");
-
-        if (dto.DestinatarioUsuarioId == usuarioLogadoId)
-            throw new InvalidOperationException("Você não pode enviar mensagem para si mesmo");
 
         var mensagem = new MensagemServico
         {
@@ -45,7 +47,7 @@ public class MensagemServicoService(
             Data = DateTime.UtcNow,
             Mensagem = dto.Mensagem,
             RemetenteUsuarioId = usuarioLogadoId,
-            DestinatarioUsuarioId = dto.DestinatarioUsuarioId
+            DestinatarioUsuarioId = destinatarioId
         };
 
         await _repository.CriarAsync(mensagem);
