@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
-import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelancer";
+import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
 import { useEffect, useState } from "react";
 
 import Title from "@/shared/components/ui/titles/Title";
@@ -8,7 +8,7 @@ import Title from "@/shared/components/ui/titles/Title";
 import Button from "@/shared/components/ui/buttons/Button";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { TesteMarkdown } from "@/features/freelancers/components/TesteMarkdown";
-import type { ProjetoFreelancer } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancer";
+import type { ProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancerDTO";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 import { PiEmptyLight } from "react-icons/pi";
 import { MockProfile } from "@/shared/assets";
@@ -21,10 +21,10 @@ import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
 export const PerfilFreelancer = () => {
   const { id } = useParams();
 
-  const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
+  const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
 
   const [projetosFreelancer, setProjetosFreelancer] = useState<
-    ProjetoFreelancer[]
+    ProjetoFreelancerDTO[]
   >([]);
 
   useEffect(() => {

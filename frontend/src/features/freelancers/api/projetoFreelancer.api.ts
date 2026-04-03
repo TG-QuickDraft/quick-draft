@@ -1,14 +1,14 @@
 import api from "@/shared/apis/api";
-import type { ProjetoFreelancer } from "../dtos/projetoFreelancer/ProjetoFreelancer";
+import type { ProjetoFreelancerDTO } from "../dtos/projetoFreelancer/ProjetoFreelancerDTO";
 import type { CriarProjetoFreelancerDTO } from "../dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 
 const BASE_PATH = "/api/projetoFreelancer";
 
 export const consultarProjetosFreelancerPorIdFreelancer = async (
   freelancerId: number,
-): Promise<ProjetoFreelancer[]> => {
+): Promise<ProjetoFreelancerDTO[]> => {
   try {
-    const { data } = await api.get<ProjetoFreelancer[]>(
+    const { data } = await api.get<ProjetoFreelancerDTO[]>(
       `${BASE_PATH}/freelancer/${freelancerId}`,
     );
     return data;

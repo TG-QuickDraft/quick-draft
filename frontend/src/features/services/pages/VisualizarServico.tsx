@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 import Title from "@/shared/components/ui/titles/Title";
 
 import Button from "@/shared/components/ui/buttons/Button";
-import type { Servico } from "../dtos/Servico";
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import type { Cliente } from "@/features/clients/dtos/Cliente";
+import { servicoPaths } from "../routes/servicoPaths";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -20,8 +22,8 @@ import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 export const VisualizarServico = () => {
   const { id } = useParams();
 
-  const [servico, setServico] = useState<Servico | null>(null);
-  const [cliente, setCliente] = useState<Cliente | null>(null);
+  const [servico, setServico] = useState<ServicoDTO | null>(null);
+  const [cliente, setCliente] = useState<ClienteDTO | null>(null);
 
   const { isAuthenticated, roles } = useAuth();
 

@@ -1,7 +1,6 @@
 export type CartaoCreditoDTO = {
-  id:               number;
-  nomeImpresso:     string;
-  codigoSeguranca:  string;
-  bandeiraId:       number;
+  id: number;
+  nomeImpresso: string;
+  codigoSeguranca: string;
+  bandeiraId: number;
 };
-

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { consultarMeusServicos } from "@/features/services/api/servico.api";
-import type { Servico } from "@/features/services/dtos/Servico";
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 import { FiEye } from "react-icons/fi";
@@ -8,7 +8,7 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 
 export const MeusServicosList = () => {
-  const [servicos, setServicos] = useState<Servico[]>([]);
+  const [servicos, setServicos] = useState<ServicoDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 

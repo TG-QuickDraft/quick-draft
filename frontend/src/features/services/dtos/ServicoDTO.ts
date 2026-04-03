@@ -1,4 +1,4 @@
-export type Servico = {
+export type ServicoDTO = {
   id: number;
   nome: string;
   descricao: string;

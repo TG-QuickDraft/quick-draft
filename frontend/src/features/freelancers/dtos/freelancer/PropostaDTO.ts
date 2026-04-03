@@ -1,4 +1,4 @@
-export interface ProposalRequest {
+export interface CriarPropostaDTO {
   valorPorHora: number;
   prazoEntrega: string;
   valorTotal: number;
@@ -6,10 +6,10 @@ export interface ProposalRequest {
   itensPropostos: string;
   taxaSistemaAdicionadaAoTotal: boolean;
   servicoId: number;
-  projetosDestacados: ProjetosDestacados[];
+  projetosDestacados: ProjetosDestacadosDTO[];
 }
 
-export interface ProposalResponse {
+export interface PropostaDTO {
   id: number;
   valorPorHora: number;
   prazoEntrega: Date;
@@ -20,10 +20,10 @@ export interface ProposalResponse {
   servicoId: number;
   nomeServico: string;
   freelancerId: number;
-  projetosDestacados: ProjetosDestacados[];
+  projetosDestacados: ProjetosDestacadosDTO[];
 }
 
-interface ProjetosDestacados {
+interface ProjetosDestacadosDTO {
   id: number;
   nome: string;
   descricao: string;

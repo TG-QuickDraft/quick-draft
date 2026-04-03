@@ -1,7 +1,7 @@
-import type { ModifiedValue, PrimitiveValue } from "../dtos/AuditLogDTO";
+import type { ModifiedValueDTO , PrimitiveValueDTO } from "../dtos/AuditLogDTO";
 
 interface ValorMudancaProps {
-  valor: PrimitiveValue | ModifiedValue;
+  valor: PrimitiveValueDTO | ModifiedValueDTO;
 }
 
 const ValorMudanca = ({ valor }: ValorMudancaProps) => {

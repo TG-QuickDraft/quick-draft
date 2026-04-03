@@ -1,4 +1,4 @@
-import type { Usuario } from "@/features/users/dtos/Usuario";
+import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
 import { useEffect, useState } from "react";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
@@ -16,7 +16,7 @@ import { consultarMinhasPropostas } from "@/features/freelancers/api/proposal.ap
 import { MinhasPropostasList } from "../components/MinhasPropostasList";
 
 export const MinhaConta = () => {
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
   const navigate = useNavigate();
   const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -27,7 +27,7 @@ export const MinhaConta = () => {
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
-      const dadosUsuario: Usuario = await consultarUsuario();
+      const dadosUsuario: UsuarioDTO = await consultarUsuario();
       setUsuario(dadosUsuario);
     };
 
@@ -179,7 +179,7 @@ export const MinhaConta = () => {
         aberto={modalAberto}
         onClose={() => setModalAberto(false)}
         onSuccess={async () => {
-          const dadosUsuario: Usuario = await consultarUsuario();
+          const dadosUsuario: UsuarioDTO = await consultarUsuario();
           setUsuario(dadosUsuario);
         }}
       />

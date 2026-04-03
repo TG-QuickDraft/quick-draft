@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Button from "@/shared/components/ui/buttons/Button";
 
 import { consultarServicos } from "@/features/services/api/servico.api";
-import type { Servico } from "@/features/services/dtos/Servico";
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { PiEmptyLight } from "react-icons/pi";
 
 import Input from "@/shared/components/ui/Inputs/Input";
@@ -18,7 +18,7 @@ import { useSearchParams } from "react-router-dom";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 
 export function PesquisaServico() {
-  const [servicos, setServicos] = useState<PagedResult<Servico>>();
+  const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
 
   const [nome, setNome] = useState("");
   const [orcamentoIsAberto, setOrcamentoIsAberto] = useState("");
