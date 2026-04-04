@@ -70,11 +70,7 @@ export function PesquisaServico() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="flex flex-1 flex-col items-center h-full justify-center">
-      <div>
-        <p>{servicos?.total} serviços encontrados</p>
-      </div>
-
+    <div className="flex flex-col items-center">
       <div className="flex gap-8 p-4 w-full">
         <form onSubmit={enviar} className="flex flex-col gap-4 w-50">
           <p>Nome</p>
@@ -124,24 +120,31 @@ export function PesquisaServico() {
           <Button type="submit">Pesquisar</Button>
         </form>
 
-        <div className="flex flex-col gap-5 flex-1">
-          {servicos && servicos.itens.length === 0 && (
-            <p className="text-2xl">Nenhum serviço encontrado</p>
+        <div className="flex flex-col w-full gap-3">
+          {servicos && servicos.total > 0 && (
+            <span className="text-neutral-80">
+              Serviços encontrados: {servicos.total}
+            </span>
           )}
 
-          {servicos &&
-            servicos.itens.length > 0 &&
-            servicos.itens.map((servico) => (
-              <Card
-                key={servico.id}
-                title={servico.nome}
-                subtitle={`Valor mínimo: ${numberToCurrency(servico.valorMinimo)}`}
-                description={servico.descricao}
-                onClick={() =>
-                  navigate(servicoPaths.visualizarServicoById(servico.id))
-                }
-              />
-            ))}
+          <div className="flex flex-col gap-5 flex-1">
+            {servicos && servicos.itens.length === 0 && (
+              <p className="text-2xl">Nenhum serviço encontrado</p>
+            )}
+            {servicos &&
+              servicos.itens.length > 0 &&
+              servicos.itens.map((servico) => (
+                <Card
+                  key={servico.id}
+                  title={servico.nome}
+                  subtitle={`Valor mínimo: ${numberToCurrency(servico.valorMinimo)}`}
+                  description={servico.descricao}
+                  onClick={() =>
+                    navigate(servicoPaths.visualizarServicoById(servico.id))
+                  }
+                />
+              ))}
+          </div>
         </div>
       </div>
 
