@@ -4,6 +4,8 @@ import CardWrapper from "./CardWrapper";
 
 const Card = ({
   photoPath,
+  showPhoto,
+
   title = "Title",
   subtitle = "Subtitle",
   description = "Description",
@@ -12,6 +14,8 @@ const Card = ({
   onClick,
 }: {
   photoPath?: string;
+  showPhoto?: boolean;
+
   title?: string;
   subtitle?: string;
   description?: string;
@@ -22,7 +26,7 @@ const Card = ({
   return (
     <CardWrapper>
       <div className="flex items-center w-full gap-5">
-        {photoPath && (
+        {showPhoto && (
           <div className="w-fit">
             <ProfilePhoto photoPath={photoPath} size="md" />
           </div>
