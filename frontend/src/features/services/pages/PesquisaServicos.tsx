@@ -17,6 +17,8 @@ import type { PagedResult } from "@/shared/types/PagedResult";
 import { useSearchParams } from "react-router-dom";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 
+import CardWrapper from "@/shared/components/ui/CardWrapper";
+
 export function PesquisaServico() {
   const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
 
@@ -181,3 +183,7 @@ export function PesquisaServico() {
 }
 
 export default PesquisaServico;
+
+export const Ola = ({ children }: { children: React.ReactNode }) => {
+  return <CardWrapper>{children}</CardWrapper>;
+};
