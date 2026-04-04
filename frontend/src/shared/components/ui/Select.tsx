@@ -53,13 +53,13 @@ const Select = ({
   };
 
   return (
-    <div ref={ref} className="relative w-full">
+    <div ref={ref} className="relative w-full min-w-30">
       <button
         type="button"
         disabled={disabled}
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
         className={clsx(
-          "px-4 py-2 bg-secondary-100 text-left cursor-pointer",
+          "px-4 py-2 bg-secondary-100 text-left cursor-pointer w-full",
           "border border-gray-600/20",
           "rounded-lg min-w-35 shadow",
           className,

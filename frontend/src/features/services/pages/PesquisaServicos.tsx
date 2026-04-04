@@ -19,7 +19,7 @@ import Input from "@/shared/components/ui/Inputs/Input";
 import clsx from "clsx";
 
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
-import { format } from "date-fns";
+import Select from "@/shared/components/ui/Select";
 
 export function PesquisaServico() {
   const navigate = useNavigate();
@@ -113,27 +113,24 @@ export function PesquisaServico() {
           </InputGroup>
           <InputGroup>
             <Label>Orcamento Aberto</Label>
-            <select
-              value={orcamentoIsAberto}
-              onChange={(e) => setOrcamentoIsAberto(e.target.value)}
-              className="bg-sky-400"
-            >
-              <option value="">Todos</option>
-              <option value="true">Sim</option>
-              <option value="false">Não</option>
-            </select>
+            <Select
+              onChange={(value) => setOrcamentoIsAberto(value)}
+              options={[
+                { label: "Sim", value: "true" },
+                { label: "Não", value: "false" },
+              ]}
+            />
           </InputGroup>
           <InputGroup>
             <Label>Entregue</Label>
-            <select
-              value={isEntregue}
-              onChange={(e) => setIsEntregue(e.target.value)}
-              className="bg-sky-400"
-            >
-              <option value="">Todos</option>
-              <option value="true">Sim</option>
-              <option value="false">Não</option>
-            </select>
+
+            <Select
+              onChange={(value) => setIsEntregue(value)}
+              options={[
+                { label: "Sim", value: "true" },
+                { label: "Não", value: "false" },
+              ]}
+            />
           </InputGroup>
         </div>
 
