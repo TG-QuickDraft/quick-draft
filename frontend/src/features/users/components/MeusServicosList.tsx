@@ -4,7 +4,7 @@ import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
-import CardWrapper from "@/shared/components/ui/CardWrapper";
+import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 
 export const MeusServicosList = () => {

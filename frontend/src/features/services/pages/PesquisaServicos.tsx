@@ -17,7 +17,10 @@ import type { PagedResult } from "@/shared/types/PagedResult";
 import { useSearchParams } from "react-router-dom";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 
-import CardWrapper from "@/shared/components/ui/CardWrapper";
+import CardWrapper from "@/shared/components/ui/card/CardWrapper";
+import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
+import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+import Card from "@/shared/components/ui/card/Card";
 
 export function PesquisaServico() {
   const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
@@ -79,8 +82,8 @@ export function PesquisaServico() {
         <p>{servicos?.total} serviços encontrados</p>
       </div>
 
-      <div className="columns-2 flex gap-8 p-4">
-        <form onSubmit={enviar} className="flex flex-col gap-4 w-1/2">
+      <div className="flex gap-8 p-4 w-full">
+        <form onSubmit={enviar} className="flex flex-col gap-4 w-50">
           <p>Nome</p>
           <Input
             placeholder="Logo, site, etc..."
@@ -128,7 +131,17 @@ export function PesquisaServico() {
           <Button type="submit">Pesquisar</Button>
         </form>
 
-        {servicos?.itens.length === 0 ? (
+        <div className="flex-1">
+          {servicos?.itens.length === 0 ? (
+            <div className="flex flex-1 flex-col items-center justify-center">
+              <p className="text-2xl">Nenhum serviço encontrado</p>
+            </div>
+          ) : (
+            <Card />
+          )}
+        </div>
+
+        {/* {servicos?.itens.length === 0 ? (
           <PiEmptyLight size={30} />
         ) : (
           <table className="w-1/2 text-center shadow-2xl">
@@ -170,7 +183,7 @@ export function PesquisaServico() {
               ))}
             </tbody>
           </table>
-        )}
+        )} */}
       </div>
 
       <SeletorPaginas
@@ -183,7 +196,3 @@ export function PesquisaServico() {
 }
 
 export default PesquisaServico;
-
-export const Ola = ({ children }: { children: React.ReactNode }) => {
-  return <CardWrapper>{children}</CardWrapper>;
-};
