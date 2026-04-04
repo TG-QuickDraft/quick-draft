@@ -20,6 +20,7 @@ import clsx from "clsx";
 
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import Select from "@/shared/components/ui/Select";
+import { FaFilter } from "react-icons/fa";
 
 export function PesquisaServico() {
   const navigate = useNavigate();
@@ -134,7 +135,7 @@ export function PesquisaServico() {
           </InputGroup>
         </div>
 
-        <Button className="w-50!" type="submit">
+        <Button className="w-50!" type="submit" icon={<FaFilter />}>
           Filtrar
         </Button>
       </form>
