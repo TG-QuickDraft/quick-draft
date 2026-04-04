@@ -3,19 +3,23 @@ import ProfilePhoto from "../ProfilePhoto";
 import CardWrapper from "./CardWrapper";
 
 const Card = ({
+  photoPath,
   title = "Title",
   subtitle = "Subtitle",
   description = "Description",
+  btnLabel = "Detalhes",
 }: {
+  photoPath?: string;
   title?: string;
   subtitle?: string;
   description?: string;
+  btnLabel?: string;
 }) => {
   return (
     <CardWrapper>
       <div className="flex items-center w-full gap-5">
         <div className="w-fit">
-          <ProfilePhoto photoPath="" size="md" />
+          <ProfilePhoto photoPath={photoPath} size="md" />
         </div>
 
         <div className="flex-1">
@@ -24,7 +28,7 @@ const Card = ({
           <p>{description}</p>
         </div>
 
-        <DetailsButton>Detalhes</DetailsButton>
+        <DetailsButton>{btnLabel}</DetailsButton>
       </div>
     </CardWrapper>
   );

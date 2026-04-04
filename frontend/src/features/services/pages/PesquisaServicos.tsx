@@ -131,59 +131,22 @@ export function PesquisaServico() {
           <Button type="submit">Pesquisar</Button>
         </form>
 
-        <div className="flex-1">
-          {servicos?.itens.length === 0 ? (
-            <div className="flex flex-1 flex-col items-center justify-center">
-              <p className="text-2xl">Nenhum serviço encontrado</p>
-            </div>
-          ) : (
-            <Card />
+        <div className="flex flex-col gap-5 flex-1">
+          {servicos && servicos.itens.length === 0 && (
+            <p className="text-2xl">Nenhum serviço encontrado</p>
           )}
-        </div>
 
-        {/* {servicos?.itens.length === 0 ? (
-          <PiEmptyLight size={30} />
-        ) : (
-          <table className="w-1/2 text-center shadow-2xl">
-            <thead>
-              <tr className="bg-white text-black">
-                <th className="p-3">Id</th>
-                <th className="p-3">Nome</th>
-                <th className="p-3">Descrição</th>
-                <th className="p-3">Orcamento</th>
-                <th className="p-3">Entregue</th>
-                <th className="p-3">Valor Mínimo</th>
-                <th className="p-3">Prazo</th>
-                <th className="p-3">Ir para Serviço</th>
-              </tr>
-            </thead>
-            <tbody>
-              {servicos?.itens.map((servico, index) => (
-                <tr
-                  key={index}
-                  className="border border-gray-500 hover:bg-gray-500/5"
-                >
-                  <td className="p-3">{servico.id}</td>
-                  <td className="p-3">{servico.nome}</td>
-                  <td className="p-3">{servico.descricao}</td>
-                  <td className="p-3">
-                    {servico?.orcamentoIsAberto ? "Aberto" : "Fechado"}
-                  </td>
-                  <td className="p-3">
-                    {servico?.isEntregue ? "Já entregue" : "Não entregue"}
-                  </td>
-                  <td className="p-3">{servico.valorMinimo}</td>
-                  <td className="p-3">{servico.prazo}</td>
-                  <td className="p-3">
-                    <Link to={servicoPaths.visualizarServicoById(servico.id)}>
-                      <Button>Ver Serviço</Button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )} */}
+          {servicos &&
+            servicos.itens.length > 0 &&
+            servicos.itens.map((servico) => (
+              <Card
+                key={servico.id}
+                title={servico.nome}
+                subtitle={servico.prazo}
+                description={servico.descricao}
+              />
+            ))}
+        </div>
       </div>
 
       <SeletorPaginas
