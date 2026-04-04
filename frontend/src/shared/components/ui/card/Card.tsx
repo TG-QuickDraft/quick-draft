@@ -18,14 +18,16 @@ const Card = ({
   return (
     <CardWrapper>
       <div className="flex items-center w-full gap-5">
-        <div className="w-fit">
-          <ProfilePhoto photoPath={photoPath} size="md" />
-        </div>
+        {photoPath && (
+          <div className="w-fit">
+            <ProfilePhoto photoPath={photoPath} size="md" />
+          </div>
+        )}
 
-        <div className="flex-1">
-          <h1>{title}</h1>
-          <h2>{subtitle}</h2>
-          <p>{description}</p>
+        <div className="flex flex-col gap-1 flex-1">
+          <h1 className="text-3xl">{title}</h1>
+          <h2 className="text-neutral-80">{subtitle}</h2>
+          <p className="text-neutral-80">{description}</p>
         </div>
 
         <DetailsButton>{btnLabel}</DetailsButton>

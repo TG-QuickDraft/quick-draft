@@ -21,6 +21,7 @@ import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import Card from "@/shared/components/ui/card/Card";
+import { numberToCurrency } from "@/shared/utils/number.utils";
 
 export function PesquisaServico() {
   const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
@@ -142,7 +143,7 @@ export function PesquisaServico() {
               <Card
                 key={servico.id}
                 title={servico.nome}
-                subtitle={servico.prazo}
+                subtitle={`Valor mínimo: ${numberToCurrency(servico.valorMinimo)}`}
                 description={servico.descricao}
               />
             ))}
