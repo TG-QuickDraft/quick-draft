@@ -7,13 +7,17 @@ const Card = ({
   title = "Title",
   subtitle = "Subtitle",
   description = "Description",
+
   btnLabel = "Detalhes",
+  onClick,
 }: {
   photoPath?: string;
   title?: string;
   subtitle?: string;
   description?: string;
+
   btnLabel?: string;
+  onClick?: () => void;
 }) => {
   return (
     <CardWrapper>
@@ -30,7 +34,7 @@ const Card = ({
           <p className="text-neutral-80">{description}</p>
         </div>
 
-        <DetailsButton>{btnLabel}</DetailsButton>
+        <DetailsButton onClick={onClick}>{btnLabel}</DetailsButton>
       </div>
     </CardWrapper>
   );

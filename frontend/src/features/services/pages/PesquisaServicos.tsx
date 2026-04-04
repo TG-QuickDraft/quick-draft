@@ -1,29 +1,21 @@
 import { useEffect, useState } from "react";
-
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import Button from "@/shared/components/ui/buttons/Button";
-
 import { consultarServicos } from "@/features/services/api/servico.api";
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
-import { PiEmptyLight } from "react-icons/pi";
-
 import Input from "@/shared/components/ui/Inputs/Input";
-
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
 import { usePagination } from "@/shared/hooks/usePagination";
-import type { PagedResult } from "@/shared/types/PagedResult";
 import { useSearchParams } from "react-router-dom";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
-
-import CardWrapper from "@/shared/components/ui/card/CardWrapper";
-import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
-import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import Card from "@/shared/components/ui/card/Card";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { PagedResult } from "@/shared/types/PagedResult";
+
 export function PesquisaServico() {
+  const navigate = useNavigate();
   const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
 
   const [nome, setNome] = useState("");
@@ -145,6 +137,9 @@ export function PesquisaServico() {
                 title={servico.nome}
                 subtitle={`Valor mínimo: ${numberToCurrency(servico.valorMinimo)}`}
                 description={servico.descricao}
+                onClick={() =>
+                  navigate(servicoPaths.visualizarServicoById(servico.id))
+                }
               />
             ))}
         </div>
