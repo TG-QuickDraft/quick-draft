@@ -18,13 +18,16 @@ import Label from "@/shared/components/ui/Label";
 import Input from "@/shared/components/ui/Inputs/Input";
 import clsx from "clsx";
 
+import DateInput from "@/shared/components/ui/Inputs/DateInput";
+import { format } from "date-fns";
+
 export function PesquisaServico() {
   const navigate = useNavigate();
   const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
 
   const [nome, setNome] = useState("");
   const [orcamentoIsAberto, setOrcamentoIsAberto] = useState("");
-  const [prazoMaximo, setPrazoMaximo] = useState("");
+  const [prazoMaximo, setPrazoMaximo] = useState<Date | null>(null);
   const [valorMinimo, setValorMinimo] = useState("");
   const [isEntregue, setIsEntregue] = useState("");
 
@@ -61,7 +64,7 @@ export function PesquisaServico() {
           nome: nome || undefined,
           orcamentoIsAberto:
             orcamentoIsAberto === "" ? undefined : orcamentoIsAberto === "true",
-          prazoMaximo: prazoMaximo ? new Date(prazoMaximo) : undefined,
+          prazoMaximo: prazoMaximo ? prazoMaximo.toISOString() : undefined,
           valorMinimo: valorMinimo ? Number(valorMinimo) : undefined,
           isEntregue: isEntregue === "" ? undefined : isEntregue === "true",
         },
@@ -91,10 +94,9 @@ export function PesquisaServico() {
           </InputGroup>
           <InputGroup>
             <Label>Prazo máximo</Label>
-            <Input
-              type="date"
-              value={prazoMaximo}
-              onChange={(e) => setPrazoMaximo(e.target.value)}
+            <DateInput
+              selectedDate={prazoMaximo}
+              onChange={(value) => setPrazoMaximo(value)}
             />
           </InputGroup>
           <InputGroup>
@@ -132,7 +134,7 @@ export function PesquisaServico() {
         </div>
 
         <Button className="w-50!" type="submit">
-          Pesquisar
+          Filtrar
         </Button>
       </form>
 
