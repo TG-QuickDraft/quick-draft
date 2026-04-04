@@ -28,7 +28,7 @@ export function PesquisaServico() {
   const [nome, setNome] = useState("");
   const [orcamentoIsAberto, setOrcamentoIsAberto] = useState("");
   const [prazoMaximo, setPrazoMaximo] = useState<Date | null>(null);
-  const [valorMinimo, setValorMinimo] = useState("");
+  const [valorMinimo, setValorMinimo] = useState<number | null>(null);
   const [isEntregue, setIsEntregue] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -65,7 +65,7 @@ export function PesquisaServico() {
           orcamentoIsAberto:
             orcamentoIsAberto === "" ? undefined : orcamentoIsAberto === "true",
           prazoMaximo: prazoMaximo ? prazoMaximo.toISOString() : undefined,
-          valorMinimo: valorMinimo ? Number(valorMinimo) : undefined,
+          valorMinimo: valorMinimo ? valorMinimo : undefined,
           isEntregue: isEntregue === "" ? undefined : isEntregue === "true",
         },
         pagina,
@@ -103,8 +103,12 @@ export function PesquisaServico() {
             <Label>Valor mínimo</Label>
             <Input
               type="number"
-              value={valorMinimo}
-              onChange={(e) => setValorMinimo(e.target.value)}
+              mask="currency"
+              placeholder="R$ 0,00"
+              value={valorMinimo || ""}
+              onCurrencyChange={(val) => {
+                setValorMinimo(val ? Number(val) : null);
+              }}
             />
           </InputGroup>
           <InputGroup>
