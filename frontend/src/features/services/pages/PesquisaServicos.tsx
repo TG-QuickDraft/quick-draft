@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@/shared/components/ui/buttons/Button";
 import { consultarServicos } from "@/features/services/api/servico.api";
-import Input from "@/shared/components/ui/Inputs/Input";
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
 import { usePagination } from "@/shared/hooks/usePagination";
@@ -13,6 +12,11 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 
 import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
+
+import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
+import Label from "@/shared/components/ui/Label";
+import Input from "@/shared/components/ui/Inputs/Input";
+import clsx from "clsx";
 
 export function PesquisaServico() {
   const navigate = useNavigate();
@@ -70,81 +74,99 @@ export function PesquisaServico() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex gap-8 p-4 w-full">
-        <form onSubmit={enviar} className="flex flex-col gap-4 w-50">
-          <p>Nome</p>
-          <Input
-            placeholder="Logo, site, etc..."
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
+    <div className="flex flex-col items-center p-4">
+      <form
+        onSubmit={enviar}
+        className="flex justify-between items-center w-full"
+      >
+        <div className="flex gap-4 w-full items-center">
+          <InputGroup>
+            <Label>Nome</Label>
+            <Input
+              placeholder="Logo, site, etc..."
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Prazo máximo</Label>
+            <Input
+              type="date"
+              value={prazoMaximo}
+              onChange={(e) => setPrazoMaximo(e.target.value)}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Valor mínimo</Label>
+            <Input
+              type="number"
+              value={valorMinimo}
+              onChange={(e) => setValorMinimo(e.target.value)}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Orcamento Aberto</Label>
+            <select
+              value={orcamentoIsAberto}
+              onChange={(e) => setOrcamentoIsAberto(e.target.value)}
+              className="bg-sky-400"
+            >
+              <option value="">Todos</option>
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </InputGroup>
+          <InputGroup>
+            <Label>Entregue</Label>
+            <select
+              value={isEntregue}
+              onChange={(e) => setIsEntregue(e.target.value)}
+              className="bg-sky-400"
+            >
+              <option value="">Todos</option>
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </InputGroup>
+        </div>
 
-          <p>Prazo máximo</p>
-          <Input
-            type="date"
-            value={prazoMaximo}
-            onChange={(e) => setPrazoMaximo(e.target.value)}
-          />
+        <Button className="w-50!" type="submit">
+          Pesquisar
+        </Button>
+      </form>
 
-          <p>Valor mínimo</p>
-          <Input
-            type="number"
-            value={valorMinimo}
-            onChange={(e) => setValorMinimo(e.target.value)}
-          />
+      <div className="flex flex-col w-full gap-3">
+        {servicos && servicos.total > 0 && (
+          <span className="text-neutral-80">
+            Serviços encontrados: {servicos.total}
+          </span>
+        )}
 
-          <p>Orcamento Aberto</p>
-          <select
-            value={orcamentoIsAberto}
-            onChange={(e) => setOrcamentoIsAberto(e.target.value)}
-            className="bg-sky-400"
-          >
-            <option value="">Todos</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
-
-          <p>Entregue</p>
-          <select
-            value={isEntregue}
-            onChange={(e) => setIsEntregue(e.target.value)}
-            className="bg-sky-400"
-          >
-            <option value="">Todos</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
-
-          <Button type="submit">Pesquisar</Button>
-        </form>
-
-        <div className="flex flex-col w-full gap-3">
-          {servicos && servicos.total > 0 && (
-            <span className="text-neutral-80">
-              Serviços encontrados: {servicos.total}
-            </span>
+        <div className="flex flex-col gap-5 flex-1">
+          {servicos && servicos.itens.length === 0 && (
+            <p
+              className={clsx(
+                "flex flex-col justify-center items-center py-25 text-2xl ",
+                "text-neutral-80",
+              )}
+            >
+              Nenhum serviço encontrado
+            </p>
           )}
-
-          <div className="flex flex-col gap-5 flex-1">
-            {servicos && servicos.itens.length === 0 && (
-              <p className="text-2xl">Nenhum serviço encontrado</p>
-            )}
-            {servicos &&
-              servicos.itens.length > 0 &&
-              servicos.itens.map((servico) => (
-                <Card
-                  key={servico.id}
-                  title={servico.nome}
-                  subtitle={`Valor mínimo: ${numberToCurrency(servico.valorMinimo)}`}
-                  description={servico.descricao}
-                  onClick={() =>
-                    navigate(servicoPaths.visualizarServicoById(servico.id))
-                  }
-                />
-              ))}
-          </div>
+          {servicos &&
+            servicos.itens.length > 0 &&
+            servicos.itens.map((servico) => (
+              <Card
+                key={servico.id}
+                title={servico.nome}
+                subtitle={`Valor mínimo: ${numberToCurrency(servico.valorMinimo)}`}
+                description={servico.descricao}
+                onClick={() =>
+                  navigate(servicoPaths.visualizarServicoById(servico.id))
+                }
+              />
+            ))}
         </div>
       </div>
 
