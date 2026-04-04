@@ -1,4 +1,4 @@
-export type ProjetoFreelancer = {
+export type ProjetoFreelancerDTO = {
   id: number;
   nome: string;
   descricao: string;

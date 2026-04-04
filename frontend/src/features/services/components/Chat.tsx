@@ -3,7 +3,7 @@ import Input from "@/shared/components/ui/Inputs/Input";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import clsx from "clsx";
 import { MdOutlineSend } from "react-icons/md";
-import type { Servico } from "../dtos/Servico";
+import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import Title from "@/shared/components/ui/titles/Title";
 
@@ -14,7 +14,7 @@ type ChatProps = {
     nome: string;
     fotoPerfilUrl: string;
   };
-  servico: Servico;
+  servico: ServicoDTO;
   setMensagem: (value: string) => void;
   enviarMensagem: () => void;
 };

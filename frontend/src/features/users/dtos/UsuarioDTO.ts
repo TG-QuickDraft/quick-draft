@@ -1,4 +1,4 @@
-export type Usuario = {
+export type UsuarioDTO = {
   id: number;
   nome: string;
   cpf: string;

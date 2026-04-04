@@ -12,7 +12,7 @@ import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
 import { useEffect, useRef, useState } from "react";
 
 import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
-import type { ProjetoFreelancer } from "../../dtos/projetoFreelancer/ProjetoFreelancer";
+import type { ProjetoFreelancerDTO } from "../../dtos/projetoFreelancer/ProjetoFreelancerDTO";
 import Subtitle from "@/shared/components/ui/titles/Subtitle";
 import SelectableProjectCard from "../../components/SelectableProjectCard";
 import ProposalSection from "../../components/ProposalSection";
@@ -28,14 +28,14 @@ import {
 
 import { GoPlus } from "react-icons/go";
 import { useCreateProposal } from "../../hooks/useCreateProposal";
-import type { ProposalRequest } from "../../dtos/freelancer/Proposal";
+import type { CriarPropostaDTO } from "../../dtos/freelancer/PropostaDTO";
 import Modal from "@/shared/components/ui/Modal";
 import { parseCurrencyToNumber } from "@/shared/utils/number.utils";
 import { useNavigate, useParams } from "react-router-dom";
-import type { Servico } from "@/features/services/dtos/Servico";
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { consultarServicoPorId } from "@/features/services/api/servico.api";
 import Spinner from "@/shared/components/ui/Spinner";
-import type { Cliente } from "@/features/clients/dtos/Cliente";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
@@ -72,10 +72,10 @@ const CadastrarProposta = () => {
   const countSelectedProjects = selectedProjects.length;
 
   const [freelancerProjects, setFreelancerProjects] = useState<
-    ProjetoFreelancer[]
+    ProjetoFreelancerDTO[]
   >([]);
-  const [servico, setServico] = useState<Servico | null>(null);
-  const [cliente, setCliente] = useState<Cliente | null>(null);
+  const [servico, setServico] = useState<ServicoDTO | null>(null);
+  const [cliente, setCliente] = useState<ClienteDTO | null>(null);
 
   const {
     register,
@@ -115,7 +115,7 @@ const CadastrarProposta = () => {
   }, [reset]);
 
   const onValid = (formData: INewProposalForm) => {
-    const proposalData: ProposalRequest = {
+    const proposalData: CriarPropostaDTO = {
       mensagem: formData.description,
       valorPorHora: parseCurrencyToNumber(formData.hourlyValue),
       prazoEntrega: new Date(formData.deadline).toISOString(),

@@ -12,9 +12,9 @@ import {
 } from "@/features/services/api/servico.api";
 import { buscarPropostaPorId } from "@/features/freelancers/api/proposal.api";
 
-import type { ProposalResponse } from "@/features/freelancers/dtos/freelancer/Proposal";
-import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelancer";
-import type { Servico } from "@/features/services/dtos/Servico";
+import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
+import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import ProposalCards from "../../components/ProposalCards";
@@ -25,9 +25,9 @@ const VerProposta = () => {
   const { id } = useParams();
   const propostaId = Number(id);
 
-  const [proposta, setProposta] = useState<ProposalResponse | null>(null);
-  const [freelancer, setFreelancer] = useState<Freelancer | null>(null);
-  const [servico, setServico] = useState<Servico | null>(null);
+  const [proposta, setProposta] = useState<PropostaDTO | null>(null);
+  const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
+  const [servico, setServico] = useState<ServicoDTO | null>(null);
   const [loading, setLoading] = useState(true);
 
   const [showModal, setShowModal] = useState(false);

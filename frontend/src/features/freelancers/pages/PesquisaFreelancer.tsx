@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelancer";
+import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
 import { consultarFreelancers } from "@/features/freelancers/api/freelancer.api";
 import { Link } from "react-router-dom";
 
@@ -21,7 +21,7 @@ import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
 
 export function PesquisaFreelancer() {
   const TABLE_SPACING = "p-3";
-  const [freelancers, setFreelancers] = useState<PagedResult<Freelancer>>();
+  const [freelancers, setFreelancers] = useState<PagedResult<FreelancerDTO>>();
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
 

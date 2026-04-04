@@ -1,6 +1,6 @@
 import Button from "@/shared/components/ui/buttons/Button";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import type { Servico } from "../dtos/Servico";
+import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { toLocaleString } from "@/shared/utils/date.utils";
 
 export const SelecaoServicoChat = ({
@@ -11,7 +11,7 @@ export const SelecaoServicoChat = ({
 }: {
   selected?: boolean;
   destinatario: { nome: string; fotoPerfilUrl: string };
-  servico: Servico;
+  servico: ServicoDTO;
   onClick: () => void;
 }) => {
   return (

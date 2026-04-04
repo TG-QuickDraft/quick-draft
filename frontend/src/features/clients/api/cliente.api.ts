@@ -1,9 +1,11 @@
 import api from "@/shared/apis/api";
-import type { Cliente } from "@/features/clients/dtos/Cliente";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
-export const consultarClientePorId = async (id: number): Promise<Cliente> => {
+export const consultarClientePorId = async (
+  id: number,
+): Promise<ClienteDTO> => {
   try {
-    const { data } = await api.get<Cliente>(`/api/cliente/${id}`);
+    const { data } = await api.get<ClienteDTO>(`/api/cliente/${id}`);
     return data;
   } catch {
     throw new Error("Erro ao consultar cliente.");

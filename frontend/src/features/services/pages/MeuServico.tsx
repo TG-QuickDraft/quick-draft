@@ -5,13 +5,12 @@ import { buscarPropostasPorServico } from "@/features/freelancers/api/proposal.a
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { useNavigate } from "react-router-dom";
 
-import type { Servico } from "@/features/services/dtos/Servico";
-import type { ProposalResponse } from "@/features/freelancers/dtos/freelancer/Proposal";
-import type { Freelancer } from "@/features/freelancers/dtos/freelancer/Freelancer";
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
+import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
 
 import { FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import StarRating from "@/shared/components/ui/StarRating";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import Spinner from "@/shared/components/ui/Spinner";
 
@@ -20,10 +19,10 @@ export const MeuServico = () => {
   const servicoId = Number(id);
   const navigate = useNavigate();
 
-  const [servico, setServico] = useState<Servico | null>(null);
-  const [propostas, setPropostas] = useState<ProposalResponse[]>([]);
+  const [servico, setServico] = useState<ServicoDTO | null>(null);
+  const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
   const [freelancers, setFreelancers] = useState<
-    Record<number, Freelancer>
+    Record<number, FreelancerDTO>
   >({});
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -39,7 +38,7 @@ export const MeuServico = () => {
         setServico(servicoData);
         setPropostas(propostasData);
 
-        const freelancersMap: Record<number, Freelancer> = {};
+        const freelancersMap: Record<number, FreelancerDTO> = {};
 
         await Promise.all(
           propostasData.map(async (p) => {
