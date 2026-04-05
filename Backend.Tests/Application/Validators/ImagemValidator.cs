@@ -1,7 +1,7 @@
 using Backend.Application.Validators;
 using Microsoft.AspNetCore.Http;
 
-namespace Backend.Tests.Application.Service.Validators
+namespace Backend.Tests.Application.Validators
 {
     public class ImagemValidatorTests
     {
