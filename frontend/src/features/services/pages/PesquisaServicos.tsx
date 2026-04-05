@@ -21,6 +21,7 @@ import clsx from "clsx";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import Select from "@/shared/components/ui/Select";
 import { FaFilter } from "react-icons/fa";
+import Title from "@/shared/components/ui/titles/Title";
 
 export function PesquisaServico() {
   const navigate = useNavigate();
@@ -141,9 +142,11 @@ export function PesquisaServico() {
       </form>
 
       <div className="flex flex-col w-full gap-3">
+        <Title>Serviços</Title>
+
         {servicos && servicos.total > 0 && (
           <span className="text-neutral-80">
-            Serviços encontrados: {servicos.total}
+            Resultados encontrados: {servicos.total}
           </span>
         )}
 

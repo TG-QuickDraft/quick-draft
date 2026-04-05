@@ -45,8 +45,14 @@ export function PesquisaFreelancer() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="flex flex-1 flex-col items-center gap-8 h-full p-4">
+    <div className="flex flex-1 flex-col gap-3 h-full p-4">
       <Title>Freelancers</Title>
+
+      {freelancers && freelancers.total > 0 && (
+        <span className="text-neutral-80">
+          Resultados encontrados: {freelancers.total}
+        </span>
+      )}
 
       <div className="flex flex-col gap-5 flex-1 w-full">
         {freelancers && freelancers.itens.length === 0 && (
