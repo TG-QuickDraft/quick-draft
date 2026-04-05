@@ -4,5 +4,6 @@ namespace Backend.Application.DTOs.Mensagem
     {
         public int UsuarioId { get; set; }
         public string Mensagem { get; set; } = string.Empty;
+        public DateTime Data { get; set; }
     }
 }
