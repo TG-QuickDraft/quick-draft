@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-const base = clsx("text-neutral-60 font-area-extended");
+const base = clsx("text-neutral-60 font-area-extended line-clamp-1");
 
 const sizes = {
   sm: "text-[14px]!",

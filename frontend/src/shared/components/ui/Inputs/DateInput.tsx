@@ -9,18 +9,20 @@ const DateInput = ({
   onChange,
   error,
   showErrorMsg,
+  className,
 }: {
   placeholder?: string;
   selectedDate: Date | null;
   onChange: (date: Date | null) => void;
   error?: string;
   showErrorMsg?: boolean;
+  className?: string;
 }) => {
   const errorClasses = clsx("block text-error-1 text-sm mt-0.5");
   const hasError = Boolean(error);
 
   return (
-    <div className="relative flex gap-0.5 flex-col w-full">
+    <div className={clsx("relative flex gap-0.5 flex-col w-full", className)}>
       <DatePicker
         selected={selectedDate}
         onChange={onChange}

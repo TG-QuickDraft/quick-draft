@@ -77,6 +77,12 @@ namespace Backend.Application.Services
 
             if (dto.ProjetosDestacados.Count > 3)
                 throw new InvalidOperationException("Não é permitido destacar mais de 3 projetos");
+            
+            var jaExiste = await _repository
+                    .ExistePorServicoEFreelancerAsync(dto.ServicoId, freelancerId);
+
+            if (jaExiste)
+                throw new InvalidOperationException("Você já enviou uma proposta para este serviço");
 
             Proposta propostaToAdd = _mapper.Map<Proposta>(dto);
             propostaToAdd.FreelancerId = freelancerId;

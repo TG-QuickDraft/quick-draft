@@ -25,7 +25,9 @@ export const consultarServicos = async (
   }
 };
 
-export const consultarServicoPorId = async (id: number): Promise<ServicoDTO> => {
+export const consultarServicoPorId = async (
+  id: number,
+): Promise<ServicoDTO> => {
   try {
     const { data } = await api.get<ServicoDTO>(`${BASE_PATH}/${id}`);
     return data;
@@ -49,13 +51,17 @@ export const consultarMeusServicos = async (
   pagina: number,
   tamanhoPagina: number,
 ): Promise<PagedResult<ServicoDTO>> => {
+): Promise<PagedResult<ServicoDTO>> => {
   try {
-    const { data } = await api.get<PagedResult<ServicoDTO>>(`${BASE_PATH}/meus-servicos`, {
-      params: {
-        pagina,
-        tamanhoPagina,
+    const { data } = await api.get<PagedResult<ServicoDTO>>(
+      `${BASE_PATH}/meus-servicos`,
+      {
+        params: {
+          pagina,
+          tamanhoPagina,
+        },
       },
-    });
+    );
     return data;
   } catch {
     throw new Error("Erro ao consultar seus serviços.");
@@ -66,8 +72,10 @@ export const aceitarProposta = async (
   servicoId: number,
   propostaId: number,
 ) => {
-  try{
-    const { data } = await api.post(`${BASE_PATH}/${servicoId}/aceitar-proposta/${propostaId}`)
+  try {
+    const { data } = await api.post(
+      `${BASE_PATH}/${servicoId}/aceitar-proposta/${propostaId}`,
+    );
     return data;
   } catch {
     throw new Error("Erro ao aceitar proposta");
