@@ -9,7 +9,7 @@ import {
   consultarServicoPorId,
   aceitarProposta,
 } from "@/features/services/api/servico.api";
-import { buscarPropostaPorId } from "@/features/freelancers/api/proposal.api";
+import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 
 import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
 import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";

@@ -6,7 +6,7 @@ import type {
 
 const BASE_PATH = "/api/proposta";
 
-export const createProposal = async (
+export const criarProposta = async (
   proposal: CriarPropostaDTO,
 ): Promise<PropostaDTO> => {
   const { data } = await api.post<PropostaDTO>(BASE_PATH, proposal);
@@ -18,7 +18,7 @@ export const consultarMinhasPropostas = async () => {
     const { data } = await api.get<PropostaDTO[]>(`${BASE_PATH}/minhas-propostas`);
     return data;
   } catch {
-    throw new Error("Não foi possível buscar as propostas com base no serviço")
+    throw new Error("Não foi possível buscar suas propostas")
   }
 }
 

@@ -13,7 +13,7 @@ import { MeusServicosList } from "@/features/users/components/MeusServicosList";
 import { consultarMeusServicos } from "@/features/services/api/servico.api";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { MinhasPropostasList } from "../components/MinhasPropostasList";
-import { consultarMinhasPropostas } from "@/features/freelancers/api/proposal.api";
+import { consultarMinhasPropostas } from "@/features/freelancers/api/proposta.api";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);

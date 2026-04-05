@@ -7,7 +7,7 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
-import { consultarMinhasPropostas } from "@/features/freelancers/api/proposal.api";
+import { consultarMinhasPropostas } from "@/features/freelancers/api/proposta.api";
 
 export const MinhasPropostasList = () => {
   const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
