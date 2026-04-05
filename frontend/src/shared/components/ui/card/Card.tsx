@@ -7,8 +7,8 @@ const Card = ({
   showPhoto,
 
   title = "Title",
-  subtitle = "Subtitle",
-  description = "Description",
+  subtitle,
+  description,
 
   btnLabel = "Detalhes",
   onClick,
@@ -34,8 +34,8 @@ const Card = ({
 
         <div className="flex flex-col gap-1 flex-1">
           <h1 className="text-3xl">{title}</h1>
-          <h2 className="text-neutral-80">{subtitle}</h2>
-          <p className="text-neutral-80">{description}</p>
+          {subtitle && <h2 className="text-neutral-80">{subtitle}</h2>}
+          {description && <p className="text-neutral-80">{description}</p>}
         </div>
 
         <DetailsButton onClick={onClick}>{btnLabel}</DetailsButton>
