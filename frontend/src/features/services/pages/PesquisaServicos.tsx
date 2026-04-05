@@ -80,15 +80,16 @@ export function PesquisaServico() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col items-center p-4 max-w-300 mx-auto w-full">
       <form
         onSubmit={enviar}
-        className="flex justify-between items-center w-full"
+        className="flex justify-between gap-4 items-center w-full"
       >
         <div className="flex gap-4 w-full items-center">
           <InputGroup>
             <Label>Nome</Label>
             <Input
+              className="w-40!"
               placeholder="Logo, site, etc..."
               type="text"
               value={nome}
@@ -98,6 +99,7 @@ export function PesquisaServico() {
           <InputGroup>
             <Label>Prazo máximo</Label>
             <DateInput
+              className="w-40!"
               selectedDate={prazoMaximo}
               onChange={(value) => setPrazoMaximo(value)}
             />
@@ -105,6 +107,7 @@ export function PesquisaServico() {
           <InputGroup>
             <Label>Valor mínimo</Label>
             <Input
+              className="w-40!"
               type="number"
               mask="currency"
               placeholder="R$ 0,00"
@@ -137,12 +140,12 @@ export function PesquisaServico() {
           </InputGroup>
         </div>
 
-        <Button className="w-50!" type="submit" icon={<FaFilter />}>
+        <Button className="w-50! mt-4" type="submit" icon={<FaFilter />}>
           Filtrar
         </Button>
       </form>
 
-      <div className="flex flex-col w-full gap-3">
+      <div className="flex flex-col w-full gap-1">
         <Title>Serviços</Title>
 
         {servicos && servicos.total > 0 && (
@@ -151,7 +154,7 @@ export function PesquisaServico() {
           </span>
         )}
 
-        <div className="flex flex-col gap-5 flex-1">
+        <div className="flex flex-col gap-5 flex-1 mt-3">
           {servicos && servicos.itens.length === 0 && (
             <p
               className={clsx(

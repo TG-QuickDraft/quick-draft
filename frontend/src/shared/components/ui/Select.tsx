@@ -53,7 +53,7 @@ const Select = ({
   };
 
   return (
-    <div ref={ref} className="relative w-full min-w-30">
+    <div ref={ref} className="relative w-full min-w-40">
       <button
         type="button"
         disabled={disabled}
