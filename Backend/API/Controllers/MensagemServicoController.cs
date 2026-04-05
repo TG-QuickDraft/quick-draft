@@ -17,10 +17,7 @@ namespace Backend.API.Controllers
         public async Task<IActionResult> EnviarMensagem([FromBody] EnviarMensagemDTO dto)
         {
             int usuarioId = User.GetUserId();
-
-            await _service.EnviarMensagemAsync(dto, usuarioId);
-
-            return Ok();
+            return Ok(await _service.EnviarMensagemAsync(dto, usuarioId));
         }
 
         [HttpGet("servico/{servicoId}")]

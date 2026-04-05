@@ -16,7 +16,7 @@ public class MensagemServicoService(
     private readonly IPropostaRepository _propostaRepository = propostaRepository;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<MensagemServico> EnviarMensagemAsync(
+    public async Task<MensagemChatDTO> EnviarMensagemAsync(
         EnviarMensagemDTO dto,
         int usuarioLogadoId
     )
@@ -56,7 +56,7 @@ public class MensagemServicoService(
             DestinatarioUsuarioId = destinatarioId
         };
 
-        return await _repository.CriarAsync(mensagem);
+        return _mapper.Map<MensagemChatDTO>(await _repository.CriarAsync(mensagem));
     }
 
     public async Task<IEnumerable<MensagemChatDTO>> ObterHistoricoAsync(

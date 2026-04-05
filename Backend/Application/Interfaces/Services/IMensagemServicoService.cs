@@ -5,7 +5,7 @@ namespace Backend.Application.Interfaces.Services
 {
     public interface IMensagemServicoService
     {
-        Task<MensagemServico> EnviarMensagemAsync(
+        Task<MensagemChatDTO> EnviarMensagemAsync(
             EnviarMensagemDTO dto,
             int usuarioLogadoId
         );
