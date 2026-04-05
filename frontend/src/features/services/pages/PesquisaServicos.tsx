@@ -1,29 +1,37 @@
 import { useEffect, useState } from "react";
-
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import Button from "@/shared/components/ui/buttons/Button";
-
 import { consultarServicos } from "@/features/services/api/servico.api";
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
-import { PiEmptyLight } from "react-icons/pi";
-
-import Input from "@/shared/components/ui/Inputs/Input";
-
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
 import { usePagination } from "@/shared/hooks/usePagination";
-import type { PagedResult } from "@/shared/types/PagedResult";
 import { useSearchParams } from "react-router-dom";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import Card from "@/shared/components/ui/card/Card";
+import { numberToCurrency } from "@/shared/utils/number.utils";
+
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { PagedResult } from "@/shared/types/PagedResult";
+
+import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
+import Label from "@/shared/components/ui/Label";
+import Input from "@/shared/components/ui/Inputs/Input";
+import clsx from "clsx";
+
+import DateInput from "@/shared/components/ui/Inputs/DateInput";
+import Select from "@/shared/components/ui/Select";
+import { FaFilter } from "react-icons/fa";
+import Title from "@/shared/components/ui/titles/Title";
+import { format } from "date-fns";
 
 export function PesquisaServico() {
+  const navigate = useNavigate();
   const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
 
   const [nome, setNome] = useState("");
   const [orcamentoIsAberto, setOrcamentoIsAberto] = useState("");
-  const [prazoMaximo, setPrazoMaximo] = useState("");
-  const [valorMinimo, setValorMinimo] = useState("");
+  const [prazoMaximo, setPrazoMaximo] = useState<Date | null>(null);
+  const [valorMinimo, setValorMinimo] = useState<number | null>(null);
   const [isEntregue, setIsEntregue] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -59,8 +67,8 @@ export function PesquisaServico() {
           nome: nome || undefined,
           orcamentoIsAberto:
             orcamentoIsAberto === "" ? undefined : orcamentoIsAberto === "true",
-          prazoMaximo: prazoMaximo ? new Date(prazoMaximo) : undefined,
-          valorMinimo: valorMinimo ? Number(valorMinimo) : undefined,
+          prazoMaximo: prazoMaximo ? prazoMaximo.toISOString() : undefined,
+          valorMinimo: valorMinimo ? valorMinimo : undefined,
           isEntregue: isEntregue === "" ? undefined : isEntregue === "true",
         },
         pagina,
@@ -72,110 +80,119 @@ export function PesquisaServico() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="flex flex-1 flex-col items-center h-full justify-center">
-      <div>
-        <p>{servicos?.total} serviços encontrados</p>
-      </div>
+    <div className="flex flex-col items-center p-4 max-w-300 mx-auto w-full">
+      <form
+        onSubmit={enviar}
+        className="flex justify-between gap-4 items-center w-full"
+      >
+        <div className="flex gap-4 w-full items-center">
+          <InputGroup>
+            <Label>Nome</Label>
+            <Input
+              className="w-40!"
+              placeholder="Logo, site, etc..."
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Prazo máximo</Label>
+            <DateInput
+              className="w-40!"
+              selectedDate={prazoMaximo}
+              onChange={(value) => setPrazoMaximo(value)}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Valor mínimo</Label>
+            <Input
+              className="w-40!"
+              type="number"
+              mask="currency"
+              placeholder="R$ 0,00"
+              value={valorMinimo || ""}
+              onCurrencyChange={(val) => {
+                setValorMinimo(val ? Number(val) : null);
+              }}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Orcamento Aberto</Label>
+            <Select
+              onChange={(value) => setOrcamentoIsAberto(value)}
+              options={[
+                { label: "Sim", value: "true" },
+                { label: "Não", value: "false" },
+              ]}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Entregue</Label>
 
-      <div className="columns-2 flex gap-8 p-4">
-        <form onSubmit={enviar} className="flex flex-col gap-4 w-1/2">
-          <p>Nome</p>
-          <Input
-            placeholder="Logo, site, etc..."
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
+            <Select
+              onChange={(value) => setIsEntregue(value)}
+              options={[
+                { label: "Sim", value: "true" },
+                { label: "Não", value: "false" },
+              ]}
+            />
+          </InputGroup>
+        </div>
 
-          <p>Prazo máximo</p>
-          <Input
-            type="date"
-            value={prazoMaximo}
-            onChange={(e) => setPrazoMaximo(e.target.value)}
-          />
+        <Button className="w-50! mt-4" type="submit" icon={<FaFilter />}>
+          Filtrar
+        </Button>
+      </form>
 
-          <p>Valor mínimo</p>
-          <Input
-            type="number"
-            value={valorMinimo}
-            onChange={(e) => setValorMinimo(e.target.value)}
-          />
+      <div className="flex flex-col w-full gap-1">
+        <Title>Serviços</Title>
 
-          <p>Orcamento Aberto</p>
-          <select
-            value={orcamentoIsAberto}
-            onChange={(e) => setOrcamentoIsAberto(e.target.value)}
-            className="bg-sky-400"
-          >
-            <option value="">Todos</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
-
-          <p>Entregue</p>
-          <select
-            value={isEntregue}
-            onChange={(e) => setIsEntregue(e.target.value)}
-            className="bg-sky-400"
-          >
-            <option value="">Todos</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
-
-          <Button type="submit">Pesquisar</Button>
-        </form>
-
-        {servicos?.itens.length === 0 ? (
-          <PiEmptyLight size={30} />
-        ) : (
-          <table className="w-1/2 text-center shadow-2xl">
-            <thead>
-              <tr className="bg-white text-black">
-                <th className="p-3">Id</th>
-                <th className="p-3">Nome</th>
-                <th className="p-3">Descrição</th>
-                <th className="p-3">Orcamento</th>
-                <th className="p-3">Entregue</th>
-                <th className="p-3">Valor Mínimo</th>
-                <th className="p-3">Prazo</th>
-                <th className="p-3">Ir para Serviço</th>
-              </tr>
-            </thead>
-            <tbody>
-              {servicos?.itens.map((servico, index) => (
-                <tr
-                  key={index}
-                  className="border border-gray-500 hover:bg-gray-500/5"
-                >
-                  <td className="p-3">{servico.id}</td>
-                  <td className="p-3">{servico.nome}</td>
-                  <td className="p-3">{servico.descricao}</td>
-                  <td className="p-3">
-                    {servico?.orcamentoIsAberto ? "Aberto" : "Fechado"}
-                  </td>
-                  <td className="p-3">
-                    {servico?.isEntregue ? "Já entregue" : "Não entregue"}
-                  </td>
-                  <td className="p-3">{servico.valorMinimo}</td>
-                  <td className="p-3">{servico.prazo}</td>
-                  <td className="p-3">
-                    <Link to={servicoPaths.visualizarServicoById(servico.id)}>
-                      <Button>Ver Serviço</Button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {servicos && servicos.total > 0 && (
+          <span className="text-neutral-80">
+            Resultados encontrados: {servicos.total}
+          </span>
         )}
+
+        <div className="flex flex-col gap-5 flex-1 mt-3">
+          {servicos && servicos.itens.length === 0 && (
+            <p
+              className={clsx(
+                "flex flex-col justify-center items-center py-25 text-2xl ",
+                "text-neutral-80",
+              )}
+            >
+              Nenhum serviço encontrado
+            </p>
+          )}
+          {servicos &&
+            servicos.itens.length > 0 &&
+            servicos.itens.map((servico) => (
+              <Card
+                key={servico.id}
+                title={servico.nome}
+                subtitle={[
+                  numberToCurrency(servico.valorMinimo),
+                  format(servico.prazo, "dd/MM/yyyy"),
+                  servico.isEntregue ? "Entregue" : "Não Entregue",
+                  servico.orcamentoIsAberto ? "Aberto" : "Fechado",
+                ].join(" - ")}
+                description={servico.descricao}
+                onClick={() =>
+                  navigate(servicoPaths.visualizarServicoById(servico.id))
+                }
+              />
+            ))}
+        </div>
       </div>
 
-      <SeletorPaginas
-        pagina={pagina}
-        totalPaginas={servicos?.totalPaginas || 1}
-        onPaginaChange={onPageChange}
-      />
+      {servicos && servicos.total > 0 && servicos.totalPaginas > 1 && (
+        <SeletorPaginas
+          pagina={pagina}
+          totalPaginas={servicos.totalPaginas}
+          onPaginaChange={onPageChange}
+        />
+      )}
     </div>
   );
 }
