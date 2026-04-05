@@ -15,9 +15,9 @@ export const createProposal = async (
 
 export const buscarPropostasPorServico = async (
   servicoId: number,
-): Promise<ProposalResponse[]> => {
+): Promise<PropostaDTO[]> => {
   try{
-    const { data } = await api.get<ProposalResponse[]>(`${BASE_PATH}/servico/${servicoId}`);
+    const { data } = await api.get<PropostaDTO[]>(`${BASE_PATH}/servico/${servicoId}`);
     return data;
   } catch {
     throw new Error("Não foi possível buscar as propostas com base no serviço")

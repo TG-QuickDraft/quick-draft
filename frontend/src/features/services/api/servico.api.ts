@@ -51,7 +51,6 @@ export const consultarMeusServicos = async (
   pagina: number,
   tamanhoPagina: number,
 ): Promise<PagedResult<ServicoDTO>> => {
-): Promise<PagedResult<ServicoDTO>> => {
   try {
     const { data } = await api.get<PagedResult<ServicoDTO>>(
       `${BASE_PATH}/meus-servicos`,
