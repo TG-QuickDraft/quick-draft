@@ -22,6 +22,7 @@ import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import Select from "@/shared/components/ui/Select";
 import { FaFilter } from "react-icons/fa";
 import Title from "@/shared/components/ui/titles/Title";
+import { format } from "date-fns";
 
 export function PesquisaServico() {
   const navigate = useNavigate();
@@ -167,7 +168,12 @@ export function PesquisaServico() {
               <Card
                 key={servico.id}
                 title={servico.nome}
-                subtitle={`Valor mínimo: ${numberToCurrency(servico.valorMinimo)}`}
+                subtitle={[
+                  numberToCurrency(servico.valorMinimo),
+                  format(servico.prazo, "dd/MM/yyyy"),
+                  servico.isEntregue ? "Entregue" : "Não Entregue",
+                  servico.orcamentoIsAberto ? "Aberto" : "Fechado",
+                ].join(" - ")}
                 description={servico.descricao}
                 onClick={() =>
                   navigate(servicoPaths.visualizarServicoById(servico.id))
