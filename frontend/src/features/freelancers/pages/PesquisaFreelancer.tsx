@@ -69,7 +69,7 @@ export function PesquisaFreelancer() {
               "text-neutral-80",
             )}
           >
-            Nenhum serviço encontrado
+            Nenhum freelancer encontrado
           </p>
         )}
         {freelancers &&
