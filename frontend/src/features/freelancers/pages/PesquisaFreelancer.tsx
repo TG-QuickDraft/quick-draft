@@ -89,11 +89,13 @@ export function PesquisaFreelancer() {
           ))}
       </div>
 
-      <SeletorPaginas
-        pagina={pagina}
-        totalPaginas={freelancers?.totalPaginas || 1}
-        onPaginaChange={onPageChange}
-      />
+      {freelancers && freelancers.total > 0 && freelancers.totalPaginas > 1 && (
+        <SeletorPaginas
+          pagina={pagina}
+          totalPaginas={freelancers.totalPaginas}
+          onPaginaChange={onPageChange}
+        />
+      )}
     </div>
   );
 }

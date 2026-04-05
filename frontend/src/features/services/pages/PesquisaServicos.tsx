@@ -186,11 +186,13 @@ export function PesquisaServico() {
         </div>
       </div>
 
-      <SeletorPaginas
-        pagina={pagina}
-        totalPaginas={servicos?.totalPaginas || 1}
-        onPaginaChange={onPageChange}
-      />
+      {servicos && servicos.total > 0 && servicos.totalPaginas > 1 && (
+        <SeletorPaginas
+          pagina={pagina}
+          totalPaginas={servicos.totalPaginas}
+          onPaginaChange={onPageChange}
+        />
+      )}
     </div>
   );
 }
