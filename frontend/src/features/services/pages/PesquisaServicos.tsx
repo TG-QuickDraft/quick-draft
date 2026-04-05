@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Button from "@/shared/components/ui/buttons/Button";
 import { consultarServicos } from "@/features/services/api/servico.api";
 
-import Input from "@/shared/components/ui/Inputs/Input";
-
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
 import { usePagination } from "@/shared/hooks/usePagination";

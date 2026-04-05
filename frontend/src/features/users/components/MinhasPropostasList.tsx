@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 import { FiEye } from "react-icons/fi";
-import type { ProposalResponse } from "@/features/freelancers/dtos/freelancer/Proposal";
-import { consultarMinhasPropostas } from "@/features/freelancers/api/proposal.api";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
+import { consultarMinhasPropostas } from "@/features/freelancers/api/proposal.api";
 
 export const MinhasPropostasList = () => {
-  const [propostas, setPropostas] = useState<ProposalResponse[]>([]);
+  const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 

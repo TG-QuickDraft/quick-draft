@@ -13,6 +13,15 @@ export const createProposal = async (
   return data;
 };
 
+export const consultarMinhasPropostas = async () => {
+  try{
+    const { data } = await api.get<PropostaDTO[]>(`${BASE_PATH}/minhas-propostas`);
+    return data;
+  } catch {
+    throw new Error("Não foi possível buscar as propostas com base no serviço")
+  }
+}
+
 export const buscarPropostasPorServico = async (
   servicoId: number,
 ): Promise<PropostaDTO[]> => {
