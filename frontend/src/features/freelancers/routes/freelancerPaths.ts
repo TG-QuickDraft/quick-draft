@@ -3,7 +3,6 @@ export const freelancerPaths = {
   perfilFreelancer: "/perfil-freelancer",
   cadastrarProjetoFreelancer: "/cadastrar-projeto-freelancer",
   cadastrarContaBancaria: "/cadastrar-conta-bancaria",
-  visualizarProposta: "/proposta/visualizar",
   cadastrarProposta: "/servico/:serviceId/proposta/nova",
   verProposta: "/ver-proposta",
 

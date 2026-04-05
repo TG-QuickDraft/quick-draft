@@ -4,13 +4,12 @@ import { useParams } from "react-router-dom";
 import StarRating from "@/shared/components/ui/StarRating";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 
-import { buscarPropostasPorServico } from "@/features/freelancers/api/proposal.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import {
   consultarServicoPorId,
   aceitarProposta,
 } from "@/features/services/api/servico.api";
-import { buscarPropostaPorId } from "@/features/freelancers/api/proposal.api";
+import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 
 import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
 import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
@@ -20,6 +19,9 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import ProposalCards from "../../components/ProposalCards";
 import Spinner from "@/shared/components/ui/Spinner";
 import Modal from "@/shared/components/ui/Modal";
+import { toLocaleString } from "@/shared/utils/date.utils";
+import { numberToCurrency } from "@/shared/utils/number.utils";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 const VerProposta = () => {
   const { id } = useParams();
@@ -86,8 +88,7 @@ const VerProposta = () => {
   const propostaAceitaId = servico?.propostaAceitaId;
   const isPropostaAceita = propostaAceitaId === proposta.id;
   const temPropostaAceita = !!propostaAceitaId;
-  const outraPropostaAceita =
-    temPropostaAceita && !isPropostaAceita;
+  const outraPropostaAceita = temPropostaAceita && !isPropostaAceita;
 
   const itens = proposta.itensPropostos
     ?.split(";")
@@ -96,16 +97,18 @@ const VerProposta = () => {
 
   return (
     <div className="flex flex-col gap-5 max-w-310 mx-auto w-full">
-      <p className="text-gray-500 text-sm">
-        Serviço: {servico?.nome}
-      </p>
+      <header>
+        <BackButton />
+      </header>
+
+      <p className="text-gray-500 text-sm">Serviço: {servico?.nome}</p>
 
       <div className="flex gap-5 items-center flex-wrap">
         <div className="h-50 w-50 rounded-full">
           <ProfilePhoto
             photoPath={freelancer?.fotoPerfilUrl}
             size="lg"
-            className="!w-full !h-full"
+            className="w-full! h-full!"
             imgClassName="!w-full !h-full object-cover"
           />
         </div>
@@ -115,9 +118,7 @@ const VerProposta = () => {
             {freelancer?.nome || <Spinner />}
           </h1>
 
-          <p className="text-[20px]">
-            Design Gráfico / Editor de Vídeo
-          </p>
+          <p className="text-[20px]">Design Gráfico / Editor de Vídeo</p>
         </div>
 
         <StarRating rating={4.2} />
@@ -128,24 +129,20 @@ const VerProposta = () => {
           <p className="text-[20px] font-semibold">Proposta</p>
 
           <div className="flex flex-col gap-1">
-            <p>R$ {proposta.valorPorHora} / Hora</p>
+            <p>{numberToCurrency(proposta.valorPorHora)} / Hora</p>
             <p>
-              {new Date(
-                proposta.prazoEntrega
-              ).toLocaleDateString()}
+              {toLocaleString(proposta.prazoEntrega, { somenteData: true })}
             </p>
 
             <div className="ml-5 text-[13px]">
-              <p>R$ {proposta.valorTotal} total</p>
+              <p>{numberToCurrency(proposta.valorTotal)}</p>
               <p></p>
             </div>
           </div>
         </div>
 
         <div className="flex-1 flex flex-col gap-3 min-w-50">
-          <p className="text-[20px] font-semibold">
-            {proposta.mensagem}
-          </p>
+          <p className="text-[20px] font-semibold">{proposta.mensagem}</p>
 
           <h2>Items propostos: </h2>
 
@@ -163,9 +160,10 @@ const VerProposta = () => {
             onClick={handleAceitar}
             disabled={temPropostaAceita}
             className={`pointer-events-auto px-5 py-3 rounded-xl shadow-lg transition-all duration-300
-              ${temPropostaAceita
-                ? "bg-gray-400 text-white cursor-not-allowed"
-                : "bg-black text-white hover:bg-gray-800 hover:scale-[1.02]"
+              ${
+                temPropostaAceita
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-black text-white hover:bg-gray-800 hover:scale-[1.02]"
               }
             `}
           >
@@ -178,17 +176,11 @@ const VerProposta = () => {
         </div>
       )}
 
-      <p className="text-xl mt-3">
-        Projetos Selecionados em Destaque:
-      </p>
+      <p className="text-xl mt-3">Projetos Selecionados em Destaque:</p>
 
-      <div className="flex gap-5 flex-wrap justify-center">
+      <div className="flex gap-5 flex-wrap justify-center mb-8">
         {proposta.projetosDestacados?.map((proj) => (
-          <ProposalCards
-            key={proj.id}
-            img={proj.imagemUrl}
-            url={proj.link}
-          />
+          <ProposalCards key={proj.id} img={proj.imagemUrl} url={proj.link} />
         ))}
       </div>
 

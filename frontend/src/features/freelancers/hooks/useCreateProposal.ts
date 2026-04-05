@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { createProposal } from "../api/proposal.api";
+import { criarProposta } from "../api/proposta.api";
 
 export const useCreateProposal = () => {
-  return useMutation({ mutationFn: createProposal });
+  return useMutation({ mutationFn: criarProposta });
 };

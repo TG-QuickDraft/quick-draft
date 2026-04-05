@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { consultarServicoPorId } from "@/features/services/api/servico.api";
-import { buscarPropostasPorServico } from "@/features/freelancers/api/proposal.api";
+import { buscarPropostasPorServico } from "@/features/freelancers/api/proposta.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { useNavigate } from "react-router-dom";
 

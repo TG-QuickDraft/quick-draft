@@ -8,7 +8,6 @@ import { MdOutlineFactCheck } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
-import { FiEye } from "react-icons/fi";
 
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -135,16 +134,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
 
               {roles.includes("Freelancer") && (
                 <>
-                  <button
-                    onClick={() =>
-                      handleNavigate(freelancerPaths.visualizarProposta)
-                    }
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
-                  >
-                    <FiEye size={18} />
-                    <span>Ver minhas propostas</span>
-                  </button>
-
                   <button
                     onClick={() =>
                       handleNavigate(freelancerPaths.cadastrarProjetoFreelancer)

@@ -18,6 +18,7 @@ export interface PropostaDTO {
   itensPropostos: string;
   taxaSistemaAdicionadaAoTotal: boolean;
   servicoId: number;
+  nomeServico: string;
   freelancerId: number;
   projetosDestacados: ProjetosDestacadosDTO[];
 }

@@ -2,9 +2,10 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { JSX } from "react";
 import { getRolesFromToken } from "@/shared/utils/getRolesFromToken";
+import type { Role } from "@/shared/types/Roles";
 
 type Props = {
-  roles: string[];
+  roles: Role[];
   children: JSX.Element;
 };
 

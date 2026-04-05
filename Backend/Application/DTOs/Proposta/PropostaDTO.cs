@@ -13,6 +13,7 @@ namespace Backend.Application.DTOs.Proposta
         public bool TaxaSistemaAdicionadaAoTotal { get; set; }
         public int FreelancerId { get; set; }
         public int ServicoId { get; set; }
+        public string NomeServico { get; set; } = string.Empty;
         public ICollection<ProjetoFreelancerDTO> ProjetosDestacados { get; set; } = [];
     }
 }

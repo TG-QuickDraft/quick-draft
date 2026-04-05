@@ -75,6 +75,9 @@ namespace Backend.Application.Services
             if (servico.PropostaAceitaId != null)
                 throw new InvalidOperationException("Serviço já possui proposta aceita");
 
+            if (dto.ProjetosDestacados.Count > 3)
+                throw new InvalidOperationException("Não é permitido destacar mais de 3 projetos");
+            
             var jaExiste = await _repository
                     .ExistePorServicoEFreelancerAsync(dto.ServicoId, freelancerId);
 

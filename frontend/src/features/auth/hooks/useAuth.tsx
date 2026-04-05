@@ -14,19 +14,20 @@ import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { homePaths } from "@/features/home/routes/homePaths";
 import { authPaths } from "../routes/authPaths";
+import type { Role } from "@/shared/types/Roles";
 
 interface IUserProvider {
   isAuthenticated: boolean;
   login: (loginDTO: LoginDTO) => Promise<void>;
   logout: () => void;
-  roles: string[];
+  roles: Role[];
   usuario: UsuarioDTO | null;
 }
 
 export const AuthContext = createContext({} as IUserProvider);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [roles, setRoles] = useState<string[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);

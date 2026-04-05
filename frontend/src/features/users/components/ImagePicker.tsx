@@ -4,12 +4,14 @@ interface ImagePickerProps {
   onChange?: (file: File | null) => void;
   initialImage?: string;
   error?: string;
+  mensagem?: string;
 }
 
 export default function ImagePicker({
   onChange,
   initialImage,
   error,
+  mensagem = "Clique para selecionar uma imagem"
 }: ImagePickerProps) {
   const [file, setFile] = useState<File | null>(null);
 
@@ -39,7 +41,7 @@ export default function ImagePicker({
 
         {!preview && (
           <div className="flex flex-col items-center text-gray-500 gap-2">
-            <span className="text-sm">Escolher foto de perfil</span>
+            <span className="text-sm">{mensagem}</span>
           </div>
         )}
 

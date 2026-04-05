@@ -1,4 +1,3 @@
-import Title from "@/shared/components/ui/titles/Title";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Stack from "@/shared/components/Stack";
 import Button from "@/shared/components/ui/buttons/Button";
@@ -45,6 +44,7 @@ import { freelancerPaths } from "../../routes/freelancerPaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { sessionStorageKeys } from "@/shared/utils/storageKeys";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 const CadastrarProposta = () => {
   const [loading, setLoading] = useState(false);
@@ -183,14 +183,10 @@ const CadastrarProposta = () => {
   return (
     <>
       <div className="flex flex-col gap-5 flex-1 max-w-7xl mx-auto w-full">
-        <Title
-          className="font-semibold! text-2xl"
-          onClick={() =>
-            navigate(servicoPaths.visualizarServicoById(Number(serviceId)))
-          }
-        >
-          Envio de Proposta
-        </Title>
+        <header>
+          <BackButton textContent="Envio de Proposta" />
+        </header>
+
         <form
           onSubmit={handleSubmit(onValid)}
           className={clsx(

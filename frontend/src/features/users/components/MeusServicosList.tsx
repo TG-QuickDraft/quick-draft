@@ -4,6 +4,7 @@ import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { numberToCurrency } from "@/shared/utils/number.utils";;
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 
@@ -43,7 +44,7 @@ export const MeusServicosList = () => {
             <h3 className="text-lg font-bold mb-2">{servico.nome}</h3>
 
             <p className="text-3xl font-semibold text-black-600 my-1">
-              R$ {servico.valorMinimo}
+              {numberToCurrency(servico.valorMinimo)}
             </p>
 
             <p className="text-sm text-gray-800 mt-3">

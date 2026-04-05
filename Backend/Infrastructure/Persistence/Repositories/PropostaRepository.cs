@@ -19,6 +19,7 @@ namespace Backend.Infrastructure.Persistence.Repositories
         public async Task<IEnumerable<Proposta>> ConsultarPorIdFreelancerAsync(int freelancerId)
         {
             return await _context.Propostas
+                .Include(p => p.Servico)
                 .Include(p => p.ProjetosDestacados)
                 .ThenInclude(pd => pd.ProjetoFreelancer)
                 .Where(p => p.FreelancerId == freelancerId)

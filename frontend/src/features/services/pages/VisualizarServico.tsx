@@ -6,17 +6,16 @@ import { useEffect, useState } from "react";
 import Title from "@/shared/components/ui/titles/Title";
 
 import Button from "@/shared/components/ui/buttons/Button";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import { servicoPaths } from "../routes/servicoPaths";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { numberToCurrency } from "@/shared/utils/number.utils";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -55,16 +54,9 @@ export const VisualizarServico = () => {
 
   return (
     <div className="w-full">
-      <Link to={servicoPaths.pesquisaServico}>
-        <Button
-          className="mt-6 bg-white border-0"
-          icon={<MdKeyboardDoubleArrowLeft className="text-black" size={30} />}
-        >
-          <Title className="text-black">Voltar</Title>
-        </Button>
-      </Link>
+      <BackButton />
 
-      <main className="flex mt-6 gap-6 p-4 rounded-xl bg-neutral-10">
+      <main className="flex m-6 gap-6 p-4 rounded-xl bg-neutral-10">
         <section className="flex-1 p-4">
           <div className="flex flex-col p-4 gap-1">
             <Title>{servico?.nome}</Title>
@@ -75,7 +67,7 @@ export const VisualizarServico = () => {
 
           <div className="p-4 mt-4 rounded-2xl bg-white/90">
             <Title className="mt-4">Descrição</Title>
-            <p className="break-all my-6">{servico?.descricao}</p>
+            <p className="break-all my-6 min-h-32">{servico?.descricao}</p>
           </div>
         </section>
 

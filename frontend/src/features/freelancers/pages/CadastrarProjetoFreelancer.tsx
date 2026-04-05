@@ -19,6 +19,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import ImagePicker from "@/features/users/components/ImagePicker";
 
 export const CadastrarProjetoFreelancer = () => {
   const [showModal, setShowModal] = useState(false);
@@ -34,6 +35,7 @@ export const CadastrarProjetoFreelancer = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm<INewProjectForm>({
     mode: "onChange",
     resolver: yupResolver(NewProjectSchema),
@@ -100,11 +102,19 @@ export const CadastrarProjetoFreelancer = () => {
           {...register("link")}
         />
 
-        <Input
-          type="file"
-          showErrorMsg
+        <ImagePicker
+          onChange={(file) => {
+            if (!file) {
+              setValue("imagem.imagem", undefined);
+              return;
+            }
+
+            const dt = new DataTransfer();
+            dt.items.add(file);
+
+            setValue("imagem.imagem", dt.files);
+          }}
           error={errors?.imagem?.imagem?.message}
-          {...register("imagem.imagem")}
         />
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
