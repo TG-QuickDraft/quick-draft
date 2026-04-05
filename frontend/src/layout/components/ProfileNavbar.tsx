@@ -137,16 +137,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <>
                   <button
                     onClick={() =>
-                      handleNavigate(freelancerPaths.visualizarProposta)
-                    }
-                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
-                  >
-                    <FiEye size={18} />
-                    <span>Ver minhas propostas</span>
-                  </button>
-
-                  <button
-                    onClick={() =>
                       handleNavigate(freelancerPaths.cadastrarProjetoFreelancer)
                     }
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"

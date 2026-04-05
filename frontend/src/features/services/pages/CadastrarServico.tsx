@@ -15,7 +15,8 @@ import {
   type INewServiceForm,
 } from "../validations/services.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import DateInput from "@/shared/components/ui/Inputs/DateInput";
 
 export const CadastrarServico = () => {
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +27,7 @@ export const CadastrarServico = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<INewServiceForm>({
     mode: "onChange",
     resolver: yupResolver(NewServiceSchema),
@@ -76,20 +78,35 @@ export const CadastrarServico = () => {
           {...register("descricao")}
         />
 
-        <Input
-          type="number"
-          placeholder="Valor Mínimo"
-          showErrorMsg
-          error={errors.valorMinimo?.message}
-          {...register("valorMinimo")}
+        <Controller
+          control={control}
+          name="valorMinimo"
+          render={({ field: { onChange, value, ref } }) => (
+            <Input
+              mask="currency"
+              placeholder="R$ 00,00"
+              error={errors?.valorMinimo?.message}
+              showErrorMsg
+              value={value}
+              ref={ref}
+              onCurrencyChange={(val) => {
+                onChange(val ? Number(val) : null);
+              }}
+            />
+          )}
         />
 
-        <Input
-          type="datetime-local"
-          placeholder="Prazo"
-          showErrorMsg
-          error={errors.prazo?.message}
-          {...register("prazo")}
+        <Controller
+          control={control}
+          name="prazo"
+          render={({ field }) => (
+            <DateInput
+              selectedDate={field.value ? new Date(field.value) : null}
+              onChange={(date) => field.onChange(date)}
+              error={errors?.prazo?.message}
+              showErrorMsg
+            />
+          )}
         />
 
         <div>

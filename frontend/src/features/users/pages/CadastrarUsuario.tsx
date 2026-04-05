@@ -143,6 +143,7 @@ export const CadastrarUsuario = () => {
             setValue("fotoPerfil.imagem", dt.files);
           }}
           error={errors?.fotoPerfil?.imagem?.message}
+          mensagem="Escolher foto de perfil"
         />
 
         <div>
