@@ -6,12 +6,10 @@ import { useEffect, useState } from "react";
 import Title from "@/shared/components/ui/titles/Title";
 
 import Button from "@/shared/components/ui/buttons/Button";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import { servicoPaths } from "../routes/servicoPaths";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { toLocaleString } from "@/shared/utils/date.utils";

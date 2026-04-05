@@ -8,7 +8,6 @@ import { MdOutlineFactCheck } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
 import { CiLogin } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
-import { FiEye } from "react-icons/fi";
 
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useAuth } from "@/features/auth/hooks/useAuth";
