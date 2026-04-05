@@ -4,7 +4,6 @@ import { CadastrarProjetoFreelancer } from "@/features/freelancers/pages/Cadastr
 import { CadastrarContaBancaria } from "@/features/finance/pages/CadastrarContaBancaria";
 
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
-import VisualizarProposta from "../pages/proposal/VisualizarProposta";
 import VerProposta from "../pages/proposal/VerProposta";
 import CadastrarProposta from "../pages/proposal/CadastrarProposta";
 import { RequireRole } from "@/features/auth/components/RequireRole";
@@ -33,7 +32,6 @@ export const freelancerRoutes = [
       </RequireRole>
     ),
   },
-  { path: freelancerPaths.visualizarProposta, element: <VisualizarProposta /> },
   { path: `${freelancerPaths.verProposta}/:id`, element: <VerProposta /> },
   {
     path: freelancerPaths.cadastrarProposta,
