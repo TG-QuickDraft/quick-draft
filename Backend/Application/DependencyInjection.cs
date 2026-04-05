@@ -17,6 +17,7 @@ namespace Backend.Application
             services.AddScoped<IPropostaService, PropostaService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IMensagemServicoService, MensagemServicoService>();
             
             services.AddScoped<IAuditService, AuditService>();
 

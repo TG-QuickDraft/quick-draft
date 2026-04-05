@@ -231,3 +231,6 @@ ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "contas_bancarias"
 ADD FOREIGN KEY("con_id") REFERENCES "freelancers"("fre_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "propostas"
+ADD CONSTRAINT uq_proposta_servico_freelancer
+UNIQUE ("pro_ser_id", "pro_fre_id");

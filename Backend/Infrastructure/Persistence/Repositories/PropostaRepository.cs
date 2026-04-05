@@ -41,5 +41,11 @@ namespace Backend.Infrastructure.Persistence.Repositories
 
             return await ConsultarPorIdAsync(proposta.Id) ?? proposta;
         }
+
+        public async Task<bool> ExistePorServicoEFreelancerAsync(int servicoId, int freelancerId)
+        {
+            return await _context.Propostas
+                .AnyAsync(p => p.ServicoId == servicoId && p.FreelancerId == freelancerId);
+        }
     }
 }

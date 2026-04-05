@@ -17,6 +17,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<CartaoCredito> CartoesCredito { get; set; }
         public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<MensagemServico> MensagensServico { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -171,6 +172,10 @@ namespace Backend.Infrastructure.Persistence
                     IsAdmin = true
                 }
             );
+
+            modelBuilder.Entity<Proposta>()
+            .HasIndex(p => new { p.ServicoId, p.FreelancerId })
+            .IsUnique();
         }
     }
 }

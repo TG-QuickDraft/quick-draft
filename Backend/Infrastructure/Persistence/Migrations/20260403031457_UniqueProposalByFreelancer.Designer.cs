@@ -3,6 +3,7 @@ using System;
 using Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260403031457_UniqueProposalByFreelancer")]
+    partial class UniqueProposalByFreelancer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,41 +207,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("freelancers");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.MensagemServico", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("mss_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("mss_data");
-
-                    b.Property<int>("DestinatarioUsuarioId")
-                        .HasColumnType("integer")
-                        .HasColumnName("mss_destinatario_usu_id");
-
-                    b.Property<string>("Mensagem")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("mss_mensagem");
-
-                    b.Property<int>("RemetenteUsuarioId")
-                        .HasColumnType("integer")
-                        .HasColumnName("mss_remetente_usu_id");
-
-                    b.Property<int>("ServicoId")
-                        .HasColumnType("integer")
-                        .HasColumnName("mss_ser_id");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("mensagens_servico");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ProjetoDestacadoProposta", b =>
