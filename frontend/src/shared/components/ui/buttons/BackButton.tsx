@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import Title from "../titles/Title";
 
-export const BackButton = () => {
+export const BackButton = ({
+  textContent = "Voltar",
+}: {
+  textContent?: string;
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -12,7 +16,7 @@ export const BackButton = () => {
       icon={<MdKeyboardDoubleArrowLeft className="text-black" size={30} />}
       onClick={() => navigate(-1)}
     >
-      <Title className="text-black">Voltar</Title>
+      <Title className="text-black">{textContent}</Title>
     </Button>
   );
 };
