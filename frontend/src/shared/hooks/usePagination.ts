@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react";
 
 type UsePaginationOptions = {
-  paginaInicial?: number
-  totalPaginas?: number
-}
+  paginaInicial?: number;
+  totalPaginas?: number;
+};
 
 export const usePagination = ({
   paginaInicial: initialPage = 1,
   totalPaginas: totalPaginas,
 }: UsePaginationOptions = {}) => {
-  const [pagina, setPagina] = useState(initialPage)
+  const [pagina, setPagina] = useState(initialPage);
 
   const onPageChange = useCallback(
     (novaPagina: number) => {
@@ -18,29 +18,27 @@ export const usePagination = ({
           return 1;
         }
 
-        if (totalPaginas && novaPagina > totalPaginas){
+        if (totalPaginas && novaPagina > totalPaginas) {
           return totalPaginas;
         }
 
         return novaPagina;
-      })
+      });
     },
-    [totalPaginas]
-  )
+    [totalPaginas],
+  );
 
   useEffect(() => {
     if (!totalPaginas) {
       return;
     }
 
-    setPagina(p =>
-      Math.min(p, totalPaginas)
-    )
-  }, [totalPaginas])
+    setPagina((p) => Math.min(p, totalPaginas));
+  }, [totalPaginas]);
 
   return {
     pagina: pagina,
     setPage: setPagina,
     onPageChange,
-  }
-}
+  };
+};

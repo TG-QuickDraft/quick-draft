@@ -41,7 +41,7 @@ export const CadastrarServico = () => {
       valorMinimo: Number(data.valorMinimo),
       prazo: new Date(data.prazo).toISOString(),
     };
-  
+
     try {
       await adicionarServico(servico);
       setModalStatus("Sucesso");

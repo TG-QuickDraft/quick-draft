@@ -1,7 +1,7 @@
 import { LogoIcon } from "@/shared/assets";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { homePaths } from "@/features/home/routes/homePaths"
+import { homePaths } from "@/features/home/routes/homePaths";
 
 const sizes = {
   sm: "h-10",

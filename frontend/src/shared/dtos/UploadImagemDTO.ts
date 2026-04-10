@@ -1,3 +1,3 @@
 export type UploadImagemDTO = {
-    imagem: File
+  imagem: File;
 };

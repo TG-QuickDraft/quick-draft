@@ -66,7 +66,7 @@ export const CadastrarUsuario = () => {
       const imagemProjeto = data.fotoPerfil.imagem?.[0];
 
       if (imagemProjeto) {
-        await enviarFoto({ imagem: imagemProjeto, });
+        await enviarFoto({ imagem: imagemProjeto });
       }
 
       setModalStatus("Sucesso");

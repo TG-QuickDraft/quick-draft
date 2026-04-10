@@ -2,8 +2,7 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 
-const texto =
-`# 🎨 Teste de Markdown Estiloso
+const texto = `# 🎨 Teste de Markdown Estiloso
 
 Bem-vindo ao **modo estiloso** do seu Markdown em React!  
 Aqui você pode misturar *Markdown*, \`<div>\`, \`<span>\`, cores, fontes e até animação CSS se quiser.
@@ -83,22 +82,21 @@ Aqui você pode misturar *Markdown*, \`<div>\`, \`<span>\`, cores, fontes e até
 
 const schema = {
   ...defaultSchema,
-  tagNames: [...(defaultSchema.tagNames || []), 'style'],
+  tagNames: [...(defaultSchema.tagNames || []), "style"],
   attributes: {
     ...defaultSchema.attributes,
     // permite style e class globalmente
-    '*': [...(defaultSchema.attributes?.['*'] || []), 'style', 'class'],
+    "*": [...(defaultSchema.attributes?.["*"] || []), "style", "class"],
     // opcional: repetir para elementos específicos
-    span: [...(defaultSchema.attributes?.span || []), 'style', 'class'],
-    div: [...(defaultSchema.attributes?.div || []), 'style', 'class'],
-  }
+    span: [...(defaultSchema.attributes?.span || []), "style", "class"],
+    div: [...(defaultSchema.attributes?.div || []), "style", "class"],
+  },
 };
 
-
 export const TesteMarkdown = () => {
-    return (
-        <Markdown rehypePlugins={[rehypeRaw, [rehypeSanitize, schema]]}>
-            {texto}
-        </Markdown>
-    );
-}
+  return (
+    <Markdown rehypePlugins={[rehypeRaw, [rehypeSanitize, schema]]}>
+      {texto}
+    </Markdown>
+  );
+};

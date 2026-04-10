@@ -16,7 +16,7 @@ export const variants = {
   primary: clsx(base, "bg-primary-100 text-black text-white"),
   secondary: clsx(base, "bg-secondary-80 text-primary-100 "),
   danger: clsx(base, "bg-red-500 text-white"),
-  outline: clsx(base, "bg-white text-black")
+  outline: clsx(base, "bg-white text-black"),
 };
 
 const Button = ({

@@ -1,4 +1,4 @@
-import type { ModifiedValueDTO , PrimitiveValueDTO } from "../dtos/AuditLogDTO";
+import type { ModifiedValueDTO, PrimitiveValueDTO } from "../dtos/AuditLogDTO";
 
 interface ValorMudancaProps {
   valor: PrimitiveValueDTO | ModifiedValueDTO;

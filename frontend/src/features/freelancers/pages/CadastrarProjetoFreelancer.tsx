@@ -35,7 +35,7 @@ export const CadastrarProjetoFreelancer = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<INewProjectForm>({
     mode: "onChange",
     resolver: yupResolver(NewProjectSchema),

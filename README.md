@@ -1,6 +1,7 @@
 # Sistema Freelancer
 
 ## Tecnologias utilizadas:
+
 - ASP.NET 8.0
 - Entity Framework Core
 - Banco PostgreSQL
@@ -8,19 +9,20 @@
 
 ## Configurando o projeto
 
-Para configurar as credenciais do banco PostgreSQL, deve ser criado um arquivo dentro do diretório 'Backend' com o nome ```appsettings.Development.json```, seguindo a estrutura do arquivo ```appsettings.Development.json.example```, dentro do mesmo diretório.
+Para configurar as credenciais do banco PostgreSQL, deve ser criado um arquivo dentro do diretório 'Backend' com o nome `appsettings.Development.json`, seguindo a estrutura do arquivo `appsettings.Development.json.example`, dentro do mesmo diretório.
 
-Também é necessário criar um arquivo ```.env``` na pasta 'frontend', seguindo a estrutura do arquivo ```.env.example```.
+Também é necessário criar um arquivo `.env` na pasta 'frontend', seguindo a estrutura do arquivo `.env.example`.
 
 ### Docker
 
-Para definir as credenciais a serem utilizadas em containers de Docker, é necessário criar um arquivo ```.env``` na pasta raíz do projeto, seguindo a estrutura do arquivo ```.env.example```.
+Para definir as credenciais a serem utilizadas em containers de Docker, é necessário criar um arquivo `.env` na pasta raíz do projeto, seguindo a estrutura do arquivo `.env.example`.
 
 ## Iniciando o projeto
 
 ### Backend
 
 - Instalando ASP.NET e dependências:
+
 ```sh
 # Exemplo de instalação do .NET e ASP.NET no Linux
 sudo apt-get install -y dotnet-sdk-8.0
@@ -31,6 +33,7 @@ dotnet tool install --global dotnet-ef
 ```
 
 Para criar o banco:
+
 ```sh
 cd Backend/
 
@@ -44,19 +47,21 @@ dotnet ef database update
 ### Frontend
 
 Para iniciar o frontend:
+
 ```sh
 cd frontend
 npm install
 npm run dev
 ```
 
-Obs.: Para acessar o site, navegue para ```localhost:5173```.
+Obs.: Para acessar o site, navegue para `localhost:5173`.
 
 ## Testes
 
 ### Testes Unitários
 
 Para executar testes do .NET:
+
 ```sh
 dotnet test
 ```
@@ -64,6 +69,7 @@ dotnet test
 ### Testes Cypress
 
 Para executar os testes automatizados do Cypress:
+
 ```sh
 # Testes no terminal
 cd frontend/

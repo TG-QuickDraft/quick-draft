@@ -20,5 +20,5 @@ export const RegisterUserSchema = yup.object().shape({
     .mixed()
     .oneOf(TIPOS_USUARIO, "Tipo de usuário inválido.")
     .required(),
-  fotoPerfil: uploadImagemSchema
+  fotoPerfil: uploadImagemSchema,
 });

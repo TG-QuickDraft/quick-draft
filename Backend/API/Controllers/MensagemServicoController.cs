@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Authorization;
 using Backend.API.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Backend.Application.Interfaces.Services;
 using Backend.Application.DTOs.Mensagem;
+using Backend.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
 {
