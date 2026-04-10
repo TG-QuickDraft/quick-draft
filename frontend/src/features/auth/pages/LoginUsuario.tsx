@@ -13,15 +13,12 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema, type ILoginForm } from "../validations/login.schema";
-import Modal from "@/shared/components/ui/Modal";
-import { useState } from "react";
+import { useModal } from "@/shared/contexts/model.context";
 
 export const LoginUsuario = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
-  const [modalMsg, setModalMsg] = useState("");
 
+  const { showError } = useModal();
   const { login } = useAuth();
 
   const {
@@ -41,9 +38,7 @@ export const LoginUsuario = () => {
       navigate("/");
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({ content: error.message });
       }
     }
   };
@@ -81,14 +76,6 @@ export const LoginUsuario = () => {
           </Button>
         </form>
       </div>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </>
   );
 };
