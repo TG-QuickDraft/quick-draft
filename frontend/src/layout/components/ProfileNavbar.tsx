@@ -19,6 +19,8 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { homePaths } from "@/features/home/routes/homePaths";
 
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+
 const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -86,6 +88,14 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
               >
                 <CiUser size={18} />
                 <span>Minha Conta</span>
+              </button>
+
+              <button
+                onClick={() => handleNavigate(usuarioPaths.minhaConta)}
+                className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
+              >
+                <IoChatboxEllipsesOutline size={18} />
+                <span>Chat</span>
               </button>
 
               {roles.includes("Admin") && (
