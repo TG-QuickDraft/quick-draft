@@ -211,7 +211,7 @@ const MinhaProposta = () => {
                             flex flex-col items-center justify-center
                             text-center cursor-pointer
                             transition-all
-                            
+
                             ${arquivo ? "border-green-400 bg-green-50" : "border-gray-300 hover:border-black"}
                         `}
                     >
@@ -248,7 +248,6 @@ const MinhaProposta = () => {
                         )}
                     </label>
 
-                    {/* BOTÃO */}
                     <Button
                         disabled={!arquivo}
                         onClick={() => {
