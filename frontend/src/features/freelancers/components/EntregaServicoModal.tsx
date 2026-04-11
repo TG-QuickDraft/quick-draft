@@ -1,5 +1,3 @@
-// EntregaServicoModal.tsx
-
 import { useState } from "react";
 
 import Modal from "@/shared/components/ui/Modal";
