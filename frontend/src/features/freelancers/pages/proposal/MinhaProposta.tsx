@@ -207,12 +207,13 @@ const MinhaProposta = () => {
 
                     <label
                         className={`
-        w-full h-40 border-2 border-dashed rounded-xl
-        flex flex-col items-center justify-center
-        text-center cursor-pointer
-        transition-all
-        ${arquivo ? "border-green-400 bg-green-50" : "border-gray-300 hover:border-black"}
-      `}
+                            w-full h-40 border-2 border-dashed rounded-xl
+                            flex flex-col items-center justify-center
+                            text-center cursor-pointer
+                            transition-all
+                            
+                            ${arquivo ? "border-green-400 bg-green-50" : "border-gray-300 hover:border-black"}
+                        `}
                     >
                         <input
                             type="file"
