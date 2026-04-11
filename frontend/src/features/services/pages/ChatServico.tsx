@@ -4,6 +4,8 @@ import { Chat } from "../components/Chat";
 import { SelecaoServicoChat } from "../components/SelecaoServicoChat";
 import Title from "@/shared/components/ui/titles/Title";
 
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+
 const chats = [
   {
     mensagens: [
@@ -86,8 +88,9 @@ export const ChatServico = () => {
   };
 
   return (
-    <div className="flex flex-1 flex-col min-h-0 overflow-hidden">
-      <div className="flex flex-1 min-h-0 border-t border-t-gray-300 divide-x divide-gray-300 mt-4">
+    <div className="flex flex-1 items-start w-full flex-col min-h-0 overflow-hidden">
+      <BackButton className="mt-2 py-0!" />
+      <div className="flex flex-1 min-h-0 border-t border-t-gray-300 divide-x divide-gray-300 mt-4 w-full">
         <section className="hidden md:flex flex-col items-center w-80 min-h-0 overflow-y-auto p-4">
           <Title className="mb-4">Conversas</Title>
 
@@ -104,7 +107,7 @@ export const ChatServico = () => {
           </div>
         </section>
 
-        <section className="flex flex-1 min-h-0 max-h-[calc(100vh-140px)]">
+        <section className="flex flex-1 min-h-0 max-h-[calc(100vh-220px)]">
           <Chat
             mensagem={mensagem}
             mensagens={chat.mensagens}
