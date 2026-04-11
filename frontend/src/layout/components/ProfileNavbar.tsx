@@ -90,14 +90,6 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <span>Minha Conta</span>
               </button>
 
-              <button
-                onClick={() => handleNavigate(servicoPaths.chatServico)}
-                className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
-              >
-                <IoChatboxEllipsesOutline size={18} />
-                <span>Chat</span>
-              </button>
-
               {roles.includes("Admin") && (
                 <>
                   <button

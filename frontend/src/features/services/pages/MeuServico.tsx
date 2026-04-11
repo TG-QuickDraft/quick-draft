@@ -13,6 +13,11 @@ import { FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import Spinner from "@/shared/components/ui/Spinner";
+import Button from "@/shared/components/ui/buttons/Button";
+import clsx from "clsx";
+
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { servicoPaths } from "../routes/servicoPaths";
 
 export const MeuServico = () => {
   const { id } = useParams();
@@ -60,6 +65,8 @@ export const MeuServico = () => {
   if (!servico) {
     return <Spinner />;
   }
+
+  const existeAlgumaPropostaAceita = !!servico.propostaAceitaId;
 
   const propostasOrdenadas = [...propostas].sort((a, b) => {
     if (!servico.propostaAceitaId) return 0;
@@ -148,18 +155,30 @@ export const MeuServico = () => {
         )}
       </div>
 
-      <div className="flex-1 p-8 overflow-auto bg-white">
-        <h1 className="text-xl text-gray-600 mb-4">Serviço</h1>
+      <div
+        className={clsx(
+          "flex justify-between items-start flex-1 p-8 overflow-auto",
+          "bg-white",
+        )}
+      >
+        <div>
+          <h1 className="text-xl text-gray-600 mb-4">Serviço</h1>
+          <h2 className="text-2xl font-semibold mb-2">{servico.nome}</h2>
+          <p className="text-lg mb-6">R$ {servico.valorMinimo?.toFixed(2)}</p>
+          <h3 className="text-lg font-semibold mb-2">Descrição</h3>
+          <p className="text-gray-700 whitespace-pre-line max-w-2xl">
+            {servico.descricao}
+          </p>
+        </div>
 
-        <h2 className="text-2xl font-semibold mb-2">{servico.nome}</h2>
-
-        <p className="text-lg mb-6">R$ {servico.valorMinimo?.toFixed(2)}</p>
-
-        <h3 className="text-lg font-semibold mb-2">Descrição</h3>
-
-        <p className="text-gray-700 whitespace-pre-line max-w-2xl">
-          {servico.descricao}
-        </p>
+        {existeAlgumaPropostaAceita && (
+          <Button
+            onClick={() => navigate(servicoPaths.chatServico)}
+            icon={<IoChatboxEllipsesOutline size={20} />}
+          >
+            Iniciar chat
+          </Button>
+        )}
       </div>
     </div>
   );
