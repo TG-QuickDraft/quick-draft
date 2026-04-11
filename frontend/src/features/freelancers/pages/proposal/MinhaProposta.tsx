@@ -21,6 +21,11 @@ import { toLocaleString } from "@/shared/utils/date.utils";
 import Button from "@/shared/components/ui/buttons/Button";
 
 import MiniProposalCard from "@/features/freelancers/components/MiniProposalCard"
+import { consultarClientePorId } from "@/features/clients/api/cliente.api";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
+import { Link } from "react-router-dom";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 
 const MinhaProposta = () => {
     const { id } = useParams();
@@ -33,6 +38,8 @@ const MinhaProposta = () => {
     const [showEntregaModal, setShowEntregaModal] = useState(false);
     const [arquivo, setArquivo] = useState<File | null>(null);
 
+    const [cliente, setCliente] = useState<ClienteDTO | null>(null);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -40,9 +47,13 @@ const MinhaProposta = () => {
                 const servicoData = await consultarServicoPorId(
                     propostaData.servicoId
                 );
+                const clienteData = await consultarClientePorId(
+                    servicoData.clienteId
+                );
 
                 setProposta(propostaData);
                 setServico(servicoData);
+                setCliente(clienteData);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -184,6 +195,28 @@ const MinhaProposta = () => {
                             {numberToCurrency(servico.valorMinimo || 0)}
                         </p>
                     </div>
+
+                    {cliente && (
+                        <Link
+                            to={clientePaths.perfilClienteById(cliente.id)}
+                            className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-white transition"
+                        >
+                            <ProfilePhoto
+                                photoPath={cliente.fotoPerfilUrl}
+                                className="w-fit!"
+                                imgClassName="w-12! h-12! object-cover"
+                            />
+
+                            <div className="flex flex-col">
+                                <p className="text-sm text-gray-500">
+                                    Cliente
+                                </p>
+                                <p className="font-medium">
+                                    {cliente.nome}
+                                </p>
+                            </div>
+                        </Link>
+                    )}
                 </div>
             </div>
 
