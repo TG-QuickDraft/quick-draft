@@ -13,7 +13,7 @@ import {
 
 import { atualizarSenha } from "@/features/users/api/usuario.api";
 import { CiLock } from "react-icons/ci";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "../routes/usuarioPaths";
 
 export const AtualizarSenha = () => {

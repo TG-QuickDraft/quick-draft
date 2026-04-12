@@ -21,7 +21,7 @@ import Spinner from "@/shared/components/ui/Spinner";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 
 const VerProposta = () => {
   const { showSuccess, showError } = useModal();

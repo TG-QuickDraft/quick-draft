@@ -17,7 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import ImagePicker from "@/features/users/components/ImagePicker";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CadastrarProjetoFreelancer = () => {

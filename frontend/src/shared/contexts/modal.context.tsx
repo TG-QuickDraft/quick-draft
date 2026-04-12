@@ -2,12 +2,14 @@ import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import Modal from "../components/ui/Modal";
 import { useNavigate } from "react-router-dom";
+import type { ModalVariants } from "../types/ModalVariants";
 
 interface ModalOptions {
   title?: string;
   content: ReactNode;
   icon?: ReactNode;
   redirect?: string;
+  variant?: ModalVariants;
 }
 
 interface ModalContextData {
@@ -32,15 +34,15 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const showModal = (options: ModalOptions) => {
-    setConfig({ ...options, show: true });
+    setConfig({ ...options, variant: "primary", show: true });
   };
 
   const showError = (options: ModalOptions) => {
-    setConfig({ title: "Erro", ...options, show: true });
+    setConfig({ title: "Erro!", ...options, variant: "error", show: true });
   };
 
   const showSuccess = (options: ModalOptions) => {
-    setConfig({ title: "Sucesso", ...options, show: true });
+    setConfig({ title: "Sucesso!", ...options, variant: "success", show: true });
   };
 
   const hideModal = () => {
@@ -59,6 +61,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         onClose={hideModal}
         title={config.title}
         icon={config.icon}
+        variant={config.variant}
       >
         {config.content}
       </Modal>

@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Radio from "@/shared/components/ui/Inputs/Radio";
 import ImagePicker from "@/features/users/components/ImagePicker";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "../routes/usuarioPaths";
 
 export const CadastrarUsuario = () => {

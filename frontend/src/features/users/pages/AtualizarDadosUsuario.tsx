@@ -18,7 +18,7 @@ import {
 } from "@/features/users/api/usuario.api";
 
 import { CiUser } from "react-icons/ci";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "../routes/usuarioPaths";
 
 export const AtualizarDadosUsuario = () => {

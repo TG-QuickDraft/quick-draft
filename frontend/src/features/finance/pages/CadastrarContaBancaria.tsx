@@ -21,7 +21,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CadastrarContaBancaria = () => {

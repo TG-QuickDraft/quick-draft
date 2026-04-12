@@ -13,7 +13,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema, type ILoginForm } from "../validations/login.schema";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 import { homePaths } from "@/features/home/routes/homePaths";
 
 export const LoginUsuario = () => {

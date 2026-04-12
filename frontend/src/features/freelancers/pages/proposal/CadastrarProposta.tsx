@@ -44,7 +44,7 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { sessionStorageKeys } from "@/shared/utils/storageKeys";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
-import { useModal } from "@/shared/contexts/model.context";
+import { useModal } from "@/shared/contexts/modal.context";
 
 const CadastrarProposta = () => {
   const { showSuccess, showError } = useModal();

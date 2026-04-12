@@ -1,6 +1,6 @@
 import AuthProvider from "@/features/auth/hooks/useAuth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ModalProvider } from "@/shared/contexts/model.context";
+import { ModalProvider } from "@/shared/contexts/modal.context";
 
 const queryClient = new QueryClient({
   defaultOptions: {
