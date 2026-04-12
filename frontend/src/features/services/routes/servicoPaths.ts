@@ -7,4 +7,5 @@ export const servicoPaths = {
 
   visualizarServicoById: (id: string | number) => `/visualizar-servico/${id}`,
   visualizarMeuServicoById: (id: string | number) => `/meu-servico/${id}`,
+  chatServicoById: (id: string | number) => `/chat-servico/${id}`,
 };

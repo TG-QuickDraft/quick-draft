@@ -123,7 +123,9 @@ const VerProposta = () => {
           <StarRating rating={4.2} />
         </div>
         <Button
-          onClick={() => navigate(servicoPaths.chatServico)}
+          onClick={() =>
+            navigate(servicoPaths.chatServicoById(proposta.servicoId))
+          }
           icon={<IoChatboxEllipsesOutline size={20} />}
         >
           Iniciar chat
