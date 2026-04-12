@@ -18,15 +18,17 @@ import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import ProposalCards from "../../components/ProposalCards";
 import Spinner from "@/shared/components/ui/Spinner";
-import Modal from "@/shared/components/ui/Modal";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import Button from "@/shared/components/ui/buttons/Button";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { useModal } from "@/shared/contexts/modal.context";
 
 const VerProposta = () => {
+  const { showSuccess, showError } = useModal();
+
   const { id } = useParams();
   const propostaId = Number(id);
   const navigate = useNavigate();
@@ -35,10 +37,6 @@ const VerProposta = () => {
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
   const [servico, setServico] = useState<ServicoDTO | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const [showModal, setShowModal] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
   const { roles } = useAuth();
 
@@ -70,14 +68,13 @@ const VerProposta = () => {
 
     try {
       await aceitarProposta(servico.id, proposta.id);
-      setModalStatus("Sucesso");
-      setModalMsg("Proposta aceita com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Proposta aceita com sucesso!",
+      });
     } catch (error) {
-      console.error(error);
-      setModalStatus("Erro");
-      setModalMsg("Erro ao aceitar proposta");
-      setShowModal(true);
+      showError({
+        content: "Erro ao aceitar proposta",
+      });
     }
   };
 
@@ -192,14 +189,6 @@ const VerProposta = () => {
           <ProposalCards key={proj.id} img={proj.imagemUrl} url={proj.link} />
         ))}
       </div>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </div>
   );
 };

@@ -2,7 +2,6 @@ import Button from "@/shared/components/ui/buttons/Button";
 import Title from "@/shared/components/ui/titles/Title";
 import Input from "@/shared/components/ui/Inputs/Input";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
-import Modal from "@/shared/components/ui/Modal";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,11 +18,12 @@ import {
 } from "@/features/users/api/usuario.api";
 
 import { CiUser } from "react-icons/ci";
+import { useModal } from "@/shared/contexts/modal.context";
+import { usuarioPaths } from "../routes/usuarioPaths";
 
 export const AtualizarDadosUsuario = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
-  const [modalMsg, setModalMsg] = useState("");
+  const { showSuccess, showError } = useModal();
+
   const [loading, setLoading] = useState(true);
 
   const {
@@ -46,9 +46,7 @@ export const AtualizarDadosUsuario = () => {
         setValue("email", usuario.email);
         setValue("cpf", usuario.cpf);
       } catch (error) {
-        setModalStatus("Erro");
-        setModalMsg("Erro ao carregar dados do usuário.");
-        setShowModal(true);
+        showError({ content: "Erro ao carregar dados do usuário." });
       } finally {
         setLoading(false);
       }
@@ -65,14 +63,15 @@ export const AtualizarDadosUsuario = () => {
         cpf: data.cpf,
       });
 
-      setModalStatus("Sucesso");
-      setModalMsg(resposta.mensagem);
-      setShowModal(true);
+      showSuccess({
+        content: resposta.mensagem,
+        redirect: usuarioPaths.minhaConta,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({
+          content: error.message,
+        });
       }
     }
   };
@@ -133,14 +132,6 @@ export const AtualizarDadosUsuario = () => {
           </Button>
         </form>
       </div>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </>
   );
 };

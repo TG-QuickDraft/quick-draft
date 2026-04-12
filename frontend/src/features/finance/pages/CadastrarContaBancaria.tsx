@@ -10,7 +10,6 @@ import {
   consultarTiposConta,
 } from "@/features/finance/api/contaBancaria.api";
 import Input from "@/shared/components/ui/Inputs/Input";
-import Modal from "@/shared/components/ui/Modal";
 import Title from "@/shared/components/ui/titles/Title";
 import type { CriarContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/CriarContaBancariaDTO";
 import type { ContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/ContaBancariaDTO";
@@ -22,14 +21,14 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";
+import { useModal } from "@/shared/contexts/modal.context";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CadastrarContaBancaria = () => {
+  const { showSuccess, showError } = useModal();
+
   const [tiposConta, setTiposConta] = useState<TipoContaDTO[]>([]);
   const [hasContaCadastrada, setHasContaCadastrada] = useState<boolean>(false);
-
-  const [showModal, setShowModal] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
   useEffect(() => {
     const obterDadosConta = async () => {
@@ -84,16 +83,15 @@ export const CadastrarContaBancaria = () => {
     const conta: CriarContaBancariaDTO = toCriarContaDTO(data);
     try {
       await adicionarContaBancaria(conta);
-      setModalStatus("Sucesso");
-      setModalMsg("Conta cadastrada com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Conta cadastrada com sucesso!",
+        redirect: usuarioPaths.minhaConta,
+      });
 
       setHasContaCadastrada(true);
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({ content: error.message });
       }
     }
   };
@@ -106,14 +104,13 @@ export const CadastrarContaBancaria = () => {
 
     try {
       await atualizarContaBancaria(conta);
-      setModalStatus("Sucesso");
-      setModalMsg("Conta atualizada com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Conta atualizada com sucesso!",
+        redirect: usuarioPaths.minhaConta,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({ content: error.message });
       }
     }
   };
@@ -189,14 +186,6 @@ export const CadastrarContaBancaria = () => {
           {hasContaCadastrada ? "Atualizar" : "Salvar"}
         </Button>
       </div>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </form>
   );
 };

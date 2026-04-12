@@ -10,7 +10,6 @@ import {
   consultarBandeiras,
 } from "@/features/finance/api/cartaoCredito.api";
 import Input from "@/shared/components/ui/Inputs/Input";
-import Modal from "@/shared/components/ui/Modal";
 import Title from "@/shared/components/ui/titles/Title";
 import type { BandeiraCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/BandeiraCartaoCreditoDTO";
 import type { CartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CartaoCreditoDTO";
@@ -19,15 +18,15 @@ import { CardSchema, type ICardForm } from "../validations/finance.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";
+import { useModal } from "@/shared/contexts/modal.context";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CadastrarCartaoCredito = () => {
+  const { showError, showSuccess } = useModal();
+
   const [bandeiras, setBandeiras] = useState<BandeiraCartaoCreditoDTO[]>([]);
   const [hasCartaoCadastrado, setHasCartaoCadastrado] =
     useState<boolean>(false);
-
-  const [showModal, setShowModal] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
   const {
     register,
@@ -78,16 +77,15 @@ export const CadastrarCartaoCredito = () => {
 
     try {
       await adicionarCartaoCredito(cartao);
-      setModalStatus("Sucesso");
-      setModalMsg("Cartão cadastrado com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Cartão cadastrado com sucesso!",
+        redirect: usuarioPaths.minhaConta,
+      });
 
       setHasCartaoCadastrado(true);
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({ content: error.message });
       }
     }
   };
@@ -100,14 +98,13 @@ export const CadastrarCartaoCredito = () => {
 
     try {
       await atualizarCartaoCredito(cartao);
-      setModalStatus("Sucesso");
-      setModalMsg("Cartão atualizado com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Cartão atualizado com sucesso!",
+        redirect: usuarioPaths.minhaConta,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({ content: error.message });
       }
     }
   };
@@ -163,14 +160,6 @@ export const CadastrarCartaoCredito = () => {
           {hasCartaoCadastrado ? "Atualizar" : "Salvar"}
         </Button>
       </form>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </div>
   );
 };
