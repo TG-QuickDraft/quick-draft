@@ -5,7 +5,7 @@ import { SelecaoServicoChat } from "../components/SelecaoServicoChat";
 import Title from "@/shared/components/ui/titles/Title";
 
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { useModal } from "@/shared/contexts/modal.context";
 import Spinner from "@/shared/components/ui/Spinner";
@@ -79,6 +79,10 @@ const chats = [
 
 export const ChatServico = () => {
   const { id } = useParams();
+
+  const [params] = useSearchParams();
+  const propostaId = Number(params.get("propostaId"));
+
   const { showError } = useModal();
   const { roles } = useAuth();
 
@@ -114,7 +118,7 @@ export const ChatServico = () => {
 
         if (servico) {
           if (roles.includes("Cliente")) {
-            const proposta = await buscarPropostaPorId(1);
+            const proposta = await buscarPropostaPorId(propostaId);
             if (proposta) {
               const freelancer = await consultarFreelancerPorId(
                 proposta.freelancerId,
