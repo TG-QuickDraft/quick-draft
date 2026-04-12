@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Chat } from "../components/Chat";
 import { SelecaoServicoChat } from "../components/SelecaoServicoChat";
 import Title from "@/shared/components/ui/titles/Title";
 
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+import { consultarServicoPorId } from "../api/servico.api";
+import { useParams } from "react-router-dom";
+import type { ServicoDTO } from "../dtos/ServicoDTO";
+import { useModal } from "@/shared/contexts/modal.context";
+import Spinner from "@/shared/components/ui/Spinner";
 
 const chats = [
   {
@@ -66,8 +71,13 @@ const chats = [
 ];
 
 export const ChatServico = () => {
-  const [mensagem, setMensagem] = useState<string>("");
+  const { id } = useParams();
+  const { showError } = useModal();
 
+  const [loading, setLoading] = useState(false);
+  const [servico, setServico] = useState<ServicoDTO | null>(null);
+
+  const [mensagem, setMensagem] = useState<string>("");
   const [chatSelecionado, setChatSelecionado] = useState<number>(0);
   const [chat, setChat] = useState(chats[0]);
 
@@ -86,6 +96,25 @@ export const ChatServico = () => {
     setChatSelecionado(index);
     setChat(chats[index]);
   };
+
+  useEffect(() => {
+    (async () => {
+      let timer = setTimeout(() => setLoading(true), 1000);
+      try {
+        const res = await consultarServicoPorId(Number(id));
+        setServico(res);
+      } catch (error) {
+        showError({ content: "Erro ao consultar serviço" });
+      } finally {
+        setLoading(false);
+        clearTimeout(timer);
+      }
+    })();
+  }, [id]);
+
+  if (loading) return <Spinner />;
+
+  if (!servico) return null;
 
   return (
     <div className="flex flex-1 items-start w-full flex-col min-h-0 overflow-hidden">
@@ -112,7 +141,7 @@ export const ChatServico = () => {
             mensagem={mensagem}
             mensagens={chat.mensagens}
             destinatario={{ nome: chat.destinario, fotoPerfilUrl: "" }}
-            servico={chat.servico}
+            servico={servico}
             setMensagem={setMensagem}
             enviarMensagem={enviarMensagem}
           />
