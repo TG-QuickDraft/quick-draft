@@ -1,11 +1,13 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import Modal from "../components/ui/Modal";
+import { useNavigate } from "react-router-dom";
 
 interface ModalOptions {
   title?: string;
   content: ReactNode;
   icon?: ReactNode;
+  redirect?: string;
 }
 
 interface ModalContextData {
@@ -22,6 +24,8 @@ interface ModalContextData {
 const ModalContext = createContext<ModalContextData>({} as ModalContextData);
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate();
+
   const [config, setConfig] = useState<ModalOptions & { show: boolean }>({
     show: false,
     content: null,
@@ -41,6 +45,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   const hideModal = () => {
     setConfig((prev) => ({ ...prev, show: false }));
+    config.redirect && navigate(config.redirect);
   };
 
   return (

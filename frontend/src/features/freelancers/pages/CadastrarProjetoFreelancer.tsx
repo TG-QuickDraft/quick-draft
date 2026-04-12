@@ -1,11 +1,8 @@
-import { useState } from "react";
-
 import Button from "@/shared/components/ui/buttons/Button";
 import { LuSave } from "react-icons/lu";
 
 import Title from "@/shared/components/ui/titles/Title";
 
-import Modal from "@/shared/components/ui/Modal";
 import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
 import {
   adicionarProjetoFreelancer,
@@ -18,24 +15,22 @@ import {
 } from "../validations/freelancers.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import ImagePicker from "@/features/users/components/ImagePicker";
+import { useModal } from "@/shared/contexts/model.context";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CadastrarProjetoFreelancer = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
+  const { showSuccess, showError } = useModal();
 
   const [params] = useSearchParams();
   const from = params.get("from");
-
-  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<INewProjectForm>({
     mode: "onChange",
     resolver: yupResolver(NewProjectSchema),
@@ -61,14 +56,13 @@ export const CadastrarProjetoFreelancer = () => {
         await enviarImagemProjeto(form, projetoAdicionado.id);
       }
 
-      setModalStatus("Sucesso");
-      setModalMsg("Projeto cadastrado com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Projeto cadastrado com sucesso!",
+        redirect: from ? from : usuarioPaths.minhaConta,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({ content: error.message });
       }
     }
   };
@@ -119,17 +113,6 @@ export const CadastrarProjetoFreelancer = () => {
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
       </form>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => {
-          setShowModal(false);
-          from && modalStatus === "Sucesso" && navigate(from);
-        }}
-      >
-        {modalMsg}
-      </Modal>
     </div>
   );
 };
