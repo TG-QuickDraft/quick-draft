@@ -6,10 +6,12 @@ import Title from "@/shared/components/ui/titles/Title";
 
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import { consultarServicoPorId } from "../api/servico.api";
+import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { useParams } from "react-router-dom";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { useModal } from "@/shared/contexts/modal.context";
 import Spinner from "@/shared/components/ui/Spinner";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
 const chats = [
   {
@@ -76,6 +78,7 @@ export const ChatServico = () => {
 
   const [loading, setLoading] = useState(false);
   const [servico, setServico] = useState<ServicoDTO | null>(null);
+  const [cliente, setCliente] = useState<ClienteDTO | null>(null);
 
   const [mensagem, setMensagem] = useState<string>("");
   const [chatSelecionado, setChatSelecionado] = useState<number>(0);
@@ -101,8 +104,14 @@ export const ChatServico = () => {
     (async () => {
       let timer = setTimeout(() => setLoading(true), 1000);
       try {
-        const res = await consultarServicoPorId(Number(id));
-        setServico(res);
+        const servico = await consultarServicoPorId(Number(id));
+
+        if (servico) {
+          const cliente = await consultarClientePorId(servico.clienteId);
+          setCliente(cliente);
+        }
+
+        setServico(servico);
       } catch (error) {
         showError({ content: "Erro ao consultar serviço" });
       } finally {
@@ -113,8 +122,7 @@ export const ChatServico = () => {
   }, [id]);
 
   if (loading) return <Spinner />;
-
-  if (!servico) return null;
+  if (!servico || !cliente) return null;
 
   return (
     <div className="flex flex-1 items-start w-full flex-col min-h-0 overflow-hidden">
@@ -140,7 +148,10 @@ export const ChatServico = () => {
           <Chat
             mensagem={mensagem}
             mensagens={chat.mensagens}
-            destinatario={{ nome: chat.destinario, fotoPerfilUrl: "" }}
+            destinatario={{
+              nome: cliente.nome,
+              fotoPerfilUrl: cliente.fotoPerfilUrl || "",
+            }}
             servico={servico}
             setMensagem={setMensagem}
             enviarMensagem={enviarMensagem}
