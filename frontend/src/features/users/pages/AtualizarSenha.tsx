@@ -2,11 +2,9 @@ import Button from "@/shared/components/ui/buttons/Button";
 import Title from "@/shared/components/ui/titles/Title";
 import Input from "@/shared/components/ui/Inputs/Input";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
-import Modal from "@/shared/components/ui/Modal";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
 
 import {
   ChangePasswordSchema,
@@ -15,11 +13,11 @@ import {
 
 import { atualizarSenha } from "@/features/users/api/usuario.api";
 import { CiLock } from "react-icons/ci";
+import { useModal } from "@/shared/contexts/model.context";
+import { usuarioPaths } from "../routes/usuarioPaths";
 
 export const AtualizarSenha = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
-  const [modalMsg, setModalMsg] = useState("");
+  const { showSuccess, showError } = useModal();
 
   const {
     register,
@@ -37,14 +35,15 @@ export const AtualizarSenha = () => {
         confirmarNovaSenha: data.confirmPassword,
       });
 
-      setModalStatus("Sucesso");
-      setModalMsg(resposta.mensagem);
-      setShowModal(true);
+      showSuccess({
+        content: resposta.mensagem,
+        redirect: usuarioPaths.minhaConta,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({
+          content: error.message,
+        });
       }
     }
   };
@@ -85,14 +84,6 @@ export const AtualizarSenha = () => {
           </Button>
         </form>
       </div>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </>
   );
 };

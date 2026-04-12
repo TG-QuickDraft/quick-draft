@@ -22,6 +22,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";
 import { useModal } from "@/shared/contexts/model.context";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CadastrarContaBancaria = () => {
   const { showSuccess, showError } = useModal();
@@ -84,6 +85,7 @@ export const CadastrarContaBancaria = () => {
       await adicionarContaBancaria(conta);
       showSuccess({
         content: "Conta cadastrada com sucesso!",
+        redirect: usuarioPaths.minhaConta,
       });
 
       setHasContaCadastrada(true);
@@ -104,6 +106,7 @@ export const CadastrarContaBancaria = () => {
       await atualizarContaBancaria(conta);
       showSuccess({
         content: "Conta atualizada com sucesso!",
+        redirect: usuarioPaths.minhaConta,
       });
     } catch (error) {
       if (error instanceof Error) {

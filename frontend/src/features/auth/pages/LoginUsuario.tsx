@@ -14,6 +14,7 @@ import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema, type ILoginForm } from "../validations/login.schema";
 import { useModal } from "@/shared/contexts/model.context";
+import { homePaths } from "@/features/home/routes/homePaths";
 
 export const LoginUsuario = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export const LoginUsuario = () => {
       const loginRequest: LoginDTO = { email: data.email, senha: data.senha };
       await login(loginRequest);
 
-      navigate("/");
+      navigate(homePaths.home);
     } catch (error) {
       if (error instanceof Error) {
         showError({ content: error.message });

@@ -28,7 +28,6 @@ import {
 import { GoPlus } from "react-icons/go";
 import { useCreateProposal } from "../../hooks/useCreateProposal";
 import type { CriarPropostaDTO } from "../../dtos/freelancer/PropostaDTO";
-import Modal from "@/shared/components/ui/Modal";
 import { parseCurrencyToNumber } from "@/shared/utils/number.utils";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
@@ -45,13 +44,12 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { sessionStorageKeys } from "@/shared/utils/storageKeys";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+import { useModal } from "@/shared/contexts/model.context";
 
 const CadastrarProposta = () => {
-  const [loading, setLoading] = useState(false);
+  const { showSuccess, showError } = useModal();
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
-  const [modalMsg, setModalMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { serviceId } = useParams();
@@ -138,14 +136,16 @@ const CadastrarProposta = () => {
         sessionStorage.removeItem(sessionStorageKeys.proposalCache);
         clearAuxiliaryCache();
         reset();
-        setModalStatus("Sucesso");
-        setModalMsg("Proposta enviada com sucesso!");
-        setShowModal(true);
+
+        showSuccess({
+          content: "Proposta enviada com sucesso!",
+          redirect: servicoPaths.pesquisaServico,
+        });
       },
       onError: (error) => {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({
+          content: error.message,
+        });
       },
     });
   };
@@ -377,16 +377,6 @@ const CadastrarProposta = () => {
           </ProposalSection>
         </form>
       </div>
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => {
-          setShowModal(false);
-          modalStatus === "Sucesso" && navigate(servicoPaths.pesquisaServico);
-        }}
-      >
-        {modalMsg}
-      </Modal>
     </>
   );
 };

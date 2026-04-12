@@ -19,6 +19,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";
 import { useModal } from "@/shared/contexts/model.context";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CadastrarCartaoCredito = () => {
   const { showError, showSuccess } = useModal();
@@ -76,7 +77,10 @@ export const CadastrarCartaoCredito = () => {
 
     try {
       await adicionarCartaoCredito(cartao);
-      showSuccess({ content: "Cartão cadastrado com sucesso!" });
+      showSuccess({
+        content: "Cartão cadastrado com sucesso!",
+        redirect: usuarioPaths.minhaConta,
+      });
 
       setHasCartaoCadastrado(true);
     } catch (error) {
@@ -94,7 +98,10 @@ export const CadastrarCartaoCredito = () => {
 
     try {
       await atualizarCartaoCredito(cartao);
-      showSuccess({ content: "Cartão atualizado com sucesso!" });
+      showSuccess({
+        content: "Cartão atualizado com sucesso!",
+        redirect: usuarioPaths.minhaConta,
+      });
     } catch (error) {
       if (error instanceof Error) {
         showError({ content: error.message });

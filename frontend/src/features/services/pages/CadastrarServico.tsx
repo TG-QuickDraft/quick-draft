@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Button from "@/shared/components/ui/buttons/Button";
 import { LuSave } from "react-icons/lu";
 
@@ -7,7 +5,6 @@ import Title from "@/shared/components/ui/titles/Title";
 
 import { adicionarServico } from "@/features/services/api/servico.api";
 import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
-import Modal from "@/shared/components/ui/Modal";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Radio from "@/shared/components/ui/Inputs/Radio";
 import {
@@ -17,11 +14,11 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
+import { useModal } from "@/shared/contexts/model.context";
+import { servicoPaths } from "../routes/servicoPaths";
 
 export const CadastrarServico = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
+  const { showSuccess, showError } = useModal();
 
   const {
     register,
@@ -41,17 +38,18 @@ export const CadastrarServico = () => {
       valorMinimo: Number(data.valorMinimo),
       prazo: new Date(data.prazo).toISOString(),
     };
-  
+
     try {
       await adicionarServico(servico);
-      setModalStatus("Sucesso");
-      setModalMsg("Serviço cadastrado com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Serviço cadastrado com sucesso!",
+        redirect: servicoPaths.pesquisaServico,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({
+          content: error.message,
+        });
       }
     }
   };
@@ -129,14 +127,6 @@ export const CadastrarServico = () => {
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
       </form>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </div>
   );
 };
