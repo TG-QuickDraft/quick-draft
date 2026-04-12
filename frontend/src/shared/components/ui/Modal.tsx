@@ -10,10 +10,14 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import Button from "@/shared/components/ui/buttons/Button";
 import type { ModalVariants } from "@/shared/types/ModalVariants";
 
-import { HiOutlineEmojiHappy } from "react-icons/hi";
-import { HiOutlineEmojiSad } from "react-icons/hi";
-
-const Modal = ({ show, onClose, title, children, variant }: ModalProps) => {
+const Modal = ({
+  show,
+  onClose,
+  title,
+  children,
+  icon,
+  variant,
+}: ModalProps) => {
   if (!show) return null;
 
   return (
@@ -24,11 +28,7 @@ const Modal = ({ show, onClose, title, children, variant }: ModalProps) => {
         {title && (
           <div className="flex items-center justify-center gap-2 mb-4">
             <h2 className="text-xl font-semibold">{title}</h2>
-            {variant === "success" ? (
-              <HiOutlineEmojiHappy size={28} />
-            ) : (
-              <HiOutlineEmojiSad size={28} />
-            )}
+            {icon}
           </div>
         )}
 

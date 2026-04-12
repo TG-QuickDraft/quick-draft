@@ -4,6 +4,9 @@ import Modal from "../components/ui/Modal";
 import { useNavigate } from "react-router-dom";
 import type { ModalVariants } from "../types/ModalVariants";
 
+import { HiOutlineEmojiHappy } from "react-icons/hi";
+import { HiOutlineEmojiSad } from "react-icons/hi";
+
 interface ModalOptions {
   title?: string;
   content: ReactNode;
@@ -38,11 +41,23 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const showError = (options: ModalOptions) => {
-    setConfig({ title: "Erro!", ...options, variant: "error", show: true });
+    setConfig({
+      title: "Erro!",
+      ...options,
+      variant: "error",
+      icon: <HiOutlineEmojiSad size={28} />,
+      show: true,
+    });
   };
 
   const showSuccess = (options: ModalOptions) => {
-    setConfig({ title: "Sucesso!", ...options, variant: "success", show: true });
+    setConfig({
+      title: "Sucesso!",
+      ...options,
+      variant: "success",
+      icon: <HiOutlineEmojiHappy size={28} />,
+      show: true,
+    });
   };
 
   const hideModal = () => {
