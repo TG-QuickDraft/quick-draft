@@ -173,7 +173,7 @@ export const MeuServico = () => {
 
         {existeAlgumaPropostaAceita && (
           <Button
-            onClick={() => navigate(servicoPaths.chatServico)}
+            onClick={() => navigate(servicoPaths.chatServicoById(servico.id))}
             icon={<IoChatboxEllipsesOutline size={20} />}
           >
             Iniciar chat

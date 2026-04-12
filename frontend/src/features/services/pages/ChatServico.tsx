@@ -5,13 +5,18 @@ import { SelecaoServicoChat } from "../components/SelecaoServicoChat";
 import Title from "@/shared/components/ui/titles/Title";
 
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
-import { consultarServicoPorId } from "../api/servico.api";
-import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { useParams } from "react-router-dom";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { useModal } from "@/shared/contexts/modal.context";
 import Spinner from "@/shared/components/ui/Spinner";
-import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
+
+import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+
+import { consultarServicoPorId } from "../api/servico.api";
+import { consultarClientePorId } from "@/features/clients/api/cliente.api";
+import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
+import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 
 const chats = [
   {
@@ -75,10 +80,11 @@ const chats = [
 export const ChatServico = () => {
   const { id } = useParams();
   const { showError } = useModal();
+  const { roles } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [servico, setServico] = useState<ServicoDTO | null>(null);
-  const [cliente, setCliente] = useState<ClienteDTO | null>(null);
+  const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
 
   const [mensagem, setMensagem] = useState<string>("");
   const [chatSelecionado, setChatSelecionado] = useState<number>(0);
@@ -107,8 +113,20 @@ export const ChatServico = () => {
         const servico = await consultarServicoPorId(Number(id));
 
         if (servico) {
-          const cliente = await consultarClientePorId(servico.clienteId);
-          setCliente(cliente);
+          if (roles.includes("Cliente")) {
+            const proposta = await buscarPropostaPorId(1);
+            if (proposta) {
+              const freelancer = await consultarFreelancerPorId(
+                proposta.freelancerId,
+              );
+              setUsuario(freelancer);
+            }
+          }
+
+          if (roles.includes("Freelancer")) {
+            const cliente = await consultarClientePorId(servico.clienteId);
+            setUsuario(cliente);
+          }
         }
 
         setServico(servico);
@@ -122,7 +140,7 @@ export const ChatServico = () => {
   }, [id]);
 
   if (loading) return <Spinner />;
-  if (!servico || !cliente) return null;
+  if (!servico || !usuario) return null;
 
   return (
     <div className="flex flex-1 items-start w-full flex-col min-h-0 overflow-hidden">
@@ -149,8 +167,8 @@ export const ChatServico = () => {
             mensagem={mensagem}
             mensagens={chat.mensagens}
             destinatario={{
-              nome: cliente.nome,
-              fotoPerfilUrl: cliente.fotoPerfilUrl || "",
+              nome: usuario.nome,
+              fotoPerfilUrl: usuario.fotoPerfilUrl || "",
             }}
             servico={servico}
             setMensagem={setMensagem}
