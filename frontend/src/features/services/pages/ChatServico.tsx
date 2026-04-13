@@ -21,6 +21,7 @@ import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 import { consultarMensagens } from "../api/chat.api";
 import { criarMensagem } from "../api/chat.api";
 import type { MensagemDTO } from "../dtos/MensagemDTO";
+import { useChatConnection } from "../hooks/useChatConnection";
 
 const chats = [
   {
@@ -101,22 +102,23 @@ export const ChatServico = () => {
   const [chatSelecionado, setChatSelecionado] = useState<number>(0);
   const [chat, setChat] = useState<MensagemDTO[]>([]);
 
+  const { incomingMessage } = useChatConnection(Number(id));
+
+  useEffect(() => {
+    if (incomingMessage) {
+      setChat((prev) => [...prev, incomingMessage]);
+    }
+  }, [incomingMessage]);
+
   const enviarMensagem = async () => {
     if (mensagem && mensagem.trim().length > 0 && user?.id) {
       let timer = setTimeout(() => setIsMessagePending(true), 500);
       try {
-        const newMessage = await criarMensagem({
+        await criarMensagem({
           servicoId: Number(id),
           mensagem,
         });
-        setChat([
-          ...chat,
-          {
-            usuarioId: newMessage.usuarioId,
-            mensagem: newMessage.mensagem,
-            data: newMessage.data,
-          },
-        ]);
+        setMensagem("");
       } catch (error) {
         error instanceof Error
           ? showError({ content: error.message })
@@ -125,8 +127,6 @@ export const ChatServico = () => {
         setIsMessagePending(false);
         clearTimeout(timer);
       }
-
-      setMensagem("");
     }
   };
 
