@@ -6,6 +6,7 @@ import { MdOutlineSend } from "react-icons/md";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import Title from "@/shared/components/ui/titles/Title";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 type ChatProps = {
   mensagem: string;
@@ -27,12 +28,16 @@ export const Chat = ({
   setMensagem,
   enviarMensagem,
 }: ChatProps) => {
+  const { usuario } = useAuth();
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       enviarMensagem();
     }
   };
+
+  if (!usuario) return <div>Usuário logado não encontrado</div>;
 
   return (
     <div className="flex flex-col flex-1 min-h-0 w-full">
@@ -61,7 +66,7 @@ export const Chat = ({
           <CaixaMensagem
             key={index}
             mensagem={m.mensagem}
-            isRemetente={m.usuarioId === 1} // TODO: substituir pelo ID do usuário logado
+            isRemetente={m.usuarioId === usuario.id}
           />
         ))}
       </section>
