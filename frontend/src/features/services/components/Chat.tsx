@@ -8,6 +8,7 @@ import { toLocaleString } from "@/shared/utils/date.utils";
 import Title from "@/shared/components/ui/titles/Title";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useEffect, useRef } from "react";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 type ChatProps = {
   mensagem: string;
@@ -55,13 +56,13 @@ export const Chat = ({
       <div className={clsx("p-4 border-y border-y-gray-300")}>
         <div
           className={clsx(
-            "flex flex-col gap-8 px-4",
+            "flex flex-col gap-4 px-4",
             "md:px-10 max-w-300 mx-auto w-full",
           )}
         >
           <section className="flex justify-between w-full">
             <Title className="text-start">
-              <strong>{servico.nome}</strong>
+              <BackButton>{servico.nome}</BackButton>
             </Title>
             <p className="text-gray-500">
               {toLocaleString(servico.prazo, { somenteData: true })}

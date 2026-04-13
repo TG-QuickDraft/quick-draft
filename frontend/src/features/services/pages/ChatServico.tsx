@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { Chat } from "../components/Chat";
 
-import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import { useParams, useSearchParams } from "react-router-dom";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { useModal } from "@/shared/contexts/modal.context";
@@ -134,7 +133,6 @@ export const ChatServico = () => {
 
   return (
     <div className="flex flex-1 items-start w-full flex-col min-h-0 overflow-hidden">
-      {/* <BackButton className="mt-2 py-0!" /> */}
       <div className={clsx("flex flex-1 min-h-0 w-full")}>
         {/* <section className="hidden md:flex flex-col items-center w-80 min-h-0 overflow-y-auto p-4">
           <Title className="mb-4">Conversas</Title>
