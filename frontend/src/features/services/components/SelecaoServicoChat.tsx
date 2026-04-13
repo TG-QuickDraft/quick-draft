@@ -12,7 +12,7 @@ export const SelecaoServicoChat = ({
   selected?: boolean;
   destinatario: { nome: string; fotoPerfilUrl: string };
   servico: ServicoDTO;
-  onClick: () => void;
+  onClick?: () => void;
 }) => {
   return (
     <Button onClick={onClick} variant={selected ? "secondary" : "outline"}>

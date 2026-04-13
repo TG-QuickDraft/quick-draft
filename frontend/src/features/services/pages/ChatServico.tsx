@@ -18,7 +18,9 @@ import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 
+import { consultarMensagens } from "../api/chat.api";
 import { criarMensagem } from "../api/chat.api";
+import type { MensagemDTO } from "../dtos/MensagemDTO";
 
 const chats = [
   {
@@ -88,33 +90,39 @@ export const ChatServico = () => {
   const { showError } = useModal();
   const { roles, usuario: user } = useAuth();
 
-  const [loading, setLoading] = useState(false);
+  const [isLoadingRecipient, setIsLoadingRecipient] = useState(false);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [isMessagePending, setIsMessagePending] = useState(false);
+
   const [servico, setServico] = useState<ServicoDTO | null>(null);
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
 
   const [mensagem, setMensagem] = useState<string>("");
   const [chatSelecionado, setChatSelecionado] = useState<number>(0);
-  const [chat, setChat] = useState(chats[0]);
+  const [chat, setChat] = useState<MensagemDTO[]>([]);
 
   const enviarMensagem = async () => {
     if (mensagem && mensagem.trim().length > 0 && user?.id) {
-      let timer = setTimeout(() => setLoading(true), 1000);
+      let timer = setTimeout(() => setIsMessagePending(true), 500);
       try {
-        await criarMensagem({ servicoId: Number(id), mensagem });
-
-        setChat({
-          ...chat,
-          mensagens: [
-            ...chat.mensagens,
-            { usuarioId: user.id, mensagem: mensagem },
-          ],
+        const newMessage = await criarMensagem({
+          servicoId: Number(id),
+          mensagem,
         });
+        setChat([
+          ...chat,
+          {
+            usuarioId: newMessage.usuarioId,
+            mensagem: newMessage.mensagem,
+            data: newMessage.data,
+          },
+        ]);
       } catch (error) {
         error instanceof Error
           ? showError({ content: error.message })
           : showError({ content: "Erro ao enviar mensagem" });
       } finally {
-        setLoading(false);
+        setIsMessagePending(false);
         clearTimeout(timer);
       }
 
@@ -122,14 +130,26 @@ export const ChatServico = () => {
     }
   };
 
-  const trocarChat = (index: number) => {
-    setChatSelecionado(index);
-    setChat(chats[index]);
-  };
+  useEffect(() => {
+    (async () => {
+      let timer = setTimeout(() => setIsLoadingHistory(true), 1000);
+      try {
+        const chat = await consultarMensagens(Number(id));
+        setChat(chat);
+      } catch (error) {
+        error instanceof Error
+          ? showError({ content: error.message })
+          : showError({ content: "Erro ao carregar histórico de chat" });
+      } finally {
+        setIsLoadingHistory(false);
+        clearTimeout(timer);
+      }
+    })();
+  }, [chatSelecionado]);
 
   useEffect(() => {
     (async () => {
-      let timer = setTimeout(() => setLoading(true), 1000);
+      let timer = setTimeout(() => setIsLoadingRecipient(true), 1000);
       try {
         const servico = await consultarServicoPorId(Number(id));
 
@@ -152,15 +172,24 @@ export const ChatServico = () => {
 
         setServico(servico);
       } catch (error) {
-        showError({ content: "Erro ao consultar serviço" });
+        showError({
+          content: "Erro ao consultar dados do destinatário",
+        });
       } finally {
-        setLoading(false);
+        setIsLoadingRecipient(false);
         clearTimeout(timer);
       }
     })();
   }, [id]);
 
-  if (loading) return <Spinner />;
+  // const trocarChat = (index: number) => {
+  //   setChatSelecionado(index);
+  //   setChat(chats[index]);
+  // };
+
+  if (isLoadingRecipient || isLoadingHistory || isMessagePending)
+    return <Spinner />;
+
   if (!servico || !usuario) return null;
 
   return (
@@ -177,7 +206,7 @@ export const ChatServico = () => {
                 selected={chatSelecionado === index}
                 destinatario={{ nome: chat.destinario, fotoPerfilUrl: "" }}
                 servico={chat.servico}
-                onClick={() => trocarChat(index)}
+                // onClick={() => trocarChat(index)}
               />
             ))}
           </div>
@@ -186,7 +215,7 @@ export const ChatServico = () => {
         <section className="flex flex-1 min-h-0 max-h-[calc(100vh-220px)]">
           <Chat
             mensagem={mensagem}
-            mensagens={chat.mensagens}
+            mensagens={chat}
             destinatario={{
               nome: usuario.nome,
               fotoPerfilUrl: usuario.fotoPerfilUrl || "",
