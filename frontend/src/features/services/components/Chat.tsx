@@ -52,46 +52,67 @@ export const Chat = ({
 
   return (
     <div className="flex flex-col flex-1 min-h-0 w-full">
-      <div className="flex flex-col shrink-0 gap-8 border-b border-b-gray-300 p-4">
-        <section className="flex justify-between w-full">
-          <Title className="text-start">
-            <strong>{servico.nome}</strong>
-          </Title>
-          <p className="text-gray-500">
-            {toLocaleString(servico.prazo, { somenteData: true })}
-          </p>
-        </section>
-
-        <section className="flex gap-4 items-center">
-          <ProfilePhoto
-            photoPath={destinatario.fotoPerfilUrl}
-            className="w-auto!"
-            size="sm"
-          />
-          <p>{destinatario.nome}</p>
-        </section>
+      <div className={clsx("p-4 border-y border-y-gray-300")}>
+        <div
+          className={clsx(
+            "flex flex-col gap-8 px-4",
+            "md:px-10 max-w-300 mx-auto w-full",
+          )}
+        >
+          <section className="flex justify-between w-full">
+            <Title className="text-start">
+              <strong>{servico.nome}</strong>
+            </Title>
+            <p className="text-gray-500">
+              {toLocaleString(servico.prazo, { somenteData: true })}
+            </p>
+          </section>
+          <section className="flex gap-4 items-center">
+            <ProfilePhoto
+              photoPath={destinatario.fotoPerfilUrl}
+              className="w-auto!"
+              size="sm"
+            />
+            <p>{destinatario.nome}</p>
+          </section>
+        </div>
       </div>
 
-      <section className="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-4">
-        {mensagens.map((m, index) => (
-          <CaixaMensagem
-            key={index}
-            mensagem={m.mensagem}
-            isRemetente={m.usuarioId === usuario.id}
-          />
-        ))}
-        <div ref={messagesEndRef} />
+      <section className={clsx("flex-1 overflow-y-auto p-4 bg-gray-100")}>
+        <div
+          className={clsx(
+            "flex flex-col gap-4 px-4",
+            "md:px-10 max-w-300 mx-auto w-full",
+          )}
+        >
+          {mensagens.map((m, index) => (
+            <CaixaMensagem
+              key={index}
+              mensagem={m.mensagem}
+              isRemetente={m.usuarioId === usuario.id}
+            />
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
       </section>
 
-      <section className="shrink-0 border-t border-t-gray-300 bg-white p-4 flex gap-4">
-        <Input
-          placeholder="Digite sua mensagem"
-          value={mensagem}
-          onChange={(e) => setMensagem(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-
-        <Button icon={<MdOutlineSend />} onClick={enviarMensagem} />
+      <section
+        className={clsx("border-t border-t-gray-300 bg-white p-4 flex gap-4")}
+      >
+        <div
+          className={clsx(
+            "flex gap-4 px-4",
+            "md:px-10 max-w-300 mx-auto w-full",
+          )}
+        >
+          <Input
+            placeholder="Digite sua mensagem"
+            value={mensagem}
+            onChange={(e) => setMensagem(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <Button icon={<MdOutlineSend />} onClick={enviarMensagem} />
+        </div>
       </section>
     </div>
   );
@@ -114,7 +135,7 @@ const CaixaMensagem = ({
       <div
         className={clsx(
           "rounded-xl p-2 max-w-[70%] break-all",
-          isRemetente ? "bg-secondary-100" : "bg-gray-100",
+          isRemetente ? "bg-secondary-100" : "bg-gray-300",
         )}
       >
         <p className="text-sm">{mensagem}</p>

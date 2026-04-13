@@ -8,7 +8,11 @@ const fullScreenPaths = [homePaths.home, servicoPaths.chatServico];
 
 const Content = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
-  const isFullScreen = fullScreenPaths.includes(location.pathname);
+  const isFullScreen = fullScreenPaths.some((path) =>
+    path === "/"
+      ? location.pathname === "/"
+      : location.pathname.startsWith(path),
+  );
 
   return (
     <div className={clsx("flex flex-col flex-1 p-6", isFullScreen && "p-0!")}>
