@@ -87,9 +87,8 @@ const VerProposta = () => {
   }
 
   const propostaAceitaId = servico?.propostaAceitaId;
-  const isPropostaAceita = propostaAceitaId === proposta.id;
   const temPropostaAceita = !!propostaAceitaId;
-  const outraPropostaAceita = temPropostaAceita && !isPropostaAceita;
+  const outraPropostaAceita = temPropostaAceita && !temPropostaAceita;
 
   const itens = proposta.itensPropostos
     ?.split(";")
@@ -123,7 +122,7 @@ const VerProposta = () => {
           <StarRating rating={4.2} />
         </div>
 
-        {roles.includes("Freelancer") && !isPropostaAceita && (
+        {roles.includes("Freelancer") && temPropostaAceita && (
           <Button
             onClick={() =>
               navigate(servicoPaths.chatServicoById(proposta.servicoId))
@@ -178,7 +177,7 @@ const VerProposta = () => {
               }
             `}
           >
-            {isPropostaAceita
+            {temPropostaAceita
               ? "Proposta já foi aceita!"
               : outraPropostaAceita
                 ? "Este serviço já aceitou outra proposta"

@@ -18,6 +18,8 @@ import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 
+import { criarMensagem } from "../api/chat.api";
+
 const chats = [
   {
     mensagens: [
@@ -84,7 +86,7 @@ export const ChatServico = () => {
   const propostaId = Number(params.get("propostaId"));
 
   const { showError } = useModal();
-  const { roles } = useAuth();
+  const { roles, usuario: user } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [servico, setServico] = useState<ServicoDTO | null>(null);
@@ -94,12 +96,27 @@ export const ChatServico = () => {
   const [chatSelecionado, setChatSelecionado] = useState<number>(0);
   const [chat, setChat] = useState(chats[0]);
 
-  const enviarMensagem = () => {
-    if (mensagem && mensagem.trim().length > 0) {
-      setChat({
-        ...chat,
-        mensagens: [...chat.mensagens, { usuarioId: 1, mensagem: mensagem }],
-      });
+  const enviarMensagem = async () => {
+    if (mensagem && mensagem.trim().length > 0 && user?.id) {
+      let timer = setTimeout(() => setLoading(true), 1000);
+      try {
+        await criarMensagem({ servicoId: Number(id), mensagem });
+
+        setChat({
+          ...chat,
+          mensagens: [
+            ...chat.mensagens,
+            { usuarioId: user.id, mensagem: mensagem },
+          ],
+        });
+      } catch (error) {
+        error instanceof Error
+          ? showError({ content: error.message })
+          : showError({ content: "Erro ao enviar mensagem" });
+      } finally {
+        setLoading(false);
+        clearTimeout(timer);
+      }
 
       setMensagem("");
     }
