@@ -7,6 +7,7 @@ import type { ServicoDTO } from "../dtos/ServicoDTO";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import Title from "@/shared/components/ui/titles/Title";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useEffect, useRef } from "react";
 
 type ChatProps = {
   mensagem: string;
@@ -29,6 +30,16 @@ export const Chat = ({
   enviarMensagem,
 }: ChatProps) => {
   const { usuario } = useAuth();
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [mensagens]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -69,6 +80,7 @@ export const Chat = ({
             isRemetente={m.usuarioId === usuario.id}
           />
         ))}
+        <div ref={messagesEndRef} />
       </section>
 
       <section className="shrink-0 border-t border-t-gray-300 bg-white p-4 flex gap-4">
