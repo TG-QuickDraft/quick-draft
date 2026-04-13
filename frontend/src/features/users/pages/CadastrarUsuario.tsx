@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { adicionarUsuario, enviarFoto } from "@/features/users/api/usuario.api";
 
 import Button from "@/shared/components/ui/buttons/Button";
@@ -10,7 +9,6 @@ import {
   RegisterUserSchema,
   type IRegisterUserForm,
 } from "@/features/users/validations/usuario.schema";
-import Modal from "@/shared/components/ui/Modal";
 import Input from "@/shared/components/ui/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/features/users/dtos/CriarUsuarioDTO";
 import { TIPOS_USUARIO } from "@/features/users/enums/tiposUsuario";
@@ -20,12 +18,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Radio from "@/shared/components/ui/Inputs/Radio";
 import ImagePicker from "@/features/users/components/ImagePicker";
+import { useModal } from "@/shared/contexts/modal.context";
+import { usuarioPaths } from "../routes/usuarioPaths";
 
 export const CadastrarUsuario = () => {
+  const { showSuccess, showError } = useModal();
+
   const { login } = useAuth();
-  const [showModal, setShowModal] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalStatus, setModalStatus] = useState<"Sucesso" | "Erro" | "">("");
 
   const {
     register,
@@ -66,17 +65,18 @@ export const CadastrarUsuario = () => {
       const imagemProjeto = data.fotoPerfil.imagem?.[0];
 
       if (imagemProjeto) {
-        await enviarFoto({ imagem: imagemProjeto, });
+        await enviarFoto({ imagem: imagemProjeto });
       }
 
-      setModalStatus("Sucesso");
-      setModalMsg("Usuário cadastrado com sucesso!");
-      setShowModal(true);
+      showSuccess({
+        content: "Usuário cadastrado com sucesso!",
+        redirect: usuarioPaths.minhaConta,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        setModalStatus("Erro");
-        setModalMsg(error.message);
-        setShowModal(true);
+        showError({
+          content: error.message,
+        });
       }
 
       return;
@@ -164,14 +164,6 @@ export const CadastrarUsuario = () => {
 
         <Button icon={<LuSave size={30} />}>Salvar</Button>
       </form>
-
-      <Modal
-        show={showModal}
-        title={modalStatus}
-        onClose={() => setShowModal(false)}
-      >
-        {modalMsg}
-      </Modal>
     </div>
   );
 };
