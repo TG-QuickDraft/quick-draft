@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import StarRating from "@/shared/components/ui/StarRating";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
@@ -21,6 +21,9 @@ import Spinner from "@/shared/components/ui/Spinner";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+import Button from "@/shared/components/ui/buttons/Button";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { useModal } from "@/shared/contexts/modal.context";
 
 const VerProposta = () => {
@@ -28,6 +31,7 @@ const VerProposta = () => {
 
   const { id } = useParams();
   const propostaId = Number(id);
+  const navigate = useNavigate();
 
   const [proposta, setProposta] = useState<PropostaDTO | null>(null);
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
@@ -83,9 +87,8 @@ const VerProposta = () => {
   }
 
   const propostaAceitaId = servico?.propostaAceitaId;
-  const isPropostaAceita = propostaAceitaId === proposta.id;
   const temPropostaAceita = !!propostaAceitaId;
-  const outraPropostaAceita = temPropostaAceita && !isPropostaAceita;
+  const outraPropostaAceita = temPropostaAceita && !temPropostaAceita;
 
   const itens = proposta.itensPropostos
     ?.split(";")
@@ -100,25 +103,35 @@ const VerProposta = () => {
 
       <p className="text-gray-500 text-sm">Serviço: {servico?.nome}</p>
 
-      <div className="flex gap-5 items-center flex-wrap">
-        <div className="h-50 w-50 rounded-full">
-          <ProfilePhoto
-            photoPath={freelancer?.fotoPerfilUrl}
-            size="lg"
-            className="w-full! h-full!"
-            imgClassName="!w-full !h-full object-cover"
-          />
+      <div className="flex justify-between items-center">
+        <div className="flex gap-5 items-center flex-wrap">
+          <div className="h-50 w-50 rounded-full">
+            <ProfilePhoto
+              photoPath={freelancer?.fotoPerfilUrl}
+              size="lg"
+              className="w-full! h-full!"
+              imgClassName="!w-full !h-full object-cover"
+            />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold">
+              {freelancer?.nome || <Spinner />}
+            </h1>
+            <p className="text-[20px]">Design Gráfico / Editor de Vídeo</p>
+          </div>
+          <StarRating rating={4.2} />
         </div>
 
-        <div>
-          <h1 className="text-3xl font-bold">
-            {freelancer?.nome || <Spinner />}
-          </h1>
-
-          <p className="text-[20px]">Design Gráfico / Editor de Vídeo</p>
-        </div>
-
-        <StarRating rating={4.2} />
+        {roles.includes("Freelancer") && temPropostaAceita && (
+          <Button
+            onClick={() =>
+              navigate(servicoPaths.chatServicoById(proposta.servicoId))
+            }
+            icon={<IoChatboxEllipsesOutline size={20} />}
+          >
+            Iniciar chat
+          </Button>
+        )}
       </div>
 
       <div className="flex gap-5 flex-wrap">
@@ -164,7 +177,7 @@ const VerProposta = () => {
               }
             `}
           >
-            {isPropostaAceita
+            {temPropostaAceita
               ? "Proposta já foi aceita!"
               : outraPropostaAceita
                 ? "Este serviço já aceitou outra proposta"

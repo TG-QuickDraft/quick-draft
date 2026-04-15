@@ -12,5 +12,5 @@ export const NewProjectSchema = yup.object({
 
   description: yup.string().required("Descrição é obrigatório"),
   link: yup.string().required("Link é obrigatório"),
-  imagem: uploadImagemSchema
+  imagem: uploadImagemSchema,
 });

@@ -46,7 +46,7 @@ export function PesquisaServico() {
     const nomeUrl = searchParams.get("nome") || "";
 
     const obterDados = async () => {
-      let timer = setTimeout(() => setLoading(true), 200);
+      let timer = setTimeout(() => setLoading(true), 1000);
       try {
         const dados = await consultarServicos({ nome: nomeUrl }, pagina, 10);
         setServicos(dados);

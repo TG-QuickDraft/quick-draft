@@ -1,6 +1,6 @@
 services:
   # TODO: Adicionar Backend e Frontend também, no futuro
-  
+
   postgres:
     image: postgres:16
     container_name: postgres

@@ -16,7 +16,7 @@ import { MockProfile } from "@/shared/assets";
 import StarRating from "@/shared/components/ui/StarRating";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 
-import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths"
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();

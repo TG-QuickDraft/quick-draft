@@ -6,11 +6,9 @@ using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
 {
-    public class CartaoCreditoService(
-        ICartaoCreditoRepository repository,
-        IMapper mapper
-    ) : ICartaoCreditoService
-    {   
+    public class CartaoCreditoService(ICartaoCreditoRepository repository, IMapper mapper)
+        : ICartaoCreditoService
+    {
         private readonly ICartaoCreditoRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
 
@@ -38,9 +36,7 @@ namespace Backend.Application.Services
                 BandeiraId = dto.BandeiraId,
             };
 
-            return _mapper.Map<CartaoCreditoDTO>(
-                await _repository.CriarAsync(cartaoToAdd)
-            );
+            return _mapper.Map<CartaoCreditoDTO>(await _repository.CriarAsync(cartaoToAdd));
         }
 
         public async Task<CartaoCreditoDTO> AtualizarAsync(CartaoCreditoDTO dto, int clienteId)
@@ -48,9 +44,7 @@ namespace Backend.Application.Services
             CartaoCredito cartaoToUpdate = _mapper.Map<CartaoCredito>(dto);
             cartaoToUpdate.Id = clienteId;
 
-            return _mapper.Map<CartaoCreditoDTO>(
-                await _repository.AtualizarAsync(cartaoToUpdate)
-            );
+            return _mapper.Map<CartaoCreditoDTO>(await _repository.AtualizarAsync(cartaoToUpdate));
         }
     }
 }

@@ -3,11 +3,13 @@
 Foram utilizados os seguintes comandos para criar o projeto:
 
 - Criação do projeto React
+
 ```sh
 npm create vite@latest frontend -- --template react-ts
 ```
 
 - Criando projeto ASP.NET:
+
 ```sh
 # Criando o Backend
 dotnet new webapp -n Backend
@@ -42,7 +44,7 @@ cd Backend
 # Criando as migrações
 dotnet ef migrations add NomeMigracao -o Infrastructure/Persistence/Migrations
 
-# Aplicando migrações ao banco 
+# Aplicando migrações ao banco
 dotnet ef database update
 ```
 

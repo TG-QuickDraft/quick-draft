@@ -1,22 +1,34 @@
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
 import Title from "../titles/Title";
+import clsx from "clsx";
 
 export const BackButton = ({
   textContent = "Voltar",
+  children,
+  className,
 }: {
   textContent?: string;
+  children?: React.ReactNode;
+  className?: string;
 }) => {
   const navigate = useNavigate();
 
   return (
-    <Button
-      className="mt-6 bg-white border-0"
-      icon={<MdKeyboardDoubleArrowLeft className="text-black" size={30} />}
-      onClick={() => navigate(-1)}
+    <div
+      className={clsx("bg-white border-0 flex gap-2 cursor-default", className)}
     >
-      <Title className="text-black">{textContent}</Title>
-    </Button>
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className={clsx(
+          "text-black hover:-translate-x-1 ",
+          "transition duration-200 cursor-pointer",
+        )}
+      >
+        <MdKeyboardDoubleArrowLeft size={30} />
+      </button>
+      <Title className="text-black">{children || textContent}</Title>
+    </div>
   );
 };

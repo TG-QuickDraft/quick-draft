@@ -10,5 +10,5 @@ export const usuarioRoutes = [
   { path: usuarioPaths.cadastrarUsuario, element: <CadastrarUsuario /> },
   { path: usuarioPaths.minhaConta, element: <MinhaConta /> },
   { path: usuarioPaths.atualizarSenha, element: <AtualizarSenha /> },
-  { path: usuarioPaths.atualizarDados, element: <AtualizarDadosUsuario /> }
+  { path: usuarioPaths.atualizarDados, element: <AtualizarDadosUsuario /> },
 ];

@@ -7,8 +7,6 @@ import { CiLogin } from "react-icons/ci";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
 import { useForm } from "react-hook-form";
 
-import { useNavigate } from "react-router-dom";
-
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,8 +15,6 @@ import { useModal } from "@/shared/contexts/modal.context";
 import { homePaths } from "@/features/home/routes/homePaths";
 
 export const LoginUsuario = () => {
-  const navigate = useNavigate();
-
   const { showError } = useModal();
   const { login } = useAuth();
 
@@ -35,8 +31,7 @@ export const LoginUsuario = () => {
     try {
       const loginRequest: LoginDTO = { email: data.email, senha: data.senha };
       await login(loginRequest);
-
-      navigate(homePaths.home);
+      window.location.href = homePaths.home;
     } catch (error) {
       if (error instanceof Error) {
         showError({ content: error.message });
