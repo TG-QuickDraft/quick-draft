@@ -13,6 +13,8 @@ interface ModalOptions {
   icon?: ReactNode;
   redirect?: string;
   variant?: ModalVariants;
+
+  onConfirm?: () => void;
 }
 
 interface ModalContextData {
@@ -21,6 +23,9 @@ interface ModalContextData {
     options: Omit<ModalOptions, "title"> & { title?: string },
   ) => void;
   showSuccess: (
+    options: Omit<ModalOptions, "title"> & { title?: string },
+  ) => void;
+  showConfirmation: (
     options: Omit<ModalOptions, "title"> & { title?: string },
   ) => void;
   hideModal: () => void;
@@ -60,23 +65,44 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const hideModal = () => {
+  const showConfirmation = (options: ModalOptions) => {
+    setConfig({
+      title: "Confirmação!",
+      ...options,
+      variant: "primary",
+      show: true,
+    });
+  };
+
+  const hideModal = (redirect?: string) => {
     setConfig((prev) => ({ ...prev, show: false }));
-    config.redirect && navigate(config.redirect);
+    redirect && navigate(redirect);
+  };
+
+  const handleCancel = () => {
+    !config.onConfirm ? hideModal(config.redirect) : hideModal();
+  };
+
+  const handleConfirm = () => {
+    if (!config.onConfirm) return;
+
+    config.onConfirm();
+    hideModal(config.redirect);
   };
 
   return (
     <ModalContext.Provider
-      value={{ showModal, showError, showSuccess, hideModal }}
+      value={{ showModal, showError, showSuccess, showConfirmation, hideModal }}
     >
       {children}
 
       <Modal
         show={config.show}
-        onClose={hideModal}
+        onClose={handleCancel}
         title={config.title}
         icon={config.icon}
         variant={config.variant}
+        onConfirm={config.onConfirm ? handleConfirm : undefined}
       >
         {config.content}
       </Modal>

@@ -26,8 +26,10 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { useModal } from "@/shared/contexts/modal.context";
 
+import { IoIosWarning } from "react-icons/io";
+
 const VerProposta = () => {
-  const { showSuccess, showError } = useModal();
+  const { showSuccess, showError, showConfirmation } = useModal();
 
   const { id } = useParams();
   const propostaId = Number(id);
@@ -63,7 +65,17 @@ const VerProposta = () => {
     fetchData();
   }, [propostaId]);
 
-  const handleAceitar = async () => {
+  const handleAceitarProposta = () => {
+    showConfirmation({
+      title: "Atenção!",
+      icon: <IoIosWarning size={28} />,
+      content:
+        "Tem certeza que deseja aceitar essa proposta? Essa ação não pode ser desfeita",
+      onConfirm: () => {},
+    });
+  };
+
+  const handleConfirmarAceite = async () => {
     if (!proposta || !servico) return;
 
     try {
@@ -167,7 +179,7 @@ const VerProposta = () => {
       {roles.includes("Cliente") && (
         <div className="sticky bottom-6 flex justify-end pointer-events-none">
           <button
-            onClick={handleAceitar}
+            onClick={handleAceitarProposta}
             disabled={temPropostaAceita}
             className={`pointer-events-auto px-5 py-3 rounded-xl shadow-lg transition-all duration-300
               ${
