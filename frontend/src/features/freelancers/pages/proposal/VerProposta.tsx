@@ -26,10 +26,8 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { useModal } from "@/shared/contexts/modal.context";
 
-import { IoIosWarning } from "react-icons/io";
-
 const VerProposta = () => {
-  const { showSuccess, showError, showConfirmation } = useModal();
+  const { showSuccess, showError, showDanger } = useModal();
 
   const { id } = useParams();
   const propostaId = Number(id);
@@ -66,12 +64,10 @@ const VerProposta = () => {
   }, [propostaId]);
 
   const handleAceitarProposta = () => {
-    showConfirmation({
-      title: "Atenção!",
-      icon: <IoIosWarning size={28} />,
+    showDanger({
       content:
         "Tem certeza que deseja aceitar essa proposta? Essa ação não pode ser desfeita",
-      onConfirm: () => {},
+      onConfirm: handleConfirmarAceite,
     });
   };
 

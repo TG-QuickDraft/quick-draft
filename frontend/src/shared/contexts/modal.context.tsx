@@ -6,6 +6,7 @@ import type { ModalVariants } from "../types/ModalVariants";
 
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import { HiOutlineEmojiSad } from "react-icons/hi";
+import { IoIosWarning } from "react-icons/io";
 
 interface ModalOptions {
   title?: string;
@@ -25,7 +26,7 @@ interface ModalContextData {
   showSuccess: (
     options: Omit<ModalOptions, "title"> & { title?: string },
   ) => void;
-  showConfirmation: (
+  showDanger: (
     options: Omit<ModalOptions, "title"> & { title?: string },
   ) => void;
   hideModal: () => void;
@@ -65,11 +66,12 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const showConfirmation = (options: ModalOptions) => {
+  const showDanger = (options: ModalOptions) => {
     setConfig({
-      title: "Confirmação!",
+      title: "Atenção!",
+      icon: <IoIosWarning size={28} color="red" />,
       ...options,
-      variant: "primary",
+      variant: "danger",
       show: true,
     });
   };
@@ -92,7 +94,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ModalContext.Provider
-      value={{ showModal, showError, showSuccess, showConfirmation, hideModal }}
+      value={{ showModal, showError, showSuccess, showDanger, hideModal }}
     >
       {children}
 
