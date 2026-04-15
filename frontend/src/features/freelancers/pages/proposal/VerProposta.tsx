@@ -115,7 +115,7 @@ const VerProposta = () => {
   return (
     <div className="flex flex-col gap-5 max-w-310 mx-auto w-full">
       <header>
-        <BackButton />
+        <BackButton>Proposta de {freelancer?.nome}</BackButton>
       </header>
 
       <p className="text-gray-500 text-sm">Serviço: {servico?.nome}</p>
