@@ -76,6 +76,14 @@ const VerProposta = () => {
 
     try {
       await aceitarProposta(servico.id, proposta.id);
+      setServico((prev) => {
+        if (!prev) return null;
+
+        return {
+          ...prev,
+          propostaAceitaId: proposta.id,
+        };
+      });
       showSuccess({
         content: "Proposta aceita com sucesso!",
       });
@@ -95,8 +103,9 @@ const VerProposta = () => {
   }
 
   const propostaAceitaId = servico?.propostaAceitaId;
+  const isPropostaAceita = propostaAceitaId === proposta.id;
   const temPropostaAceita = !!propostaAceitaId;
-  const outraPropostaAceita = temPropostaAceita && !temPropostaAceita;
+  const outraPropostaAceita = temPropostaAceita && !isPropostaAceita;
 
   const itens = proposta.itensPropostos
     ?.split(";")
@@ -185,7 +194,7 @@ const VerProposta = () => {
               }
             `}
           >
-            {temPropostaAceita
+            {isPropostaAceita
               ? "Proposta já foi aceita!"
               : outraPropostaAceita
                 ? "Este serviço já aceitou outra proposta"
