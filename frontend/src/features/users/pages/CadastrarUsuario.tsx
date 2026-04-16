@@ -24,7 +24,7 @@ import { usuarioPaths } from "../routes/usuarioPaths";
 export const CadastrarUsuario = () => {
   const { showSuccess, showError } = useModal();
 
-  const { login } = useAuth();
+  const { login, syncUser } = useAuth();
 
   const {
     register,
@@ -66,6 +66,7 @@ export const CadastrarUsuario = () => {
 
       if (imagemProjeto) {
         await enviarFoto({ imagem: imagemProjeto });
+        await syncUser();
       }
 
       showSuccess({

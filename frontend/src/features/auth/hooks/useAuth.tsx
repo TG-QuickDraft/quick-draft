@@ -15,6 +15,7 @@ import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { homePaths } from "@/features/home/routes/homePaths";
 import { authPaths } from "../routes/authPaths";
 import type { Role } from "@/shared/types/Roles";
+import { useModal } from "@/shared/contexts/modal.context";
 
 interface IUserProvider {
   isAuthenticated: boolean;
@@ -22,12 +23,18 @@ interface IUserProvider {
   logout: () => void;
   roles: Role[];
   usuario: UsuarioDTO | null;
+  syncUser: () => Promise<void>;
 }
 
 export const AuthContext = createContext({} as IUserProvider);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem(localStorageKeys.accessToken),
+  );
+
   const [roles, setRoles] = useState<Role[]>([]);
+  const { showError } = useModal();
 
   const [loading, setLoading] = useState(true);
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
@@ -46,38 +53,53 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     usuarioPaths.cadastrarUsuario,
   ];
 
-  const isAuthenticated = !!localStorage.getItem(localStorageKeys.accessToken);
+  const isAuthenticated = !!token;
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      setRoles(getRolesFromToken());
-    }
-    setLoading(false);
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
+  const syncUser = async () => {
+    try {
+      const dadosUsuario = await consultarUsuario();
+      setUsuario(dadosUsuario || null);
+    } catch (error) {
+      console.error("Erro ao consultar usuário", error);
+      if (error instanceof Error) {
+        showError({ content: error.message });
+      }
       setUsuario(null);
-      return;
     }
+  };
 
-    const obterDadosUsuario = async () => {
-      const dadosUsuario: UsuarioDTO = await consultarUsuario();
-      setUsuario(dadosUsuario);
+  useEffect(() => {
+    const initAuth = async () => {
+      if (token) {
+        setRoles(getRolesFromToken());
+        await syncUser();
+      } else {
+        setUsuario(null);
+        setRoles([]);
+      }
+      setLoading(false);
     };
-    obterDadosUsuario();
+
+    initAuth();
   }, []);
 
-  const login = async (login: LoginDTO) => {
-    const { token } = await loginApi(login);
+  const login = async (loginData: LoginDTO) => {
+    const { token: novoToken } = await loginApi(loginData);
 
-    localStorage.setItem(localStorageKeys.accessToken, token);
+    localStorage.setItem(localStorageKeys.accessToken, novoToken);
 
+    await syncUser();
+
+    setToken(novoToken);
     setRoles(getRolesFromToken());
   };
 
   const logout = () => {
     localStorage.removeItem(localStorageKeys.accessToken);
+
+    setRoles([]);
+    setUsuario(null);
+    setToken(null);
   };
 
   const isPublicRoute = publicRoutes.some((route) => {
@@ -89,7 +111,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, login, logout, roles, usuario }}
+      value={{ isAuthenticated, login, logout, roles, usuario, syncUser }}
     >
       {loading ? (
         <Spinner />

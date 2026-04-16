@@ -73,7 +73,7 @@ const Navbar = () => {
         </div>
       </Stack>
       <Stack direction="row" gap={6}>
-        <ProfileNavbar photoPath={usuario ? usuario.fotoPerfilUrl : ""} />
+        <ProfileNavbar photoPath={usuario?.fotoPerfilUrl} />
       </Stack>
     </div>
   );

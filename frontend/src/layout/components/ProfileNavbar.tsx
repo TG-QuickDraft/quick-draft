@@ -19,8 +19,6 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { homePaths } from "@/features/home/routes/homePaths";
 
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
-
 const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
