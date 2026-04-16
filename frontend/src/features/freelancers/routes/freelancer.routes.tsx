@@ -42,5 +42,12 @@ export const freelancerRoutes = [
       </RequireRole>
     ),
   },
-  { path: `${freelancerPaths.verMinhaProposta}/:id`, element: <MinhaProposta /> },
+  {
+    path: `${freelancerPaths.verMinhaProposta}/:id`,
+    element: (
+      <RequireRole roles={["Freelancer"]}>
+        <MinhaProposta />
+      </RequireRole>
+    ),
+  },
 ];
