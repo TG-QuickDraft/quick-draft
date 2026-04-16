@@ -66,7 +66,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUsuario(dadosUsuario);
     };
     obterDadosUsuario();
-  }, [isAuthenticated]);
+  }, []);
 
   const login = async (login: LoginDTO) => {
     const { token } = await loginApi(login);

@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json.Serialization;
+using Backend.API.Hubs;
 using Backend.Application;
 using Backend.Infrastructure;
 using Backend.Infrastructure.Persistence;
@@ -18,11 +19,13 @@ builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("Imag
 
 builder.Services.AddScoped<AuditInterceptor>();
 
-builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-    options.AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>());
-});
+builder.Services.AddDbContext<AppDbContext>(
+    (serviceProvider, options) =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+        options.AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>());
+    }
+);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -30,13 +33,19 @@ builder
     .Services.AddControllers()
     .AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
+builder.Services.AddSignalR();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
         name: "PermitirOrigemFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+            policy
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
         }
     );
 });
@@ -45,7 +54,11 @@ builder
     .Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.PropertyNamingPolicy = System
+            .Text
+            .Json
+            .JsonNamingPolicy
+            .CamelCase;
     });
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -106,5 +119,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chat-hub");
 
 app.Run();

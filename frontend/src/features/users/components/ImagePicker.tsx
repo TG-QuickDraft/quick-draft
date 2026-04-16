@@ -11,7 +11,7 @@ export default function ImagePicker({
   onChange,
   initialImage,
   error,
-  mensagem = "Clique para selecionar uma imagem"
+  mensagem = "Clique para selecionar uma imagem",
 }: ImagePickerProps) {
   const [file, setFile] = useState<File | null>(null);
 
@@ -30,7 +30,6 @@ export default function ImagePicker({
   return (
     <div className="flex flex-col gap-1">
       <label className="flex flex-col items-center justify-center border border-gray-300 rounded-lg h-32 cursor-pointer hover:bg-gray-50 transition overflow-hidden">
-
         <input
           type="file"
           accept="image/png, image/jpeg, image/jpg, image/gif"
@@ -52,16 +51,12 @@ export default function ImagePicker({
               className="w-20 h-20 rounded-full object-cover"
             />
 
-            <span className="text-xs text-gray-500">
-              Clique para alterar
-            </span>
+            <span className="text-xs text-gray-500">Clique para alterar</span>
           </div>
         )}
       </label>
 
-      {error && (
-        <p className="text-red-500 text-sm">{error}</p>
-      )}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>
   );
 }

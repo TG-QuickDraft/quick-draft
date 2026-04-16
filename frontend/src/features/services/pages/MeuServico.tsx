@@ -13,6 +13,11 @@ import { FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import Spinner from "@/shared/components/ui/Spinner";
+import Button from "@/shared/components/ui/buttons/Button";
+import clsx from "clsx";
+
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { servicoPaths } from "../routes/servicoPaths";
 
 export const MeuServico = () => {
   const { id } = useParams();
@@ -21,9 +26,9 @@ export const MeuServico = () => {
 
   const [servico, setServico] = useState<ServicoDTO | null>(null);
   const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
-  const [freelancers, setFreelancers] = useState<
-    Record<number, FreelancerDTO>
-  >({});
+  const [freelancers, setFreelancers] = useState<Record<number, FreelancerDTO>>(
+    {},
+  );
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -32,8 +37,7 @@ export const MeuServico = () => {
     const fetchData = async () => {
       try {
         const servicoData = await consultarServicoPorId(servicoId);
-        const propostasData =
-          await buscarPropostasPorServico(servicoId);
+        const propostasData = await buscarPropostasPorServico(servicoId);
 
         setServico(servicoData);
         setPropostas(propostasData);
@@ -43,12 +47,10 @@ export const MeuServico = () => {
         await Promise.all(
           propostasData.map(async (p) => {
             if (!freelancersMap[p.freelancerId]) {
-              const freelancer = await consultarFreelancerPorId(
-                p.freelancerId
-              );
+              const freelancer = await consultarFreelancerPorId(p.freelancerId);
               freelancersMap[p.freelancerId] = freelancer;
             }
-          })
+          }),
         );
 
         setFreelancers(freelancersMap);
@@ -64,116 +66,128 @@ export const MeuServico = () => {
     return <Spinner />;
   }
 
-const propostasOrdenadas = [...propostas].sort((a, b) => {
-  if (!servico.propostaAceitaId) return 0;
+  const existeAlgumaPropostaAceita = !!servico.propostaAceitaId;
 
-  if (a.id === servico.propostaAceitaId) return -1;
-  if (b.id === servico.propostaAceitaId) return 1;
+  const propostasOrdenadas = [...propostas].sort((a, b) => {
+    if (!servico.propostaAceitaId) return 0;
 
-  return 0;
-});
+    if (a.id === servico.propostaAceitaId) return -1;
+    if (b.id === servico.propostaAceitaId) return 1;
 
-return (
+    return 0;
+  });
+
+  return (
     <div className="flex h-screen bg-white">
-        <div
+      <div
         className={`transition-all duration-300 ${
-            sidebarOpen ? "w-90" : "w-12"
+          sidebarOpen ? "w-90" : "w-12"
         } bg-white border-r border-gray-200`}
-        >
+      >
         <div className="flex justify-end p-2">
-            <button
+          <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="text-gray-600 hover:text-black"
-            >
+          >
             {sidebarOpen ? <FaChevronLeft /> : <FaChevronRight />}
-            </button>
+          </button>
         </div>
 
         {sidebarOpen && (
-            <div className="p-4">
+          <div className="p-4">
             <h2 className="text-lg font-semibold mb-1">Propostas</h2>
             <p className="text-sm text-gray-500 mb-4">
-                {propostas.length} no total
+              {propostas.length} no total
             </p>
 
             <div className="divide-y divide-gray-200">
-                {propostasOrdenadas.map((p) => {
+              {propostasOrdenadas.map((p) => {
                 const freelancer = freelancers[p.freelancerId];
                 const isAceita = p.id === servico.propostaAceitaId;
                 const temAceita = !!servico.propostaAceitaId;
 
                 return (
-                    <div
-                      key={p.id}
-                      className={`p-3 flex items-center justify-between transition-all
-                        ${
-                          temAceita && !isAceita
-                            ? "opacity-40"
-                            : ""
-                        }
+                  <div
+                    key={p.id}
+                    className={`p-3 flex items-center justify-between transition-all
+                        ${temAceita && !isAceita ? "opacity-40" : ""}
                         ${
                           isAceita
                             ? "bg-[var(--color-secondary-40)] border border-[var(--color-secondary-100)] rounded-lg"
                             : ""
                         }
                       `}
-                    >
+                  >
                     <div className="flex items-center gap-3">
-                        <ProfilePhoto
+                      <ProfilePhoto
                         photoPath={freelancer?.fotoPerfilUrl}
                         size="sm"
                         className="!w-auto"
-                        />
+                      />
 
-                        <div>
+                      <div>
                         <p className="font-medium">
-                            {freelancer?.nome || "Carregando..."}
+                          {freelancer?.nome || "Carregando..."}
                         </p>
                         <p className="text-xs text-gray-500">
-                            {
-                              isAceita
-                              ? "Proposta Aceita"
-                              : "Prazo: " +
-                                new Date(
-                                p.prazoEntrega
-                                ).toLocaleDateString()
-                            }
+                          {isAceita
+                            ? "Proposta Aceita"
+                            : "Prazo: " +
+                              new Date(p.prazoEntrega).toLocaleDateString()}
                         </p>
-                        </div>
+                      </div>
                     </div>
 
-                    <button 
-                        onClick={() =>
-                            navigate(freelancerPaths.verPropostaById(p.id))
-                        }
-                        className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 text-gray-600 rounded-lg hover:text-black">
-                        <FaEye />
-                        Ver proposta
+                    <button
+                      onClick={() =>
+                        navigate(freelancerPaths.verPropostaById(p.id))
+                      }
+                      className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 text-gray-600 rounded-lg hover:text-black"
+                    >
+                      <FaEye />
+                      Ver proposta
                     </button>
-                    </div>
+                  </div>
                 );
-                })}
+              })}
             </div>
-            </div>
+          </div>
         )}
+      </div>
+
+      <div
+        className={clsx(
+          "flex justify-between items-start flex-1 p-8 overflow-auto",
+          "bg-white",
+        )}
+      >
+        <div>
+          <h1 className="text-xl text-gray-600 mb-4">Serviço</h1>
+          <h2 className="text-2xl font-semibold mb-2">{servico.nome}</h2>
+          <p className="text-lg mb-6">R$ {servico.valorMinimo?.toFixed(2)}</p>
+          <h3 className="text-lg font-semibold mb-2">Descrição</h3>
+          <p className="text-gray-700 whitespace-pre-line max-w-2xl">
+            {servico.descricao}
+          </p>
         </div>
 
-      <div className="flex-1 p-8 overflow-auto bg-white">
-        <h1 className="text-xl text-gray-600 mb-4">Serviço</h1>
-
-        <h2 className="text-2xl font-semibold mb-2">
-          {servico.nome}
-        </h2>
-
-        <p className="text-lg mb-6">
-          R$ {servico.valorMinimo?.toFixed(2)}
-        </p>
-
-        <h3 className="text-lg font-semibold mb-2">Descrição</h3>
-
-        <p className="text-gray-700 whitespace-pre-line max-w-2xl">
-          {servico.descricao}
-        </p>
+        {existeAlgumaPropostaAceita && (
+          <button
+            className={clsx(
+              "cursor-pointer hover:-translate-y-1 transition duration-200",
+            )}
+            title="Iniciar conversa com o freelancer"
+            onClick={() =>
+              navigate(
+                servicoPaths.chatServicoById(servico.id) +
+                  "?propostaId=" +
+                  servico.propostaAceitaId,
+              )
+            }
+          >
+            <IoChatboxEllipsesOutline size={40} />
+          </button>
+        )}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import { ChatServico } from "../pages/ChatServico";
 export const servicoRoutes = [
   { path: servicoPaths.pesquisaServico, element: <PesquisaServico /> },
   {
-    path: servicoPaths.chatServico,
+    path: `${servicoPaths.chatServico}/:id`,
     element: (
       <RequireRole roles={["Cliente", "Freelancer"]}>
         <ChatServico />

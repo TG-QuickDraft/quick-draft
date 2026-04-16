@@ -1,6 +1,6 @@
 export type PrimitiveValueDTO = string | number | boolean | null;
 
-export type ModifiedValueDTO= {
+export type ModifiedValueDTO = {
   Old: PrimitiveValueDTO;
   New: PrimitiveValueDTO;
 };

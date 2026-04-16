@@ -3,7 +3,7 @@ import { MockProfile } from "@/shared/assets";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths"
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 export const CreateAccountCard = () => {
   const { isAuthenticated } = useAuth();

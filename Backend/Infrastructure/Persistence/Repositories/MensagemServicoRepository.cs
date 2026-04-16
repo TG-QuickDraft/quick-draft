@@ -1,7 +1,7 @@
 using Backend.Application.Interfaces.Repositories;
 using Backend.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Backend.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infrastructure.Persistence.Repositories
 {
@@ -15,11 +15,11 @@ namespace Backend.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
             return mensagem;
         }
-   
+
         public async Task<IEnumerable<MensagemServico>> ConsultarPorServicoIdAsync(int servicoId)
         {
-            return await _context.MensagensServico
-                .Where(m => m.ServicoId == servicoId)
+            return await _context
+                .MensagensServico.Where(m => m.ServicoId == servicoId)
                 .OrderBy(m => m.Data)
                 .ToListAsync();
         }

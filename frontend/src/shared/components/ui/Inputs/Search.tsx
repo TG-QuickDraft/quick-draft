@@ -49,7 +49,7 @@ const Search = ({
           "transition-all duration-200",
           "group-focus-within:text-gray-700",
           "group-focus-within:scale-110",
-          "cursor-pointer"
+          "cursor-pointer",
         )}
       >
         <SearchIcon />

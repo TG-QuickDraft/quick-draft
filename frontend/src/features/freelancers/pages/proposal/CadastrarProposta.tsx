@@ -40,11 +40,11 @@ import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 import { IoMdSend } from "react-icons/io";
 import { capitalize } from "@/shared/utils/string.utils";
 import { freelancerPaths } from "../../routes/freelancerPaths";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { sessionStorageKeys } from "@/shared/utils/storageKeys";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import { useModal } from "@/shared/contexts/modal.context";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 const CadastrarProposta = () => {
   const { showSuccess, showError } = useModal();
@@ -139,7 +139,7 @@ const CadastrarProposta = () => {
 
         showSuccess({
           content: "Proposta enviada com sucesso!",
-          redirect: servicoPaths.pesquisaServico,
+          redirect: usuarioPaths.minhaConta,
         });
       },
       onError: (error) => {

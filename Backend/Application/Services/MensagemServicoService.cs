@@ -23,14 +23,16 @@ public class MensagemServicoService(
     {
         if (string.IsNullOrWhiteSpace(dto.Mensagem))
             throw new ArgumentException("A mensagem não pode ser vazia");
-            
-        var servico = await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
+
+        var servico =
+            await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
             ?? throw new InvalidOperationException("Serviço não encontrado");
 
         if (servico.PropostaAceitaId == null)
             throw new InvalidOperationException("Serviço ainda não possui proposta aceita");
 
-        var proposta = await _propostaRepository.ConsultarPorIdAsync(servico.PropostaAceitaId.Value)
+        var proposta =
+            await _propostaRepository.ConsultarPorIdAsync(servico.PropostaAceitaId.Value)
             ?? throw new InvalidOperationException("Proposta aceita não encontrada");
 
         var clienteId = servico.ClienteId;
@@ -40,10 +42,8 @@ public class MensagemServicoService(
 
         if (usuarioLogadoId == clienteId)
             destinatarioId = freelancerId;
-
         else if (usuarioLogadoId == freelancerId)
             destinatarioId = clienteId;
-
         else
             throw new UnauthorizedAccessException("Você não faz parte deste chat");
 
@@ -53,7 +53,7 @@ public class MensagemServicoService(
             Data = DateTime.UtcNow,
             Mensagem = dto.Mensagem,
             RemetenteUsuarioId = usuarioLogadoId,
-            DestinatarioUsuarioId = destinatarioId
+            DestinatarioUsuarioId = destinatarioId,
         };
 
         return _mapper.Map<MensagemChatDTO>(await _repository.CriarAsync(mensagem));
@@ -64,13 +64,15 @@ public class MensagemServicoService(
         int usuarioLogadoId
     )
     {
-        var servico = await _servicoRepository.ConsultarPorIdAsync(servicoId)
+        var servico =
+            await _servicoRepository.ConsultarPorIdAsync(servicoId)
             ?? throw new InvalidOperationException("Serviço não encontrado");
 
         if (servico.PropostaAceitaId == null)
             throw new InvalidOperationException("Serviço ainda não possui proposta aceita");
 
-        var proposta = await _propostaRepository.ConsultarPorIdAsync(servico.PropostaAceitaId.Value)
+        var proposta =
+            await _propostaRepository.ConsultarPorIdAsync(servico.PropostaAceitaId.Value)
             ?? throw new InvalidOperationException("Proposta aceita não encontrada");
 
         var clienteId = servico.ClienteId;

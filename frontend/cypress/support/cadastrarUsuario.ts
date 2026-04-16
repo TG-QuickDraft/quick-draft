@@ -1,21 +1,23 @@
-Cypress.Commands.add('cadastrarUsuario', (usuario) => { 
-    cy.visit('http://localhost:5173/cadastrar-usuario');
+Cypress.Commands.add("cadastrarUsuario", (usuario) => {
+  cy.visit("http://localhost:5173/cadastrar-usuario");
 
-    cy.get('input[name="nome"]').type(usuario.nome);
-    cy.get('input[name="cpf"]').type(usuario.cpf);
-    cy.get('input[name="email"]').type(usuario.email);
-    cy.get('input[name="senha"]').type(usuario.senha);
-    cy.get('input[name="confirmarSenha"]').type(usuario.confirmarSenha);
-    cy.get(`input[type="radio"][value="${usuario.tipoUsuario}"]`).check({force: true});
-    cy.get('[data-cy="upload-imagem"]').attachFile(usuario.fotoPerfilUrl);
+  cy.get('input[name="nome"]').type(usuario.nome);
+  cy.get('input[name="cpf"]').type(usuario.cpf);
+  cy.get('input[name="email"]').type(usuario.email);
+  cy.get('input[name="senha"]').type(usuario.senha);
+  cy.get('input[name="confirmarSenha"]').type(usuario.confirmarSenha);
+  cy.get(`input[type="radio"][value="${usuario.tipoUsuario}"]`).check({
+    force: true,
+  });
+  cy.get('[data-cy="upload-imagem"]').attachFile(usuario.fotoPerfilUrl);
 
-    cy.intercept('POST', '**/usuario').as('criarUsuario');
-    cy.intercept('POST', '**/login').as('login');
-    cy.intercept('POST', '**/upload*').as('upload');
+  cy.intercept("POST", "**/usuario").as("criarUsuario");
+  cy.intercept("POST", "**/login").as("login");
+  cy.intercept("POST", "**/upload*").as("upload");
 
-    cy.contains('Salvar').click();
+  cy.contains("Salvar").click();
 
-    cy.wait('@criarUsuario');
-    cy.wait('@login');
-    cy.wait('@upload');
-})
+  cy.wait("@criarUsuario");
+  cy.wait("@login");
+  cy.wait("@upload");
+});

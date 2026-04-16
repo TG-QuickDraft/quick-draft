@@ -29,6 +29,5 @@ namespace Backend.Domain.Entities
         [Column("mss_destinatario_usu_id")]
         [Required]
         public int DestinatarioUsuarioId { get; set; }
-
     }
 }
