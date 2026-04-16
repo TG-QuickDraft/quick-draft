@@ -66,7 +66,7 @@ const VerProposta = () => {
   const handleAceitarProposta = () => {
     showDanger({
       content:
-        "Tem certeza que deseja aceitar essa proposta? Essa ação não pode ser desfeita",
+        "Tem certeza que deseja aceitar esta proposta? Essa ação não pode ser desfeita.",
       onConfirm: handleConfirmarAceite,
     });
   };
