@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Chat } from "../components/Chat";
+import { Chat } from "../components/Chat/Chat";
 
 import { useParams, useSearchParams } from "react-router-dom";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
@@ -38,7 +38,6 @@ export const ChatServico = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
 
   const [mensagem, setMensagem] = useState<string>("");
-  const [chatSelecionado, setChatSelecionado] = useState<number>(0);
   const [chat, setChat] = useState<MensagemDTO[]>([]);
 
   const { incomingMessage } = useChatConnection(Number(id));
@@ -84,7 +83,7 @@ export const ChatServico = () => {
         clearTimeout(timer);
       }
     })();
-  }, [chatSelecionado]);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -121,11 +120,6 @@ export const ChatServico = () => {
     })();
   }, [id]);
 
-  // const trocarChat = (index: number) => {
-  //   setChatSelecionado(index);
-  //   setChat(chats[index]);
-  // };
-
   if (isLoadingRecipient || isLoadingHistory || isMessagePending)
     return <Spinner />;
 
@@ -134,22 +128,6 @@ export const ChatServico = () => {
   return (
     <div className="flex flex-1 items-start w-full flex-col min-h-0 overflow-hidden">
       <div className={clsx("flex flex-1 min-h-0 w-full")}>
-        {/* <section className="hidden md:flex flex-col items-center w-80 min-h-0 overflow-y-auto p-4">
-          <Title className="mb-4">Conversas</Title>
-
-          <div className="flex flex-col gap-4">
-            {chats.map((chat, index) => (
-              <SelecaoServicoChat
-                key={index}
-                selected={chatSelecionado === index}
-                destinatario={{ nome: chat.destinario, fotoPerfilUrl: "" }}
-                servico={chat.servico}
-                onClick={() => trocarChat(index)}
-              />
-            ))}
-          </div>
-        </section> */}
-
         <section className="flex flex-1 min-h-0 max-h-[calc(100vh-120px)] ">
           <Chat
             mensagem={mensagem}

@@ -172,7 +172,11 @@ export const MeuServico = () => {
           </div>
 
           {existeAlgumaPropostaAceita && (
-            <Button
+            <button
+              className={clsx(
+                "cursor-pointer hover:-translate-y-1 transition duration-200",
+              )}
+              title="Iniciar conversa com o freelancer"
               onClick={() =>
                 navigate(
                   servicoPaths.chatServicoById(servico.id) +
@@ -180,10 +184,9 @@ export const MeuServico = () => {
                     servico.propostaAceitaId,
                 )
               }
-              icon={<IoChatboxEllipsesOutline size={20} />}
             >
-              Iniciar chat
-            </Button>
+              <IoChatboxEllipsesOutline size={40} />
+            </button>
           )}
         </div>
       </div>
