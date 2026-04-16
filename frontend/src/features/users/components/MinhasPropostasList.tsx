@@ -59,7 +59,7 @@ export const MinhasPropostasList = () => {
 
           <button
             onClick={() =>
-              navigate(freelancerPaths.verPropostaById(proposta.id))
+              navigate(freelancerPaths.verMinhaPropostaById(proposta.id))
             }
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-lg text-gray-700 hover:bg-gray-100 hover:text-black transition"
           >
