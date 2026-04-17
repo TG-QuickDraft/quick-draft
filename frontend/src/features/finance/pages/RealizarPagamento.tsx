@@ -16,7 +16,7 @@ import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { useParams } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 
-import { LOADING_TIMEOUT } from "@/app/loadingTimeout";
+import { LOADING_TIMEOUT } from "@/loadingTimeout";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { format } from "date-fns";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";

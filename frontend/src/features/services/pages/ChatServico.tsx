@@ -21,7 +21,7 @@ import type { MensagemDTO } from "../dtos/MensagemDTO";
 import { useChatConnection } from "../hooks/useChatConnection";
 import clsx from "clsx";
 
-import { LOADING_TIMEOUT } from "@/app/loadingTimeout";
+import { LOADING_TIMEOUT } from "@/loadingTimeout";
 
 export const ChatServico = () => {
   const { id } = useParams();
