@@ -21,6 +21,9 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 import { format } from "date-fns";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
+import { consultarCartaoCredito } from "../api/cartaoCredito.api";
+import type { CartaoCreditoDTO } from "../dtos/cartaoCredito/CartaoCreditoDTO";
+import { capitalizeEachWord } from "@/shared/utils/string.utils";
 
 const RealizarPagamento = () => {
   const { id } = useParams();
@@ -28,8 +31,10 @@ const RealizarPagamento = () => {
   const { showSuccess, showError } = useModal();
 
   const [loading, setLoading] = useState(false);
+
   const [servico, setServico] = useState<ServicoDTO | null>(null);
   const [cliente, setCliente] = useState<ClienteDTO | null>(null);
+  const [cartao, setCartao] = useState<CartaoCreditoDTO | null>(null);
 
   const mockTaxa = 0.05;
 
@@ -40,12 +45,14 @@ const RealizarPagamento = () => {
       let timer = setTimeout(() => setLoading(true), LOADING_TIMEOUT);
       try {
         const servico = await consultarServicoPorId(Number(id));
+        const cartao = await consultarCartaoCredito();
 
         if (servico) {
           const cliente = await consultarClientePorId(servico.clienteId);
           setCliente(cliente);
         }
 
+        setCartao(cartao);
         setServico(servico);
       } catch (error) {
         if (error instanceof Error) showError({ content: error.message });
@@ -54,7 +61,7 @@ const RealizarPagamento = () => {
         clearTimeout(timer);
       }
     })();
-  });
+  }, []);
 
   const handlePayment = () => {
     showSuccess({
@@ -65,7 +72,7 @@ const RealizarPagamento = () => {
 
   if (loading) return <Spinner />;
 
-  if (!servico || !cliente) return null;
+  if (!servico || !cliente || !cartao) return null;
 
   return (
     <div className="flex gap-6 flex-wrap p-4 max-w-300 mx-auto w-full">
@@ -111,7 +118,7 @@ const RealizarPagamento = () => {
         <Title>Cartão</Title>
 
         <PaymentWrapper>
-          <CreditCard>Carttão</CreditCard>
+          <CreditCard>{capitalizeEachWord(cartao.nomeImpresso)}</CreditCard>
           <Button
             icon={<FaMoneyCheck />}
             className="w-full"

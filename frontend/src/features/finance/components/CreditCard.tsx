@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { IoCardOutline } from "react-icons/io5";
 
 const CreditCard = ({
   children,
@@ -15,7 +16,9 @@ const CreditCard = ({
       )}
     >
       <div className="flex items-center gap-3">
-        <div className="bg-gray-200 h-20 w-20 rounded-xl" />
+        <div className=" h-20 border p-2 border-neutral-20 rounded-xl">
+          <IoCardOutline className="w-full h-full" />
+        </div>
         <div>{children}</div>
       </div>
     </div>
