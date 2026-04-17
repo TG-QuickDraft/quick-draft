@@ -33,6 +33,7 @@ const Navbar = () => {
         "flex justify-between p-8",
         "border-b border-white/20",
         "text-white bg-white shadow-lg",
+        "z-30",
       )}
     >
       <Stack direction="row" gap={6}>

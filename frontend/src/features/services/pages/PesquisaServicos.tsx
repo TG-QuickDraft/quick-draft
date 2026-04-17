@@ -25,6 +25,8 @@ import { FaFilter } from "react-icons/fa";
 import Title from "@/shared/components/ui/titles/Title";
 import { format } from "date-fns";
 
+import { LOADING_TIMEOUT } from "@/loadingTimeout";
+
 export function PesquisaServico() {
   const navigate = useNavigate();
   const [servicos, setServicos] = useState<PagedResult<ServicoDTO>>();
@@ -46,7 +48,7 @@ export function PesquisaServico() {
     const nomeUrl = searchParams.get("nome") || "";
 
     const obterDados = async () => {
-      let timer = setTimeout(() => setLoading(true), 1000);
+      let timer = setTimeout(() => setLoading(true), LOADING_TIMEOUT);
       try {
         const dados = await consultarServicos({ nome: nomeUrl }, pagina, 10);
         setServicos(dados);

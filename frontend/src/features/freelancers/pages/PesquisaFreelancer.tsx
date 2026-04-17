@@ -15,6 +15,8 @@ import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import Card from "@/shared/components/ui/card/Card";
 import clsx from "clsx";
 
+import { LOADING_TIMEOUT } from "@/loadingTimeout";
+
 export function PesquisaFreelancer() {
   const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ export function PesquisaFreelancer() {
 
   useEffect(() => {
     const obterDados = async () => {
-      let timer = setTimeout(() => setLoading(true), 200);
+      let timer = setTimeout(() => setLoading(true), LOADING_TIMEOUT);
       try {
         const nomeUrl = searchParams.get("nome") || "";
         const dados = await consultarFreelancers(nomeUrl, pagina, 10);

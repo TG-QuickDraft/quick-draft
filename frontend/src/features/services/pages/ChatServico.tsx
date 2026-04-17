@@ -21,6 +21,8 @@ import type { MensagemDTO } from "../dtos/MensagemDTO";
 import { useChatConnection } from "../hooks/useChatConnection";
 import clsx from "clsx";
 
+import { LOADING_TIMEOUT } from "@/loadingTimeout";
+
 export const ChatServico = () => {
   const { id } = useParams();
 
@@ -50,7 +52,7 @@ export const ChatServico = () => {
 
   const enviarMensagem = async () => {
     if (mensagem && mensagem.trim().length > 0 && user?.id) {
-      let timer = setTimeout(() => setIsMessagePending(true), 500);
+      let timer = setTimeout(() => setIsMessagePending(true), LOADING_TIMEOUT);
       try {
         await criarMensagem({
           servicoId: Number(id),
@@ -70,7 +72,7 @@ export const ChatServico = () => {
 
   useEffect(() => {
     (async () => {
-      let timer = setTimeout(() => setIsLoadingHistory(true), 1000);
+      let timer = setTimeout(() => setIsLoadingHistory(true), LOADING_TIMEOUT);
       try {
         const chat = await consultarMensagens(Number(id));
         setChat(chat);
@@ -87,7 +89,10 @@ export const ChatServico = () => {
 
   useEffect(() => {
     (async () => {
-      let timer = setTimeout(() => setIsLoadingRecipient(true), 1000);
+      let timer = setTimeout(
+        () => setIsLoadingRecipient(true),
+        LOADING_TIMEOUT,
+      );
       try {
         const servico = await consultarServicoPorId(Number(id));
 
