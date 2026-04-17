@@ -14,7 +14,7 @@ const ProfilePhoto = ({
   className,
   imgClassName,
 }: {
-  photoPath: string | undefined;
+  photoPath?: string | undefined;
   size?: keyof typeof sizes;
   className?: string;
   imgClassName?: string;

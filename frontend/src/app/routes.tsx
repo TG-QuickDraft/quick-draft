@@ -6,6 +6,7 @@ import { clienteRoutes } from "../features/clients/routes/cliente.routes";
 import { usuarioRoutes } from "../features/users/routes/usuario.routes";
 import { adminRoutes } from "../features/admin/routes/admin.routes";
 import { homeRoutes } from "../features/home/routes/home.routes";
+import { financeRoutes } from "@/features/finance/routes/finance.routes";
 
 const AppRoutes = () => {
   const routes = [
@@ -15,6 +16,7 @@ const AppRoutes = () => {
     ...usuarioRoutes,
     ...servicoRoutes,
     ...adminRoutes,
+    ...financeRoutes,
   ];
 
   return (
