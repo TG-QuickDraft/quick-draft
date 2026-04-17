@@ -19,6 +19,8 @@ import Spinner from "@/shared/components/ui/Spinner";
 import { LOADING_TIMEOUT } from "@/app/loadingTimeout";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { format } from "date-fns";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
+import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 
 const RealizarPagamento = () => {
   const { id } = useParams();
@@ -27,6 +29,7 @@ const RealizarPagamento = () => {
 
   const [loading, setLoading] = useState(false);
   const [servico, setServico] = useState<ServicoDTO | null>(null);
+  const [cliente, setCliente] = useState<ClienteDTO | null>(null);
 
   const mockTaxa = 0.05;
 
@@ -37,6 +40,12 @@ const RealizarPagamento = () => {
       let timer = setTimeout(() => setLoading(true), LOADING_TIMEOUT);
       try {
         const servico = await consultarServicoPorId(Number(id));
+
+        if (servico) {
+          const cliente = await consultarClientePorId(servico.clienteId);
+          setCliente(cliente);
+        }
+
         setServico(servico);
       } catch (error) {
         if (error instanceof Error) showError({ content: error.message });
@@ -56,7 +65,7 @@ const RealizarPagamento = () => {
 
   if (loading) return <Spinner />;
 
-  if (!servico) return null;
+  if (!servico || !cliente) return null;
 
   return (
     <div className="flex gap-6 flex-wrap p-4 max-w-300 mx-auto w-full">
@@ -76,7 +85,11 @@ const RealizarPagamento = () => {
                 {numberToCurrency(servico.valorMinimo)}
               </span>
             </div>
-            <ProfilePhoto size="md" className="w-fit!" />
+            <ProfilePhoto
+              photoPath={cliente.fotoPerfilUrl}
+              size="md"
+              className="w-fit!"
+            />
           </div>
 
           <div className="text-neutral-80">
