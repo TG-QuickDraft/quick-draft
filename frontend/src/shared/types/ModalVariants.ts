@@ -1,1 +1,6 @@
-export type ModalVariants = "primary" | "success" | "error";
+export type ModalVariants =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "error"
+  | "danger";

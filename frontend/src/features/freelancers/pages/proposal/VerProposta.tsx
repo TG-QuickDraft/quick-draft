@@ -27,7 +27,7 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { useModal } from "@/shared/contexts/modal.context";
 
 const VerProposta = () => {
-  const { showSuccess, showError } = useModal();
+  const { showSuccess, showError, showDanger } = useModal();
 
   const { id } = useParams();
   const propostaId = Number(id);
@@ -63,11 +63,27 @@ const VerProposta = () => {
     fetchData();
   }, [propostaId]);
 
-  const handleAceitar = async () => {
+  const handleAceitarProposta = () => {
+    showDanger({
+      content:
+        "Tem certeza que deseja aceitar esta proposta? Essa ação não pode ser desfeita.",
+      onConfirm: handleConfirmarAceite,
+    });
+  };
+
+  const handleConfirmarAceite = async () => {
     if (!proposta || !servico) return;
 
     try {
       await aceitarProposta(servico.id, proposta.id);
+      setServico((prev) => {
+        if (!prev) return null;
+
+        return {
+          ...prev,
+          propostaAceitaId: proposta.id,
+        };
+      });
       showSuccess({
         content: "Proposta aceita com sucesso!",
       });
@@ -87,8 +103,9 @@ const VerProposta = () => {
   }
 
   const propostaAceitaId = servico?.propostaAceitaId;
+  const isPropostaAceita = propostaAceitaId === proposta.id;
   const temPropostaAceita = !!propostaAceitaId;
-  const outraPropostaAceita = temPropostaAceita && !temPropostaAceita;
+  const outraPropostaAceita = temPropostaAceita && !isPropostaAceita;
 
   const itens = proposta.itensPropostos
     ?.split(";")
@@ -98,7 +115,7 @@ const VerProposta = () => {
   return (
     <div className="flex flex-col gap-5 max-w-310 mx-auto w-full">
       <header>
-        <BackButton />
+        <BackButton>Proposta de {freelancer?.nome}</BackButton>
       </header>
 
       <p className="text-gray-500 text-sm">Serviço: {servico?.nome}</p>
@@ -167,7 +184,7 @@ const VerProposta = () => {
       {roles.includes("Cliente") && (
         <div className="sticky bottom-6 flex justify-end pointer-events-none">
           <button
-            onClick={handleAceitar}
+            onClick={handleAceitarProposta}
             disabled={temPropostaAceita}
             className={`pointer-events-auto px-5 py-3 rounded-xl shadow-lg transition-all duration-300
               ${
@@ -177,7 +194,7 @@ const VerProposta = () => {
               }
             `}
           >
-            {temPropostaAceita
+            {isPropostaAceita
               ? "Proposta já foi aceita!"
               : outraPropostaAceita
                 ? "Este serviço já aceitou outra proposta"

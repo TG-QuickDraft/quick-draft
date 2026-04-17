@@ -13,13 +13,21 @@ const widths = {
 };
 
 export const variants = {
-  primary: clsx(base, "bg-primary-100 text-black text-white"),
+  primary: clsx(base, "bg-primary-100 text-white"),
   secondary: clsx(base, "bg-secondary-80 text-primary-100 "),
   danger: clsx(base, "bg-red-500 text-white"),
   outline: clsx(base, "bg-white text-black"),
-
   error: clsx(base, "bg-error-1 text-white"),
   success: clsx(base, "bg-success-1 text-white"),
+};
+
+const reversedVariants = {
+  primary: "",
+  secondary: "",
+  danger: clsx(base, "border border-red-500 text-red-500"),
+  outline: "",
+  error: "",
+  success: "",
 };
 
 const Button = ({
@@ -28,17 +36,23 @@ const Button = ({
   className,
   width = "auto",
   icon,
+  reversed,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof variants;
   icon?: React.ReactNode;
   width?: keyof typeof widths;
+  reversed?: boolean;
 }) => {
+  const currentVariant = reversed
+    ? reversedVariants[variant]
+    : variants[variant];
+
   return (
     <button
       className={clsx(
         widths[width],
-        variants[variant],
+        currentVariant,
         className,
         "disabled:bg-neutral-20",
         "disabled:cursor-not-allowed disabled:hover:scale-100! shadow-none!",
