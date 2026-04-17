@@ -8,8 +8,19 @@ import { FaMoneyCheck } from "react-icons/fa";
 import PaymentSection from "../components/PaymentSection";
 import PaymentWrapper from "../components/PaymentWrapper";
 import CreditCard from "../components/CreditCard";
+import { useModal } from "@/shared/contexts/modal.context";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 const RealizarPagamento = () => {
+  const { showSuccess } = useModal();
+
+  const handlePayment = () => {
+    showSuccess({
+      content: "Pagamento realizado com sucesso!",
+      redirect: usuarioPaths.minhaConta,
+    });
+  };
+
   return (
     <div className="flex gap-6 flex-wrap p-4 max-w-300 mx-auto w-full">
       <PaymentSection>
@@ -52,6 +63,7 @@ const RealizarPagamento = () => {
             icon={<FaMoneyCheck />}
             className="w-full"
             variant="secondary"
+            onClick={handlePayment}
           >
             Realizar Pagamento
           </Button>
