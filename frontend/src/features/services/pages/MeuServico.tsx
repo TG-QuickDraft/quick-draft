@@ -22,6 +22,7 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { servicoPaths } from "../routes/servicoPaths";
 
 import { FaMoneyCheck } from "react-icons/fa";
+import { financePaths } from "@/features/finance/routes/financePaths";
 
 export const MeuServico = () => {
   const { id } = useParams();
@@ -203,7 +204,12 @@ export const MeuServico = () => {
         </div>
       </div>
       <div className="sticky bottom-6 flex justify-end gap-6 pr-6">
-        <Button icon={<FaMoneyCheck />}>Realizar pagamento</Button>
+        <Button
+          onClick={() => navigate(financePaths.realizarPagamento)}
+          icon={<FaMoneyCheck />}
+        >
+          Realizar pagamento
+        </Button>
       </div>
     </>
   );
