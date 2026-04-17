@@ -205,7 +205,9 @@ export const MeuServico = () => {
       </div>
       <div className="sticky bottom-6 flex justify-end gap-6 pr-6">
         <Button
-          onClick={() => navigate(financePaths.realizarPagamento)}
+          onClick={() =>
+            navigate(financePaths.realizarPagamentoById(servico.id))
+          }
           icon={<FaMoneyCheck />}
         >
           Realizar pagamento

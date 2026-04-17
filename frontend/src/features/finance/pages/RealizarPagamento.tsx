@@ -10,9 +10,42 @@ import PaymentWrapper from "../components/PaymentWrapper";
 import CreditCard from "../components/CreditCard";
 import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { useEffect, useState } from "react";
+import { consultarServicoPorId } from "@/features/services/api/servico.api";
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import { useParams } from "react-router-dom";
+import Spinner from "@/shared/components/ui/Spinner";
+
+import { LOADING_TIMEOUT } from "@/app/loadingTimeout";
+import { numberToCurrency } from "@/shared/utils/number.utils";
+import { format } from "date-fns";
 
 const RealizarPagamento = () => {
-  const { showSuccess } = useModal();
+  const { id } = useParams();
+
+  const { showSuccess, showError } = useModal();
+
+  const [loading, setLoading] = useState(false);
+  const [servico, setServico] = useState<ServicoDTO | null>(null);
+
+  const mockTaxa = 0.05;
+
+  useEffect(() => {
+    (async () => {
+      if (!id) return;
+
+      let timer = setTimeout(() => setLoading(true), LOADING_TIMEOUT);
+      try {
+        const servico = await consultarServicoPorId(Number(id));
+        setServico(servico);
+      } catch (error) {
+        if (error instanceof Error) showError({ content: error.message });
+      } finally {
+        setLoading(false);
+        clearTimeout(timer);
+      }
+    })();
+  });
 
   const handlePayment = () => {
     showSuccess({
@@ -20,6 +53,10 @@ const RealizarPagamento = () => {
       redirect: usuarioPaths.minhaConta,
     });
   };
+
+  if (loading) return <Spinner />;
+
+  if (!servico) return null;
 
   return (
     <div className="flex gap-6 flex-wrap p-4 max-w-300 mx-auto w-full">
@@ -34,22 +71,25 @@ const RealizarPagamento = () => {
             )}
           >
             <div>
-              <h2 className="text-xl font-semibold mb-3">
-                Logo para loja de material de Construção
-              </h2>
-              <span className="text-2xl">R$ 10,00</span>
+              <h2 className="text-xl font-semibold mb-3">{servico.nome}</h2>
+              <span className="text-2xl">
+                {numberToCurrency(servico.valorMinimo)}
+              </span>
             </div>
             <ProfilePhoto size="md" className="w-fit!" />
           </div>
 
           <div className="text-neutral-80">
-            <p>Prazo: 30 dias</p>
-            <p>Taxa: 10%</p>
+            <p>Prazo: {format(servico.prazo, "dd/MM/yyyy")}</p>
+            <p>Taxa: {mockTaxa * 100}%</p>
           </div>
         </PaymentWrapper>
         <PaymentWrapper>
           <h3 className="text-center text-xl font-semibold">
-            Total a ser pago: R$ 11,00
+            <span>Total a ser pago: </span>
+            {numberToCurrency(
+              servico.valorMinimo + servico.valorMinimo * mockTaxa,
+            )}
           </h3>
         </PaymentWrapper>
       </PaymentSection>
