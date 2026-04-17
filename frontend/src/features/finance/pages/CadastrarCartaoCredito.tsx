@@ -20,9 +20,13 @@ import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";
 import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { useSearchParams } from "react-router-dom";
 
 export const CadastrarCartaoCredito = () => {
   const { showError, showSuccess } = useModal();
+
+  const [params] = useSearchParams();
+  const from = params.get("from");
 
   const [bandeiras, setBandeiras] = useState<BandeiraCartaoCreditoDTO[]>([]);
   const [hasCartaoCadastrado, setHasCartaoCadastrado] =
@@ -79,7 +83,7 @@ export const CadastrarCartaoCredito = () => {
       await adicionarCartaoCredito(cartao);
       showSuccess({
         content: "Cartão cadastrado com sucesso!",
-        redirect: usuarioPaths.minhaConta,
+        redirect: from ? from : usuarioPaths.minhaConta,
       });
 
       setHasCartaoCadastrado(true);

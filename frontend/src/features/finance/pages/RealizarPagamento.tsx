@@ -13,7 +13,7 @@ import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { useEffect, useState } from "react";
 import { consultarServicoPorId } from "@/features/services/api/servico.api";
 import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 
 import { LOADING_TIMEOUT } from "@/loadingTimeout";
@@ -24,9 +24,13 @@ import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarCartaoCredito } from "../api/cartaoCredito.api";
 import type { CartaoCreditoDTO } from "../dtos/cartaoCredito/CartaoCreditoDTO";
 import { capitalizeEachWord } from "@/shared/utils/string.utils";
+import { AddButton } from "@/shared/components/ui/buttons/AddButton";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
+import { financePaths } from "../routes/financePaths";
 
 const RealizarPagamento = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { showSuccess, showError } = useModal();
 
@@ -72,7 +76,7 @@ const RealizarPagamento = () => {
 
   if (loading) return <Spinner />;
 
-  if (!servico || !cliente || !cartao) return null;
+  if (!servico || !cliente) return null;
 
   return (
     <div className="flex gap-6 flex-wrap p-4 max-w-300 mx-auto w-full">
@@ -118,8 +122,25 @@ const RealizarPagamento = () => {
         <Title>Cartão</Title>
 
         <PaymentWrapper>
-          <CreditCard>{capitalizeEachWord(cartao.nomeImpresso)}</CreditCard>
+          {cartao ? (
+            <CreditCard>{capitalizeEachWord(cartao.nomeImpresso)}</CreditCard>
+          ) : (
+            <div className="flex flex-col items-center p-4">
+              <p>Nenhum cartão cadastrado</p>
+              <AddButton
+                className="mt-4"
+                onClick={() =>
+                  navigate(
+                    clientePaths.cadastrarCartaoCredito +
+                      `${id ? `?from=${financePaths.realizarPagamentoById(id)}` : ""}`,
+                  )
+                }
+              />
+            </div>
+          )}
+
           <Button
+            disabled={!cartao}
             icon={<FaMoneyCheck />}
             className="w-full"
             variant="secondary"
