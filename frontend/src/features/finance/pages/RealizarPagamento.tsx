@@ -5,6 +5,9 @@ import Title from "@/shared/components/ui/titles/Title";
 
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { FaMoneyCheck } from "react-icons/fa";
+import PaymentSection from "../components/PaymentSection";
+import PaymentWrapper from "../components/PaymentWrapper";
+import CreditCard from "../components/CreditCard";
 
 const RealizarPagamento = () => {
   return (
@@ -59,59 +62,3 @@ const RealizarPagamento = () => {
 };
 
 export default RealizarPagamento;
-
-const PaymentSection = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={clsx("flex flex-col flex-1 gap-6", className)}>
-      {children}
-    </div>
-  );
-};
-
-const PaymentWrapper = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div
-      className={clsx(
-        "flex flex-col border rounded-xl border-neutral-20 p-5",
-        "gap-4",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-};
-
-const CreditCard = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div
-      className={clsx(
-        "border-2 rounded-xl border-secondary-100 p-4",
-        className,
-      )}
-    >
-      <div className="flex items-center gap-3">
-        <div className="bg-gray-200 h-20 w-20 rounded-xl" />
-        <div>{children}</div>
-      </div>
-    </div>
-  );
-};
