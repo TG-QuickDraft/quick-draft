@@ -4,7 +4,11 @@ import { useLocation } from "react-router-dom";
 import { homePaths } from "@/features/home/routes/homePaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 
-const fullScreenPaths = [homePaths.home, servicoPaths.chatServico];
+const fullScreenPaths = [
+  homePaths.home,
+  servicoPaths.chatServico,
+  servicoPaths.meuServico,
+];
 
 const Content = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();

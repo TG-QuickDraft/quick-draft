@@ -9,7 +9,7 @@ import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
 import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
 
-import { FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaEye, FaChevronLeft } from "react-icons/fa";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import Spinner from "@/shared/components/ui/Spinner";
@@ -20,6 +20,8 @@ import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { servicoPaths } from "../routes/servicoPaths";
+
+import { FaMoneyCheck } from "react-icons/fa";
 
 export const MeuServico = () => {
   const { id } = useParams();
@@ -80,25 +82,27 @@ export const MeuServico = () => {
   });
 
   return (
-    <div>
-      <BackButton className="mb-5">Meu serviço</BackButton>
-      <div className="flex h-screen bg-white">
+    <>
+      <div className="flex flex-1 bg-white">
         <div
           className={`transition-all duration-300 ${
             sidebarOpen ? "w-90" : "w-12"
           } bg-white border-r border-gray-200`}
         >
-          <div className="flex justify-end p-2">
+          <div className="flex justify-end p-2 pt-9.5">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="text-gray-600 hover:text-black"
+              className={clsx(
+                "text-gray-600 hover:text-black cursor-pointer ",
+                "hover:-translate-x-1 transition duration-200",
+              )}
             >
-              {sidebarOpen ? <FaChevronLeft /> : <FaChevronRight />}
+              <FaChevronLeft className={!sidebarOpen ? "rotate-180" : ""} />
             </button>
           </div>
 
           {sidebarOpen && (
-            <div className="p-4">
+            <div className="p-4 overflow-hidden">
               <h2 className="text-lg font-semibold mb-1">Propostas</h2>
               <p className="text-sm text-gray-500 mb-4">
                 {propostas.length} no total
@@ -111,11 +115,11 @@ export const MeuServico = () => {
                   return (
                     <div
                       key={p.id}
-                      className={`p-3 flex items-center justify-between transition-all
+                      className={`p-3 flex items-center w-81 justify-between transition-all
                           ${temAceita && !isAceita ? "opacity-40" : ""}
                           ${
                             isAceita
-                              ? "bg-[var(--color-secondary-40)] border border-[var(--color-secondary-100)] rounded-lg"
+                              ? "bg-secondary-40 border border-secondary-100 rounded-lg"
                               : ""
                           }
                         `}
@@ -124,10 +128,10 @@ export const MeuServico = () => {
                         <ProfilePhoto
                           photoPath={freelancer?.fotoPerfilUrl}
                           size="sm"
-                          className="!w-auto"
+                          className="w-auto!"
                         />
                         <div>
-                          <p className="font-medium">
+                          <p className="font-medium line-clamp-1">
                             {freelancer?.nome || "Carregando..."}
                           </p>
                           <p className="text-xs text-gray-500">
@@ -142,7 +146,11 @@ export const MeuServico = () => {
                         onClick={() =>
                           navigate(freelancerPaths.verPropostaById(p.id))
                         }
-                        className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 text-gray-600 rounded-lg hover:text-black"
+                        className={clsx(
+                          "flex items-center gap-2 px-3 py-1 text-sm border ",
+                          "border-gray-200 text-gray-600 rounded-lg hover:text-black",
+                          "bg-white cursor-pointer",
+                        )}
                       >
                         <FaEye />
                         Ver proposta
@@ -162,7 +170,9 @@ export const MeuServico = () => {
           )}
         >
           <div>
-            <h1 className="text-xl text-gray-600 mb-4">Serviço</h1>
+            <BackButton className="text-xl text-gray-600 mb-4">
+              Serviço
+            </BackButton>
             <h2 className="text-2xl font-semibold mb-2">{servico.nome}</h2>
             <p className="text-lg mb-6">R$ {servico.valorMinimo?.toFixed(2)}</p>
             <h3 className="text-lg font-semibold mb-2">Descrição</h3>
@@ -190,6 +200,9 @@ export const MeuServico = () => {
           )}
         </div>
       </div>
-    </div>
+      <div className="sticky bottom-6 flex justify-end gap-6 pr-6">
+        <Button icon={<FaMoneyCheck />}>Realizar pagamento</Button>
+      </div>
+    </>
   );
 };

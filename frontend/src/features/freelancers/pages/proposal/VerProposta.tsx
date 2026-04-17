@@ -138,17 +138,6 @@ const VerProposta = () => {
           </div>
           <StarRating rating={4.2} />
         </div>
-
-        {roles.includes("Freelancer") && temPropostaAceita && (
-          <Button
-            onClick={() =>
-              navigate(servicoPaths.chatServicoById(proposta.servicoId))
-            }
-            icon={<IoChatboxEllipsesOutline size={20} />}
-          >
-            Iniciar chat
-          </Button>
-        )}
       </div>
 
       <div className="flex gap-5 flex-wrap">
