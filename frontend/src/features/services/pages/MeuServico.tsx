@@ -103,8 +103,10 @@ export const MeuServico = () => {
 
           {sidebarOpen && (
             <div className="p-4 overflow-hidden">
-              <h2 className="text-lg font-semibold mb-1">Propostas</h2>
-              <p className="text-sm text-gray-500 mb-4">
+              <h2 className="text-lg font-semibold mb-1 line-clamp-1">
+                Propostas
+              </h2>
+              <p className="text-sm text-gray-500 mb-4 line-clamp-1">
                 {propostas.length} no total
               </p>
               <div className="divide-y divide-gray-200">
