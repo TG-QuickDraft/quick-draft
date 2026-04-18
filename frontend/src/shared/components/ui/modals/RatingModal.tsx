@@ -1,5 +1,4 @@
 import ModalContainer from "@/shared/components/ui/modals/ModalContainer";
-import Stack from "@/shared/components/Stack";
 import Button from "@/shared/components/ui/buttons/Button";
 import StarRating from "@/shared/components/ui/StarRating";
 import { useModal } from "@/shared/contexts/modal.context";
@@ -10,9 +9,15 @@ import Title from "@/shared/components/ui/titles/Title";
 import { BigStarEmpty, BigStarFull } from "@/shared/assets";
 
 const RatingModal = ({
+  title = "Title",
+  subtitle = "Subtitle",
+  redirect,
   isOpen,
   close,
 }: {
+  title?: string;
+  subtitle?: string;
+  redirect?: string;
   isOpen: boolean;
   close: () => void;
 }) => {
@@ -31,7 +36,7 @@ const RatingModal = ({
   };
 
   const handleSubmit = () => {
-    showSuccess({ content: "Avaliação enviada com sucesso!" });
+    showSuccess({ content: "Avaliação enviada com sucesso!", redirect });
     reset();
     close();
   };
@@ -39,19 +44,17 @@ const RatingModal = ({
   const hasBeenRated = rating > 0;
 
   return (
-    <ModalContainer size="md">
-      <Title>Avaliar serviço</Title>
+    <ModalContainer>
+      <Title className="font-semibold!">{title}</Title>
 
-      <div className="flex flex-col items-center gap-4 w-full">
-        <p className="text-neutral-80 font-semibold">
-          O que você achou do serviço?
-        </p>
+      <div className="flex flex-col items-center gap-6 w-full mt-6">
+        <p className="text-neutral-80 font-semibold">{subtitle}</p>
         <div>
           <StarRating
             rating={rating}
             onChange={(value) => setRating(value)}
-            emptySymbol={<BigStarEmpty className="mx-6 h-8" />}
-            fullSymbol={<BigStarFull className="mx-6 h-8" />}
+            emptySymbol={<BigStarEmpty className="mx-4 h-8 " />}
+            fullSymbol={<BigStarFull className="mx-4 h-8 text-secondary-100" />}
           />
           <div className="flex justify-between text-[12px] font-semibold text-neutral-60">
             <span>Muito ruim</span> <span>Muito bom</span>
@@ -67,12 +70,24 @@ const RatingModal = ({
         ></div>
       </div>
 
-      <Stack direction="row" gap={4} className="mt-5">
-        <Button onClick={handleCancel}>Cancelar</Button>
-        <Button disabled={!hasBeenRated} onClick={handleSubmit}>
+      <div className="max-w-md mx-auto flex gap-4">
+        <Button
+          width="full"
+          reversed
+          onClick={handleCancel}
+          variant="secondary"
+        >
+          Cancelar
+        </Button>
+        <Button
+          disabled={!hasBeenRated}
+          onClick={handleSubmit}
+          variant="secondary"
+          width="full"
+        >
           Enviar
         </Button>
-      </Stack>
+      </div>
     </ModalContainer>
   );
 };

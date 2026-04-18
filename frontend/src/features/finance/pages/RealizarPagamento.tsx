@@ -75,7 +75,7 @@ const RealizarPagamento = () => {
   const handlePayment = () => {
     showSuccess({
       content: "Pagamento realizado com sucesso!",
-      redirect: usuarioPaths.minhaConta,
+      onClose: openRatingModal,
     });
   };
 
@@ -145,14 +145,18 @@ const RealizarPagamento = () => {
               icon={<FaMoneyCheck />}
               className="w-full"
               variant="secondary"
-              onClick={openRatingModal}
+              onClick={handlePayment}
             >
               Realizar Pagamento
             </Button>
           </PaymentWrapper>
         </PaymentSection>
       </div>
-      <RatingModalComponent />
+      <RatingModalComponent
+        title="Avaliar Freelancer"
+        subtitle="O que achou do serviço?"
+        redirect={usuarioPaths.minhaConta}
+      />
     </>
   );
 };
