@@ -152,9 +152,10 @@ const RealizarPagamento = () => {
           </PaymentWrapper>
         </PaymentSection>
       </div>
+
       <RatingModalComponent
         title="Avaliar Freelancer"
-        subtitle="O que achou do serviço?"
+        subtitle="Qual nota deseja dar ao freelancer?"
         redirect={usuarioPaths.minhaConta}
       />
     </>
