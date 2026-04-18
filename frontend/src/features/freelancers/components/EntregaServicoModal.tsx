@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Modal from "@/shared/components/ui/Modal";
+import Modal from "@/shared/components/ui/modals/Modal";
 import Button from "@/shared/components/ui/buttons/Button";
 
 type Props = {

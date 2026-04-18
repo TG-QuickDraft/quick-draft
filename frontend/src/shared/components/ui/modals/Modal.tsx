@@ -13,7 +13,7 @@ import { GoIssueClosed } from "react-icons/go";
 
 import Button from "@/shared/components/ui/buttons/Button";
 import type { ModalVariants } from "@/shared/types/ModalVariants";
-import ModalContainer from "../ModalContainer";
+import ModalContainer from "./ModalContainer";
 
 const Modal = ({
   show,
