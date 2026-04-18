@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useEffect } from "react";
 
 const sizes = {
-  sm: "max-w-[480px]",
+  sm: "max-w-md",
   md: "max-w-[600px]",
   lg: "max-w-[800px]",
 };
@@ -35,7 +35,7 @@ const ModalContainer = ({
       <div
         className={clsx(
           "bg-white p-6 rounded-xl w-full mx-4 relative max-h-[90vh] animate-fade-in",
-          "overflow-auto overscroll-contain max-w-md",
+          "overflow-auto overscroll-contain",
           className,
           sizes[size],
         )}
