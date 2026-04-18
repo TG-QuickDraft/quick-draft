@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
-import Modal from "../components/ui/Modal";
+import Modal from "../components/ui/modals/Modal";
 import { useNavigate } from "react-router-dom";
 import type { ModalVariants } from "../types/ModalVariants";
 
