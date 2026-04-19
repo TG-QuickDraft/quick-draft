@@ -43,7 +43,7 @@ export const PerfilCliente = () => {
   if (loading) return <Spinner />;
 
   return (
-    <div className="min-h-full bg-zinc-50 px-6 md:px-12 py-10">
+    <div className="min-h-full px-6 md:px-12 py-10">
       <div className="max-w-6xl mx-auto space-y-8">
         <ClienteProfileHeader
           cliente={cliente}
