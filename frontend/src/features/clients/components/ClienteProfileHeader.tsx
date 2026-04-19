@@ -24,7 +24,7 @@ export const ClienteProfileHeader = ({
       <div className="h-32 w-full" style={bannerStyle} />
 
       <div className="px-6 md:px-10 pb-8">
-        <div className="flex flex-col md:flex-row gap-6 md:items-end -mt-10">
+        <div className="flex flex-col md:flex-row gap-6 md:items-end -mt-8">
           <div className="shrink-0">
             <ProfilePhoto
               photoPath={cliente?.fotoPerfilUrl}
