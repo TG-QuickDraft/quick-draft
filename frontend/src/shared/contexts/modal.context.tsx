@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
-import Modal from "../components/ui/Modal";
+import Modal from "../components/ui/modals/Modal";
 import { useNavigate } from "react-router-dom";
 import type { ModalVariants } from "../types/ModalVariants";
 
@@ -16,6 +16,7 @@ interface ModalOptions {
   variant?: ModalVariants;
 
   onConfirm?: () => void;
+  onClose?: () => void;
 }
 
 interface ModalContextData {
@@ -81,7 +82,13 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     redirect && navigate(redirect);
   };
 
-  const handleCancel = () => {
+  const handleClose = () => {
+    if (config.onClose) {
+      config.onClose();
+      hideModal();
+      return;
+    }
+
     !config.onConfirm ? hideModal(config.redirect) : hideModal();
   };
 
@@ -100,7 +107,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 
       <Modal
         show={config.show}
-        onClose={handleCancel}
+        onClose={handleClose}
         title={config.title}
         icon={config.icon}
         variant={config.variant}

@@ -18,7 +18,7 @@ const Title = ({
           size={40}
           className={clsx(
             "transition duration-200 cursor-pointer",
-            "hover:-translate-x-1",
+            "hover:-translate-x-1 ",
           )}
         />
       )}

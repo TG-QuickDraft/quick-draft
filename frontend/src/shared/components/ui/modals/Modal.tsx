@@ -13,6 +13,7 @@ import { GoIssueClosed } from "react-icons/go";
 
 import Button from "@/shared/components/ui/buttons/Button";
 import type { ModalVariants } from "@/shared/types/ModalVariants";
+import ModalContainer from "./ModalContainer";
 
 const Modal = ({
   show,
@@ -27,10 +28,8 @@ const Modal = ({
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center text-black">
-      <div className="absolute inset-0 bg-black/60" />
-
-      <div className="relative text-center z-10 w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+    <ModalContainer>
+      <div className="relative text-center z-10 w-full rounded-lg bg-white">
         {title && (
           <div className="flex items-center justify-center gap-2 mb-4">
             <h2 className="text-xl font-semibold">{title}</h2>
@@ -63,7 +62,7 @@ const Modal = ({
           )}
         </div>
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

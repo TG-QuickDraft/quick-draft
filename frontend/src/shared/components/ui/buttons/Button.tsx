@@ -14,7 +14,7 @@ const widths = {
 
 export const variants = {
   primary: clsx(base, "bg-primary-100 text-white"),
-  secondary: clsx(base, "bg-secondary-80 text-primary-100 "),
+  secondary: clsx(base, "bg-secondary-80 text-neutral-80"),
   danger: clsx(base, "bg-red-500 text-white"),
   outline: clsx(base, "bg-white text-black"),
   error: clsx(base, "bg-error-1 text-white"),
@@ -23,7 +23,7 @@ export const variants = {
 
 const reversedVariants = {
   primary: "",
-  secondary: "",
+  secondary: clsx(base, "border border-neutral-20 text-neutral-80"),
   danger: clsx(base, "border border-red-500 text-red-500"),
   outline: "",
   error: "",

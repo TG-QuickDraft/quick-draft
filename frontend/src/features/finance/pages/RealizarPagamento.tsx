@@ -27,12 +27,17 @@ import { capitalizeEachWord } from "@/shared/utils/string.utils";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import { financePaths } from "../routes/financePaths";
+import { useModalFactory } from "@/shared/hooks/useModalFactory";
+
+import RatingModal from "@/shared/components/ui/modals/RatingModal";
 
 const RealizarPagamento = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { showSuccess, showError } = useModal();
+  const { openModal: openRatingModal, Modal: RatingModalComponent } =
+    useModalFactory(RatingModal);
 
   const [loading, setLoading] = useState(false);
 
@@ -70,7 +75,7 @@ const RealizarPagamento = () => {
   const handlePayment = () => {
     showSuccess({
       content: "Pagamento realizado com sucesso!",
-      redirect: usuarioPaths.minhaConta,
+      onClose: openRatingModal,
     });
   };
 
@@ -79,78 +84,81 @@ const RealizarPagamento = () => {
   if (!servico || !cliente) return null;
 
   return (
-    <div className="flex gap-6 flex-wrap p-4 max-w-300 mx-auto w-full">
-      <PaymentSection>
-        <BackButton>Serviço</BackButton>
-
-        <PaymentWrapper className="min-h-80">
-          <div
-            className={clsx(
-              "flex items-center justify-between border-b border-neutral-20",
-              "pb-4",
-            )}
-          >
-            <div>
-              <h2 className="text-xl font-semibold mb-3">{servico.nome}</h2>
-              <span className="text-2xl">
-                {numberToCurrency(servico.valorMinimo)}
-              </span>
-            </div>
-            <ProfilePhoto
-              photoPath={cliente.fotoPerfilUrl}
-              size="md"
-              className="w-fit!"
-            />
-          </div>
-
-          <div className="text-neutral-80">
-            <p>Prazo: {format(servico.prazo, "dd/MM/yyyy")}</p>
-            <p>Taxa: {mockTaxa * 100}%</p>
-          </div>
-        </PaymentWrapper>
-        <PaymentWrapper>
-          <h3 className="text-center text-xl font-semibold">
-            <span>Total a ser pago: </span>
-            {numberToCurrency(
-              servico.valorMinimo + servico.valorMinimo * mockTaxa,
-            )}
-          </h3>
-        </PaymentWrapper>
-      </PaymentSection>
-
-      <PaymentSection className="max-w-100">
-        <Title>Cartão</Title>
-
-        <PaymentWrapper>
-          {cartao ? (
-            <CreditCard>{capitalizeEachWord(cartao.nomeImpresso)}</CreditCard>
-          ) : (
-            <div className="flex flex-col items-center p-4">
-              <p>Nenhum cartão cadastrado</p>
-              <AddButton
-                className="mt-4"
-                onClick={() =>
-                  navigate(
-                    clientePaths.cadastrarCartaoCredito +
-                      `${id ? `?from=${financePaths.realizarPagamentoById(id)}` : ""}`,
-                  )
-                }
+    <>
+      <div className="flex gap-6 flex-wrap p-4 max-w-300 mx-auto w-full">
+        <PaymentSection>
+          <BackButton>Serviço</BackButton>
+          <PaymentWrapper className="min-h-80">
+            <div
+              className={clsx(
+                "flex items-center justify-between border-b border-neutral-20",
+                "pb-4",
+              )}
+            >
+              <div>
+                <h2 className="text-xl font-semibold mb-3">{servico.nome}</h2>
+                <span className="text-2xl">
+                  {numberToCurrency(servico.valorMinimo)}
+                </span>
+              </div>
+              <ProfilePhoto
+                photoPath={cliente.fotoPerfilUrl}
+                size="md"
+                className="w-fit!"
               />
             </div>
-          )}
+            <div className="text-neutral-80">
+              <p>Prazo: {format(servico.prazo, "dd/MM/yyyy")}</p>
+              <p>Taxa: {mockTaxa * 100}%</p>
+            </div>
+          </PaymentWrapper>
+          <PaymentWrapper>
+            <h3 className="text-center text-xl font-semibold">
+              <span>Total a ser pago: </span>
+              {numberToCurrency(
+                servico.valorMinimo + servico.valorMinimo * mockTaxa,
+              )}
+            </h3>
+          </PaymentWrapper>
+        </PaymentSection>
+        <PaymentSection className="max-w-100">
+          <Title>Cartão</Title>
+          <PaymentWrapper>
+            {cartao ? (
+              <CreditCard>{capitalizeEachWord(cartao.nomeImpresso)}</CreditCard>
+            ) : (
+              <div className="flex flex-col items-center p-4">
+                <p>Nenhum cartão cadastrado</p>
+                <AddButton
+                  className="mt-4"
+                  onClick={() =>
+                    navigate(
+                      clientePaths.cadastrarCartaoCredito +
+                        `${id ? `?from=${financePaths.realizarPagamentoById(id)}` : ""}`,
+                    )
+                  }
+                />
+              </div>
+            )}
+            <Button
+              disabled={!cartao}
+              icon={<FaMoneyCheck />}
+              className="w-full"
+              variant="secondary"
+              onClick={handlePayment}
+            >
+              Realizar Pagamento
+            </Button>
+          </PaymentWrapper>
+        </PaymentSection>
+      </div>
 
-          <Button
-            disabled={!cartao}
-            icon={<FaMoneyCheck />}
-            className="w-full"
-            variant="secondary"
-            onClick={handlePayment}
-          >
-            Realizar Pagamento
-          </Button>
-        </PaymentWrapper>
-      </PaymentSection>
-    </div>
+      <RatingModalComponent
+        title="Avaliar Freelancer"
+        subtitle="Qual nota deseja dar ao freelancer?"
+        redirect={usuarioPaths.minhaConta}
+      />
+    </>
   );
 };
 
