@@ -1,9 +1,0 @@
-  feature/accept-proposals[m
-* [32mfeature/chat-integration[m
-  feature/fix-proposals-and-build-chat-api[m
-  feature/mock-entrega[m
-  feature/search-result-style[m
-  fix/proposal-issues[m
-  main[m
-  refactor/front-dtos[m
-  refactor/modal-provider[m
