@@ -3,21 +3,30 @@ import {
   consultarMeusServicos,
   consultarServicosPorClienteId,
 } from "@/features/services/api/servico.api";
+
 import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+
 import { useNavigate } from "react-router-dom";
+
 import Spinner from "@/shared/components/ui/Spinner";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { numberToCurrency } from "@/shared/utils/number.utils";
+
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 
 type Props = {
   clienteId?: number;
+  publicView?: boolean;
 };
 
-export const MeusServicosList = ({ clienteId }: Props) => {
+export const MeusServicosList = ({
+  clienteId,
+  publicView = false,
+}: Props) => {
   const [servicos, setServicos] = useState<ServicoDTO[]>([]);
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +47,14 @@ export const MeusServicosList = ({ clienteId }: Props) => {
     fetchServicos();
   }, [clienteId]);
 
+  const handleNavigate = (servicoId: number) => {
+    const rota = publicView
+      ? servicoPaths.visualizarServicoById(servicoId)
+      : servicoPaths.visualizarMeuServicoById(servicoId);
+
+    navigate(rota);
+  };
+
   if (loading) return <Spinner />;
   if (servicos.length === 0) return null;
 
@@ -46,21 +63,22 @@ export const MeusServicosList = ({ clienteId }: Props) => {
       {servicos.map((servico) => (
         <CardWrapper key={servico.id}>
           <div>
-            <h3 className="text-lg font-bold mb-2">{servico.nome}</h3>
+            <h3 className="text-lg font-bold mb-2">
+              {servico.nome}
+            </h3>
 
             <p className="text-3xl font-semibold text-black-600 my-1">
               {numberToCurrency(servico.valorMinimo)}
             </p>
 
             <p className="text-sm text-gray-800 mt-3">
-              Prazo: {new Date(servico.prazo).toLocaleDateString()}
+              Prazo:{" "}
+              {new Date(servico.prazo).toLocaleDateString()}
             </p>
           </div>
 
           <DetailsButton
-            onClick={() =>
-              navigate(servicoPaths.visualizarMeuServicoById(servico.id))
-            }
+            onClick={() => handleNavigate(servico.id)}
           >
             Ver Detalhes
           </DetailsButton>
