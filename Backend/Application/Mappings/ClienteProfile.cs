@@ -12,7 +12,7 @@ namespace Backend.Application.Mappings
                 .ForMember(dest => dest.Nome,
                     opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.Nome : ""))
                 .ForMember(dest => dest.Email,
-                    opt => opt.MapFrom(src => src.Usuario.Email))
+                    opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.Email : ""))
                 .ForMember(dest => dest.FotoPerfilUrl,
                     opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.FotoPerfilUrl : ""));
 
