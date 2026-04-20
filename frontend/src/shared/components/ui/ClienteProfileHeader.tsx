@@ -5,7 +5,7 @@ import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { ClienteIdentity } from "@/features/clients/components/ClienteIdentity";
 import { InfoCard } from "@/features/clients/components/InfoCard";
 
-import { gerarBannerCliente } from "@/shared/components/ui/GerarBannerCliente";
+import { gerarBannerCliente } from "@/features/clients/utils/getGerarBannerCliente.ts";
 
 type Props = {
   cliente: ClienteDTO | null;
