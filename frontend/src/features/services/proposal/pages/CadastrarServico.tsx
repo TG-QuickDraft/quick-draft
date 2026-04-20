@@ -15,7 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { useModal } from "@/shared/contexts/modal.context";
-import { servicoPaths } from "../../routes/servicoPaths";
+import { dashboardServicoPaths } from "../../dashboard/routes/dashboardPaths";
 import { proposalPaths } from "../routes/proposalPaths";
 
 export const CadastrarServico = () => {

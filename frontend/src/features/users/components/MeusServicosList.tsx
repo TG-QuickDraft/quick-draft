@@ -3,7 +3,7 @@ import { consultarMeusServicos } from "@/features/services/proposal/api/servico.
 import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
@@ -53,7 +53,7 @@ export const MeusServicosList = () => {
           </div>
           <DetailsButton
             onClick={() =>
-              navigate(servicoPaths.visualizarMeuServicoById(servico.id))
+              navigate(dashboardServicoPaths.visualizarMeuServicoById(servico.id))
             }
           >
             Ver Detalhes

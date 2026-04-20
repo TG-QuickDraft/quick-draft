@@ -22,7 +22,7 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 import { FaMoneyCheck } from "react-icons/fa";
 import { deliveryPaths } from "@/features/services/delivery/routes/deliveryPaths";
-import { executionPaths } from "../execution/routes/executionPaths";
+import { executionPaths } from "../../execution/routes/executionPaths";
 
 export const MeuServico = () => {
   const { id } = useParams();

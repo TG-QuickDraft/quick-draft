@@ -7,7 +7,7 @@ import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
 import { usePagination } from "@/shared/hooks/usePagination";
 import { useSearchParams } from "react-router-dom";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
 import Card from "@/shared/components/ui/card/Card";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 

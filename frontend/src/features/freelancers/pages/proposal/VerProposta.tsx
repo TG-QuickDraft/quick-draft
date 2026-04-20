@@ -23,7 +23,7 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import Button from "@/shared/components/ui/buttons/Button";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
 import { useModal } from "@/shared/contexts/modal.context";
 
 const VerProposta = () => {

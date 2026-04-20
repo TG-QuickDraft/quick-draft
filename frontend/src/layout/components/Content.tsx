@@ -2,13 +2,13 @@ import clsx from "clsx";
 import { useLocation } from "react-router-dom";
 
 import { homePaths } from "@/features/home/routes/homePaths";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
 import { executionPaths } from "@/features/services/execution/routes/executionPaths";
 
 const fullScreenPaths = [
   homePaths.home,
   executionPaths.chatServico,
-  servicoPaths.meuServico,
+  dashboardServicoPaths.meuServico,
 ];
 
 const Content = ({ children }: { children: React.ReactNode }) => {
