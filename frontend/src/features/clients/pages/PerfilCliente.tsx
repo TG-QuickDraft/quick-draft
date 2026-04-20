@@ -10,6 +10,7 @@ import Spinner from "@/shared/components/ui/Spinner";
 
 import { ClienteProfileHeader } from "@/shared/components/ui/ClienteProfileHeader";
 import { ClienteServicosSection } from "@/features/clients/components/ClienteServicosSection";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 export const PerfilCliente = () => {
   const { id } = useParams();
@@ -43,17 +44,18 @@ export const PerfilCliente = () => {
 
   return (
     <div className="min-h-full px-6 md:px-12 py-10">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <ClienteProfileHeader
-          cliente={cliente}
-          totalServicos={totalServicos}
-        />
+      <BackButton>Voltar</BackButton>
+        <div className="max-w-6xl mx-auto space-y-8 mt-6">
+          <ClienteProfileHeader
+            cliente={cliente}
+            totalServicos={totalServicos}
+          />
 
-        <ClienteServicosSection
-          clienteId={clienteId}
-          totalServicos={totalServicos}
-        />
-      </div>
+          <ClienteServicosSection
+            clienteId={clienteId}
+            totalServicos={totalServicos}
+          />
+        </div>
     </div>
   );
 };
