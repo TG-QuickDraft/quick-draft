@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
-import { buscarPropostasPorServico } from "@/features/freelancers/api/proposta.api";
+import { buscarPropostasPorServico } from "@/features/services/proposal/api/proposta.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { useNavigate } from "react-router-dom";
 
 import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
-import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
+import type { PropostaDTO } from "@/features/services/proposal/dtos/PropostaDTO";
 import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
 
 import { FaEye, FaChevronLeft } from "react-icons/fa";
@@ -23,6 +23,7 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { FaMoneyCheck } from "react-icons/fa";
 import { deliveryPaths } from "@/features/services/delivery/routes/deliveryPaths";
 import { executionPaths } from "../../execution/routes/executionPaths";
+import { proposalPaths } from "../../proposal/routes/proposalPaths";
 
 export const MeuServico = () => {
   const { id } = useParams();
@@ -147,7 +148,7 @@ export const MeuServico = () => {
                       </div>
                       <button
                         onClick={() =>
-                          navigate(freelancerPaths.verPropostaById(p.id))
+                          navigate(proposalPaths.verPropostaById(p.id))
                         }
                         className={clsx(
                           "flex items-center gap-2 px-3 py-1 text-sm border ",

@@ -12,7 +12,7 @@ import { MeusServicosList } from "@/features/users/components/MeusServicosList";
 import { consultarMeusServicos } from "@/features/services/proposal/api/servico.api";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { MinhasPropostasList } from "../components/MinhasPropostasList";
-import { consultarMinhasPropostas } from "@/features/freelancers/api/proposta.api";
+import { consultarMinhasPropostas } from "@/features/services/proposal/api/proposta.api";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 export const MinhaConta = () => {

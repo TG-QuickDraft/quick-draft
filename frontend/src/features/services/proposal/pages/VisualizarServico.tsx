@@ -16,6 +16,7 @@ import { toLocaleString } from "@/shared/utils/date.utils";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+import { proposalPaths } from "../routes/proposalPaths";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -105,7 +106,7 @@ export const VisualizarServico = () => {
             ) : (
               <Link
                 className="flex"
-                to={freelancerPaths.cadastrarPropostaById(servico?.id ?? "")}
+                to={proposalPaths.cadastrarPropostaById(servico?.id ?? "")}
               >
                 <Button className="flex-1 mt-6 p-4!">Enviar Proposta</Button>
               </Link>

@@ -1,50 +1,51 @@
-import Input from "@/shared/components/ui/Inputs/Input";
 import Stack from "@/shared/components/Stack";
 import Button from "@/shared/components/ui/buttons/Button";
+import Input from "@/shared/components/ui/Inputs/Input";
 
-import TextArea from "@/shared/components/ui/Inputs/TextArea";
 import Checkbox from "@/shared/components/ui/Checkbox";
+import TextArea from "@/shared/components/ui/Inputs/TextArea";
 import clsx from "clsx";
 
-import Label from "@/shared/components/ui/Label";
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
+import Label from "@/shared/components/ui/Label";
 import { useEffect, useRef, useState } from "react";
 
-import { consultarProjetosFreelancerPorIdFreelancer } from "../../api/projetoFreelancer.api";
-import type { ProjetoFreelancerDTO } from "../../dtos/projetoFreelancer/ProjetoFreelancerDTO";
-import Subtitle from "@/shared/components/ui/titles/Subtitle";
-import SelectableProjectCard from "../../components/SelectableProjectCard";
-import ProposalSection from "../../components/ProposalSection";
-import useProposalForm from "../../hooks/useProposalForm";
-import { RemovableListItem } from "../../components/RemovableListItem";
 import { AnimatedCollapse } from "@/shared/components/AnimatedCollapse";
-import { useForm, Controller } from "react-hook-form";
+import Subtitle from "@/shared/components/ui/titles/Subtitle";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import { consultarProjetosFreelancerPorIdFreelancer } from "../../../freelancers/api/projetoFreelancer.api";
+import type { ProjetoFreelancerDTO } from "../../../freelancers/dtos/projetoFreelancer/ProjetoFreelancerDTO";
+import ProposalSection from "../components/ProposalSection";
+import { RemovableListItem } from "../components/RemovableListItem";
+import SelectableProjectCard from "../components/SelectableProjectCard";
+import useProposalForm from "../hooks/useProposalForm";
 import {
   NewProposalSchema,
   type INewProposalForm,
-} from "../../validations/proposal.schema";
+} from "../validations/proposal.schema";
 
-import { GoPlus } from "react-icons/go";
-import { useCreateProposal } from "../../hooks/useCreateProposal";
-import type { CriarPropostaDTO } from "../../dtos/freelancer/PropostaDTO";
-import { parseCurrencyToNumber } from "@/shared/utils/number.utils";
-import { useNavigate, useParams } from "react-router-dom";
-import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
-import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
-import Spinner from "@/shared/components/ui/Spinner";
-import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
+import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
-import { AddButton } from "@/shared/components/ui/buttons/AddButton";
-import { IoMdSend } from "react-icons/io";
-import { capitalize } from "@/shared/utils/string.utils";
-import { freelancerPaths } from "../../routes/freelancerPaths";
-import DateInput from "@/shared/components/ui/Inputs/DateInput";
-import { sessionStorageKeys } from "@/shared/utils/storageKeys";
-import { BackButton } from "@/shared/components/ui/buttons/BackButton";
-import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { AddButton } from "@/shared/components/ui/buttons/AddButton";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+import DateInput from "@/shared/components/ui/Inputs/DateInput";
+import Spinner from "@/shared/components/ui/Spinner";
+import { useModal } from "@/shared/contexts/modal.context";
+import { parseCurrencyToNumber } from "@/shared/utils/number.utils";
+import { sessionStorageKeys } from "@/shared/utils/storageKeys";
+import { capitalize } from "@/shared/utils/string.utils";
+import { GoPlus } from "react-icons/go";
+import { IoMdSend } from "react-icons/io";
+import { useNavigate, useParams } from "react-router-dom";
+import { freelancerPaths } from "../../../freelancers/routes/freelancerPaths";
+import type { CriarPropostaDTO } from "../dtos/PropostaDTO";
+import { useCreateProposal } from "../hooks/useCreateProposal";
+import { proposalPaths } from "../routes/proposalPaths";
 
 const CadastrarProposta = () => {
   const { showSuccess, showError } = useModal();
@@ -354,7 +355,7 @@ const CadastrarProposta = () => {
                   onClick={() =>
                     navigate(
                       freelancerPaths.cadastrarProjetoFreelancer +
-                        `${serviceId ? `?from=${freelancerPaths.cadastrarPropostaById(serviceId)}` : ""}`,
+                        `${serviceId ? `?from=${proposalPaths.cadastrarPropostaById(serviceId)}` : ""}`,
                     )
                   }
                 />

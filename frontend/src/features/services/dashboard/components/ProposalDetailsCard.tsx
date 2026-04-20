@@ -1,5 +1,5 @@
-import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
-import MiniProposalCard from "@/features/freelancers/components/MiniProposalCard";
+import type { PropostaDTO } from "@/features/services/proposal/dtos/PropostaDTO";
+import MiniProposalCard from "@/features/services/dashboard/components/MiniProposalCard";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { toLocaleString } from "@/shared/utils/date.utils";
 

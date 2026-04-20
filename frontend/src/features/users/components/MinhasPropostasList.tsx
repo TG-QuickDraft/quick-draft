@@ -6,8 +6,9 @@ import { FiEye } from "react-icons/fi";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
-import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
-import { consultarMinhasPropostas } from "@/features/freelancers/api/proposta.api";
+import type { PropostaDTO } from "@/features/services/proposal/dtos/PropostaDTO";
+import { consultarMinhasPropostas } from "@/features/services/proposal/api/proposta.api";
+import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
 
 export const MinhasPropostasList = () => {
   const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
@@ -59,7 +60,7 @@ export const MinhasPropostasList = () => {
 
           <button
             onClick={() =>
-              navigate(freelancerPaths.verMinhaPropostaById(proposta.id))
+              navigate(dashboardServicoPaths.verMinhaPropostaById(proposta.id))
             }
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-lg text-gray-700 hover:bg-gray-100 hover:text-black transition"
           >

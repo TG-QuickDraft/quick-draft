@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
+import { buscarPropostaPorId } from "@/features/services/proposal/api/proposta.api";
 import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
 
-import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
+import type { PropostaDTO } from "@/features/services/proposal/dtos/PropostaDTO";
 import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 
 import Spinner from "@/shared/components/ui/Spinner";
@@ -12,10 +12,10 @@ import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
-import ProposalStatusBadge from "@/features/freelancers/components/ProposalStatusBadge";
-import ProposalDetailsCard from "@/features/freelancers/components/ProposalDetailsCard";
-import ServiceDetailsCard from "@/features/freelancers/components/ServiceDetailsCard";
-import EntregaServicoModal from "@/features/freelancers/components/EntregaServicoModal";
+import ProposalStatusBadge from "@/features/services/dashboard/components/ProposalStatusBadge";
+import ProposalDetailsCard from "@/features/services/dashboard/components/ProposalDetailsCard";
+import ServiceDetailsCard from "@/features/services/dashboard/components/ServiceDetailsCard";
+import EntregaServicoModal from "@/features/services/dashboard/components/EntregaServicoModal";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 import clsx from "clsx";

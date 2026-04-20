@@ -13,7 +13,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
-import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
+import { buscarPropostaPorId } from "@/features/services/proposal/api/proposta.api";
 
 import { consultarMensagens } from "@/features/services/execution/api/chat.api";
 import { criarMensagem } from "@/features/services/execution/api/chat.api";

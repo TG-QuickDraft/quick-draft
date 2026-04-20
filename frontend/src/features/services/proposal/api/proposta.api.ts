@@ -2,7 +2,7 @@ import api from "@/shared/apis/api";
 import type {
   CriarPropostaDTO,
   PropostaDTO,
-} from "../dtos/freelancer/PropostaDTO";
+} from "../dtos/PropostaDTO";
 
 const BASE_PATH = "/api/proposta";
 
