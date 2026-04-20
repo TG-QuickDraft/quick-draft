@@ -23,6 +23,7 @@ import { servicoPaths } from "../routes/servicoPaths";
 
 import { FaMoneyCheck } from "react-icons/fa";
 import { financePaths } from "@/features/finance/routes/financePaths";
+import { executionPaths } from "../execution/routes/executionPaths";
 
 export const MeuServico = () => {
   const { id } = useParams();
@@ -192,7 +193,7 @@ export const MeuServico = () => {
               title="Iniciar conversa com o freelancer"
               onClick={() =>
                 navigate(
-                  servicoPaths.chatServicoById(servico.id) +
+                  executionPaths.chatServicoById(servico.id) +
                     "?propostaId=" +
                     servico.propostaAceitaId,
                 )

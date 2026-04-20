@@ -3,7 +3,7 @@ import Input from "@/shared/components/ui/Inputs/Input";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import clsx from "clsx";
 import { MdOutlineSend } from "react-icons/md";
-import type { ServicoDTO } from "../../dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
 import { toLocaleString } from "@/shared/utils/date.utils";
 import Title from "@/shared/components/ui/titles/Title";
 import { useAuth } from "@/features/auth/hooks/useAuth";

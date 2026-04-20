@@ -3,22 +3,22 @@ import { useEffect, useState } from "react";
 import { Chat } from "../components/Chat/Chat";
 
 import { useParams, useSearchParams } from "react-router-dom";
-import type { ServicoDTO } from "../dtos/ServicoDTO";
+import type { ServicoDTO } from "../../dtos/ServicoDTO";
 import { useModal } from "@/shared/contexts/modal.context";
 import Spinner from "@/shared/components/ui/Spinner";
 
 import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
-import { consultarServicoPorId } from "../api/servico.api";
+import { consultarServicoPorId } from "../../api/servico.api";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 
-import { consultarMensagens } from "../api/chat.api";
-import { criarMensagem } from "../api/chat.api";
-import type { MensagemDTO } from "../dtos/MensagemDTO";
-import { useChatConnection } from "../hooks/useChatConnection";
+import { consultarMensagens } from "@/features/services/execution/api/chat.api";
+import { criarMensagem } from "@/features/services/execution/api/chat.api";
+import type { MensagemDTO } from "@/features/services/execution/dtos/MensagemDTO";
+import { useChatConnection } from "@/features/services/execution/hooks/useChatConnection";
 import clsx from "clsx";
 
 import { LOADING_TIMEOUT } from "@/loadingTimeout";

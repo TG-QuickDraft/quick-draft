@@ -3,10 +3,11 @@ import { useLocation } from "react-router-dom";
 
 import { homePaths } from "@/features/home/routes/homePaths";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { executionPaths } from "@/features/services/execution/routes/executionPaths";
 
 const fullScreenPaths = [
   homePaths.home,
-  servicoPaths.chatServico,
+  executionPaths.chatServico,
   servicoPaths.meuServico,
 ];
 

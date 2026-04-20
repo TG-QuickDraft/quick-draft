@@ -16,13 +16,13 @@ import ProposalStatusBadge from "@/features/freelancers/components/ProposalStatu
 import ProposalDetailsCard from "@/features/freelancers/components/ProposalDetailsCard";
 import ServiceDetailsCard from "@/features/freelancers/components/ServiceDetailsCard";
 import EntregaServicoModal from "@/features/freelancers/components/EntregaServicoModal";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 import clsx from "clsx";
 import { useModalFactory } from "@/shared/hooks/useModalFactory";
 import RatingModal from "@/shared/components/ui/modals/RatingModal";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { executionPaths } from "@/features/services/execution/routes/executionPaths";
 
 const MinhaProposta = () => {
   const { id } = useParams();
@@ -98,7 +98,7 @@ const MinhaProposta = () => {
             )}
             title="Iniciar conversa com o cliente "
             onClick={() =>
-              navigate(servicoPaths.chatServicoById(proposta.servicoId))
+              navigate(executionPaths.chatServicoById(proposta.servicoId))
             }
           >
             <IoChatboxEllipsesOutline size={40} />

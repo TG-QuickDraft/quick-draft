@@ -1,5 +1,5 @@
 import api from "@/shared/apis/api";
-import type { CriarMensagemDTO, MensagemDTO } from "../dtos/MensagemDTO";
+import type { CriarMensagemDTO, MensagemDTO } from "@/features/services/execution/dtos/MensagemDTO";
 
 const BASE_PATH = "/api/mensagemservico";
 
