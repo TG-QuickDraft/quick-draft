@@ -1,4 +1,4 @@
-import { CadastrarCartaoCredito } from "@/features/finance/pages/CadastrarCartaoCredito";
+import { CadastrarCartaoCredito } from "@/features/clients/pages/CadastrarCartaoCredito";
 import { PerfilCliente } from "@/features/clients/pages/PerfilCliente";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import { RequireRole } from "@/features/auth/components/RequireRole";

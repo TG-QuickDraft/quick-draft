@@ -1,7 +1,7 @@
 import PesquisaFreelancer from "@/features/freelancers/pages/PesquisaFreelancer";
 import { PerfilFreelancer } from "@/features/freelancers/pages/PerfilFreelancer";
 import { CadastrarProjetoFreelancer } from "@/features/freelancers/pages/CadastrarProjetoFreelancer";
-import { CadastrarContaBancaria } from "@/features/finance/pages/CadastrarContaBancaria";
+import { CadastrarContaBancaria } from "@/features/freelancers/pages/CadastrarContaBancaria";
 
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import VerProposta from "../pages/proposal/VerProposta";

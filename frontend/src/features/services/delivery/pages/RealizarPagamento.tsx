@@ -1,33 +1,33 @@
-import { BackButton } from "@/shared/components/ui/buttons/BackButton";
-import clsx from "clsx";
-import Button from "@/shared/components/ui/buttons/Button";
-import Title from "@/shared/components/ui/titles/Title";
-
-import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import { FaMoneyCheck } from "react-icons/fa";
-import PaymentSection from "../components/PaymentSection";
-import PaymentWrapper from "../components/PaymentWrapper";
-import CreditCard from "../components/CreditCard";
-import { useModal } from "@/shared/contexts/modal.context";
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
-import { useEffect, useState } from "react";
+import { consultarCartaoCredito } from "@/features/clients/api/cartaoCredito.api";
+import { consultarClientePorId } from "@/features/clients/api/cliente.api";
+import type { CartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/CartaoCreditoDTO";
+import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
+import { clientePaths } from "@/features/clients/routes/clientePaths";
 import { consultarServicoPorId } from "@/features/services/api/servico.api";
+import CreditCard from "@/features/services/delivery/components/CreditCard";
+import PaymentSection from "@/features/services/delivery/components/PaymentSection";
+import PaymentWrapper from "@/features/services/delivery/components/PaymentWrapper";
+import { deliveryPaths } from "@/features/services/delivery/routes/deliveryPaths";
 import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
-import { useNavigate, useParams } from "react-router-dom";
-import Spinner from "@/shared/components/ui/Spinner";
+import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
+import { AddButton } from "@/shared/components/ui/buttons/AddButton";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+import Button from "@/shared/components/ui/buttons/Button";
+import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+import Spinner from "@/shared/components/ui/Spinner";
+import Title from "@/shared/components/ui/titles/Title";
+import { useModal } from "@/shared/contexts/modal.context";
+import { useModalFactory } from "@/shared/hooks/useModalFactory";
 import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 import { numberToCurrency } from "@/shared/utils/number.utils";
-import { format } from "date-fns";
-import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
-import { consultarClientePorId } from "@/features/clients/api/cliente.api";
-import { consultarCartaoCredito } from "../api/cartaoCredito.api";
-import type { CartaoCreditoDTO } from "../dtos/cartaoCredito/CartaoCreditoDTO";
 import { capitalizeEachWord } from "@/shared/utils/string.utils";
-import { AddButton } from "@/shared/components/ui/buttons/AddButton";
-import { clientePaths } from "@/features/clients/routes/clientePaths";
-import { financePaths } from "../routes/financePaths";
-import { useModalFactory } from "@/shared/hooks/useModalFactory";
+
+import clsx from "clsx";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
+import { FaMoneyCheck } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 
 import RatingModal from "@/shared/components/ui/modals/RatingModal";
 
@@ -134,7 +134,7 @@ const RealizarPagamento = () => {
                   onClick={() =>
                     navigate(
                       clientePaths.cadastrarCartaoCredito +
-                        `${id ? `?from=${financePaths.realizarPagamentoById(id)}` : ""}`,
+                        `${id ? `?from=${deliveryPaths.realizarPagamentoById(id)}` : ""}`,
                     )
                   }
                 />

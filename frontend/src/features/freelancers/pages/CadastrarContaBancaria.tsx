@@ -8,16 +8,16 @@ import {
   atualizarContaBancaria,
   consultarContaBancaria,
   consultarTiposConta,
-} from "@/features/finance/api/contaBancaria.api";
+} from "@/features/freelancers/api/contaBancaria.api";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Title from "@/shared/components/ui/titles/Title";
-import type { CriarContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/CriarContaBancariaDTO";
-import type { ContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/ContaBancariaDTO";
-import type { TipoContaDTO } from "@/features/finance/dtos/contaBancaria/TipoContaDTO";
+import type { CriarContaBancariaDTO } from "@/features/freelancers/dtos/contaBancaria/CriarContaBancariaDTO";
+import type { ContaBancariaDTO } from "@/features/freelancers/dtos/contaBancaria/ContaBancariaDTO";
+import type { TipoContaDTO } from "@/features/freelancers/dtos/contaBancaria/TipoContaDTO";
 import {
   BankAccountSchema,
   type IBankAccountForm,
-} from "../validations/finance.schema";
+} from "@/features/freelancers/validations/contaBancaria.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";

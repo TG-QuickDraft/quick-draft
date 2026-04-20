@@ -1,5 +1,5 @@
-import type { CartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CartaoCreditoDTO";
-import type { CriarCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CriarCartaoCreditoDTO";
+import type { CartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/CartaoCreditoDTO";
+import type { CriarCartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/CriarCartaoCreditoDTO";
 import api from "@/shared/apis/api";
 
 const BASE_PATH = "/api/cartaoCredito";

@@ -8,13 +8,13 @@ import {
   atualizarCartaoCredito,
   consultarCartaoCredito,
   consultarBandeiras,
-} from "@/features/finance/api/cartaoCredito.api";
+} from "@/features/clients/api/cartaoCredito.api";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Title from "@/shared/components/ui/titles/Title";
-import type { BandeiraCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/BandeiraCartaoCreditoDTO";
-import type { CartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CartaoCreditoDTO";
-import type { CriarCartaoCreditoDTO } from "@/features/finance/dtos/cartaoCredito/CriarCartaoCreditoDTO";
-import { CardSchema, type ICardForm } from "../validations/finance.schema";
+import type { BandeiraCartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/BandeiraCartaoCreditoDTO";
+import type { CartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/CartaoCreditoDTO";
+import type { CriarCartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/CriarCartaoCreditoDTO";
+import { CardSchema, type ICardForm } from "../validations/cartaoCredito.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Select from "@/shared/components/ui/Select";

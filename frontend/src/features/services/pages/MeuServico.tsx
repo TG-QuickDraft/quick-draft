@@ -19,10 +19,9 @@ import clsx from "clsx";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { servicoPaths } from "../routes/servicoPaths";
 
 import { FaMoneyCheck } from "react-icons/fa";
-import { financePaths } from "@/features/finance/routes/financePaths";
+import { deliveryPaths } from "@/features/services/delivery/routes/deliveryPaths";
 import { executionPaths } from "../execution/routes/executionPaths";
 
 export const MeuServico = () => {
@@ -207,7 +206,7 @@ export const MeuServico = () => {
       <div className="sticky bottom-6 flex justify-end gap-6 pr-6">
         <Button
           onClick={() =>
-            navigate(financePaths.realizarPagamentoById(servico.id))
+            navigate(deliveryPaths.realizarPagamentoById(servico.id))
           }
           icon={<FaMoneyCheck />}
         >

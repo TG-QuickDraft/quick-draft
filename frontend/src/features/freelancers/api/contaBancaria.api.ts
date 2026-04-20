@@ -1,5 +1,5 @@
-import type { ContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/ContaBancariaDTO";
-import type { CriarContaBancariaDTO } from "@/features/finance/dtos/contaBancaria/CriarContaBancariaDTO";
+import type { ContaBancariaDTO } from "@/features/freelancers/dtos/contaBancaria/ContaBancariaDTO";
+import type { CriarContaBancariaDTO } from "@/features/freelancers/dtos/contaBancaria/CriarContaBancariaDTO";
 import api from "@/shared/apis/api";
 
 const BASE_PATH = "/api/contaBancaria";
