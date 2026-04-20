@@ -1,10 +1,9 @@
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
-import StarRating from "@/shared/components/ui/StarRating";
 
-import { ClienteIdentity } from "./ClienteIdentity";
-import { InfoCard } from "./InfoCard";
+import { ClienteIdentity } from "@/features/clients/components/ClienteIdentity";
+import { InfoCard } from "@/features/clients/components/InfoCard";
 
 import { gerarBannerCliente } from "@/shared/components/ui/GerarBannerCliente";
 

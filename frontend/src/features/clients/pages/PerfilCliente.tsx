@@ -1,4 +1,3 @@
-// PerfilCliente.tsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -9,7 +8,7 @@ import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
 import Spinner from "@/shared/components/ui/Spinner";
 
-import { ClienteProfileHeader } from "@/features/clients/components/ClienteProfileHeader";
+import { ClienteProfileHeader } from "@/shared/components/ui/ClienteProfileHeader";
 import { ClienteServicosSection } from "@/features/clients/components/ClienteServicosSection";
 
 export const PerfilCliente = () => {
