@@ -1,7 +1,7 @@
-import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
-import type { FiltroServicoDTO } from "@/features/services/dtos/FiltroServicoDTO";
+import type { CriarServicoDTO } from "@/features/services/proposal/dtos/CriarServicoDTO";
+import type { FiltroServicoDTO } from "@/features/services/proposal/dtos/FiltroServicoDTO";
 import api from "@/shared/apis/api";
-import type { ServicoDTO } from "../dtos/ServicoDTO";
+import type { ServicoDTO } from "../../proposal/dtos/ServicoDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
 
 const BASE_PATH = "/api/servico";

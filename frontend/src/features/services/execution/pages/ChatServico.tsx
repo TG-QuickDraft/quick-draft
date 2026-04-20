@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { Chat } from "../components/Chat/Chat";
 
 import { useParams, useSearchParams } from "react-router-dom";
-import type { ServicoDTO } from "../../dtos/ServicoDTO";
+import type { ServicoDTO } from "../../proposal/dtos/ServicoDTO";
 import { useModal } from "@/shared/contexts/modal.context";
 import Spinner from "@/shared/components/ui/Spinner";
 
 import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
-import { consultarServicoPorId } from "../../api/servico.api";
+import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";

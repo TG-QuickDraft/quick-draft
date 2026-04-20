@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { consultarMeusServicos } from "@/features/services/api/servico.api";
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import { consultarMeusServicos } from "@/features/services/proposal/api/servico.api";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/shared/components/ui/Spinner";
 import { servicoPaths } from "@/features/services/routes/servicoPaths";

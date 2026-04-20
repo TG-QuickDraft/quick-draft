@@ -3,8 +3,8 @@ import { LuSave } from "react-icons/lu";
 
 import Title from "@/shared/components/ui/titles/Title";
 
-import { adicionarServico } from "@/features/services/api/servico.api";
-import type { CriarServicoDTO } from "@/features/services/dtos/CriarServicoDTO";
+import { adicionarServico } from "@/features/services/proposal/api/servico.api";
+import type { CriarServicoDTO } from "@/features/services/proposal/dtos/CriarServicoDTO";
 import Input from "@/shared/components/ui/Inputs/Input";
 import Radio from "@/shared/components/ui/Inputs/Radio";
 import {
@@ -15,7 +15,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { useModal } from "@/shared/contexts/modal.context";
-import { servicoPaths } from "../routes/servicoPaths";
+import { servicoPaths } from "../../routes/servicoPaths";
+import { proposalPaths } from "../routes/proposalPaths";
 
 export const CadastrarServico = () => {
   const { showSuccess, showError } = useModal();
@@ -43,7 +44,7 @@ export const CadastrarServico = () => {
       await adicionarServico(servico);
       showSuccess({
         content: "Serviço cadastrado com sucesso!",
-        redirect: servicoPaths.pesquisaServico,
+        redirect: proposalPaths.pesquisaServico,
       });
     } catch (error) {
       if (error instanceof Error) {

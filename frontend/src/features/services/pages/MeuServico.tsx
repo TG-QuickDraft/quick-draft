@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { consultarServicoPorId } from "@/features/services/api/servico.api";
+import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
 import { buscarPropostasPorServico } from "@/features/freelancers/api/proposta.api";
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { useNavigate } from "react-router-dom";
 
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
 import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
 

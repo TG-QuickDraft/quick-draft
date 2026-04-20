@@ -16,6 +16,7 @@ import { homePaths } from "@/features/home/routes/homePaths";
 import { authPaths } from "../routes/authPaths";
 import type { Role } from "@/shared/types/Roles";
 import { useModal } from "@/shared/contexts/modal.context";
+import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 interface IUserProvider {
   isAuthenticated: boolean;
@@ -48,8 +49,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     freelancerPaths.pesquisaFreelancer,
     freelancerPaths.perfilFreelancer,
     clientePaths.perfilCliente,
-    servicoPaths.pesquisaServico,
-    servicoPaths.visualizarServico,
+    proposalPaths.pesquisaServico,
+    proposalPaths.visualizarServico,
     usuarioPaths.cadastrarUsuario,
   ];
 

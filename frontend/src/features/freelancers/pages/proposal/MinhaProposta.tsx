@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
-import { consultarServicoPorId } from "@/features/services/api/servico.api";
+import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
 
 import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 
 import Spinner from "@/shared/components/ui/Spinner";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";

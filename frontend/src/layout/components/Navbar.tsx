@@ -10,7 +10,7 @@ import SystemLogo from "@/shared/components/ui/SystemLogo";
 import { useState } from "react";
 
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 const Navbar = () => {
   const { usuario } = useAuth();
@@ -48,7 +48,7 @@ const Navbar = () => {
                   freelancerPaths.pesquisaFreelancer + `?nome=${search}`,
                 );
               } else {
-                navigate(servicoPaths.pesquisaServico + `?nome=${search}`);
+                navigate(proposalPaths.pesquisaServico + `?nome=${search}`);
               }
             }}
             className="flex gap-2 items-center"

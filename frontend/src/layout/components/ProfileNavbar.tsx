@@ -15,9 +15,9 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { adminPaths } from "@/features/admin/routes/adminPaths";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { homePaths } from "@/features/home/routes/homePaths";
+import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -112,7 +112,7 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <>
                   <button
                     onClick={() =>
-                      handleNavigate(servicoPaths.cadastrarServico)
+                      handleNavigate(proposalPaths.cadastrarServico)
                     }
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
                   >

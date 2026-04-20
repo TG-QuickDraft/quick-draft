@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { consultarServicoPorId } from "../api/servico.api";
+import { consultarServicoPorId } from "../../proposal/api/servico.api";
 
 import { useEffect, useState } from "react";
 

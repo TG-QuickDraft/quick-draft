@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
 import { numberToCurrency } from "@/shared/utils/number.utils";

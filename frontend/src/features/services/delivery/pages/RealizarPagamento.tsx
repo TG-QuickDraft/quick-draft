@@ -3,12 +3,12 @@ import { consultarClientePorId } from "@/features/clients/api/cliente.api";
 import type { CartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/CartaoCreditoDTO";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
-import { consultarServicoPorId } from "@/features/services/api/servico.api";
+import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
 import CreditCard from "@/features/services/delivery/components/CreditCard";
 import PaymentSection from "@/features/services/delivery/components/PaymentSection";
 import PaymentWrapper from "@/features/services/delivery/components/PaymentWrapper";
 import { deliveryPaths } from "@/features/services/delivery/routes/deliveryPaths";
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";

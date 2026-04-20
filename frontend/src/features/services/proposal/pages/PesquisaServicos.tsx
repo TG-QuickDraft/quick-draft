@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@/shared/components/ui/buttons/Button";
-import { consultarServicos } from "@/features/services/api/servico.api";
+import { consultarServicos } from "@/features/services/proposal/api/servico.api";
 
 import { SeletorPaginas } from "@/shared/components/ui/SeletorPaginas";
 import Spinner from "@/shared/components/ui/Spinner";
@@ -11,7 +11,7 @@ import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import Card from "@/shared/components/ui/card/Card";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
 
 import InputGroup from "@/shared/components/ui/Inputs/InputGroup";
@@ -26,6 +26,7 @@ import Title from "@/shared/components/ui/titles/Title";
 import { format } from "date-fns";
 
 import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
+import { proposalPaths } from "../routes/proposalPaths";
 
 export function PesquisaServico() {
   const navigate = useNavigate();
@@ -182,7 +183,7 @@ export function PesquisaServico() {
                 ].join(" - ")}
                 description={servico.descricao}
                 onClick={() =>
-                  navigate(servicoPaths.visualizarServicoById(servico.id))
+                  navigate(proposalPaths.visualizarServicoById(servico.id))
                 }
               />
             ))}

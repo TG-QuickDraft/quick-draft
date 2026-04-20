@@ -8,12 +8,12 @@ import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.
 import {
   consultarServicoPorId,
   aceitarProposta,
-} from "@/features/services/api/servico.api";
+} from "@/features/services/proposal/api/servico.api";
 import { buscarPropostaPorId } from "@/features/freelancers/api/proposta.api";
 
 import type { PropostaDTO } from "@/features/freelancers/dtos/freelancer/PropostaDTO";
 import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import ProposalCards from "../../components/ProposalCards";
