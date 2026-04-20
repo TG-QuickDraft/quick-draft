@@ -25,7 +25,7 @@ import { FaFilter } from "react-icons/fa";
 import Title from "@/shared/components/ui/titles/Title";
 import { format } from "date-fns";
 
-import { LOADING_TIMEOUT } from "@/loadingTimeout";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 
 export function PesquisaServico() {
   const navigate = useNavigate();

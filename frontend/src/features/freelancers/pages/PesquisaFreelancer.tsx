@@ -15,7 +15,7 @@ import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import Card from "@/shared/components/ui/card/Card";
 import clsx from "clsx";
 
-import { LOADING_TIMEOUT } from "@/loadingTimeout";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 
 export function PesquisaFreelancer() {
   const navigate = useNavigate();
