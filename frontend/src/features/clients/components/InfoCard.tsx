@@ -13,8 +13,8 @@ export const InfoCard = ({
     <div
       className={`rounded-2xl px-5 py-4 min-w-36 ${
         dark
-          ? "bg-zinc-900 text-white"
-          : "bg-yellow-100 text-zinc-900"
+          ? "bg-primary-100 text-white"
+          : "bg-secondary-100 text-zinc-900"
       }`}
     >
       <p className="text-2xl font-bold">{value}</p>
