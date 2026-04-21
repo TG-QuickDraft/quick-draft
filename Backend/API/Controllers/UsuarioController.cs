@@ -29,28 +29,28 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Adicionar([FromForm] CriarUsuarioDTO usuario)
         {
-            if (usuario.FotoPerfil == null || usuario.FotoPerfil.Length == 0)
-                return BadRequest("Nenhuma imagem enviada.");
+            try
+            {
+                UsuarioDTO novoUsuario = await _service.CriarAsync(usuario);
 
-            UsuarioDTO novoUsuario = await _service.CriarAsync(usuario);
-
-            if (novoUsuario == null)
-                return BadRequest("Usuário nao criado.");
-
-            var imagem = new UploadImagemDTO { Imagem = usuario.FotoPerfil };
-            bool urlGerada = await _service.AtualizarFotoAsync(imagem, novoUsuario.Id);
-
-            var usuarioAtualizado = await _service.ConsultarPorIdAsync(novoUsuario.Id);
-            if (usuarioAtualizado == null)
-                return NotFound("Erro ao recuperar usuário atualizado.");
-
-            novoUsuario = usuarioAtualizado;
-
-            return CreatedAtAction(
-                nameof(ConsultarPorId),
-                new { id = novoUsuario.Id },
-                novoUsuario
-            );
+                return CreatedAtAction(
+                    nameof(ConsultarPorId),
+                    new { id = novoUsuario.Id },
+                    novoUsuario
+                );
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Erro interno ao processar o cadastro.");
+            }
         }
 
         [HttpPost("upload-foto")]

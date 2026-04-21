@@ -62,18 +62,42 @@ namespace Backend.Application.Services
 
             var usuarioCriado = await _repository.CriarAsync(usuarioACriar);
 
-            switch (usuario.TipoUsuario)
+            if (usuario.FotoPerfil != null)
             {
-                case TipoUsuario.Cliente:
-                    await _clienteService.CriarAsync(usuarioCriado.Id);
-                    break;
+                var imagemDto = new UploadImagemDTO { Imagem = usuario.FotoPerfil };
+                bool fotoOk = await AtualizarFotoAsync(imagemDto, usuarioCriado.Id);
 
-                case TipoUsuario.Freelancer:
-                    await _freelancerService.CriarAsync(usuarioCriado.Id);
-                    break;
+                if (!fotoOk)
+                {
+                    await _repository.DeletarAsync(usuarioCriado.Id);
+                    throw new InvalidOperationException("Erro ao processar a foto de perfil.");
+                }
 
-                default:
-                    throw new ArgumentException("Tipo de usuário inválido.");
+                usuarioCriado =
+                    await _repository.ConsultarPorIdAsync(usuarioCriado.Id)
+                    ?? throw new Exception("Erro ao recuperar usuário após upload.");
+            }
+
+            try
+            {
+                switch (usuario.TipoUsuario)
+                {
+                    case TipoUsuario.Cliente:
+                        await _clienteService.CriarAsync(usuarioCriado.Id);
+                        break;
+
+                    case TipoUsuario.Freelancer:
+                        await _freelancerService.CriarAsync(usuarioCriado.Id);
+                        break;
+
+                    default:
+                        throw new ArgumentException("Tipo de usuário inválido.");
+                }
+            }
+            catch
+            {
+                await _repository.DeletarAsync(usuarioCriado.Id);
+                throw;
             }
 
             return _mapper.Map<UsuarioDTO>(usuarioCriado);
