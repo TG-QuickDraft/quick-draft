@@ -21,7 +21,6 @@ const AppRoutes = () => {
     ...executionRoutes,
     ...deliveryRoutes,
     ...adminRoutes,
-    ...deliveryRoutes,
   ];
 
   return (
