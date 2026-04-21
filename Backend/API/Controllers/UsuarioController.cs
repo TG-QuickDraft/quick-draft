@@ -1,4 +1,3 @@
-
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Backend.API.Extensions;
@@ -28,11 +27,30 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody] CriarUsuarioDTO usuario)
+        public async Task<IActionResult> Adicionar([FromForm] CriarUsuarioDTO usuario)
         {
-            UsuarioDTO novoUsuario = await _service.CriarAsync(usuario);
+            try
+            {
+                UsuarioDTO novoUsuario = await _service.CriarAsync(usuario);
 
-            return CreatedAtAction(nameof(ConsultarPorId), new { id = novoUsuario.Id }, novoUsuario);
+                return CreatedAtAction(
+                    nameof(ConsultarPorId),
+                    new { id = novoUsuario.Id },
+                    novoUsuario
+                );
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Erro interno ao processar o cadastro.");
+            }
         }
 
         [HttpPost("upload-foto")]
@@ -46,9 +64,9 @@ namespace Backend.API.Controllers
 
             bool resultado = await _service.AtualizarFotoAsync(dto, usuarioId);
 
-            return
-                resultado == false ? NotFound("Usuário não encontrado.") :
-                Ok(new { mensagem = "Upload concluído!" });
+            return resultado == false
+                ? NotFound("Usuário não encontrado.")
+                : Ok(new { mensagem = "Upload concluído!" });
         }
 
         [HttpPut("atualizar-senha")]
@@ -59,9 +77,9 @@ namespace Backend.API.Controllers
 
             bool resultado = await _service.AtualizarSenha(dto, usuarioId);
 
-            return
-                resultado == false ? NotFound("Usuário não encontrado.") :
-                Ok(new { mensagem = "Senha atualizada com sucesso!" });
+            return resultado == false
+                ? NotFound("Usuário não encontrado.")
+                : Ok(new { mensagem = "Senha atualizada com sucesso!" });
         }
 
         [HttpPut("atualizar-dados")]
@@ -72,9 +90,9 @@ namespace Backend.API.Controllers
 
             bool resultado = await _service.AtualizarAsync(dto, usuarioId);
 
-            return
-                resultado == false ? NotFound("Usuário não encontrado.") :
-                Ok(new { mensagem = "Dados atualizados com sucesso!" });
+            return resultado == false
+                ? NotFound("Usuário não encontrado.")
+                : Ok(new { mensagem = "Dados atualizados com sucesso!" });
         }
 
         [HttpDelete("{id}")]
@@ -96,16 +114,9 @@ namespace Backend.API.Controllers
         public IActionResult Me()
         {
             var email = User.FindFirstValue(JwtRegisteredClaimNames.Email);
-            var roles = User.
-                FindAll("roles").
-                Select(r => r.Value).
-                ToList();
+            var roles = User.FindAll("roles").Select(r => r.Value).ToList();
 
-            return Ok(new MeResponseDTO { 
-                Email = email!,
-                Roles = roles!
-            });
+            return Ok(new MeResponseDTO { Email = email!, Roles = roles! });
         }
-
     }
 }

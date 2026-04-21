@@ -13,10 +13,8 @@ namespace Backend.Application.Services
     public class UsuarioService(
         IUsuarioRepository repository,
         IMapper mapper,
-
         IClienteService clienteService,
         IFreelancerService freelancerService,
-
         IUploadService uploadService,
         IUrlBuilder urlBuilder
     ) : IUsuarioService
@@ -41,7 +39,8 @@ namespace Backend.Application.Services
 
         public async Task<TipoUsuario> ObterTipoUsuario(int id)
         {
-            var usuario = await _repository.ConsultarPorIdAsync(id)
+            var usuario =
+                await _repository.ConsultarPorIdAsync(id)
                 ?? throw new ArgumentException("Usuário não encontrado.");
 
             if (usuario.IsAdmin)
@@ -63,18 +62,42 @@ namespace Backend.Application.Services
 
             var usuarioCriado = await _repository.CriarAsync(usuarioACriar);
 
-            switch (usuario.TipoUsuario)
+            if (usuario.FotoPerfil != null)
             {
-                case TipoUsuario.Cliente:
-                    await _clienteService.CriarAsync(usuarioCriado.Id);    
-                    break;
+                var imagemDto = new UploadImagemDTO { Imagem = usuario.FotoPerfil };
+                bool fotoOk = await AtualizarFotoAsync(imagemDto, usuarioCriado.Id);
 
-                case TipoUsuario.Freelancer:
-                    await _freelancerService.CriarAsync(usuarioCriado.Id);    
-                    break;
+                if (!fotoOk)
+                {
+                    await _repository.DeletarAsync(usuarioCriado.Id);
+                    throw new InvalidOperationException("Erro ao processar a foto de perfil.");
+                }
 
-                default:
-                    throw new ArgumentException("Tipo de usuário inválido.");
+                usuarioCriado =
+                    await _repository.ConsultarPorIdAsync(usuarioCriado.Id)
+                    ?? throw new Exception("Erro ao recuperar usuário após upload.");
+            }
+
+            try
+            {
+                switch (usuario.TipoUsuario)
+                {
+                    case TipoUsuario.Cliente:
+                        await _clienteService.CriarAsync(usuarioCriado.Id);
+                        break;
+
+                    case TipoUsuario.Freelancer:
+                        await _freelancerService.CriarAsync(usuarioCriado.Id);
+                        break;
+
+                    default:
+                        throw new ArgumentException("Tipo de usuário inválido.");
+                }
+            }
+            catch
+            {
+                await _repository.DeletarAsync(usuarioCriado.Id);
+                throw;
             }
 
             return _mapper.Map<UsuarioDTO>(usuarioCriado);
@@ -104,7 +127,7 @@ namespace Backend.Application.Services
             }
 
             usuarioBanco.HashSenha = PasswordHasherUtil.Hash(dto.NovaSenha);
-            
+
             return await _repository.AtualizarAsync(usuarioBanco);
         }
 
@@ -119,14 +142,10 @@ namespace Backend.Application.Services
             if (usuario == null)
                 return false;
 
-            string path = Path.Combine(
-              "uploads",
-              "fotos-perfil",
-              usuarioId.ToString()  
-            );
+            string path = Path.Combine("uploads", "fotos-perfil", usuarioId.ToString());
 
             usuario.FotoPerfilUrl = await _uploadService.UploadImagem(dto.Imagem, path);
-            
+
             return await _repository.AtualizarAsync(usuario);
         }
     }

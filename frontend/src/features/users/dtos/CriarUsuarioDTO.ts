@@ -7,4 +7,5 @@ export type CriarUsuarioDTO = {
   senha: string;
   confirmarSenha: string;
   tipoUsuario: TipoUsuario;
+  fotoPerfil?: File;
 };

@@ -1,4 +1,4 @@
-import { adicionarUsuario, enviarFoto } from "@/features/users/api/usuario.api";
+import { adicionarUsuario } from "@/features/users/api/usuario.api";
 
 import Button from "@/shared/components/ui/buttons/Button";
 import { LuSave } from "react-icons/lu";
@@ -13,7 +13,6 @@ import Input from "@/shared/components/ui/Inputs/Input";
 import type { CriarUsuarioDTO } from "@/features/users/dtos/CriarUsuarioDTO";
 import { TIPOS_USUARIO } from "@/features/users/enums/tiposUsuario";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import type { LoginDTO } from "@/features/auth/dtos/LoginDTO";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Radio from "@/shared/components/ui/Inputs/Radio";
@@ -23,8 +22,7 @@ import { usuarioPaths } from "../routes/usuarioPaths";
 
 export const CadastrarUsuario = () => {
   const { showSuccess, showError } = useModal();
-
-  const { login, syncUser } = useAuth();
+  const { login } = useAuth();
 
   const {
     register,
@@ -43,6 +41,7 @@ export const CadastrarUsuario = () => {
   const tipoSelecionado = watch("tipoUsuario");
 
   const enviar = async (data: IRegisterUserForm) => {
+    const profilePhoto = data.fotoPerfil.imagem?.[0];
     const usuario = {
       nome: data.nome,
       cpf: data.cpf,
@@ -50,24 +49,12 @@ export const CadastrarUsuario = () => {
       senha: data.senha,
       confirmarSenha: data.confirmarSenha,
       tipoUsuario: data.tipoUsuario,
+      fotoPerfil: profilePhoto,
     } as CriarUsuarioDTO;
 
     try {
       await adicionarUsuario(usuario);
-
-      const loginRequest: LoginDTO = {
-        email: data.email,
-        senha: data.senha,
-      };
-
-      await login(loginRequest);
-
-      const imagemProjeto = data.fotoPerfil.imagem?.[0];
-
-      if (imagemProjeto) {
-        await enviarFoto({ imagem: imagemProjeto });
-        await syncUser();
-      }
+      await login({ email: data.email, senha: data.senha });
 
       showSuccess({
         content: "Usuário cadastrado com sucesso!",
@@ -79,7 +66,6 @@ export const CadastrarUsuario = () => {
           content: error.message,
         });
       }
-
       return;
     }
   };
