@@ -11,6 +11,8 @@ namespace Backend.Application.Mappings
             CreateMap<Cliente, ClienteDTO>()
                 .ForMember(dest => dest.Nome,
                     opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.Nome : ""))
+                .ForMember(dest => dest.Email,
+                    opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.Email : ""))
                 .ForMember(dest => dest.FotoPerfilUrl,
                     opt => opt.MapFrom(src => src.Usuario != null ? src.Usuario.FotoPerfilUrl : ""));
 

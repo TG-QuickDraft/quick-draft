@@ -1,55 +1,61 @@
-import { useParams } from "react-router-dom";
-import { consultarClientePorId } from "@/features/clients/api/cliente.api";
-
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import Title from "@/shared/components/ui/titles/Title";
+import { consultarClientePorId } from "@/features/clients/api/cliente.api";
+import { consultarServicosPorClienteId } from "@/features/services/api/servico.api";
 
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
-import StarRating from "@/shared/components/ui/StarRating";
-import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+import Spinner from "@/shared/components/ui/Spinner";
+
+import { ClienteProfileHeader } from "@/shared/components/ui/ClienteProfileHeader";
+import { ClienteServicosSection } from "@/features/clients/components/ClienteServicosSection";
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 export const PerfilCliente = () => {
   const { id } = useParams();
+  const clienteId = Number(id);
 
   const [cliente, setCliente] = useState<ClienteDTO | null>(null);
+  const [totalServicos, setTotalServicos] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const obterDados = async () => {
-      const data = await consultarClientePorId(Number(id));
+    if (Number.isNaN(clienteId)) return;
 
-      if (data !== undefined) {
-        setCliente(data);
+    const carregar = async () => {
+      try {
+        const [dadosCliente, servicos] = await Promise.all([
+          consultarClientePorId(clienteId),
+          consultarServicosPorClienteId(clienteId, 1, 50),
+        ]);
+
+        setCliente(dadosCliente);
+        setTotalServicos(servicos.itens.length);
+      } finally {
+        setLoading(false);
       }
     };
 
-    obterDados();
-  }, [id]);
+    carregar();
+  }, [clienteId]);
 
-  // HOOK FORM YUP VALIDATION
-
-  /**
-   * export const useValidation = () => {
-    return yup.object().shape({
-        nome: yup.string().required('Por favor, digite o seu nome!'),
-        email: yup.string().email('Por favor, digite um e-mail válido!').required('Por favor digite seu e-mail'),
-        telefone: yup.string().required('Por favor, informe o seu telefone'),
-        cep: yup.string().required('Por favor, informe o seu código postal (CEP)'),
-    })
-}
-   * 
-   */
+  if (loading) return <Spinner />;
 
   return (
-    <div className="h-full flex flex-1 items-center justify-center">
-      <div className="flex flex-col items-center gap-6">
-        <Title>Página de Perfil do Cliente</Title>
-        <h3>{cliente?.nome}</h3>
+    <div className="min-h-full px-6 md:px-12 py-10">
+      <BackButton>Voltar</BackButton>
+        <div className="max-w-6xl mx-auto space-y-8 mt-6">
+          <ClienteProfileHeader
+            cliente={cliente}
+            totalServicos={totalServicos}
+          />
 
-        <ProfilePhoto photoPath={cliente?.fotoPerfilUrl} />
-        <StarRating rating={4} />
-      </div>
+          <ClienteServicosSection
+            clienteId={clienteId}
+            totalServicos={totalServicos}
+          />
+        </div>
     </div>
   );
 };
