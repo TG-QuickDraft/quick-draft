@@ -86,5 +86,17 @@ namespace Backend.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("cliente/{clienteId}")]
+        public async Task<IActionResult> ConsultarPorClienteId(
+            int clienteId,
+            [FromQuery] int pagina = 1,
+            [FromQuery] int tamanhoPagina = 30
+        )
+        {
+            var result = await _service.ConsultarPorClienteAsync(clienteId, pagina, tamanhoPagina);
+
+            return Ok(result);
+        }
     }
 }
