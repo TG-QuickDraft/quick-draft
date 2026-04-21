@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import {
   consultarMeusServicos,
   consultarServicosPorClienteId,
-} from "@/features/services/api/servico.api";
+} from "@/features/services/proposal/api/servico.api";
 
-import type { ServicoDTO } from "@/features/services/dtos/ServicoDTO";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 
 import { useNavigate } from "react-router-dom";
 
 import Spinner from "@/shared/components/ui/Spinner";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
+import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
+import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 type Props = {
   clienteId?: number;
@@ -49,8 +50,8 @@ export const MeusServicosList = ({
 
   const handleNavigate = (servicoId: number) => {
     const rota = publicView
-      ? servicoPaths.visualizarServicoById(servicoId)
-      : servicoPaths.visualizarMeuServicoById(servicoId);
+      ? proposalPaths.visualizarServicoById(servicoId)
+      : dashboardServicoPaths.visualizarMeuServicoById(servicoId);
 
     navigate(rota);
   };

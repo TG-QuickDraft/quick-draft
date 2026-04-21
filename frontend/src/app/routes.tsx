@@ -1,12 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 
 import { freelancerRoutes } from "../features/freelancers/routes/freelancer.routes";
-import { servicoRoutes } from "../features/services/routes/servico.routes";
+import { dashboardServicoRoutes } from "../features/services/dashboard/routes/dashboardServico.routes";
 import { clienteRoutes } from "../features/clients/routes/cliente.routes";
 import { usuarioRoutes } from "../features/users/routes/usuario.routes";
 import { adminRoutes } from "../features/admin/routes/admin.routes";
 import { homeRoutes } from "../features/home/routes/home.routes";
-import { financeRoutes } from "@/features/finance/routes/finance.routes";
+import { deliveryRoutes } from "@/features/services/delivery/routes/delivery.routes";
+import { executionRoutes } from "@/features/services/execution/routes/execution.routes";
+import { proposalRoutes } from "@/features/services/proposal/routes/proposal.routes";
 
 const AppRoutes = () => {
   const routes = [
@@ -14,9 +16,11 @@ const AppRoutes = () => {
     ...freelancerRoutes,
     ...clienteRoutes,
     ...usuarioRoutes,
-    ...servicoRoutes,
+    ...dashboardServicoRoutes,
+    ...proposalRoutes,
+    ...executionRoutes,
+    ...deliveryRoutes,
     ...adminRoutes,
-    ...financeRoutes,
   ];
 
   return (

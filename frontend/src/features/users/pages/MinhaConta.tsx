@@ -5,15 +5,15 @@ import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useNavigate } from "react-router-dom";
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
-import { servicoPaths } from "@/features/services/routes/servicoPaths";
 import ConfirmarUploadFotoModal from "@/features/users/components/ConfirmarUploadFotoModal";
 import UploadFotoButton from "@/features/users/components/UploadPhotoButton";
 
 import { MeusServicosList } from "@/features/users/components/MeusServicosList";
-import { consultarMeusServicos } from "@/features/services/api/servico.api";
+import { consultarMeusServicos } from "@/features/services/proposal/api/servico.api";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { MinhasPropostasList } from "../components/MinhasPropostasList";
-import { consultarMinhasPropostas } from "@/features/freelancers/api/proposta.api";
+import { consultarMinhasPropostas } from "@/features/services/proposal/api/proposta.api";
+import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
@@ -148,7 +148,7 @@ export const MinhaConta = () => {
                     </p>
 
                     <AddButton
-                      onClick={() => navigate(servicoPaths.cadastrarServico)}
+                      onClick={() => navigate(proposalPaths.cadastrarServico)}
                     />
                   </div>
                 )}
