@@ -126,9 +126,9 @@ export function PesquisaServico() {
             <Select
               onChange={(value) => setOrcamentoIsAberto(value)}
               options={[
+                { label: "Todos", value: "" },
                 { label: "Sim", value: "true" },
                 { label: "Não", value: "false" },
-                { label: "Todos", value: "" },
               ]}
             />
           </InputGroup>
@@ -138,9 +138,9 @@ export function PesquisaServico() {
             <Select
               onChange={(value) => setIsEntregue(value)}
               options={[
-                { label: "Sim", value: "true" },
-                { label: "Não", value: "false" },
                 { label: "Todos", value: "" },
+                { label: "Sim", value: "true" },
+                { label: "Não", value: "false" }
               ]}
             />
           </InputGroup>
