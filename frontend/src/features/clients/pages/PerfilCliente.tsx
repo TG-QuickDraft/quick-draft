@@ -8,7 +8,7 @@ import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
 import Spinner from "@/shared/components/ui/Spinner";
 
-import { ClienteProfileHeader } from "@/shared/components/ui/ClienteProfileHeader";
+import { ClienteProfileHeader } from "@/features/clients/components/ClienteProfileHeader";
 import { ClienteServicosSection } from "@/features/clients/components/ClienteServicosSection";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
