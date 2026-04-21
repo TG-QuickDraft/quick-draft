@@ -128,6 +128,7 @@ export function PesquisaServico() {
               options={[
                 { label: "Sim", value: "true" },
                 { label: "Não", value: "false" },
+                { label: "Todos", value: "" },
               ]}
             />
           </InputGroup>
@@ -139,6 +140,7 @@ export function PesquisaServico() {
               options={[
                 { label: "Sim", value: "true" },
                 { label: "Não", value: "false" },
+                { label: "Todos", value: "" },
               ]}
             />
           </InputGroup>
