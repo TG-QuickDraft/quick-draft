@@ -14,6 +14,7 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
+import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 type Props = {
   clienteId?: number;
@@ -49,8 +50,8 @@ export const MeusServicosList = ({
 
   const handleNavigate = (servicoId: number) => {
     const rota = publicView
-      ? servicoPaths.visualizarServicoById(servicoId)
-      : servicoPaths.visualizarMeuServicoById(servicoId);
+      ? proposalPaths.visualizarServicoById(servicoId)
+      : dashboardServicoPaths.visualizarMeuServicoById(servicoId);
 
     navigate(rota);
   };

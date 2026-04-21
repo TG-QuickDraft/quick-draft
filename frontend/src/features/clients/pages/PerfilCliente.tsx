@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
-import { consultarServicosPorClienteId } from "@/features/services/api/servico.api";
+import { consultarServicosPorClienteId } from "@/features/services/proposal/api/servico.api";
 
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 
