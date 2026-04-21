@@ -67,6 +67,28 @@ export const consultarMeusServicos = async (
   }
 };
 
+export const consultarServicosPorClienteId = async (
+  clienteId: number,
+  pagina: number,
+  tamanhoPagina: number,
+): Promise<PagedResult<ServicoDTO>> => {
+  try {
+    const { data } = await api.get<PagedResult<ServicoDTO>>(
+      `${BASE_PATH}/cliente/${clienteId}`,
+      {
+        params: {
+          pagina,
+          tamanhoPagina,
+        },
+      },
+    );
+
+    return data;
+  } catch {
+    throw new Error("Erro ao consultar serviços do cliente.");
+  }
+};
+
 export const aceitarProposta = async (
   servicoId: number,
   propostaId: number,
