@@ -9,11 +9,13 @@ namespace Backend.Application.DTOs.Usuario
         public required string Cpf { get; set; }
         public required string Email { get; set; }
         public required string Senha { get; set; }
-        
+
         [Compare(nameof(Senha), ErrorMessage = "As senhas não conferem")]
         public required string ConfirmarSenha { get; set; }
-        
+
         [EnumDataType(typeof(TipoUsuario))]
         public required TipoUsuario TipoUsuario { get; set; }
+
+        public IFormFile? FotoPerfil { get; set; }
     }
 }

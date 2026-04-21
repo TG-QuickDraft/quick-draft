@@ -13,10 +13,8 @@ namespace Backend.Application.Services
     public class UsuarioService(
         IUsuarioRepository repository,
         IMapper mapper,
-
         IClienteService clienteService,
         IFreelancerService freelancerService,
-
         IUploadService uploadService,
         IUrlBuilder urlBuilder
     ) : IUsuarioService
@@ -41,7 +39,8 @@ namespace Backend.Application.Services
 
         public async Task<TipoUsuario> ObterTipoUsuario(int id)
         {
-            var usuario = await _repository.ConsultarPorIdAsync(id)
+            var usuario =
+                await _repository.ConsultarPorIdAsync(id)
                 ?? throw new ArgumentException("Usuário não encontrado.");
 
             if (usuario.IsAdmin)
@@ -66,11 +65,11 @@ namespace Backend.Application.Services
             switch (usuario.TipoUsuario)
             {
                 case TipoUsuario.Cliente:
-                    await _clienteService.CriarAsync(usuarioCriado.Id);    
+                    await _clienteService.CriarAsync(usuarioCriado.Id);
                     break;
 
                 case TipoUsuario.Freelancer:
-                    await _freelancerService.CriarAsync(usuarioCriado.Id);    
+                    await _freelancerService.CriarAsync(usuarioCriado.Id);
                     break;
 
                 default:
@@ -104,7 +103,7 @@ namespace Backend.Application.Services
             }
 
             usuarioBanco.HashSenha = PasswordHasherUtil.Hash(dto.NovaSenha);
-            
+
             return await _repository.AtualizarAsync(usuarioBanco);
         }
 
@@ -119,14 +118,10 @@ namespace Backend.Application.Services
             if (usuario == null)
                 return false;
 
-            string path = Path.Combine(
-              "uploads",
-              "fotos-perfil",
-              usuarioId.ToString()  
-            );
+            string path = Path.Combine("uploads", "fotos-perfil", usuarioId.ToString());
 
             usuario.FotoPerfilUrl = await _uploadService.UploadImagem(dto.Imagem, path);
-            
+
             return await _repository.AtualizarAsync(usuario);
         }
     }
