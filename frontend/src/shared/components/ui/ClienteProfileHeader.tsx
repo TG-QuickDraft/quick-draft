@@ -29,7 +29,7 @@ export const ClienteProfileHeader = ({
               photoPath={cliente?.fotoPerfilUrl}
               size="md"
               className="!w-auto !justify-start"
-              imgClassName="border-4 border-white shadow-xl"
+              imgClassName="border-4 border-white shadow-xl bg-white"
             />
           </div>
 
