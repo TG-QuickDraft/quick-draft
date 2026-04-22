@@ -26,7 +26,9 @@ export const MinhaConta = () => {
   const { roles } = useAuth();
   const [temServicos, setTemServicos] = useState<boolean | null>(null);
   const [temPropostas, setTemPropostas] = useState<boolean | null>(null);
+
   const [proposalTotal, setProposalTotal] = useState(0);
+  const [serviceTotal, setServiceTotal] = useState(0);
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
@@ -44,6 +46,7 @@ export const MinhaConta = () => {
       try {
         const response = await consultarMeusServicos(1, 1);
         setTemServicos(response.itens.length > 0);
+        setServiceTotal(response.itens.length);
       } catch {
         setTemServicos(false);
       }
@@ -92,7 +95,11 @@ export const MinhaConta = () => {
               </div>
             </div>
 
-            <SummaryCards proposalTotal={proposalTotal} roles={roles} />
+            <SummaryCards
+              proposalTotal={proposalTotal}
+              serviceTotal={serviceTotal}
+              roles={roles}
+            />
           </div>
 
           <div className="flex gap-4 mb-5">

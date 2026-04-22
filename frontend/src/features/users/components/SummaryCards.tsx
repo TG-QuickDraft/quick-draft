@@ -3,9 +3,11 @@ import { InfoCard } from "@/shared/components/ui/InfoCard";
 export const SummaryCards = ({
   roles,
   proposalTotal,
+  serviceTotal,
 }: {
   roles: string[];
   proposalTotal: number;
+  serviceTotal: number;
 }) => {
   return (
     <div className="flex gap-12 items-center">
@@ -30,7 +32,7 @@ export const SummaryCards = ({
           <InfoCard
             className="px-10! py-6! min-w-45"
             dark
-            value="0"
+            value={serviceTotal}
             label="Serviços Criados"
           />
           <InfoCard
