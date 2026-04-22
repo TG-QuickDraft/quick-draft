@@ -1,4 +1,5 @@
 import { InfoCard } from "@/shared/components/ui/InfoCard";
+import { numberToCurrency } from "@/shared/utils/number.utils";
 
 export const SummaryCards = ({
   roles,
@@ -21,7 +22,7 @@ export const SummaryCards = ({
           />
           <InfoCard
             className="px-10! py-6! min-w-45"
-            value="0"
+            value={numberToCurrency(0)}
             label="Ganhos"
           />
         </>

@@ -18,7 +18,7 @@ export const InfoCard = ({ value, label, dark, className }: Props) => {
         className,
       )}
     >
-      <p className="text-2xl font-bold">{value}</p>
+      <p className="text-2xl font-semibold">{value}</p>
 
       <p className={`text-xs ${dark ? "opacity-80" : "text-neutral-80"}`}>
         {label}
