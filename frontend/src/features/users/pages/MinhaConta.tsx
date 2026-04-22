@@ -16,6 +16,8 @@ import { consultarMinhasPropostas } from "@/features/services/proposal/api/propo
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 import { SummaryCards } from "../components/SummaryCards";
+import { Tabs, type Tab } from "@/shared/components/ui/Tabs";
+import { SERVICE_TABS } from "../tabs.const";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
@@ -29,6 +31,8 @@ export const MinhaConta = () => {
 
   const [proposalTotal, setProposalTotal] = useState(0);
   const [serviceTotal, setServiceTotal] = useState(0);
+
+  const [currentTab, setCurrentTab] = useState<Tab>("emAndamento");
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
@@ -69,7 +73,7 @@ export const MinhaConta = () => {
   }, [roles]);
 
   return (
-    <div className="px-12 py-10">
+    <div className="flex flex-col flex-1 px-12 py-10">
       {usuario && (
         <>
           <div className="flex justify-between items-start mb-6">
@@ -118,7 +122,7 @@ export const MinhaConta = () => {
             </button>
           </div>
 
-          <div>
+          <div className="flex flex-col flex-1">
             <h2 className="text-xl font-semibold mb-6">
               {roles.includes("Cliente") ? "Meus Serviços" : ""}
               {roles.includes("Freelancer") ? "Minhas Propostas" : ""}
@@ -126,17 +130,14 @@ export const MinhaConta = () => {
 
             {roles.includes("Cliente") && temServicos !== null && (
               <>
-                <div className="flex gap-6 border-b border-gray-300 mb-6">
-                  <button className="pb-2 border-b-2 border-black font-medium">
-                    Em Andamento
-                  </button>
+                <Tabs
+                  tabs={SERVICE_TABS}
+                  currentTab={currentTab}
+                  onChange={setCurrentTab}
+                />
 
-                  <button className="pb-2 text-gray-500">Sem Atribuição</button>
-
-                  <button className="pb-2 text-gray-500">Todos</button>
-                </div>
                 {temServicos ? (
-                  <MeusServicosList />
+                  <MeusServicosList tab={currentTab} />
                 ) : (
                   <div className="flex flex-col items-center justify-center mt-24">
                     <h3 className="text-2xl font-semibold mb-2">

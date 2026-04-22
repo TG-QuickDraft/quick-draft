@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   consultarMeusServicos,
   consultarServicosPorClienteId,
@@ -15,14 +15,18 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
+import clsx from "clsx";
+import type { Tab } from "@/shared/components/ui/Tabs";
 
 type Props = {
   clienteId?: number;
   publicView?: boolean;
+  tab?: Tab;
 };
 
 export const MeusServicosList = ({
   clienteId,
+  tab = "emAndamento",
   publicView = false,
 }: Props) => {
   const [servicos, setServicos] = useState<ServicoDTO[]>([]);
@@ -56,35 +60,51 @@ export const MeusServicosList = ({
     navigate(rota);
   };
 
+  const filteredServicos = useMemo(() => {
+    return servicos.filter((servico) => {
+      if (tab === "emAndamento") return servico.propostaAceitaId !== null;
+      if (tab === "semAtribuicao") return servico.propostaAceitaId === null;
+      return true;
+    });
+  }, [servicos, tab]);
+
   if (loading) return <Spinner />;
   if (servicos.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-6">
-      {servicos.map((servico) => (
-        <CardWrapper key={servico.id}>
-          <div>
-            <h3 className="text-lg font-bold mb-2">
-              {servico.nome}
-            </h3>
+    <div className="flex flex-col gap-6 flex-1">
+      {filteredServicos.length === 0 && (
+        <p
+          className={clsx(
+            "flex items-center justify-center text-center ",
+            "text-neutral-80 flex-1",
+          )}
+        >
+          Nenhum serviço encontrado.
+        </p>
+      )}
 
-            <p className="text-3xl font-semibold text-black-600 my-1">
-              {numberToCurrency(servico.valorMinimo)}
-            </p>
+      {filteredServicos.map((servico) => {
+        return (
+          <CardWrapper key={servico.id}>
+            <div>
+              <h3 className="text-lg font-bold mb-2">{servico.nome}</h3>
 
-            <p className="text-sm text-gray-800 mt-3">
-              Prazo:{" "}
-              {new Date(servico.prazo).toLocaleDateString()}
-            </p>
-          </div>
+              <p className="text-3xl font-semibold text-black-600 my-1">
+                {numberToCurrency(servico.valorMinimo)}
+              </p>
 
-          <DetailsButton
-            onClick={() => handleNavigate(servico.id)}
-          >
-            Ver Detalhes
-          </DetailsButton>
-        </CardWrapper>
-      ))}
+              <p className="text-sm text-gray-800 mt-3">
+                Prazo: {new Date(servico.prazo).toLocaleDateString()}
+              </p>
+            </div>
+
+            <DetailsButton onClick={() => handleNavigate(servico.id)}>
+              Ver Detalhes
+            </DetailsButton>
+          </CardWrapper>
+        );
+      })}
     </div>
   );
 };
