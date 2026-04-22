@@ -3,7 +3,7 @@ import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 
 import { ClienteIdentity } from "@/features/clients/components/ClienteIdentity";
-import { InfoCard } from "@/features/clients/components/InfoCard";
+import { InfoCard } from "@/shared/components/ui/InfoCard";
 
 import { gerarBannerCliente } from "@/features/clients/utils/getGerarBannerCliente.ts";
 

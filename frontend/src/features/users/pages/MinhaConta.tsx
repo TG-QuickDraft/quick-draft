@@ -15,6 +15,9 @@ import { MinhasPropostasList } from "../components/MinhasPropostasList";
 import { consultarMinhasPropostas } from "@/features/services/proposal/api/proposta.api";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
+import { SummaryCards } from "../components/SummaryCards";
+import { InfoCard } from "@/shared/components/ui/InfoCard";
+
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
   const navigate = useNavigate();
@@ -88,17 +91,7 @@ export const MinhaConta = () => {
               </div>
             </div>
 
-            <div className="flex gap-12">
-              <div className="bg-zinc-800 text-white px-10 py-6 rounded-2xl min-w-45">
-                <p className="text-2xl font-bold">0</p>
-                <p className="text-sm opacity-80">Projetos Criados</p>
-              </div>
-
-              <div className="bg-secondary-100 text-black px-10 py-6 rounded-2xl min-w-45">
-                <p className="text-2xl font-bold">0</p>
-                <p className="text-sm">Concluídos</p>
-              </div>
-            </div>
+            <SummaryCards roles={roles} />
           </div>
 
           <div className="flex gap-4 mb-5">
@@ -123,18 +116,17 @@ export const MinhaConta = () => {
               {roles.includes("Freelancer") ? "Minhas Propostas" : ""}
             </h2>
 
-            <div className="flex gap-6 border-b border-gray-300 mb-16">
-              <button className="pb-2 border-b-2 border-black font-medium">
-                Em Andamento
-              </button>
-
-              <button className="pb-2 text-gray-500">Sem Atribuição</button>
-
-              <button className="pb-2 text-gray-500">Todos</button>
-            </div>
-
             {roles.includes("Cliente") && temServicos !== null && (
               <>
+                <div className="flex gap-6 border-b border-gray-300 mb-6">
+                  <button className="pb-2 border-b-2 border-black font-medium">
+                    Em Andamento
+                  </button>
+
+                  <button className="pb-2 text-gray-500">Sem Atribuição</button>
+
+                  <button className="pb-2 text-gray-500">Todos</button>
+                </div>
                 {temServicos ? (
                   <MeusServicosList />
                 ) : (
