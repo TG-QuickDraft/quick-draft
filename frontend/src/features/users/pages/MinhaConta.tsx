@@ -1,5 +1,5 @@
 import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,8 @@ import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths
 import { SummaryCards } from "../components/SummaryCards";
 import { Tabs, type Tab } from "@/shared/components/ui/Tabs";
 import { SERVICE_TABS } from "../tabs.const";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
@@ -32,7 +34,10 @@ export const MinhaConta = () => {
   const [proposalTotal, setProposalTotal] = useState(0);
   const [serviceTotal, setServiceTotal] = useState(0);
 
-  const [currentTab, setCurrentTab] = useState<Tab>("emAndamento");
+  const [currentTab, setCurrentTab] = useState<Tab>("todos");
+
+  const [servicos, setServicos] = useState<ServicoDTO[]>([]);
+  const [loadingService, setLoadingService] = useState(true);
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
@@ -47,12 +52,17 @@ export const MinhaConta = () => {
     const verificarServicos = async () => {
       if (!roles.includes("Cliente")) return;
 
+      let timer = setTimeout(() => setLoadingService(true), LOADING_TIMEOUT);
       try {
         const response = await consultarMeusServicos(1, 1);
         setTemServicos(response.itens.length > 0);
         setServiceTotal(response.itens.length);
+        setServicos(response.itens);
       } catch {
         setTemServicos(false);
+      } finally {
+        clearTimeout(timer);
+        setLoadingService(false);
       }
     };
 
@@ -71,6 +81,34 @@ export const MinhaConta = () => {
     verificarServicos();
     verificarPropostas();
   }, [roles]);
+
+  const filteredServicos = useMemo(() => {
+    return servicos.filter((servico) => {
+      if (currentTab === "emAndamento")
+        return servico.propostaAceitaId !== null;
+      if (currentTab === "semAtribuicao")
+        return servico.propostaAceitaId === null;
+      return true;
+    });
+  }, [servicos, currentTab]);
+
+  const totals = useMemo(() => {
+    return {
+      emAndamento: servicos.filter((s) => s.propostaAceitaId !== null).length,
+      semAtribuicao: servicos.filter((s) => s.propostaAceitaId === null).length,
+    };
+  }, [servicos]);
+
+  const tabsWithTotal = useMemo(() => {
+    return SERVICE_TABS.map((tab) => {
+      if (tab.value === "todos") return tab;
+
+      return {
+        ...tab,
+        total: totals[tab.value],
+      };
+    });
+  }, [totals]);
 
   return (
     <div className="flex flex-col flex-1 px-12 py-10">
@@ -131,13 +169,17 @@ export const MinhaConta = () => {
             {roles.includes("Cliente") && temServicos !== null && (
               <>
                 <Tabs
-                  tabs={SERVICE_TABS}
+                  tabs={tabsWithTotal}
                   currentTab={currentTab}
                   onChange={setCurrentTab}
                 />
 
                 {temServicos ? (
-                  <MeusServicosList tab={currentTab} />
+                  <MeusServicosList
+                    loading={loadingService}
+                    servicos={filteredServicos}
+                    tab={currentTab}
+                  />
                 ) : (
                   <div className="flex flex-col items-center justify-center mt-24">
                     <h3 className="text-2xl font-semibold mb-2">
