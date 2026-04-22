@@ -54,7 +54,7 @@ export const MinhaConta = () => {
 
       let timer = setTimeout(() => setLoadingService(true), LOADING_TIMEOUT);
       try {
-        const response = await consultarMeusServicos(1, 1);
+        const response = await consultarMeusServicos(1, 10); // TODO: Colocar paginação no futuro
         setTemServicos(response.itens.length > 0);
         setServiceTotal(response.itens.length);
         setServicos(response.itens);
