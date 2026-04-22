@@ -1,6 +1,12 @@
 import { InfoCard } from "@/shared/components/ui/InfoCard";
 
-export const SummaryCards = ({ roles }: { roles: string[] }) => {
+export const SummaryCards = ({
+  roles,
+  proposalTotal,
+}: {
+  roles: string[];
+  proposalTotal: number;
+}) => {
   return (
     <div className="flex gap-12 items-center">
       {roles.includes("Freelancer") && (
@@ -8,7 +14,7 @@ export const SummaryCards = ({ roles }: { roles: string[] }) => {
           <InfoCard
             className="px-10! py-6! min-w-45"
             dark
-            value="0"
+            value={proposalTotal}
             label="Propostas Enviadas"
           />
           <InfoCard

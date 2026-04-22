@@ -16,7 +16,6 @@ import { consultarMinhasPropostas } from "@/features/services/proposal/api/propo
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 import { SummaryCards } from "../components/SummaryCards";
-import { InfoCard } from "@/shared/components/ui/InfoCard";
 
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
@@ -27,6 +26,7 @@ export const MinhaConta = () => {
   const { roles } = useAuth();
   const [temServicos, setTemServicos] = useState<boolean | null>(null);
   const [temPropostas, setTemPropostas] = useState<boolean | null>(null);
+  const [proposalTotal, setProposalTotal] = useState(0);
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
@@ -55,6 +55,7 @@ export const MinhaConta = () => {
       try {
         const response = await consultarMinhasPropostas();
         setTemPropostas(response.length > 0);
+        setProposalTotal(response.length);
       } catch {
         setTemPropostas(false);
       }
@@ -91,7 +92,7 @@ export const MinhaConta = () => {
               </div>
             </div>
 
-            <SummaryCards roles={roles} />
+            <SummaryCards proposalTotal={proposalTotal} roles={roles} />
           </div>
 
           <div className="flex gap-4 mb-5">
