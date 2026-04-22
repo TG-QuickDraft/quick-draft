@@ -17,7 +17,7 @@ import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths
 
 import { SummaryCards } from "../components/SummaryCards";
 import { Tabs, type Tab } from "@/shared/components/ui/Tabs";
-import { SERVICE_TABS } from "../tabs.const";
+import { SERVICE_TABS } from "../tabs.types";
 import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 

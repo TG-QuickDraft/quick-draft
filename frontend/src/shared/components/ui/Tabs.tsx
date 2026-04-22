@@ -1,4 +1,4 @@
-import type { TabItem } from "@/features/users/tabs.const";
+import type { TabItem } from "@/features/users/tabs.types";
 import clsx from "clsx";
 
 export type Tab = "emAndamento" | "semAtribuicao" | "todos";
