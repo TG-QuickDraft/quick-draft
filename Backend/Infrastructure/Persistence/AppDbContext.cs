@@ -9,6 +9,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Servico> Servicos { get; set; }
+        public DbSet<Entrega> Entregas { get; set; }
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
         public DbSet<Proposta> Propostas { get; set; }
         public DbSet<ProjetoDestacadoProposta> ProjetosDestacadosProposta { get; set; }
@@ -69,6 +70,15 @@ namespace Backend.Infrastructure.Persistence
                     .HasForeignKey<Servico>(s => s.PropostaAceitaId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_ser_pro_aceita");
+            });
+
+            modelBuilder.Entity<Entrega>(entity =>
+            {
+                entity.HasOne(e => e.Servico)
+                    .WithOne(s => s.Entrega)
+                    .HasForeignKey<Entrega>(e => e.ServicoId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_ent_ser");
             });
 
             modelBuilder.Entity<Proposta>(entity =>
