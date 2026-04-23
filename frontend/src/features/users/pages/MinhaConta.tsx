@@ -1,5 +1,5 @@
 import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,12 @@ import { MinhasPropostasList } from "../components/MinhasPropostasList";
 import { consultarMinhasPropostas } from "@/features/services/proposal/api/proposta.api";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
+import { SummaryCards } from "../components/SummaryCards";
+import { Tabs, type Tab } from "@/shared/components/ui/Tabs";
+import { SERVICE_TABS } from "../tabs.types";
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
+
 export const MinhaConta = () => {
   const [usuario, setUsuario] = useState<UsuarioDTO | null>(null);
   const navigate = useNavigate();
@@ -24,6 +30,14 @@ export const MinhaConta = () => {
   const { roles } = useAuth();
   const [temServicos, setTemServicos] = useState<boolean | null>(null);
   const [temPropostas, setTemPropostas] = useState<boolean | null>(null);
+
+  const [proposalTotal, setProposalTotal] = useState(0);
+  const [serviceTotal, setServiceTotal] = useState(0);
+
+  const [currentTab, setCurrentTab] = useState<Tab>("todos");
+
+  const [servicos, setServicos] = useState<ServicoDTO[]>([]);
+  const [loadingService, setLoadingService] = useState(true);
 
   useEffect(() => {
     const obterDadosUsuario = async () => {
@@ -38,11 +52,17 @@ export const MinhaConta = () => {
     const verificarServicos = async () => {
       if (!roles.includes("Cliente")) return;
 
+      let timer = setTimeout(() => setLoadingService(true), LOADING_TIMEOUT);
       try {
-        const response = await consultarMeusServicos(1, 1);
+        const response = await consultarMeusServicos(1, 10); // TODO: Colocar paginação no futuro
         setTemServicos(response.itens.length > 0);
+        setServiceTotal(response.itens.length);
+        setServicos(response.itens);
       } catch {
         setTemServicos(false);
+      } finally {
+        clearTimeout(timer);
+        setLoadingService(false);
       }
     };
 
@@ -52,6 +72,7 @@ export const MinhaConta = () => {
       try {
         const response = await consultarMinhasPropostas();
         setTemPropostas(response.length > 0);
+        setProposalTotal(response.length);
       } catch {
         setTemPropostas(false);
       }
@@ -61,8 +82,36 @@ export const MinhaConta = () => {
     verificarPropostas();
   }, [roles]);
 
+  const filteredServicos = useMemo(() => {
+    return servicos.filter((servico) => {
+      if (currentTab === "emAndamento")
+        return servico.propostaAceitaId !== null;
+      if (currentTab === "semAtribuicao")
+        return servico.propostaAceitaId === null;
+      return true;
+    });
+  }, [servicos, currentTab]);
+
+  const totals = useMemo(() => {
+    return {
+      emAndamento: servicos.filter((s) => s.propostaAceitaId !== null).length,
+      semAtribuicao: servicos.filter((s) => s.propostaAceitaId === null).length,
+    };
+  }, [servicos]);
+
+  const tabsWithTotal = useMemo(() => {
+    return SERVICE_TABS.map((tab) => {
+      if (tab.value === "todos") return tab;
+
+      return {
+        ...tab,
+        total: totals[tab.value],
+      };
+    });
+  }, [totals]);
+
   return (
-    <div className="px-12 py-10">
+    <div className="flex flex-col flex-1 px-12 py-10">
       {usuario && (
         <>
           <div className="flex justify-between items-start mb-6">
@@ -88,17 +137,11 @@ export const MinhaConta = () => {
               </div>
             </div>
 
-            <div className="flex gap-12">
-              <div className="bg-zinc-800 text-white px-10 py-6 rounded-2xl min-w-45">
-                <p className="text-2xl font-bold">0</p>
-                <p className="text-sm opacity-80">Projetos Criados</p>
-              </div>
-
-              <div className="bg-secondary-100 text-black px-10 py-6 rounded-2xl min-w-45">
-                <p className="text-2xl font-bold">0</p>
-                <p className="text-sm">Concluídos</p>
-              </div>
-            </div>
+            <SummaryCards
+              proposalTotal={proposalTotal}
+              serviceTotal={serviceTotal}
+              roles={roles}
+            />
           </div>
 
           <div className="flex gap-4 mb-5">
@@ -117,26 +160,26 @@ export const MinhaConta = () => {
             </button>
           </div>
 
-          <div>
+          <div className="flex flex-col flex-1">
             <h2 className="text-xl font-semibold mb-6">
               {roles.includes("Cliente") ? "Meus Serviços" : ""}
               {roles.includes("Freelancer") ? "Minhas Propostas" : ""}
             </h2>
 
-            <div className="flex gap-6 border-b border-gray-300 mb-16">
-              <button className="pb-2 border-b-2 border-black font-medium">
-                Em Andamento
-              </button>
-
-              <button className="pb-2 text-gray-500">Sem Atribuição</button>
-
-              <button className="pb-2 text-gray-500">Todos</button>
-            </div>
-
             {roles.includes("Cliente") && temServicos !== null && (
               <>
+                <Tabs
+                  tabs={tabsWithTotal}
+                  currentTab={currentTab}
+                  onChange={setCurrentTab}
+                />
+
                 {temServicos ? (
-                  <MeusServicosList />
+                  <MeusServicosList
+                    loading={loadingService}
+                    servicos={filteredServicos}
+                    tab={currentTab}
+                  />
                 ) : (
                   <div className="flex flex-col items-center justify-center mt-24">
                     <h3 className="text-2xl font-semibold mb-2">

@@ -1,9 +1,3 @@
-import { useEffect, useState } from "react";
-import {
-  consultarMeusServicos,
-  consultarServicosPorClienteId,
-} from "@/features/services/proposal/api/servico.api";
-
 import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 
 import { useNavigate } from "react-router-dom";
@@ -15,38 +9,29 @@ import { numberToCurrency } from "@/shared/utils/number.utils";
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
+import clsx from "clsx";
+import type { Tab } from "@/shared/components/ui/Tabs";
 
 type Props = {
   clienteId?: number;
   publicView?: boolean;
+  tab?: Tab;
+  servicos?: ServicoDTO[];
+  loading?: boolean;
 };
 
 export const MeusServicosList = ({
-  clienteId,
+  tab = "todos",
   publicView = false,
+  servicos = [],
+  loading = false,
 }: Props) => {
-  const [servicos, setServicos] = useState<ServicoDTO[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchServicos = async () => {
-      try {
-        const response = clienteId
-          ? await consultarServicosPorClienteId(clienteId, 1, 30)
-          : await consultarMeusServicos(1, 30);
-
-        setServicos(response.itens);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServicos();
-  }, [clienteId]);
+  const emptyMessageMap: Partial<Record<Tab, string>> = {
+    emAndamento: "Nenhum serviço em andamento.",
+    semAtribuicao: "Nenhum serviço sem atribuição.",
+  };
 
   const handleNavigate = (servicoId: number) => {
     const rota = publicView
@@ -57,34 +42,41 @@ export const MeusServicosList = ({
   };
 
   if (loading) return <Spinner />;
-  if (servicos.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-6">
-      {servicos.map((servico) => (
-        <CardWrapper key={servico.id}>
-          <div>
-            <h3 className="text-lg font-bold mb-2">
-              {servico.nome}
-            </h3>
+    <div className="flex flex-col gap-6 flex-1">
+      {servicos.length === 0 && emptyMessageMap[tab] && (
+        <p
+          className={clsx(
+            "flex items-center justify-center text-center",
+            "text-neutral-80 flex-1",
+          )}
+        >
+          {emptyMessageMap[tab]}
+        </p>
+      )}
 
-            <p className="text-3xl font-semibold text-black-600 my-1">
-              {numberToCurrency(servico.valorMinimo)}
-            </p>
+      {servicos.map((servico) => {
+        return (
+          <CardWrapper key={servico.id}>
+            <div>
+              <h3 className="text-lg font-bold mb-2">{servico.nome}</h3>
 
-            <p className="text-sm text-gray-800 mt-3">
-              Prazo:{" "}
-              {new Date(servico.prazo).toLocaleDateString()}
-            </p>
-          </div>
+              <p className="text-3xl font-semibold text-black-600 my-1">
+                {numberToCurrency(servico.valorMinimo)}
+              </p>
 
-          <DetailsButton
-            onClick={() => handleNavigate(servico.id)}
-          >
-            Ver Detalhes
-          </DetailsButton>
-        </CardWrapper>
-      ))}
+              <p className="text-sm text-gray-800 mt-3">
+                Prazo: {new Date(servico.prazo).toLocaleDateString()}
+              </p>
+            </div>
+
+            <DetailsButton onClick={() => handleNavigate(servico.id)}>
+              Ver Detalhes
+            </DetailsButton>
+          </CardWrapper>
+        );
+      })}
     </div>
   );
 };

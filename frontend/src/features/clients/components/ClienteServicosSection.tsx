@@ -1,13 +1,16 @@
+import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import { MeusServicosList } from "@/features/users/components/MeusServicosList";
 
 type Props = {
   clienteId: number;
   totalServicos: number;
+  servicos: ServicoDTO[];
 };
 
 export const ClienteServicosSection = ({
   clienteId,
   totalServicos,
+  servicos,
 }: Props) => {
   const temServicos = totalServicos > 0;
 
@@ -24,8 +27,9 @@ export const ClienteServicosSection = ({
       </div>
 
       {temServicos ? (
-        <MeusServicosList 
-          clienteId={clienteId} 
+        <MeusServicosList
+          servicos={servicos}
+          clienteId={clienteId}
           publicView
         />
       ) : (
