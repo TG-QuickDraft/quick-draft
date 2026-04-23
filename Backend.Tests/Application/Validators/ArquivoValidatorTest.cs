@@ -3,20 +3,36 @@ using Microsoft.AspNetCore.Http;
 
 namespace Backend.Tests.Application.Validators
 {
-    public class ImagemValidatorTests
+    public class ArquivoValidatorTest
     {
-        private readonly ImagemValidator _validator = new();
+        private readonly ArquivoValidator _validator = new();
+
+        [Fact]
+        public void Deve_Rejeitar_Arquivo_Muito_Grande()
+        {
+            var file = CriarArquivoFake("imagem.jpg", 6 * 1024 * 1024);
+
+            Assert.Throws<Exception>(() => _validator.ValidarArquivo(file));
+        }
+
+        [Fact]
+        public void Deve_Rejeitar_Imagem_Muito_Grande()
+        {
+            var file = CriarArquivoFake("imagem.jpg", 6 * 1024 * 1024);
+
+            Assert.Throws<Exception>(() => _validator.ValidarImagem(file));
+        }
 
         [Theory]
         [InlineData("imagem.jpg")]
         [InlineData("imagem.jpeg")]
         [InlineData("imagem.png")]
         [InlineData("imagem.webp")]
-        public void Deve_Aceitar_Extensoes_Validas(string fileName)
+        public void Deve_Aceitar_Extensoes_Validas_Imagem(string fileName)
         {
             var file = CriarArquivoFake(fileName, 1024);
 
-            var exception = Record.Exception(() => _validator.Validar(file));
+            var exception = Record.Exception(() => _validator.ValidarImagem(file));
 
             Assert.Null(exception);
         }
@@ -25,19 +41,11 @@ namespace Backend.Tests.Application.Validators
         [InlineData("video.mp4")]
         [InlineData("arquivo.exe")]
         [InlineData("documento.pdf")]
-        public void Deve_Rejeitar_Extensoes_Invalidas(string fileName)
+        public void Deve_Rejeitar_Extensoes_Invalidas_Imagem(string fileName)
         {
             var file = CriarArquivoFake(fileName, 1024);
 
-            Assert.Throws<Exception>(() => _validator.Validar(file));
-        }
-
-        [Fact]
-        public void Deve_Rejeitar_Imagem_Muito_Grande()
-        {
-            var file = CriarArquivoFake("imagem.jpg", 6 * 1024 * 1024);
-
-            Assert.Throws<Exception>(() => _validator.Validar(file));
+            Assert.Throws<Exception>(() => _validator.ValidarImagem(file));
         }
 
         private static FormFile CriarArquivoFake(string nome, long tamanho)
