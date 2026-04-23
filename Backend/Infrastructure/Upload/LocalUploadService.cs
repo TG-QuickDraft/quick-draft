@@ -3,29 +3,45 @@ using Backend.Application.Validators;
 
 namespace Backend.Infrastructure.Upload
 {
-    public class LocalUploadService(ImagemValidator validator) : IUploadService
+    public class LocalUploadService(ArquivoValidator arquivoValidator) : IUploadService
     {
-        private readonly ImagemValidator _validator = validator;
+        private readonly ArquivoValidator _validator = arquivoValidator;
 
-        public async Task<string> UploadImagem(IFormFile imagem, string path)
+        public async Task<string> UploadImagem(IFormFile imagem, string folder)
         {
-            _validator.Validar(imagem);
+            _validator.ValidarImagem(imagem);
 
-            string folder = Path.Combine("wwwroot", path);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            string fileName = await SalvarArquivo(imagem, folder);
 
-            var extensao = Path.GetExtension(imagem.FileName).ToLower();
+            return $"{folder}/{fileName}";
+        }
+
+        public async Task<string> UploadArquivo(IFormFile arquivo, string folder)
+        {
+            _validator.ValidarArquivo(arquivo);
+
+            string fileName = await SalvarArquivo(arquivo, folder);
+
+            return $"{folder}/{fileName}";
+        }
+
+        private static async Task<string> SalvarArquivo(IFormFile arquivo, string folder)
+        {
+            string path = Path.Combine("wwwroot", folder);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            var extensao = Path.GetExtension(arquivo.FileName).ToLower();
             var fileName = $"{DateTime.UtcNow:yyyyMMddHHmmss}_{Guid.NewGuid()}{extensao}";
 
-            string filePath = Path.Combine(folder, fileName);
+            string filePath = Path.Combine(path, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await imagem.CopyToAsync(stream);
+                await arquivo.CopyToAsync(stream);
             }
 
-            return $"{path}/{fileName}";
+            return fileName;
         }
     }
 }
