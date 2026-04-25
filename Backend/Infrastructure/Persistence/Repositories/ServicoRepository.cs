@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infrastructure.Persistence.Repositories
 {
-    public class ServicoRepository(AppDbContext context) : IServicoRepository
+    public class ServicoRepository(AppDbContext context, IPropostaRepository propostaRepository) : IServicoRepository
     {
         private readonly AppDbContext _context = context;
+        private readonly IPropostaRepository _propostaRepository = propostaRepository;
 
         public async Task<Servico?> ConsultarPorIdAsync(int id)
         {
@@ -22,7 +23,7 @@ namespace Backend.Infrastructure.Persistence.Repositories
             int tamanhoPagina
         )
         {
-            var query = _context.Servicos.Where(s => 
+            var query = _context.Servicos.Where(s =>
                 EF.Functions.ILike(s.Nome ?? "", $"%{filtro.Nome}%")
             );
 
@@ -78,6 +79,31 @@ namespace Backend.Infrastructure.Persistence.Repositories
                 .OrderByDescending(s => s.Id);
 
             return await query.ToPagedResultAsync(pagina, tamanhoPagina);
+        }
+
+        public async Task<Proposta?> ConsultarPropostaAceitaIdAsync(int servicoId)
+        {
+            var propostaAceitaId = await _context.Servicos
+                .Where(s => s.Id == servicoId)
+                .Select(s => s.PropostaAceitaId)
+                .SingleOrDefaultAsync();
+
+            if (propostaAceitaId is null)
+                return null;
+
+            return await _propostaRepository
+                .ConsultarPorIdAsync(propostaAceitaId.Value);
+        }
+
+        public async Task<bool> AtualizarIsEntregue(int servicoId, bool isEntregue)
+        {
+            var existente = await _context.Servicos.FindAsync(servicoId);
+            if (existente == null)
+                return false;
+
+            existente.IsEntregue = isEntregue;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

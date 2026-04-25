@@ -14,6 +14,7 @@ namespace Backend.Application
             services.AddScoped<IFreelancerService, FreelancerService>();
             services.AddScoped<IProjetoFreelancerService, ProjetoFreelancerService>();
             services.AddScoped<IServicoService, ServicoService>();
+            services.AddScoped<IEntregaService, EntregaService>();
             services.AddScoped<IPropostaService, PropostaService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IAuthService, AuthService>();
@@ -21,7 +22,7 @@ namespace Backend.Application
             
             services.AddScoped<IAuditService, AuditService>();
 
-            services.AddScoped<ImagemValidator>();
+            services.AddScoped<ArquivoValidator>();
 
             return services;
         }
