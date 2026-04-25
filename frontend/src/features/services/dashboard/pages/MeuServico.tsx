@@ -205,14 +205,18 @@ export const MeuServico = () => {
         </div>
       </div>
       <div className="sticky bottom-6 flex justify-end gap-6 pr-6">
-        <Button
-          onClick={() =>
-            navigate(deliveryPaths.realizarPagamentoById(servico.id))
-          }
-          icon={<FaMoneyCheck />}
-        >
-          Realizar pagamento
-        </Button>
+        {servico.isEntregue ? (
+          <Button
+            onClick={() =>
+              navigate(deliveryPaths.realizarPagamentoById(servico.id))
+            }
+            icon={<FaMoneyCheck />}
+          >
+            Realizar pagamento
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

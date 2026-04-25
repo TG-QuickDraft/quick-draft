@@ -1,28 +1,50 @@
 import { useState } from "react";
 
-import Modal from "@/shared/components/ui/modals/Modal";
 import Button from "@/shared/components/ui/buttons/Button";
+import Modal from "@/shared/components/ui/modals/Modal";
 import { useModal } from "@/shared/contexts/modal.context";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
+import { realizarEntregaServico } from "../../delivery/api/entrega.api";
 
 type Props = {
+  servicoId: number;
   show: boolean;
   onClose: () => void;
   openRatingModal?: () => void;
 };
 
-const EntregaServicoModal = ({ show, onClose, openRatingModal }: Props) => {
+const EntregaServicoModal = ({ servicoId, show, onClose, openRatingModal }: Props) => {
   const [arquivo, setArquivo] = useState<File | null>(null);
 
-  const { showSuccess } = useModal();
+  const { showSuccess, showDanger } = useModal();
 
   const handleConfirmar = () => {
-    setArquivo(null);
-    onClose();
-
-    showSuccess({
-      content: "Entregou! confia.",
-      onClose: openRatingModal,
+    showDanger({
+      content:
+        "Tem certeza que deseja entregar este serviço? Essa ação não pode ser desfeita.",
+      onConfirm: handleConfirmarEntrega,
     });
+  };
+
+  const handleConfirmarEntrega = () => {
+    setTimeout(async () => {
+      try {
+        await realizarEntregaServico({ servicoId: servicoId, arquivo: arquivo || undefined});
+
+        showSuccess({
+          content: "Entregou! confia.",
+          onClose: openRatingModal,
+        });
+      } catch (error) {
+        if (error instanceof Error) {
+          showDanger({ content: error.message });
+        }
+      } finally {
+        setArquivo(null);
+        onClose();
+      }
+      
+    }, LOADING_TIMEOUT);
   };
 
   return (
@@ -30,15 +52,15 @@ const EntregaServicoModal = ({ show, onClose, openRatingModal }: Props) => {
       <div className="flex flex-col gap-5">
         <label
           className={`
-                            w-full h-40 border-2 border-dashed rounded-xl
-                            flex flex-col items-center justify-center
-                            text-center cursor-pointer transition-all
-                            ${
-                              arquivo
-                                ? "border-green-400 bg-green-50"
-                                : "border-gray-300 hover:border-black"
-                            }
-                        `}
+            w-full h-40 border-2 border-dashed rounded-xl
+            flex flex-col items-center justify-center
+            text-center cursor-pointer transition-all
+            ${
+              arquivo
+                ? "border-green-400 bg-green-50"
+                : "border-gray-300 hover:border-black"
+            }
+        `}
         >
           <input
             type="file"

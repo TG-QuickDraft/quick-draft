@@ -23,6 +23,9 @@ import { useModalFactory } from "@/shared/hooks/useModalFactory";
 import RatingModal from "@/shared/components/ui/modals/RatingModal";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { executionPaths } from "@/features/services/execution/routes/executionPaths";
+import Button from "@/shared/components/ui/buttons/Button";
+import { consultarEntregaPorServicoId } from "../../delivery/api/entrega.api";
+import type { EntregaDTO } from "../../delivery/dtos/EntregaDTO";
 
 const MinhaProposta = () => {
   const { id } = useParams();
@@ -32,6 +35,8 @@ const MinhaProposta = () => {
 
   const [proposta, setProposta] = useState<PropostaDTO | null>(null);
   const [servico, setServico] = useState<ServicoDTO | null>(null);
+  const [entrega, setEntrega] = useState<EntregaDTO | null>(null);
+
   const [loading, setLoading] = useState(true);
 
   const [showEntregaModal, setShowEntregaModal] = useState(false);
@@ -47,10 +52,12 @@ const MinhaProposta = () => {
         const propostaData = await buscarPropostaPorId(propostaId);
         const servicoData = await consultarServicoPorId(propostaData.servicoId);
         const clienteData = await consultarClientePorId(servicoData.clienteId);
+        const entregaData = await consultarEntregaPorServicoId(propostaData.servicoId);
 
         setProposta(propostaData);
         setServico(servicoData);
         setCliente(clienteData);
+        setEntrega(entregaData);
       } catch (error) {
         console.error(error);
       } finally {
@@ -104,16 +111,27 @@ const MinhaProposta = () => {
             <IoChatboxEllipsesOutline size={40} />
           </button>
 
-          <button
-            onClick={() => setShowEntregaModal(true)}
-            className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
-          >
-            Entregar Serviço
-          </button>
+          {entrega === null ? (
+            <button
+              onClick={() => setShowEntregaModal(true)}
+              className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
+            >
+              Entregar Serviço
+            </button>
+          ) : (
+            <Button
+              className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
+              variant="success"
+              disabled
+            >
+              Serviço entregue
+            </Button>
+          )}
         </div>
       )}
 
       <EntregaServicoModal
+        servicoId={servico.id}
         show={showEntregaModal}
         onClose={() => setShowEntregaModal(false)}
         openRatingModal={openRatingModal}

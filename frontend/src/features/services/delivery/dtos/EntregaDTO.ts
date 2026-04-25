@@ -1,4 +1,4 @@
 export type EntregaDTO = {
-    servidoId: number;
+    servicoId: number;
     urlArquivo: string;
 };
