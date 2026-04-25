@@ -32,7 +32,7 @@ const EntregaServicoModal = ({ servicoId, show, onClose, openRatingModal }: Prop
         await realizarEntregaServico({ servicoId: servicoId, arquivo: arquivo || undefined});
 
         showSuccess({
-          content: "Entregou! confia.",
+          content: "Serviço entregue com sucesso.",
           onClose: openRatingModal,
         });
       } catch (error) {
