@@ -1,4 +1,5 @@
 using AutoMapper;
+using Backend.Application.DTOs.Proposta;
 using Backend.Application.DTOs.Servico;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
@@ -8,7 +9,11 @@ using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
 {
-    public class ServicoService(IServicoRepository repository, IPropostaRepository propostaRepository, IMapper mapper) : IServicoService
+    public class ServicoService(
+        IServicoRepository repository,
+        IPropostaRepository propostaRepository,
+        IMapper mapper
+    ) : IServicoService
     {
         private readonly IServicoRepository _repository = repository;
         private readonly IPropostaRepository _propostaRepository = propostaRepository;
@@ -55,6 +60,14 @@ namespace Backend.Application.Services
                 return null;
 
             return _mapper.Map<ServicoDTO>(servico);
+        }
+
+        public async Task<PropostaDTO?> ConsultarPropostaAceitaIdAsync(int servicoId)
+        {
+            Proposta propostaAceita = await _repository.ConsultarPropostaAceitaIdAsync(servicoId)
+                ?? throw new InvalidOperationException("Serviço não possui proposta aceita!");
+
+            return _mapper.Map<PropostaDTO>(propostaAceita);
         }
 
         public async Task<bool> AtualizarAsync(AtualizarServicoDTO dto, int clienteId)
@@ -112,6 +125,19 @@ namespace Backend.Application.Services
             var list = await _repository.ConsultarPorClienteAsync(clienteId, pagina, tamanhoPagina);
 
             return list.Map<Servico, ServicoDTO>(_mapper);
+        }
+
+        public async Task<bool> AlterarServicoParaEntregue(int servicoId)
+        {
+            var servico = await _repository.ConsultarPorIdAsync(servicoId)
+                ?? throw new InvalidOperationException("Serviço não pode ser encontrado");
+
+            if (servico.IsEntregue)
+            {
+                throw new InvalidOperationException("Serviço já foi entregue!");
+            }
+
+            return await _repository.AtualizarIsEntregue(servicoId, true);
         }
     }
 }

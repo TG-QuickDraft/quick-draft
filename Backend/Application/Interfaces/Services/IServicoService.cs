@@ -1,3 +1,4 @@
+using Backend.Application.DTOs.Proposta;
 using Backend.Application.DTOs.Servico;
 using Backend.Application.Pagination;
 
@@ -23,7 +24,11 @@ namespace Backend.Application.Interfaces.Services
             int tamanhoPagina
         );
 
+        public Task<PropostaDTO?> ConsultarPropostaAceitaIdAsync(int servicoId);
+
         public Task<bool> AceitarPropostaAsync(int servicoId, int propostaId, int clienteId);
+
+        public Task<bool> AlterarServicoParaEntregue(int servicoId);
 
     }
 }

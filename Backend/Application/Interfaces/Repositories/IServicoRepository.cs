@@ -13,6 +13,7 @@ namespace Backend.Application.Interfaces.Repositories
         );
 
         Task<Servico?> ConsultarPorIdAsync(int id);
+        Task<Proposta?> ConsultarPropostaAceitaIdAsync(int servicoId);
 
         Task<Servico> CriarAsync(Servico servico);
 
@@ -21,5 +22,7 @@ namespace Backend.Application.Interfaces.Repositories
         Task<PagedResult<Servico>> ConsultarPorClienteAsync(
             int clienteId, int pagina, int tamanhoPagina
         );
+        
+        Task<bool> AtualizarIsEntregue(int servicoId, bool isEntregue);
     }
 }
