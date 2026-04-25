@@ -2,12 +2,15 @@ using AutoMapper;
 using Backend.Domain.Entities;
 using Backend.Application.DTOs.Mensagem;
 
-public class MensagemServicoProfile : Profile
+namespace Backend.Application.Mappings
 {
-    public MensagemServicoProfile()
+    public class MensagemServicoProfile : Profile
     {
-        CreateMap<MensagemServico, MensagemChatDTO>()
-            .ForMember(dest => dest.UsuarioId, opt => opt.MapFrom(src => src.RemetenteUsuarioId))
-            .ForMember(dest => dest.Mensagem, opt => opt.MapFrom(src => src.Mensagem));
+        public MensagemServicoProfile()
+        {
+            CreateMap<MensagemServico, MensagemChatDTO>()
+                .ForMember(dest => dest.UsuarioId, opt => opt.MapFrom(src => src.RemetenteUsuarioId))
+                .ForMember(dest => dest.Mensagem, opt => opt.MapFrom(src => src.Mensagem));
+        }
     }
 }
