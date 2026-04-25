@@ -50,5 +50,6 @@ namespace Backend.Domain.Entities
         
         public ICollection<Proposta>? Propostas { get; set; } = [];
         public Proposta? PropostaAceita { get; set; }
+        public Entrega? Entrega { get; set; }
     }
 }
