@@ -1,9 +1,9 @@
 import type { CSSProperties } from "react";
 
-export const gerarBannerCliente = (
+export const gerarBannerPerfil = (
   nome?: string
 ): CSSProperties => {
-  const valor = nome ?? "cliente";
+  const valor = nome ?? "usuario";
 
   const hash = [...valor].reduce(
     (acc, char, index) =>

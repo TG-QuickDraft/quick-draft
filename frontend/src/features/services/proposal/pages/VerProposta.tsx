@@ -22,9 +22,12 @@ import { toLocaleString } from "@/shared/utils/date.utils";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import { useModal } from "@/shared/contexts/modal.context";
+import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 
 const VerProposta = () => {
   const { showSuccess, showError, showDanger } = useModal();
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const propostaId = Number(id);
@@ -118,13 +121,14 @@ const VerProposta = () => {
 
       <div className="flex justify-between items-center">
         <div className="flex gap-5 items-center flex-wrap">
-          <div className="h-50 w-50 rounded-full">
-            <ProfilePhoto
-              photoPath={freelancer?.fotoPerfilUrl}
-              size="lg"
-              className="w-full! h-full!"
-              imgClassName="!w-full !h-full object-cover"
-            />
+          <div onClick={() => freelancer && navigate(freelancerPaths.perfilFreelancerById(freelancer.id))} 
+            className="h-50 w-50 rounded-full cursor-pointer">
+              <ProfilePhoto
+                photoPath={freelancer?.fotoPerfilUrl}
+                size="lg"
+                className="w-full! h-full!"
+                imgClassName="!w-full !h-full object-cover"
+              />
           </div>
           <div>
             <h1 className="text-3xl font-bold">
