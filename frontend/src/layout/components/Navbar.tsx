@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const Logo = () => {
     return (
-      <div className="w-12 h-12 rounded-full bg-gray-200">
+      <div className="w-17 h-10 rounded-full">
         <SystemLogo size="sm" />
       </div>
     );

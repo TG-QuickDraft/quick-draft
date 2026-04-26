@@ -129,11 +129,17 @@ export const MeuServico = () => {
                         `}
                     >
                       <div className="flex items-center gap-3">
-                        <ProfilePhoto
-                          photoPath={freelancer?.fotoPerfilUrl}
-                          size="sm"
-                          className="w-auto!"
-                        />
+
+                        <div onClick={() => freelancer && navigate(freelancerPaths.perfilFreelancerById(freelancer.id))}
+                          className="cursor-pointer"
+                        >
+                          <ProfilePhoto
+                            photoPath={freelancer?.fotoPerfilUrl}
+                            size="sm"
+                            className="w-auto!"
+                          />
+                        </div>
+                        
                         <div>
                           <p className="font-medium line-clamp-1">
                             {freelancer?.nome || "Carregando..."}

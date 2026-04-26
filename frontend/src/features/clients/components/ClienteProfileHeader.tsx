@@ -5,7 +5,7 @@ import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import { ClienteIdentity } from "@/features/clients/components/ClienteIdentity";
 import { InfoCard } from "@/shared/components/ui/InfoCard";
 
-import { gerarBannerCliente } from "@/features/clients/utils/getGerarBannerCliente.ts";
+import { gerarBannerPerfil } from "@/shared/utils/getGerarBannerPerfil";
 
 type Props = {
   cliente: ClienteDTO | null;
@@ -16,7 +16,7 @@ export const ClienteProfileHeader = ({
   cliente,
   totalServicos,
 }: Props) => {
-  const bannerStyle = gerarBannerCliente(cliente?.nome);
+  const bannerStyle = gerarBannerPerfil(cliente?.nome);
 
   return (
     <section className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
