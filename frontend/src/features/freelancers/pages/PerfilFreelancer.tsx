@@ -45,12 +45,8 @@ export const PerfilFreelancer = () => {
 
         <BackButton>Voltar</BackButton>
 
-        <div className="bg-white rounded-2xl shadow-md p-8 mt-4">
-
-        {/* HEADER */}
+        <div className="rounded-2xl shadow-md p-8 mt-4 border border-gray-100">
         <div className="flex justify-between items-center flex-wrap gap-6">
-
-          {/* ESQUERDA */}
           <div className="flex gap-5 items-center flex-wrap">
 
             <div>
@@ -66,7 +62,6 @@ export const PerfilFreelancer = () => {
             <StarRating rating={4.2} />
           </div>
 
-          {/* DIREITA (FOTO) */}
           <div className="h-32 w-32 rounded-full overflow-hidden shrink-0">
             <ProfilePhoto
               photoPath={freelancer?.fotoPerfilUrl}
@@ -78,7 +73,6 @@ export const PerfilFreelancer = () => {
 
         </div>
 
-          {/* DESCRIÇÃO */}
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
@@ -91,7 +85,6 @@ export const PerfilFreelancer = () => {
             </div>
           </div>
 
-          {/* PROJETOS */}
           <div className="mt-10">
             <h2 className="text-xl font-semibold mb-4">Projetos</h2>
 
@@ -111,7 +104,6 @@ export const PerfilFreelancer = () => {
               </div>
             )}
           </div>
-
         </div>
       </div>
     </div>
