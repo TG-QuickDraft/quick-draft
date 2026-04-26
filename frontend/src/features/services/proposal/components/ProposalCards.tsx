@@ -1,17 +1,27 @@
 import clsx from "clsx";
 import { formatUrl } from "@/shared/utils/url.utils";
 
-const ProposalCards = ({ img, url }: { img?: string; url?: string }) => {
+type Props = {
+  img?: string;
+  url?: string;
+  className?: string;
+};
+
+const ProposalCards = ({ img, url, className }: Props) => {
   return (
     <a href={formatUrl(url)} target="_blank" rel="noopener noreferrer">
       <div
         className={clsx(
-          "aspect-square w-100 bg-gray-400 rounded-xl border-2 border-gray-600/20",
-          "transition hover:scale-101 hover:shadow-xl cursor-pointer overflow-hidden",
-          "active:scale-98",
+          "aspect-square bg-gray-400 rounded-xl border border-gray-200",
+          "transition hover:scale-[1.02] hover:shadow-lg cursor-pointer overflow-hidden",
+          "active:scale-[0.98]",
+          className
         )}
       >
-        <img src={img} className="w-full h-full object-cover" />
+        <img
+          src={img}
+          className="w-full h-full object-cover"
+        />
       </div>
     </a>
   );

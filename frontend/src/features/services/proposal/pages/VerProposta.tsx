@@ -192,7 +192,7 @@ const VerProposta = () => {
 
       <div className="flex gap-5 flex-wrap justify-center mb-8">
         {proposta.projetosDestacados?.map((proj) => (
-          <ProposalCards key={proj.id} img={proj.imagemUrl} url={proj.link} />
+          <ProposalCards key={proj.id} img={proj.imagemUrl} url={proj.link} className="w-100"/>
         ))}
       </div>
     </div>

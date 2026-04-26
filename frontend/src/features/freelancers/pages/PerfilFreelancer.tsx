@@ -1,101 +1,118 @@
-import { Link, useParams } from "react-router-dom";
-import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
-import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import Title from "@/shared/components/ui/titles/Title";
-
-import Button from "@/shared/components/ui/buttons/Button";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { TesteMarkdown } from "@/features/freelancers/components/TesteMarkdown";
-import type { ProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancerDTO";
+import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
-import { PiEmptyLight } from "react-icons/pi";
-import { MockProfile } from "@/shared/assets";
 
-import StarRating from "@/shared/components/ui/StarRating";
+import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
+import type { ProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/ProjetoFreelancerDTO";
+
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
+import StarRating from "@/shared/components/ui/StarRating";
+import { TesteMarkdown } from "@/features/freelancers/components/TesteMarkdown";
+import ProposalCards from "@/features/services/proposal/components/ProposalCards";
 
-import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
+import Spinner from "@/shared/components/ui/Spinner";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
 
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
-
-  const [projetosFreelancer, setProjetosFreelancer] = useState<
-    ProjetoFreelancerDTO[]
-  >([]);
+  const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
 
   useEffect(() => {
-    const obterDados = async () => {
-      const dadosFreelancer = await consultarFreelancerPorId(Number(id));
-      const dadosProjetosFreelancer =
-        await consultarProjetosFreelancerPorIdFreelancer(Number(id));
+    const fetchData = async () => {
+      try {
+        const [freelancerData, projetosData] = await Promise.all([
+          consultarFreelancerPorId(Number(id)),
+          consultarProjetosFreelancerPorIdFreelancer(Number(id)),
+        ]);
 
-      if (dadosFreelancer !== undefined) {
-        setFreelancer(dadosFreelancer);
-        setProjetosFreelancer(dadosProjetosFreelancer);
+        setFreelancer(freelancerData);
+        setProjetos(projetosData);
+      } catch (error) {
+        console.error(error);
       }
     };
 
-    obterDados();
+    fetchData();
   }, [id]);
 
-  useEffect(() => {
-    console.log(freelancer);
-  }, [freelancer]);
-
   return (
-    <div className="h-full flex-1 items-center justify-center">
-      <div className="flex flex-col items-center gap-6">
-        <Title>Página de Perfil do Freelancer</Title>
-        <h3>{freelancer?.nome}</h3>
+    <div className="w-full flex justify-center px-4 py-6">
+      <div className="w-full max-w-6xl">
 
-        <ProfilePhoto photoPath={freelancer?.fotoPerfilUrl} />
-        <StarRating rating={4.3} />
+        <BackButton>Voltar</BackButton>
 
-        {projetosFreelancer.length === 0 ? (
-          <PiEmptyLight size={30} />
-        ) : (
-          <table className="w-1/2 text-center shadow-2xl">
-            <thead>
-              <tr className="bg-white text-black">
-                <th className="p-3">Nome</th>
-                <th className="p-3">Descricão</th>
-                <th className="p-3">Link</th>
-                <th className="p-3">Imagem</th>
-              </tr>
-            </thead>
-            <tbody>
-              {projetosFreelancer.map((projeto, index) => (
-                <tr
-                  key={index}
-                  className="border border-gray-500/20 hover:bg-gray-500/5"
-                >
-                  <td className="p-3">{projeto.nome}</td>
-                  <td className="p-3">{projeto.descricao}</td>
-                  <td className="p-3">{projeto.link}</td>
-                  <td className="p-3">
-                    <img
-                      src={projeto?.imagemUrl ? projeto.imagemUrl : MockProfile}
-                      className="h-11 rounded-full inline-block"
+        <div className="bg-white rounded-2xl shadow-md p-8 mt-4">
+
+        {/* HEADER */}
+        <div className="flex justify-between items-center flex-wrap gap-6">
+
+          {/* ESQUERDA */}
+          <div className="flex gap-5 items-center flex-wrap">
+
+            <div>
+              <h1 className="text-3xl font-bold">
+                {freelancer?.nome || <Spinner />}
+              </h1>
+
+              <p className="text-[20px] text-gray-600">
+                Design Gráfico / Editor de Vídeo
+              </p>
+            </div>
+
+            <StarRating rating={4.2} />
+          </div>
+
+          {/* DIREITA (FOTO) */}
+          <div className="h-32 w-32 rounded-full overflow-hidden shrink-0">
+            <ProfilePhoto
+              photoPath={freelancer?.fotoPerfilUrl}
+              size="lg"
+              className="w-full! h-full!"
+              imgClassName="!w-full !h-full object-cover"
+            />
+          </div>
+
+        </div>
+
+          {/* DESCRIÇÃO */}
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-3">Descrição</h2>
+
+            <div className="bg-gray-50 p-4 rounded-xl">
+              <TesteMarkdown /> 
+              {/*
+              no futuro usar esse componente tipo 
+              <TesteMarkdown content={freelancer.descricao} />
+              */}
+            </div>
+          </div>
+
+          {/* PROJETOS */}
+          <div className="mt-10">
+            <h2 className="text-xl font-semibold mb-4">Projetos</h2>
+
+            {projetos.length === 0 ? (
+              <p className="text-gray-500">Nenhum projeto encontrado.</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
+                {projetos.map((proj) => (
+                  <div className="w-full">
+                    <ProposalCards
+                      key={proj.id}
+                      img={proj.imagemUrl}
+                      url={proj.link}
                     />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-        <Link to={freelancerPaths.pesquisaFreelancer}>
-          <Button
-            className="mt-6"
-            icon={<MdKeyboardDoubleArrowLeft size={30} />}
-          >
-            Voltar
-          </Button>
-        </Link>
-        <TesteMarkdown />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </div>
       </div>
     </div>
   );
