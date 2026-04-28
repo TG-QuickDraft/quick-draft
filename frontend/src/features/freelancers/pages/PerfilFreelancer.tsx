@@ -10,7 +10,7 @@ import type { ProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFr
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import StarRating from "@/shared/components/ui/StarRating";
-import { TesteMarkdown } from "@/features/freelancers/components/TesteMarkdown";
+import { MarkdownArea } from "@/features/freelancers/components/MarkdownArea";
 import ProposalCards from "@/features/services/proposal/components/ProposalCards";
 import { gerarBannerPerfil } from "@/shared/utils/getGerarBannerPerfil";
 
@@ -31,6 +31,7 @@ export const PerfilFreelancer = () => {
         ]);
 
         setFreelancer(freelancerData);
+        ("");
         setProjetos(projetosData);
       } catch (error) {
         console.error(error);
@@ -45,52 +46,41 @@ export const PerfilFreelancer = () => {
   return (
     <div className="w-full flex justify-center px-4 py-6">
       <div className="w-full max-w-6xl">
-
         <BackButton>Voltar</BackButton>
 
-       <div className="rounded-2xl shadow-md mt-4 border border-gray-100 overflow-hidden">
-  
-        <div className="h-32 w-full" style={bannerStyle} />
+        <div className="rounded-2xl shadow-md mt-4 border border-gray-100 overflow-hidden">
+          <div className="h-32 w-full" style={bannerStyle} />
 
-        <div className="p-8">
+          <div className="p-8">
+            <div className="flex justify-between items-center flex-wrap gap-6">
+              <div className="flex gap-5 items-center flex-wrap">
+                <div>
+                  <h1 className="text-3xl font-bold">
+                    {freelancer?.nome || <Spinner />}
+                  </h1>
 
-          <div className="flex justify-between items-center flex-wrap gap-6">
-            <div className="flex gap-5 items-center flex-wrap">
+                  <p className="text-[20px] text-gray-600">
+                    Design Gráfico / Editor de Vídeo
+                  </p>
+                </div>
 
-              <div>
-                <h1 className="text-3xl font-bold">
-                  {freelancer?.nome || <Spinner />}
-                </h1>
-
-                <p className="text-[20px] text-gray-600">
-                  Design Gráfico / Editor de Vídeo
-                </p>
+                <StarRating rating={4.2} />
               </div>
 
-              <StarRating rating={4.2} />
+              <div className="h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10 border-4 border-white bg-white shadow-lg">
+                <ProfilePhoto
+                  photoPath={freelancer?.fotoPerfilUrl}
+                  size="lg"
+                  className="w-full! h-full!"
+                  imgClassName="!w-full !h-full object-cover"
+                />
+              </div>
             </div>
-
-            <div className="h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10 border-4 border-white bg-white shadow-lg">
-              <ProfilePhoto
-                photoPath={freelancer?.fotoPerfilUrl}
-                size="lg"
-                className="w-full! h-full!"
-                imgClassName="!w-full !h-full object-cover"
-              />
-            </div>
-
-          </div>
 
             <div className="mt-8">
               <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
-              <div className="bg-gray-50 p-4 rounded-xl">
-                <TesteMarkdown /> 
-                {/*
-                no futuro usar esse componente tipo 
-                <TesteMarkdown content={freelancer.descricao} />
-                */}
-              </div>
+              <MarkdownArea />
             </div>
 
             <div className="mt-10">
