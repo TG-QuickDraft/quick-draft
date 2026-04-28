@@ -1,11 +1,13 @@
-import clsx from "clsx";
 import { useState } from "react";
+import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
-import Button from "@/shared/components/ui/buttons/Button";
-import { useModal } from "@/shared/contexts/modal.context";
 
-import { LuSave } from "react-icons/lu";
-import { LuPencil } from "react-icons/lu";
+import { LuSave, LuPencil } from "react-icons/lu";
+import MarkdownToggleButton from "./MarkdownToggleButton";
+import { useModal } from "@/shared/contexts/modal.context";
+import Button from "@/shared/components/ui/buttons/Button";
+
+import TextareaAutosize from "react-textarea-autosize";
 
 export const MarkdownPanel = () => {
   const [mode, setMode] = useState<"edit" | "preview">("edit");
@@ -16,16 +18,16 @@ export const MarkdownPanel = () => {
 
   const handleSave = () => {
     setIsEditing(false);
-    showSuccess({ content: "Descrição salva com sucesso!" });
+    showSuccess({ content: "Descrição salva com sucesso!" });
   };
 
   return (
     <>
-      <div className="bg-gray-50 rounded-xl border border-neutral-20 w-full">
+      <div className="rounded-lg overflow-hidden border border-neutral-20">
         <div
           className={clsx(
-            "flex w-full rounded-t-xl overflow-hidden",
-            "bg-neutral-10",
+            "flex w-full overflow-hidden",
+            "bg-primary-100 text-white backdrop-blur-sm",
           )}
         >
           <MarkdownToggleButton
@@ -41,26 +43,27 @@ export const MarkdownPanel = () => {
             Visualizar
           </MarkdownToggleButton>
         </div>
-        <div className="prose p-4 w-full">
+
+        <div className="w-full p-4 min-h-70">
           {mode === "edit" ? (
-            <textarea
-              className="w-full h-full min-h-62.5 bg-transparent resize-none outline-none"
+            <TextareaAutosize
+              className="w-full bg-transparent resize-none outline-none disabled:opacity-50"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Escreva sua descrição aqui..."
+              placeholder="Escreva sua descrição aqui..."
               disabled={!isEditing}
-            >
-              {text}
-            </textarea>
+              minRows={10}
+              maxRows={25}
+            />
           ) : (
-            <div className="min-h-62.5">
+            <div className="prose max-w-none w-full">
               <ReactMarkdown>{text}</ReactMarkdown>
             </div>
           )}
         </div>
       </div>
 
-      <div className="pt-4 flex gap-3 justify-end">
+      <div className="flex justify-end gap-3 pt-4">
         {isEditing ? (
           <Button variant="secondary" onClick={handleSave} icon={<LuSave />}>
             Salvar
@@ -78,27 +81,5 @@ export const MarkdownPanel = () => {
         )}
       </div>
     </>
-  );
-};
-
-const MarkdownToggleButton = ({
-  children,
-  active,
-  onClick,
-}: {
-  children: React.ReactNode;
-  active?: boolean;
-  onClick?: () => void;
-}) => {
-  return (
-    <button
-      className={clsx(
-        "p-1.25 border-b-3 border-transparent max-w-25 w-full cursor-pointer",
-        active && "border-b-3 border-b-primary-100!",
-      )}
-      onClick={onClick}
-    >
-      {children}
-    </button>
   );
 };
