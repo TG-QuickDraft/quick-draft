@@ -10,7 +10,7 @@ import type { ProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFr
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import StarRating from "@/shared/components/ui/StarRating";
-import { MarkdownArea } from "@/features/freelancers/components/MarkdownArea";
+import { MarkdownPanel } from "@/features/freelancers/components/MarkdownPanel";
 import ProposalCards from "@/features/services/proposal/components/ProposalCards";
 import { gerarBannerPerfil } from "@/shared/utils/getGerarBannerPerfil";
 
@@ -80,7 +80,7 @@ export const PerfilFreelancer = () => {
             <div className="mt-8">
               <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
-              <MarkdownArea />
+              <MarkdownPanel />
             </div>
 
             <div className="mt-10">
