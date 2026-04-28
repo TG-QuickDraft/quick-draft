@@ -9,9 +9,9 @@ import Button from "@/shared/components/ui/buttons/Button";
 
 import TextareaAutosize from "react-textarea-autosize";
 
-export const MarkdownPanel = () => {
+export const MarkdownPanel = ({ description }: { description: string }) => {
   const [mode, setMode] = useState<"edit" | "preview">("edit");
-  const [text, setText] = useState("");
+  const [text, setText] = useState(description);
 
   const [isEditing, setIsEditing] = useState(false);
   const { showSuccess } = useModal();

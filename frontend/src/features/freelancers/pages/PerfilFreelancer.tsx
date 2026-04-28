@@ -80,7 +80,7 @@ export const PerfilFreelancer = () => {
             <div className="mt-8">
               <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
-              <MarkdownPanel />
+              <MarkdownPanel description={"Test"} />
             </div>
 
             <div className="mt-10">
