@@ -9,7 +9,7 @@ import Button from "@/shared/components/ui/buttons/Button";
 
 import TextareaAutosize from "react-textarea-autosize";
 
-export const MarkdownPanel = ({ description }: { description: string }) => {
+export const MarkdownPanel = ({ description }: { description?: string }) => {
   const [mode, setMode] = useState<"edit" | "preview">("edit");
   const [text, setText] = useState(description);
 
