@@ -1,6 +1,7 @@
 import api from "@/shared/apis/api";
 import type { FreelancerDTO } from "../dtos/freelancer/FreelancerDTO";
 import type { PagedResult } from "@/shared/types/PagedResult";
+import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
 
 const BASE_PATH = "/api/freelancer";
 
@@ -27,5 +28,14 @@ export const consultarFreelancerPorId = async (
     return data;
   } catch {
     throw new Error("Erro ao consultar freelancer.");
+  }
+};
+
+export const atualizarFreelancer = async (request: AtualizarFreelancerDTO) => {
+  try {
+    const { data } = await api.put(BASE_PATH, request);
+    return data;
+  } catch {
+    throw new Error("Erro ao atualizar freelancer.");
   }
 };
