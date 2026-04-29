@@ -31,7 +31,6 @@ export const PerfilFreelancer = () => {
         ]);
 
         setFreelancer(freelancerData);
-        ("");
         setProjetos(projetosData);
       } catch (error) {
         console.error(error);
@@ -59,9 +58,11 @@ export const PerfilFreelancer = () => {
                     {freelancer?.nome || <Spinner />}
                   </h1>
 
-                  <p className="text-[20px] text-gray-600">
-                    Design Gráfico / Editor de Vídeo
-                  </p>
+                  {freelancer?.titulo && (
+                    <p className="text-[20px] text-gray-600">
+                      {freelancer.titulo}
+                    </p>
+                  )}
                 </div>
 
                 <StarRating rating={4.2} />
@@ -80,7 +81,7 @@ export const PerfilFreelancer = () => {
             <div className="mt-8">
               <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
-              <MarkdownPanel description={"Test"} />
+              <MarkdownPanel description={freelancer?.descricaoPerfil} />
             </div>
 
             <div className="mt-10">
