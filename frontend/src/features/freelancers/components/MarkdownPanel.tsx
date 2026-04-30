@@ -2,6 +2,9 @@ import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 
 import { LuSave, LuPencil } from "react-icons/lu";
+import { GoPlus } from "react-icons/go";
+import { PiEmpty } from "react-icons/pi";
+
 import MarkdownToggleButton from "./MarkdownToggleButton";
 import Button from "@/shared/components/ui/buttons/Button";
 
@@ -52,7 +55,7 @@ export const MarkdownPanel = ({
           </div>
         )}
 
-        <div className="w-full p-4 min-h-70">
+        <div className="flex flex-col w-full p-4 min-h-70">
           {mode === "edit" ? (
             <div
               className={clsx("relative rounded-lg", isEditing && "px-3 py-2")}
@@ -79,9 +82,23 @@ export const MarkdownPanel = ({
               />
             </div>
           ) : (
-            <div className="prose max-w-none w-full">
-              <ReactMarkdown>{description}</ReactMarkdown>
-            </div>
+            <>
+              {description ? (
+                <div className="prose max-w-none w-full">
+                  <ReactMarkdown>{description}</ReactMarkdown>
+                </div>
+              ) : (
+                <div
+                  className={clsx(
+                    "flex flex-col gap-2 flex-1 justify-center items-center",
+                    "font-semibold text-xl",
+                  )}
+                >
+                  <span>Nenhuma descrição adicionada</span>
+                  <PiEmpty size={30} />
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -92,7 +109,7 @@ export const MarkdownPanel = ({
             <>
               <Button
                 reversed
-                className="w-30!"
+                className="min-w-30!"
                 variant="secondary"
                 onClick={() => {
                   setIsEditing(false);
@@ -104,7 +121,7 @@ export const MarkdownPanel = ({
               </Button>
               <Button
                 variant="secondary"
-                className="w-30!"
+                className="min-w-30!"
                 onClick={onSave}
                 icon={<LuSave />}
               >
@@ -113,14 +130,14 @@ export const MarkdownPanel = ({
             </>
           ) : (
             <Button
-              className="w-30!"
+              className="min-w-30!"
               onClick={() => {
                 setIsEditing(true);
                 setMode("edit");
               }}
-              icon={<LuPencil />}
+              icon={description ? <LuPencil /> : <GoPlus />}
             >
-              Editar
+              {description ? "Editar" : "Adicionar Descrição"}
             </Button>
           )}
         </div>
