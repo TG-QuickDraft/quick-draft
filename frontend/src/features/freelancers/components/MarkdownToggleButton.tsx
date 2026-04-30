@@ -12,7 +12,7 @@ const MarkdownToggleButton = ({
   return (
     <button
       className={clsx(
-        "py-1.5 px-3 border-b-4 border-transparent max-w-30 w-full text-neutral-10",
+        "py-1.75 px-3 border-b-4 border-transparent max-w-30 w-full text-neutral-10",
         active && "border-b-4 border-b-secondary-80! bg-primary-80",
         onClick && "cursor-pointer",
       )}

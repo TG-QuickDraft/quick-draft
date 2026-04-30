@@ -24,6 +24,8 @@ import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelan
 import clsx from "clsx";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
+import FreelancerTitle from "../components/FreelancerTitle";
+
 export const PerfilFreelancer = () => {
   const { id } = useParams();
   const { usuario } = useAuth();
@@ -32,14 +34,15 @@ export const PerfilFreelancer = () => {
   const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
-  const { showSuccess, showError } = useModal();
-
   const [mode, setMode] = useState<"edit" | "preview">("preview");
+
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [title, setTitle] = useState("");
+  const [titleInput, setTitleInput] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const { showSuccess, showError } = useModal();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +71,9 @@ export const PerfilFreelancer = () => {
   if (!freelancer || !usuario) return null;
   if (isLoading) return <Spinner />;
 
+  const isEditable = freelancer.id === usuario.id;
+  const bannerStyle = gerarBannerPerfil(freelancer.nome);
+
   const handleSaveUpdate = async () => {
     try {
       await atualizarFreelancer({
@@ -89,8 +95,29 @@ export const PerfilFreelancer = () => {
     }
   };
 
-  const bannerStyle = gerarBannerPerfil(freelancer.nome);
-  const isEditable = freelancer.id === usuario.id;
+  const handleEditTitleClick = () => {
+    setTitleInput(title || "");
+    setIsEditingTitle(true);
+  };
+
+  const handleSaveTitleClick = async () => {
+    if (titleInput.trim() === "") return;
+    try {
+      await atualizarFreelancer({
+        titulo: titleInput,
+        descricaoPerfil: description,
+      } as AtualizarFreelancerDTO);
+
+      setTitle(titleInput);
+      setIsEditingTitle(false);
+      showSuccess({ content: "Título salvo com sucesso!" });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        showError({ content: error.message });
+      }
+    }
+  };
 
   return (
     <div className="w-full flex justify-center px-4 py-6">
@@ -106,9 +133,17 @@ export const PerfilFreelancer = () => {
                 <div>
                   <h1 className="text-3xl font-bold">{freelancer.nome}</h1>
 
-                  {title && (
-                    <p className="text-[20px] text-gray-600">{title}</p>
-                  )}
+                  <FreelancerTitle
+                    {...{
+                      isEditing: isEditingTitle,
+                      titleInput,
+                      setTitleInput,
+                      onSave: handleSaveTitleClick,
+                      onEdit: handleEditTitleClick,
+                      title,
+                      isEditable,
+                    }}
+                  />
                 </div>
 
                 <StarRating readonly rating={4.2} />
@@ -116,7 +151,7 @@ export const PerfilFreelancer = () => {
 
               <div
                 className={clsx(
-                  "h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10 ",
+                  "h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10",
                   "border-4 border-white bg-white shadow-lg",
                 )}
               >
@@ -134,14 +169,15 @@ export const PerfilFreelancer = () => {
                 <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
                 <MarkdownPanel
-                  setDescription={setDescription}
-                  onSave={handleSaveUpdate}
-                  isEditing={isEditing}
-                  setIsEditing={setIsEditing}
-                  mode={mode}
-                  setMode={setMode}
-                  description={description}
-                  isEditable={isEditable}
+                  {...{
+                    description,
+                    setDescription,
+                    isEditing,
+                    setIsEditing,
+                    onSave: handleSaveUpdate,
+                    mode,
+                    setMode,
+                  }}
                 />
               </div>
             )}
@@ -154,12 +190,8 @@ export const PerfilFreelancer = () => {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
                   {projetos.map((proj) => (
-                    <div className="w-full">
-                      <ProposalCards
-                        key={proj.id}
-                        img={proj.imagemUrl}
-                        url={proj.link}
-                      />
+                    <div className="w-full" key={proj.id}>
+                      <ProposalCards img={proj.imagemUrl} url={proj.link} />
                     </div>
                   ))}
                 </div>
