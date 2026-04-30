@@ -1,4 +1,3 @@
-import { useState } from "react";
 import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 
@@ -9,54 +8,76 @@ import Button from "@/shared/components/ui/buttons/Button";
 import TextareaAutosize from "react-textarea-autosize";
 
 export const MarkdownPanel = ({
-  description,
   setDescription,
   onSave,
   isEditing = false,
   setIsEditing,
+  mode,
+  setMode,
+  description,
+  isEditable = true,
 }: {
-  description?: string;
   setDescription: (value: string) => void;
   onSave: () => void;
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
+  mode: "edit" | "preview";
+  setMode: (value: "edit" | "preview") => void;
+  description?: string;
+  isEditable?: boolean;
 }) => {
-  const [mode, setMode] = useState<"edit" | "preview">("edit");
-
   return (
     <>
       <div className="rounded-lg overflow-hidden border border-neutral-20">
-        <div
-          className={clsx(
-            "flex w-full overflow-hidden",
-            "bg-primary-100 text-white backdrop-blur-sm",
-          )}
-        >
-          <MarkdownToggleButton
-            active={mode === "edit"}
-            onClick={() => setMode("edit")}
+        {isEditable && (
+          <div
+            className={clsx(
+              "flex w-full overflow-hidden",
+              "bg-primary-100 text-white backdrop-blur-sm",
+            )}
           >
-            Editar
-          </MarkdownToggleButton>
-          <MarkdownToggleButton
-            active={mode === "preview"}
-            onClick={() => setMode("preview")}
-          >
-            Visualizar
-          </MarkdownToggleButton>
-        </div>
+            <MarkdownToggleButton
+              active={mode === "preview"}
+              onClick={() => setMode("preview")}
+            >
+              Visualização
+            </MarkdownToggleButton>
+
+            <MarkdownToggleButton
+              active={mode === "edit"}
+              onClick={() => setMode("edit")}
+            >
+              Edição
+            </MarkdownToggleButton>
+          </div>
+        )}
 
         <div className="w-full p-4 min-h-70">
           {mode === "edit" ? (
-            <TextareaAutosize
-              className="w-full bg-transparent resize-none outline-none disabled:opacity-50"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Escreva sua descrição aqui..."
-              disabled={!isEditing}
-              minRows={10}
-              maxRows={25}
-            />
+            <div
+              className={clsx("relative rounded-lg", isEditing && "px-3 py-2")}
+            >
+              {isEditing && (
+                <div
+                  className={clsx(
+                    "absolute inset-0 animate-pulse rounded-lg border-2 ",
+                    "border-secondary-100",
+                  )}
+                />
+              )}
+              <TextareaAutosize
+                className={clsx(
+                  "relative w-full bg-transparent resize-none outline-none ",
+                  "disabled:opacity-50 z-10",
+                )}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Escreva sua descrição aqui..."
+                disabled={!isEditing}
+                minRows={10}
+                maxRows={25}
+              />
+            </div>
           ) : (
             <div className="prose max-w-none w-full">
               <ReactMarkdown>{description}</ReactMarkdown>
@@ -65,23 +86,25 @@ export const MarkdownPanel = ({
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-4">
-        {isEditing ? (
-          <Button variant="secondary" onClick={onSave} icon={<LuSave />}>
-            Salvar
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              setIsEditing(true);
-              setMode("edit");
-            }}
-            icon={<LuPencil />}
-          >
-            Editar
-          </Button>
-        )}
-      </div>
+      {isEditable && (
+        <div className="flex gap-3 pt-4">
+          {isEditing ? (
+            <Button variant="secondary" onClick={onSave} icon={<LuSave />}>
+              Salvar
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                setIsEditing(true);
+                setMode("edit");
+              }}
+              icon={<LuPencil />}
+            >
+              Editar
+            </Button>
+          )}
+        </div>
+      )}
     </>
   );
 };
