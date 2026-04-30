@@ -47,7 +47,7 @@ export const MarkdownPanel = ({
               active={mode === "edit"}
               onClick={() => setMode("edit")}
             >
-              Edição
+              Escrita
             </MarkdownToggleButton>
           </div>
         )}
@@ -89,11 +89,31 @@ export const MarkdownPanel = ({
       {isEditable && (
         <div className="flex gap-3 pt-4">
           {isEditing ? (
-            <Button variant="secondary" onClick={onSave} icon={<LuSave />}>
-              Salvar
-            </Button>
+            <>
+              <Button
+                reversed
+                className="w-30!"
+                variant="secondary"
+                onClick={() => {
+                  setIsEditing(false);
+                  setMode("preview");
+                }}
+                icon={<LuPencil />}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="secondary"
+                className="w-30!"
+                onClick={onSave}
+                icon={<LuSave />}
+              >
+                Salvar
+              </Button>
+            </>
           ) : (
             <Button
+              className="w-30!"
               onClick={() => {
                 setIsEditing(true);
                 setMode("edit");
