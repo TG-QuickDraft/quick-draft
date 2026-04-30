@@ -21,9 +21,12 @@ import Spinner from "@/shared/components/ui/Spinner";
 import { useModal } from "@/shared/contexts/modal.context";
 import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
+import clsx from "clsx";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
+  const { usuario } = useAuth();
 
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
   const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
@@ -35,6 +38,8 @@ export const PerfilFreelancer = () => {
   const [description, setDescription] = useState("");
 
   const { showSuccess, showError } = useModal();
+
+  const [mode, setMode] = useState<"edit" | "preview">("preview");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,29 +65,32 @@ export const PerfilFreelancer = () => {
     fetchData();
   }, [id]);
 
-  if (!freelancer) return null;
+  if (!freelancer || !usuario) return null;
   if (isLoading) return <Spinner />;
 
   const handleSaveUpdate = async () => {
-    let timer = setTimeout(() => setIsEditing(true), LOADING_TIMEOUT);
     try {
       await atualizarFreelancer({
         titulo: title,
         descricaoPerfil: description,
       } as AtualizarFreelancerDTO);
-      showSuccess({ content: "Descrição salva com sucesso!" });
+      showSuccess({
+        content: "Descrição salva com sucesso!",
+        onClose: () => {
+          setMode("preview");
+          setIsEditing(false);
+        },
+      });
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {
         showError({ content: error.message });
       }
-    } finally {
-      setIsEditing(false);
-      clearTimeout(timer);
     }
   };
 
   const bannerStyle = gerarBannerPerfil(freelancer.nome);
+  const isEditable = freelancer.id === usuario.id;
 
   return (
     <div className="w-full flex justify-center px-4 py-6">
@@ -106,7 +114,12 @@ export const PerfilFreelancer = () => {
                 <StarRating readonly rating={4.2} />
               </div>
 
-              <div className="h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10 border-4 border-white bg-white shadow-lg">
+              <div
+                className={clsx(
+                  "h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10 ",
+                  "border-4 border-white bg-white shadow-lg",
+                )}
+              >
                 <ProfilePhoto
                   photoPath={freelancer.fotoPerfilUrl}
                   size="lg"
@@ -116,17 +129,22 @@ export const PerfilFreelancer = () => {
               </div>
             </div>
 
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold mb-3">Descrição</h2>
+            {(isEditable || description) && (
+              <div className="mt-8">
+                <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
-              <MarkdownPanel
-                description={description}
-                setDescription={setDescription}
-                onSave={handleSaveUpdate}
-                isEditing={isEditing}
-                setIsEditing={setIsEditing}
-              />
-            </div>
+                <MarkdownPanel
+                  setDescription={setDescription}
+                  onSave={handleSaveUpdate}
+                  isEditing={isEditing}
+                  setIsEditing={setIsEditing}
+                  mode={mode}
+                  setMode={setMode}
+                  description={description}
+                  isEditable={isEditable}
+                />
+              </div>
+            )}
 
             <div className="mt-10">
               <h2 className="text-xl font-semibold mb-4">Projetos</h2>
