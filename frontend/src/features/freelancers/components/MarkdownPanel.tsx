@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
-
 import { LuSave, LuPencil } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
 import { PiEmpty } from "react-icons/pi";
@@ -12,22 +11,32 @@ import TextareaAutosize from "react-textarea-autosize";
 import { atualizarFreelancer } from "../api/freelancer.api";
 import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
 import { useModal } from "@/shared/contexts/modal.context";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import { MdCancel } from "react-icons/md";
 
 export const MarkdownPanel = ({
   isEditable = true,
   titleToSave,
   defaultDescription,
+  onUpdate,
 }: {
   isEditable: boolean;
   titleToSave: string;
   defaultDescription: string;
+  onUpdate?: (newDescription: string) => void;
 }) => {
-  const [mode, setMode] = useState<"edit" | "preview">("preview");
   const [isEditing, setIsEditing] = useState(false);
+  const [activeTab, setActiveTab] = useState<"write" | "preview">("write");
   const [description, setDescription] = useState(defaultDescription);
 
   const { showSuccess, showError } = useModal();
+
+  useEffect(() => {
+    if (!isEditing) {
+      setDescription(defaultDescription);
+    }
+  }, [defaultDescription, isEditing]);
 
   const handleUpdateDescription = async () => {
     try {
@@ -35,11 +44,13 @@ export const MarkdownPanel = ({
         titulo: titleToSave,
         descricaoPerfil: description,
       } as AtualizarFreelancerDTO);
+
       showSuccess({
         content: "Descrição salva com sucesso!",
         onClose: () => {
-          setMode("preview");
           setIsEditing(false);
+          setActiveTab("write");
+          if (onUpdate) onUpdate(description);
         },
       });
     } catch (error) {
@@ -50,10 +61,55 @@ export const MarkdownPanel = ({
     }
   };
 
+  const handleCancel = () => {
+    setIsEditing(false);
+    setActiveTab("write");
+    setDescription(defaultDescription);
+  };
+
   return (
     <>
-      <div className="rounded-lg overflow-hidden border border-neutral-20">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-xl font-semibold">Descrição</h2>
         {isEditable && (
+          <div className="flex gap-3">
+            {isEditing ? (
+              <>
+                <Button
+                  reversed
+                  className="min-w-30"
+                  variant="secondary"
+                  onClick={handleCancel}
+                  icon={<MdCancel />}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="min-w-30"
+                  onClick={handleUpdateDescription}
+                  icon={<LuSave />}
+                >
+                  Salvar
+                </Button>
+              </>
+            ) : (
+              <Button
+                className="min-w-30"
+                onClick={() => {
+                  setIsEditing(true);
+                  setActiveTab("write");
+                }}
+                icon={description ? <LuPencil /> : <GoPlus />}
+              >
+                {description ? "Editar Descrição" : "Adicionar Descrição"}
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+      <div className="rounded-lg overflow-hidden border border-neutral-20 bg-white">
+        {isEditable && isEditing && (
           <div
             className={clsx(
               "flex w-full overflow-hidden",
@@ -61,44 +117,40 @@ export const MarkdownPanel = ({
             )}
           >
             <MarkdownToggleButton
-              active={mode === "preview"}
-              onClick={() => setMode("preview")}
+              active={activeTab === "write"}
+              onClick={() => setActiveTab("write")}
             >
-              Visualização
+              Escrita
             </MarkdownToggleButton>
 
             <MarkdownToggleButton
-              active={mode === "edit"}
-              onClick={() => setMode("edit")}
+              active={activeTab === "preview"}
+              onClick={() => setActiveTab("preview")}
             >
-              Escrita
+              Visualização
             </MarkdownToggleButton>
           </div>
         )}
 
-        <div className="flex flex-col w-full p-4 min-h-70">
-          {mode === "edit" ? (
+        <div className="flex flex-col w-full p-4 min-h-56">
+          {isEditing && activeTab === "write" ? (
             <div
-              className={clsx("relative rounded-lg", isEditing && "px-3 py-2")}
-            >
-              {isEditing && (
-                <div
-                  className={clsx(
-                    "absolute inset-0 animate-pulse rounded-lg border-2 ",
-                    "border-secondary-100",
-                  )}
-                />
+              className={clsx(
+                "relative rounded-lg focus-within:ring-2 focus-within:ring-secondary-100 ",
+                "transition-all p-1",
               )}
+            >
               <TextareaAutosize
                 className={clsx(
-                  "relative w-full bg-transparent resize-none outline-none ",
-                  "disabled:opacity-50 z-10",
+                  "relative w-full bg-transparent resize-none outline-none",
+                  "z-10 text-neutral-900 placeholder:text-neutral-400 ",
                 )}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Escreva sua descrição aqui..."
-                disabled={!isEditing}
+                placeholder="Escreva sua descrição aqui usando Markdown..."
                 minRows={10}
+                maxRows={30}
+                autoFocus
               />
             </div>
           ) : (
@@ -110,8 +162,8 @@ export const MarkdownPanel = ({
               ) : (
                 <div
                   className={clsx(
-                    "flex flex-col gap-2 flex-1 justify-center items-center",
-                    "font-semibold text-xl",
+                    "flex flex-col gap-2 flex-1 justify-center items-center h-full",
+                    "font-semibold text-xl text-neutral-400",
                   )}
                 >
                   <span>Nenhuma descrição adicionada</span>
@@ -122,46 +174,6 @@ export const MarkdownPanel = ({
           )}
         </div>
       </div>
-
-      {isEditable && (
-        <div className="flex gap-3 pt-4">
-          {isEditing ? (
-            <>
-              <Button
-                reversed
-                className="min-w-30!"
-                variant="secondary"
-                onClick={() => {
-                  setIsEditing(false);
-                  setMode("preview");
-                }}
-                icon={<LuPencil />}
-              >
-                Cancelar
-              </Button>
-              <Button
-                variant="secondary"
-                className="min-w-30!"
-                onClick={handleUpdateDescription}
-                icon={<LuSave />}
-              >
-                Salvar
-              </Button>
-            </>
-          ) : (
-            <Button
-              className="min-w-30!"
-              onClick={() => {
-                setIsEditing(true);
-                setMode("edit");
-              }}
-              icon={description ? <LuPencil /> : <GoPlus />}
-            >
-              {description ? "Editar" : "Adicionar Descrição"}
-            </Button>
-          )}
-        </div>
-      )}
     </>
   );
 };
