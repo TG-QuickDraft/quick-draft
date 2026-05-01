@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
-import { LuSave, LuPencil } from "react-icons/lu";
+
 import { GoPlus } from "react-icons/go";
 import { PiEmpty } from "react-icons/pi";
+import { LuSave, LuPencil } from "react-icons/lu";
+import { MdCancel } from "react-icons/md";
 
 import MarkdownToggleButton from "./MarkdownToggleButton";
 import Button from "@/shared/components/ui/buttons/Button";
@@ -12,8 +14,6 @@ import { atualizarFreelancer } from "../api/freelancer.api";
 import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
 import { useModal } from "@/shared/contexts/modal.context";
 import { useState, useEffect } from "react";
-
-import { MdCancel } from "react-icons/md";
 
 export const MarkdownPanel = ({
   isEditable = true,
