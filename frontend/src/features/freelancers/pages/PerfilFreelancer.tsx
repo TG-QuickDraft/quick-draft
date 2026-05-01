@@ -55,10 +55,10 @@ export const PerfilFreelancer = () => {
     setFreelancer((prev) => (prev ? { ...prev, ...novosDados } : null));
   };
 
-  if (!freelancer || !usuario) return null;
+  if (!freelancer) return null;
   if (isLoading) return <Spinner />;
 
-  const isEditable = freelancer.id === usuario.id;
+  const isEditable = usuario ? freelancer.id === usuario.id : false;
   const bannerStyle = gerarBannerPerfil(freelancer.nome);
 
   return (
