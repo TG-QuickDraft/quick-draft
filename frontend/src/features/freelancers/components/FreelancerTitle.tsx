@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { GoPlus } from "react-icons/go";
 import { LuPencil } from "react-icons/lu";
 import { atualizarFreelancer } from "../api/freelancer.api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
 import { useModal } from "@/shared/contexts/modal.context";
 
@@ -11,15 +11,23 @@ const FreelancerTitle = ({
   isEditable = true,
   defaultTitle,
   descriptionToSave,
+  onUpdate,
 }: {
   isEditable: boolean;
   defaultTitle: string;
   descriptionToSave: string;
+  onUpdate?: (newDescription: string) => void;
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(defaultTitle);
 
   const { showError, showSuccess } = useModal();
+
+  useEffect(() => {
+    if (!isEditing) {
+      setTitle(defaultTitle);
+    }
+  }, [defaultTitle, isEditing]);
 
   const handleEditTitleClick = () => {
     setTitle(title || "");
@@ -37,6 +45,7 @@ const FreelancerTitle = ({
       setTitle(title);
       setIsEditing(false);
       showSuccess({ content: "Título salvo com sucesso!" });
+      if (onUpdate) onUpdate(title);
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {

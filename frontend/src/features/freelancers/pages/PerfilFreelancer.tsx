@@ -27,10 +27,6 @@ export const PerfilFreelancer = () => {
 
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
   const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
-
-  const [description, setDescription] = useState("");
-  const [title, setTitle] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -43,8 +39,6 @@ export const PerfilFreelancer = () => {
         ]);
 
         setFreelancer(freelancerData);
-        setTitle(freelancerData.titulo);
-        setDescription(freelancerData.descricaoPerfil);
         setProjetos(projetosData);
       } catch (error) {
         console.error(error);
@@ -54,8 +48,12 @@ export const PerfilFreelancer = () => {
       }
     };
 
-    fetchData();
+    if (id) fetchData();
   }, [id]);
+
+  const handleFreelancerUpdate = (novosDados: Partial<FreelancerDTO>) => {
+    setFreelancer((prev) => (prev ? { ...prev, ...novosDados } : null));
+  };
 
   if (!freelancer || !usuario) return null;
   if (isLoading) return <Spinner />;
@@ -79,8 +77,11 @@ export const PerfilFreelancer = () => {
 
                   <FreelancerTitle
                     isEditable={isEditable}
-                    descriptionToSave={description}
-                    defaultTitle={title}
+                    descriptionToSave={freelancer.descricaoPerfil}
+                    defaultTitle={freelancer.titulo}
+                    onUpdate={(newTitle) =>
+                      handleFreelancerUpdate({ titulo: newTitle })
+                    }
                   />
                 </div>
 
@@ -102,14 +103,15 @@ export const PerfilFreelancer = () => {
               </div>
             </div>
 
-            {(isEditable || description) && (
+            {(isEditable || freelancer.descricaoPerfil) && (
               <div className="mt-8">
-                <h2 className="text-xl font-semibold mb-3">Descrição</h2>
-
                 <MarkdownPanel
                   isEditable={isEditable}
-                  titleToSave={title}
-                  defaultDescription={description}
+                  titleToSave={freelancer.titulo}
+                  defaultDescription={freelancer.descricaoPerfil}
+                  onUpdate={(newDescription) =>
+                    handleFreelancerUpdate({ descricaoPerfil: newDescription })
+                  }
                 />
               </div>
             )}
