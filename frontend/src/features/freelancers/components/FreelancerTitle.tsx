@@ -2,32 +2,57 @@ import clsx from "clsx";
 
 import { GoPlus } from "react-icons/go";
 import { LuPencil } from "react-icons/lu";
+import { atualizarFreelancer } from "../api/freelancer.api";
+import { useState } from "react";
+import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
+import { useModal } from "@/shared/contexts/modal.context";
 
 const FreelancerTitle = ({
-  isEditing,
-  titleInput,
-  setTitleInput,
-  onSave,
-  onEdit,
-  title,
   isEditable = true,
+  defaultTitle,
+  descriptionToSave,
 }: {
-  isEditing: boolean;
-  titleInput: string;
-  setTitleInput: (value: string) => void;
-  onSave: () => void;
-  onEdit: () => void;
-  title?: string;
-  isEditable?: boolean;
+  isEditable: boolean;
+  defaultTitle: string;
+  descriptionToSave: string;
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(defaultTitle);
+
+  const { showError, showSuccess } = useModal();
+
+  const handleEditTitleClick = () => {
+    setTitle(title || "");
+    setIsEditing(true);
+  };
+
+  const handleSaveTitleClick = async () => {
+    if (title.trim() === "") return;
+    try {
+      await atualizarFreelancer({
+        titulo: title,
+        descricaoPerfil: descriptionToSave,
+      } as AtualizarFreelancerDTO);
+
+      setTitle(title);
+      setIsEditing(false);
+      showSuccess({ content: "Título salvo com sucesso!" });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        showError({ content: error.message });
+      }
+    }
+  };
+
   return (
     <div className="flex items-center gap-3 mt-1 h-8">
       {isEditing ? (
         <>
           <input
             type="text"
-            value={titleInput}
-            onChange={(e) => setTitleInput(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="Ex: Designer de logos"
             className={clsx(
               "w-full max-w-sm border-b-2 border-neutral-40 bg-transparent p-1 ",
@@ -37,7 +62,7 @@ const FreelancerTitle = ({
             autoFocus
           />
           <button
-            onClick={onSave}
+            onClick={handleSaveTitleClick}
             className={clsx(
               "flex h-8 w-8 shrink-0 items-center justify-center rounded-full ",
               "bg-secondary-100/20 text-neutral-80 transition-colors",
@@ -62,7 +87,7 @@ const FreelancerTitle = ({
 
           {isEditable && (
             <button
-              onClick={onEdit}
+              onClick={handleEditTitleClick}
               className={clsx(
                 "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
                 "text-neutral-80 transition-colors hover:bg-secondary-100/60",

@@ -9,26 +9,47 @@ import MarkdownToggleButton from "./MarkdownToggleButton";
 import Button from "@/shared/components/ui/buttons/Button";
 
 import TextareaAutosize from "react-textarea-autosize";
+import { atualizarFreelancer } from "../api/freelancer.api";
+import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
+import { useModal } from "@/shared/contexts/modal.context";
+import { useState } from "react";
 
 export const MarkdownPanel = ({
-  setDescription,
-  onSave,
-  isEditing = false,
-  setIsEditing,
-  mode,
-  setMode,
-  description,
   isEditable = true,
+  titleToSave,
+  defaultDescription,
 }: {
-  setDescription: (value: string) => void;
-  onSave: () => void;
-  isEditing: boolean;
-  setIsEditing: (value: boolean) => void;
-  mode: "edit" | "preview";
-  setMode: (value: "edit" | "preview") => void;
-  description?: string;
-  isEditable?: boolean;
+  isEditable: boolean;
+  titleToSave: string;
+  defaultDescription: string;
 }) => {
+  const [mode, setMode] = useState<"edit" | "preview">("preview");
+  const [isEditing, setIsEditing] = useState(false);
+  const [description, setDescription] = useState(defaultDescription);
+
+  const { showSuccess, showError } = useModal();
+
+  const handleUpdateDescription = async () => {
+    try {
+      await atualizarFreelancer({
+        titulo: titleToSave,
+        descricaoPerfil: description,
+      } as AtualizarFreelancerDTO);
+      showSuccess({
+        content: "Descrição salva com sucesso!",
+        onClose: () => {
+          setMode("preview");
+          setIsEditing(false);
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        showError({ content: error.message });
+      }
+    }
+  };
+
   return (
     <>
       <div className="rounded-lg overflow-hidden border border-neutral-20">
@@ -78,7 +99,6 @@ export const MarkdownPanel = ({
                 placeholder="Escreva sua descrição aqui..."
                 disabled={!isEditing}
                 minRows={10}
-                maxRows={25}
               />
             </div>
           ) : (
@@ -122,7 +142,7 @@ export const MarkdownPanel = ({
               <Button
                 variant="secondary"
                 className="min-w-30!"
-                onClick={onSave}
+                onClick={handleUpdateDescription}
                 icon={<LuSave />}
               >
                 Salvar

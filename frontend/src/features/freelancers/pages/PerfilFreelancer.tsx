@@ -1,10 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import {
-  atualizarFreelancer,
-  consultarFreelancerPorId,
-} from "@/features/freelancers/api/freelancer.api";
+import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
 import { consultarProjetosFreelancerPorIdFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 
 import type { FreelancerDTO } from "@/features/freelancers/dtos/freelancer/FreelancerDTO";
@@ -18,9 +15,7 @@ import ProposalCards from "@/features/services/proposal/components/ProposalCards
 import { gerarBannerPerfil } from "@/shared/utils/getGerarBannerPerfil";
 
 import Spinner from "@/shared/components/ui/Spinner";
-import { useModal } from "@/shared/contexts/modal.context";
 import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
-import type { AtualizarFreelancerDTO } from "../dtos/freelancer/AtualizarFreelancerDTO";
 import clsx from "clsx";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
@@ -33,16 +28,10 @@ export const PerfilFreelancer = () => {
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
   const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
 
-  const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState("");
-  const [mode, setMode] = useState<"edit" | "preview">("preview");
-
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [title, setTitle] = useState("");
-  const [titleInput, setTitleInput] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const { showSuccess, showError } = useModal();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,51 +63,6 @@ export const PerfilFreelancer = () => {
   const isEditable = freelancer.id === usuario.id;
   const bannerStyle = gerarBannerPerfil(freelancer.nome);
 
-  const handleSaveUpdate = async () => {
-    try {
-      await atualizarFreelancer({
-        titulo: title,
-        descricaoPerfil: description,
-      } as AtualizarFreelancerDTO);
-      showSuccess({
-        content: "Descrição salva com sucesso!",
-        onClose: () => {
-          setMode("preview");
-          setIsEditing(false);
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
-    }
-  };
-
-  const handleEditTitleClick = () => {
-    setTitleInput(title || "");
-    setIsEditingTitle(true);
-  };
-
-  const handleSaveTitleClick = async () => {
-    if (titleInput.trim() === "") return;
-    try {
-      await atualizarFreelancer({
-        titulo: titleInput,
-        descricaoPerfil: description,
-      } as AtualizarFreelancerDTO);
-
-      setTitle(titleInput);
-      setIsEditingTitle(false);
-      showSuccess({ content: "Título salvo com sucesso!" });
-    } catch (error) {
-      console.error(error);
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
-    }
-  };
-
   return (
     <div className="w-full flex justify-center px-4 py-6">
       <div className="w-full max-w-6xl">
@@ -134,15 +78,9 @@ export const PerfilFreelancer = () => {
                   <h1 className="text-3xl font-bold">{freelancer.nome}</h1>
 
                   <FreelancerTitle
-                    {...{
-                      isEditing: isEditingTitle,
-                      titleInput,
-                      setTitleInput,
-                      onSave: handleSaveTitleClick,
-                      onEdit: handleEditTitleClick,
-                      title,
-                      isEditable,
-                    }}
+                    isEditable={isEditable}
+                    descriptionToSave={description}
+                    defaultTitle={title}
                   />
                 </div>
 
@@ -169,15 +107,9 @@ export const PerfilFreelancer = () => {
                 <h2 className="text-xl font-semibold mb-3">Descrição</h2>
 
                 <MarkdownPanel
-                  {...{
-                    description,
-                    setDescription,
-                    isEditing,
-                    setIsEditing,
-                    onSave: handleSaveUpdate,
-                    mode,
-                    setMode,
-                  }}
+                  isEditable={isEditable}
+                  titleToSave={title}
+                  defaultDescription={description}
                 />
               </div>
             )}
