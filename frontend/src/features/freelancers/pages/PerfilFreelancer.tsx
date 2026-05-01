@@ -75,14 +75,16 @@ export const PerfilFreelancer = () => {
                 <div>
                   <h1 className="text-3xl font-bold">{freelancer.nome}</h1>
 
-                  <FreelancerTitle
-                    isEditable={isEditable}
-                    descriptionToSave={freelancer.descricaoPerfil}
-                    defaultTitle={freelancer.titulo}
-                    onUpdate={(newTitle) =>
-                      handleFreelancerUpdate({ titulo: newTitle })
-                    }
-                  />
+                  {freelancer.titulo && (
+                    <FreelancerTitle
+                      isEditable={isEditable}
+                      descriptionToSave={freelancer.descricaoPerfil}
+                      defaultTitle={freelancer.titulo}
+                      onUpdate={(newTitle) =>
+                        handleFreelancerUpdate({ titulo: newTitle })
+                      }
+                    />
+                  )}
                 </div>
 
                 <StarRating readonly rating={4.2} />
