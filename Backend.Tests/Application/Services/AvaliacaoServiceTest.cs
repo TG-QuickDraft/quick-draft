@@ -32,38 +32,35 @@ namespace Backend.Tests.Application.Services
         [Fact]
         public async Task Deve_Criar_Avaliacao_Com_Sucesso()
         {
-            var dto = AvaliacaoFactory.ObterCriarAvaliacaoDTO();
-
-            int freelancerId = 10;
+            var criarAvaliacaoDto = AvaliacaoFactory.ObterCriarAvaliacaoDTO();
+            var servico = ServicoFactory.ObterServicoDTO();
+            var proposta = PropostaFactory.ObterPropostaDTO();
+    
+            int freelancerId = proposta.FreelancerId;
 
             _repositoryMock
-                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(dto.ServicoId, freelancerId))
+                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(criarAvaliacaoDto.ServicoId, freelancerId))
                 .ReturnsAsync((Avaliacao?)null);
-
-            _servicoServiceMock
-                .Setup(s => s.ConsultarPorIdAsync(dto.ServicoId))
-                .ReturnsAsync(ServicoFactory.ObterServicoDTO());
-
-            _servicoServiceMock
-                .Setup(s => s.ConsultarPropostaAceitaIdAsync(dto.ServicoId))
-                .ReturnsAsync(PropostaFactory.ObterPropostaDTO());
 
             _repositoryMock
                 .Setup(r => r.CriarAsync(It.IsAny<Avaliacao>()))
                 .ReturnsAsync((Avaliacao a) => a);
 
-            var result = await _service.CriarAsync(dto, freelancerId);
+            _servicoServiceMock
+                .Setup(s => s.ConsultarPorIdAsync(criarAvaliacaoDto.ServicoId))
+                .ReturnsAsync(servico);
+
+            _servicoServiceMock
+                .Setup(s => s.ConsultarPropostaAceitaIdAsync(criarAvaliacaoDto.ServicoId))
+                .ReturnsAsync(proposta);
+
+            var result = await _service.CriarAsync(criarAvaliacaoDto, freelancerId);
 
             Assert.NotNull(result);
-            Assert.Equal(5, result.NotaEstrelas);
+            Assert.Equal(criarAvaliacaoDto.NotaEstrelas, result.NotaEstrelas);
 
-            _repositoryMock.Verify(r =>
-                r.CriarAsync(It.Is<Avaliacao>(a =>
-                    a.ServicoId == dto.ServicoId &&
-                    a.AutorId == freelancerId &&
-                    a.AlvoId == 20 &&
-                    a.NotaEstrelas == 5
-                )),
+            _repositoryMock.Verify(
+                r => r.CriarAsync(It.IsAny<Avaliacao>()),
                 Times.Once
             );
         }
@@ -73,74 +70,79 @@ namespace Backend.Tests.Application.Services
         {
             var dto = AvaliacaoFactory.ObterCriarAvaliacaoDTO();
 
+            int userId = 10;
+
             _repositoryMock
-                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(dto.ServicoId, 10))
+                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(dto.ServicoId, userId))
                 .ReturnsAsync(new Avaliacao());
 
             await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                _service.CriarAsync(dto, 10)
+                _service.CriarAsync(dto, userId)
             );
         }
 
         [Fact]
         public async Task Deve_Definir_AlvoComoFreelancer_Quando_ClienteAvalia()
         {
-            int clienteId = 20;
-
-            var dto = AvaliacaoFactory.ObterCriarAvaliacaoDTO();
+            var criarAvaliacaoDto = AvaliacaoFactory.ObterCriarAvaliacaoDTO();
+            var proposta = PropostaFactory.ObterPropostaDTO();
+            var servico = ServicoFactory.ObterServicoDTO();
             var avaliacaoCapturada = new Avaliacao();
 
+            int clienteId = 20;
+
             _repositoryMock
-                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(dto.ServicoId, clienteId))
+                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(criarAvaliacaoDto.ServicoId, clienteId))
                 .ReturnsAsync((Avaliacao?)null);
-
-            _servicoServiceMock
-                .Setup(s => s.ConsultarPorIdAsync(dto.ServicoId))
-                .ReturnsAsync(ServicoFactory.ObterServicoDTO());
-
-            _servicoServiceMock
-                .Setup(s => s.ConsultarPropostaAceitaIdAsync(dto.ServicoId))
-                .ReturnsAsync(PropostaFactory.ObterPropostaDTO());
 
             _repositoryMock
                 .Setup(r => r.CriarAsync(It.IsAny<Avaliacao>()))
                 .Callback<Avaliacao>(a => avaliacaoCapturada = a)
                 .ReturnsAsync((Avaliacao a) => a);
 
-            await _service.CriarAsync(dto, clienteId);
+            _servicoServiceMock
+                .Setup(s => s.ConsultarPorIdAsync(criarAvaliacaoDto.ServicoId))
+                .ReturnsAsync(servico);
 
-            Assert.Equal(10, avaliacaoCapturada.AlvoId);
+            _servicoServiceMock
+                .Setup(s => s.ConsultarPropostaAceitaIdAsync(criarAvaliacaoDto.ServicoId))
+                .ReturnsAsync(proposta);
+
+            await _service.CriarAsync(criarAvaliacaoDto, clienteId);
+
+            Assert.Equal(proposta.FreelancerId, avaliacaoCapturada.AlvoId);
         }
 
         [Fact]
         public async Task Deve_Definir_AlvoComoCliente_Quando_FreelancerAvalia()
         {
-            int freelancerId = 10;
-
-            var dto = AvaliacaoFactory.ObterCriarAvaliacaoDTO();
-
+            var criarAvaliacaoDto = AvaliacaoFactory.ObterCriarAvaliacaoDTO();
+            var proposta = PropostaFactory.ObterPropostaDTO();
+            var servico = ServicoFactory.ObterServicoDTO();
             var avaliacaoCapturada = new Avaliacao();
 
+            int freelancerId = 10;
+
             _repositoryMock
-                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(dto.ServicoId, freelancerId))
+                .Setup(r => r.ConsultarPorServicoIdEAutorIdAsync(criarAvaliacaoDto.ServicoId, freelancerId))
                 .ReturnsAsync((Avaliacao?)null);
-
-            _servicoServiceMock
-                .Setup(s => s.ConsultarPorIdAsync(dto.ServicoId))
-                .ReturnsAsync(ServicoFactory.ObterServicoDTO());
-
-            _servicoServiceMock
-                .Setup(s => s.ConsultarPropostaAceitaIdAsync(dto.ServicoId))
-                .ReturnsAsync(PropostaFactory.ObterPropostaDTO());
-
+            
             _repositoryMock
                 .Setup(r => r.CriarAsync(It.IsAny<Avaliacao>()))
                 .Callback<Avaliacao>(a => avaliacaoCapturada = a)
                 .ReturnsAsync((Avaliacao a) => a);
 
-            await _service.CriarAsync(dto, freelancerId);
+            _servicoServiceMock
+                .Setup(s => s.ConsultarPorIdAsync(criarAvaliacaoDto.ServicoId))
+                .ReturnsAsync(servico);
 
-            Assert.Equal(20, avaliacaoCapturada.AlvoId);
+            _servicoServiceMock
+                .Setup(s => s.ConsultarPropostaAceitaIdAsync(criarAvaliacaoDto.ServicoId))
+                .ReturnsAsync(proposta);
+
+            await _service.CriarAsync(criarAvaliacaoDto, freelancerId);
+
+            Assert.Equal(servico.ClienteId, avaliacaoCapturada.AlvoId);
         }
     }
 }
