@@ -17,7 +17,7 @@ namespace Backend.Application.Services
 
         public async Task<bool> RealizarPagamentoAsync(CriarPagamentoDTO dto, int clienteId)
         {
-            var servico = await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
+            var servico = await _servicoRepository.ConsultarPorIdComPropostaAsync(dto.ServicoId)
                 ?? throw new InvalidOperationException("Serviço não encontrado");
 
             if (servico.ClienteId != clienteId)
