@@ -7,22 +7,23 @@ import { useState } from "react";
 import Title from "@/shared/components/ui/titles/Title";
 
 import { BigStarEmpty, BigStarFull } from "@/shared/assets";
+import Input from "../Inputs/Input";
 
 const RatingModal = ({
   title = "Title",
   subtitle = "Subtitle",
-  redirect,
+  onSubmit,
   isOpen,
   close,
 }: {
   title?: string;
   subtitle?: string;
-  redirect?: string;
+  onSubmit: (rating: number, comentario: string | undefined) => void;
   isOpen: boolean;
   close: () => void;
 }) => {
   const [rating, setRating] = useState(0);
-  const { showSuccess } = useModal();
+  const [comentario, setComentario] = useState<string | undefined>(undefined);
 
   if (!isOpen) return null;
 
@@ -36,7 +37,7 @@ const RatingModal = ({
   };
 
   const handleSubmit = () => {
-    showSuccess({ content: "Avaliação enviada com sucesso!", redirect });
+    onSubmit(rating, comentario);
     reset();
     close();
   };
@@ -60,6 +61,16 @@ const RatingModal = ({
             <span>Muito ruim</span> <span>Muito bom</span>
           </div>
         </div>
+
+        {hasBeenRated && (
+          <div className="flex flex-col gap-4 w-full transition-opacity duration-300">
+            <Input
+              placeholder="Deixe seu comentário aqui..."
+              value={comentario}
+              onChange={(e) => setComentario(e.target.value)}
+            />
+          </div>
+        )}
 
         <div
           className={clsx(
