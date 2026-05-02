@@ -1,8 +1,8 @@
 using Backend.Application.DTOs.Servico;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Pagination;
-using Backend.Application.Pagination.Extensions;
 using Backend.Domain.Entities;
+using Backend.Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infrastructure.Persistence.Repositories
