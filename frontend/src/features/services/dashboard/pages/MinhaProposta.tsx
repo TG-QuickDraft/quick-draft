@@ -25,7 +25,7 @@ import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { executionPaths } from "@/features/services/execution/routes/executionPaths";
 import Button from "@/shared/components/ui/buttons/Button";
 import { consultarEntregaPorServicoId } from "../../delivery/api/entrega.api";
-import type { EntregaDTO } from "../../delivery/dtos/EntregaDTO";
+import type { EntregaDTO } from "../../delivery/dtos/entrega/EntregaDTO";
 
 const MinhaProposta = () => {
   const { id } = useParams();
