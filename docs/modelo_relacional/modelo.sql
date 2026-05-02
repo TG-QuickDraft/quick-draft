@@ -111,11 +111,12 @@ CREATE TABLE IF NOT EXISTS "cartoes_credito" (
 
 
 CREATE TABLE IF NOT EXISTS "avaliacoes" (
-	"ava_id" INTEGER NOT NULL UNIQUE,
-	"ava_usu_id" INTEGER NOT NULL,
+	"ava_ser_id" INTEGER NOT NULL,
+	"ava_autor_id" INTEGER NOT NULL,
+	"ava_alvo_id" INTEGER NOT NULL,
 	"ava_nota_estrelas" INTEGER NOT NULL,
 	"ava_comentario" TEXT,
-	PRIMARY KEY("ava_id")
+	PRIMARY KEY("ava_ser_id", "ava_autor_id", "ava_alvo_id")
 );
 
 
@@ -217,7 +218,13 @@ ALTER TABLE "pagamentos"
 ADD FOREIGN KEY("pag_ser_id") REFERENCES "servicos"("ser_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "avaliacoes"
-ADD FOREIGN KEY("ava_usu_id") REFERENCES "usuarios"("usu_id")
+ADD FOREIGN KEY("ava_ser_id") REFERENCES "servicos"("ser_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "avaliacoes"
+ADD FOREIGN KEY("ava_autor_id") REFERENCES "usuarios"("usu_id")
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "avaliacoes"
+ADD FOREIGN KEY("ava_alvo_id") REFERENCES "usuarios"("usu_id")
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE "cartoes_credito"
 ADD FOREIGN KEY("cre_bcc_id") REFERENCES "bandeiras_cartao_credito"("bcc_id")
