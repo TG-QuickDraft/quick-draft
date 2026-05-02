@@ -21,11 +21,11 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import clsx from "clsx";
 import { useModalFactory } from "@/shared/hooks/useModalFactory";
 import RatingModal from "@/shared/components/ui/modals/RatingModal";
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { executionPaths } from "@/features/services/execution/routes/executionPaths";
 import Button from "@/shared/components/ui/buttons/Button";
 import { consultarEntregaPorServicoId } from "../../delivery/api/entrega.api";
 import type { EntregaDTO } from "../../delivery/dtos/entrega/EntregaDTO";
+import { useCriarAvaliacao } from "../../delivery/hooks/useCriarAvaliacao";
 
 const MinhaProposta = () => {
   const { id } = useParams();
@@ -45,6 +45,8 @@ const MinhaProposta = () => {
 
   const { openModal: openRatingModal, Modal: RatingModalComponent } =
     useModalFactory(RatingModal);
+
+  const { enviarAvaliacao } = useCriarAvaliacao();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,6 +80,10 @@ const MinhaProposta = () => {
   const isAceita = propostaAceitaId === proposta.id;
   const temAceita = !!propostaAceitaId;
   const outraAceita = temAceita && !isAceita;
+
+  const onSubmitAvaliacao = async (rating: number, comentario: string | undefined) => {
+    await enviarAvaliacao(proposta.servicoId, rating, comentario);
+  }
 
   return (
     <div className="p-6 flex flex-col gap-6">
@@ -140,7 +146,7 @@ const MinhaProposta = () => {
       <RatingModalComponent
         title="Avaliar Cliente"
         subtitle="Qual nota deseja dar ao cliente?"
-        redirect={usuarioPaths.minhaConta}
+        onSubmit={onSubmitAvaliacao}
       />
     </div>
   );

@@ -31,6 +31,7 @@ import { FaMoneyCheck } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 
 import RatingModal from "@/shared/components/ui/modals/RatingModal";
+import { useCriarAvaliacao } from "../hooks/useCriarAvaliacao";
 
 const RealizarPagamento = () => {
   const { id } = useParams();
@@ -47,6 +48,8 @@ const RealizarPagamento = () => {
   const [cartao, setCartao] = useState<CartaoCreditoDTO | null>(null);
 
   const mockTaxa = 0.05;
+
+  const { enviarAvaliacao } = useCriarAvaliacao();
 
   useEffect(() => {
     (async () => {
@@ -96,6 +99,10 @@ const RealizarPagamento = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const onSubmitAvaliacao = async (rating: number, comentario: string | undefined) => {
+    await enviarAvaliacao(Number(id), rating, comentario);
   };
 
   if (loading) return <Spinner />;
@@ -175,7 +182,7 @@ const RealizarPagamento = () => {
       <RatingModalComponent
         title="Avaliar Freelancer"
         subtitle="Qual nota deseja dar ao freelancer?"
-        redirect={usuarioPaths.minhaConta}
+        onSubmit={onSubmitAvaliacao}
       />
     </>
   );
