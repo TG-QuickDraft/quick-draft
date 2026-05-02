@@ -15,7 +15,7 @@ namespace Backend.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Entrega> CriarEntregaAsync(Entrega entrega)
+        public async Task<Entrega> CriarAsync(Entrega entrega)
         {
             _context.Entregas.Add(entrega);
             await _context.SaveChangesAsync();
