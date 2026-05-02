@@ -10,6 +10,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Servico> Servicos { get; set; }
         public DbSet<Entrega> Entregas { get; set; }
+        public DbSet<Avaliacao> Avaliacoes { get; set; }
         public DbSet<ProjetoFreelancer> ProjetosFreelancer { get; set; }
         public DbSet<Proposta> Propostas { get; set; }
         public DbSet<ProjetoDestacadoProposta> ProjetosDestacadosProposta { get; set; }
@@ -81,6 +82,33 @@ namespace Backend.Infrastructure.Persistence
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_ent_ser");
             });
+
+            modelBuilder.Entity<Avaliacao>().HasKey(entity =>
+                new
+                {
+                    entity.ServicoId,
+                    entity.AutorId,
+                    entity.AlvoId
+                }
+            );
+
+            modelBuilder.Entity<Avaliacao>()
+                .HasOne(a => a.Servico)
+                .WithMany(s => s.Avaliacoes)
+                .HasForeignKey(a => a.ServicoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Avaliacao>()
+                .HasOne(a => a.Autor)
+                .WithMany(u => u.AvaliacoesFeitas)
+                .HasForeignKey(a => a.AutorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Avaliacao>()
+                .HasOne(a => a.Alvo)
+                .WithMany(u => u.AvaliacoesRecebidas)
+                .HasForeignKey(a => a.AlvoId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Proposta>(entity =>
             {

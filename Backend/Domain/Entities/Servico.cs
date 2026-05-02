@@ -34,6 +34,10 @@ namespace Backend.Domain.Entities
         [Required]
         public decimal ValorMinimo { get; set; }
 
+        /// <summary>
+        /// Atributo possívelmente redundante.
+        /// Pode ser inferido buscando uma entrega atrelada ao serviço.
+        /// </summary>
         [Column("ser_is_entregue")]
         [Required]
         public bool IsEntregue { get; set; } = false;
@@ -51,5 +55,6 @@ namespace Backend.Domain.Entities
         public ICollection<Proposta>? Propostas { get; set; } = [];
         public Proposta? PropostaAceita { get; set; }
         public Entrega? Entrega { get; set; }
+        public ICollection<Avaliacao> Avaliacoes { get; set; } = [];
     }
 }
