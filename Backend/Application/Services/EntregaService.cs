@@ -28,6 +28,13 @@ namespace Backend.Application.Services
             int usuarioId
         )
         {
+            Entrega? entrega = await _repository.ConsultarPorIdServicoAsync(servicoId);
+
+            if (entrega == null)
+            {
+                return null;
+            }
+
             var servico = await _servicoService.ConsultarPorIdAsync(servicoId)
                 ?? throw new InvalidOperationException("Serviço não encontrado!");
 
@@ -38,13 +45,6 @@ namespace Backend.Application.Services
             if (servico.ClienteId != usuarioId && propostaAceita.FreelancerId != usuarioId)
             {
                 throw new UnauthorizedAccessException("Você não pertence a este serviço!");
-            }
-
-            Entrega? entrega = await _repository.ConsultarPorIdServicoAsync(servicoId);
-
-            if (entrega == null)
-            {
-                return null;
             }
 
             EntregaDTO dto = _mapper.Map<EntregaDTO>(entrega);
