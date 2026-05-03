@@ -54,12 +54,17 @@ const MinhaProposta = () => {
         const propostaData = await buscarPropostaPorId(propostaId);
         const servicoData = await consultarServicoPorId(propostaData.servicoId);
         const clienteData = await consultarClientePorId(servicoData.clienteId);
-        const entregaData = await consultarEntregaPorServicoId(propostaData.servicoId);
+
+        if (servicoData.propostaAceitaId) {
+          const entregaData = await consultarEntregaPorServicoId(
+            propostaData.servicoId,
+          );
+          setEntrega(entregaData);
+        }
 
         setProposta(propostaData);
         setServico(servicoData);
         setCliente(clienteData);
-        setEntrega(entregaData);
       } catch (error) {
         console.error(error);
       } finally {
