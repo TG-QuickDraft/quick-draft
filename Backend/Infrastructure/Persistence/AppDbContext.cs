@@ -96,19 +96,22 @@ namespace Backend.Infrastructure.Persistence
                 .HasOne(a => a.Servico)
                 .WithMany(s => s.Avaliacoes)
                 .HasForeignKey(a => a.ServicoId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_ava_ser");
 
             modelBuilder.Entity<Avaliacao>()
                 .HasOne(a => a.Autor)
                 .WithMany(u => u.AvaliacoesFeitas)
                 .HasForeignKey(a => a.AutorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_ava_usu_autor");
 
             modelBuilder.Entity<Avaliacao>()
                 .HasOne(a => a.Alvo)
                 .WithMany(u => u.AvaliacoesRecebidas)
                 .HasForeignKey(a => a.AlvoId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_ava_usu_alvo");
 
             modelBuilder.Entity<Proposta>(entity =>
             {
