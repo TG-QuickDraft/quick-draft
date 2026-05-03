@@ -5,5 +5,7 @@ namespace Backend.Application.DTOs.Freelancer
         public int Id { get; set; }
         public required string Nome { get; set; }
         public string? FotoPerfilUrl { get; set; }
+        public string? Titulo { get; set; }
+        public string? DescricaoPerfil { get; set; }
     }
 }

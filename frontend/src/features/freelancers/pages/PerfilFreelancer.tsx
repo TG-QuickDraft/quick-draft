@@ -10,20 +10,28 @@ import type { ProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFr
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import StarRating from "@/shared/components/ui/StarRating";
-import { TesteMarkdown } from "@/features/freelancers/components/TesteMarkdown";
+import { MarkdownPanel } from "@/features/freelancers/components/MarkdownPanel";
 import ProposalCards from "@/features/services/proposal/components/ProposalCards";
 import { gerarBannerPerfil } from "@/shared/utils/getGerarBannerPerfil";
 
 import Spinner from "@/shared/components/ui/Spinner";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
+import clsx from "clsx";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+
+import FreelancerTitle from "../components/FreelancerTitle";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
+  const { usuario } = useAuth();
 
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
   const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      let timer = setTimeout(() => setIsLoading(true), LOADING_TIMEOUT);
       try {
         const [freelancerData, projetosData] = await Promise.all([
           consultarFreelancerPorId(Number(id)),
@@ -34,64 +42,81 @@ export const PerfilFreelancer = () => {
         setProjetos(projetosData);
       } catch (error) {
         console.error(error);
+      } finally {
+        clearTimeout(timer);
+        setIsLoading(false);
       }
     };
 
-    fetchData();
+    if (id) fetchData();
   }, [id]);
 
-  const bannerStyle = gerarBannerPerfil(freelancer?.nome);
+  const handleFreelancerUpdate = (novosDados: Partial<FreelancerDTO>) => {
+    setFreelancer((prev) => (prev ? { ...prev, ...novosDados } : null));
+  };
+
+  if (!freelancer) return null;
+  if (isLoading) return <Spinner />;
+
+  const isEditable = usuario ? freelancer.id === usuario.id : false;
+  const bannerStyle = gerarBannerPerfil(freelancer.nome);
 
   return (
     <div className="w-full flex justify-center px-4 py-6">
       <div className="w-full max-w-6xl">
-
         <BackButton>Voltar</BackButton>
 
-       <div className="rounded-2xl shadow-md mt-4 border border-gray-100 overflow-hidden">
-  
-        <div className="h-32 w-full" style={bannerStyle} />
+        <div className="rounded-2xl shadow-md mt-4 border border-gray-100 overflow-hidden">
+          <div className="h-32 w-full" style={bannerStyle} />
 
-        <div className="p-8">
+          <div className="p-8">
+            <div className="flex justify-between items-center flex-wrap gap-6">
+              <div className="flex gap-5 items-center flex-wrap">
+                <div>
+                  <h1 className="text-3xl font-bold">{freelancer.nome}</h1>
 
-          <div className="flex justify-between items-center flex-wrap gap-6">
-            <div className="flex gap-5 items-center flex-wrap">
+                  {freelancer.titulo && (
+                    <FreelancerTitle
+                      isEditable={isEditable}
+                      descriptionToSave={freelancer.descricaoPerfil}
+                      defaultTitle={freelancer.titulo}
+                      onUpdate={(newTitle) =>
+                        handleFreelancerUpdate({ titulo: newTitle })
+                      }
+                    />
+                  )}
+                </div>
 
-              <div>
-                <h1 className="text-3xl font-bold">
-                  {freelancer?.nome || <Spinner />}
-                </h1>
-
-                <p className="text-[20px] text-gray-600">
-                  Design Gráfico / Editor de Vídeo
-                </p>
+                <StarRating readonly rating={4.2} />
               </div>
 
-              <StarRating rating={4.2} />
-            </div>
-
-            <div className="h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10 border-4 border-white bg-white shadow-lg">
-              <ProfilePhoto
-                photoPath={freelancer?.fotoPerfilUrl}
-                size="lg"
-                className="w-full! h-full!"
-                imgClassName="!w-full !h-full object-cover"
-              />
-            </div>
-
-          </div>
-
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold mb-3">Descrição</h2>
-
-              <div className="bg-gray-50 p-4 rounded-xl">
-                <TesteMarkdown /> 
-                {/*
-                no futuro usar esse componente tipo 
-                <TesteMarkdown content={freelancer.descricao} />
-                */}
+              <div
+                className={clsx(
+                  "h-32 w-32 rounded-full overflow-hidden shrink-0 -mt-16 z-10",
+                  "border-4 border-white bg-white shadow-lg",
+                )}
+              >
+                <ProfilePhoto
+                  photoPath={freelancer.fotoPerfilUrl}
+                  size="lg"
+                  className="w-full! h-full!"
+                  imgClassName="!w-full !h-full object-cover"
+                />
               </div>
             </div>
+
+            {(isEditable || freelancer.descricaoPerfil) && (
+              <div className="mt-8">
+                <MarkdownPanel
+                  isEditable={isEditable}
+                  titleToSave={freelancer.titulo}
+                  defaultDescription={freelancer.descricaoPerfil}
+                  onUpdate={(newDescription) =>
+                    handleFreelancerUpdate({ descricaoPerfil: newDescription })
+                  }
+                />
+              </div>
+            )}
 
             <div className="mt-10">
               <h2 className="text-xl font-semibold mb-4">Projetos</h2>
@@ -101,12 +126,8 @@ export const PerfilFreelancer = () => {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
                   {projetos.map((proj) => (
-                    <div className="w-full">
-                      <ProposalCards
-                        key={proj.id}
-                        img={proj.imagemUrl}
-                        url={proj.link}
-                      />
+                    <div className="w-full" key={proj.id}>
+                      <ProposalCards img={proj.imagemUrl} url={proj.link} />
                     </div>
                   ))}
                 </div>
