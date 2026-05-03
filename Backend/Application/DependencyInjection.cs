@@ -21,6 +21,7 @@ namespace Backend.Application
             services.AddScoped<IMensagemServicoService, MensagemServicoService>();
             
             services.AddScoped<IAuditService, AuditService>();
+            services.AddScoped<IPagamentoService, PagamentoService>();
 
             services.AddScoped<ArquivoValidator>();
 
