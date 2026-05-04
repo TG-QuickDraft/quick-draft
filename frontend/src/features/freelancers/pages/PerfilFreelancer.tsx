@@ -75,11 +75,11 @@ export const PerfilFreelancer = () => {
                 <div>
                   <h1 className="text-3xl font-bold">{freelancer.nome}</h1>
 
-                  {freelancer.titulo && (
+                  {(freelancer.titulo || isEditable) && (
                     <FreelancerTitle
                       isEditable={isEditable}
                       descriptionToSave={freelancer.descricaoPerfil}
-                      defaultTitle={freelancer.titulo}
+                      defaultTitle={freelancer.titulo ?? ""}
                       onUpdate={(newTitle) =>
                         handleFreelancerUpdate({ titulo: newTitle })
                       }
