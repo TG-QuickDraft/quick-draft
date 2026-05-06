@@ -11,5 +11,6 @@ namespace Backend.Application.DTOs.Servico
         public bool IsEntregue { get; set; }
         public int? PropostaAceitaId { get; set; }
         public required int ClienteId { get; set; }
+        public DateTime? CreateAt { get; set; }
     }
 }

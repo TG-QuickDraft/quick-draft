@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Domain.Entities
 {
-   [Table("entregas")]
-   public class Entrega
+    [Table("entregas")]
+    public class Entrega
     {
         [Key]
         [Column("ent_id")]
@@ -17,6 +17,9 @@ namespace Backend.Domain.Entities
         [Column("ent_ser_id")]
         [Required]
         public int ServicoId { get; set; }
+
+        [Column("ent_create_at")]
+        public DateTime? CreateAt { get; set; } = DateTime.UtcNow;
 
         public Servico? Servico { get; set; }
     }

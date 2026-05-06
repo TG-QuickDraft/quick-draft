@@ -4,8 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace Backend.Domain.Entities
 {
-   [Table("projetos_freelancer")]
-   public class ProjetoFreelancer
+    [Table("projetos_freelancer")]
+    public class ProjetoFreelancer
     {
         [Key]
         [Column("pjf_id")]
@@ -27,6 +27,9 @@ namespace Backend.Domain.Entities
         [Column("pjf_fre_id")]
         [Required]
         public int FreelancerId { get; set; }
+
+        [Column("pjf_create_at")]
+        public DateTime? CreateAt { get; set; } = DateTime.UtcNow;
 
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }

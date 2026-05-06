@@ -196,6 +196,10 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ent_create_at");
+
                     b.Property<int>("ServicoId")
                         .HasColumnType("integer")
                         .HasColumnName("ent_ser_id");
@@ -293,6 +297,10 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("pjf_create_at");
+
                     b.Property<string>("Descricao")
                         .HasColumnType("text")
                         .HasColumnName("pjf_descricao");
@@ -387,6 +395,10 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ser_cli_id");
 
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ser_create_at");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("text")
@@ -472,7 +484,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("usu_cpf");
 
-                    b.Property<DateTime>("CreateAt")
+                    b.Property<DateTime?>("CreateAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("usu_create_at");
 
@@ -514,7 +526,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         {
                             Id = -1,
                             Cpf = "00000000000",
-                            CreateAt = new DateTime(2026, 5, 6, 11, 58, 1, 447, DateTimeKind.Utc).AddTicks(6889),
+                            CreateAt = new DateTime(2026, 5, 6, 13, 50, 7, 580, DateTimeKind.Utc).AddTicks(6708),
                             Email = "admin@sistema.com",
                             FotoPerfilUrl = "uploads/fotos-perfil/fotoADM.jpg",
                             HashSenha = "AQAAAAIAAYagAAAAEHEM/Yc24Gwy0usv3Q4hrhUuLkyawKFjak/+t9BLGQo+9o5ziRkt7Rel7X6oHFVYOw==",

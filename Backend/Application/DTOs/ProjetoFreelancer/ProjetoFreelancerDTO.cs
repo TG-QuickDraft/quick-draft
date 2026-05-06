@@ -7,5 +7,6 @@ namespace Backend.Application.DTOs.ProjetoFreelancer
         public string? Descricao { get; set; }
         public string? ImagemUrl { get; set; }
         public string? Link { get; set; }
+        public DateTime? CreateAt { get; set; }
     }
 }

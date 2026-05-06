@@ -37,7 +37,7 @@ namespace Backend.Domain.Entities
         public bool IsAdmin { get; set; }
 
         [Column("usu_create_at")]
-        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+        public DateTime? CreateAt { get; set; } = DateTime.UtcNow;
 
         // TODO: Colocar tipoUsuário diretamente na entidade (vai ficar mais simples se for assim)
         // Ex.: public TipoUsuario? tipoUsuario { get; set; }
