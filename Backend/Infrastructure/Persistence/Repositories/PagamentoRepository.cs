@@ -21,5 +21,14 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return await _context.Pagamentos
                 .AnyAsync(p => p.ServicoId == servicoId);
         }
+
+        public async Task<IEnumerable<int>> ListarServicosPagosAsync(IEnumerable<int> servicoIds)
+        {
+            return await _context.Pagamentos
+                .Where(p => servicoIds.Contains(p.ServicoId))
+                .Select(p => p.ServicoId)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }
