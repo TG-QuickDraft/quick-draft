@@ -36,7 +36,7 @@ const RealizarPagamento = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { showSuccess, showError } = useModal();
+  const { showSuccess, showError, showDanger } = useModal();
   const { openModal: openRatingModal, Modal: RatingModalComponent } =
     useModalFactory(RatingModal);
 
@@ -73,7 +73,15 @@ const RealizarPagamento = () => {
     })();
   }, []);
 
-  const handlePayment = async () => {
+  const handlePayment = () => {
+    showDanger({
+      content:
+        "Tem certeza que deseja realizar este pagamento? Essa ação não pode ser desfeita.",
+      onConfirm: handleConfirmPayment,
+    });
+  };
+
+  const handleConfirmPayment = async () => {
     if (!id) return;
 
     setLoading(true);
