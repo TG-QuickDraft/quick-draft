@@ -106,7 +106,7 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return true;
         }
 
-        public async Task<Servico?> ConsultarPorIdComPropostaAsync(int id)
+        public async Task<Servico?> ConsultarPorIdComPropostaAceitaAsync(int id)
         {
             return await _context.Servicos
                 .Include(s => s.PropostaAceita)
