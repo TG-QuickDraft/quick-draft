@@ -105,5 +105,12 @@ namespace Backend.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<Servico?> ConsultarPorIdComPropostaAceitaAsync(int id)
+        {
+            return await _context.Servicos
+                .Include(s => s.PropostaAceita)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
     }
 }

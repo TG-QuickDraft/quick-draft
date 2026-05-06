@@ -19,6 +19,7 @@ namespace Backend.Infrastructure.Persistence
         public DbSet<BandeiraCartaoCredito> BandeirasCartaoCredito { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<MensagemServico> MensagensServico { get; set; }
+        public DbSet<Pagamento> Pagamentos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -175,7 +176,7 @@ namespace Backend.Infrastructure.Persistence
                 {
                     Id = -1,
                     Nome = "Administrador do Sistema",
-                    Cpf = "00000000000",
+                    Cpf = "000.000.000-00",
                     Email = "admin@sistema.com",
                     FotoPerfilUrl = "uploads/fotos-perfil/fotoADM.jpg",
                     HashSenha = "AQAAAAIAAYagAAAAEHEM/Yc24Gwy0usv3Q4hrhUuLkyawKFjak/+t9BLGQo+9o5ziRkt7Rel7X6oHFVYOw==",
@@ -186,6 +187,21 @@ namespace Backend.Infrastructure.Persistence
             modelBuilder.Entity<Proposta>()
             .HasIndex(p => new { p.ServicoId, p.FreelancerId })
             .IsUnique();
+
+            modelBuilder.Entity<Pagamento>(entity =>
+            {
+                entity.HasOne(p => p.CartaoCredito)
+                    .WithMany()
+                    .HasForeignKey(p => p.CartaoCreditoId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pag_cre");
+
+                entity.HasOne(p => p.Servico)
+                    .WithMany()
+                    .HasForeignKey(p => p.ServicoId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pag_ser");
+            });
         }
     }
 }
