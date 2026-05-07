@@ -57,7 +57,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("audit_logs");
+                    b.ToTable("audit_logs", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.BandeiraCartaoCredito", b =>
@@ -76,7 +76,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("bandeiras_cartao_credito");
+                    b.ToTable("bandeiras_cartao_credito", (string)null);
 
                     b.HasData(
                         new
@@ -131,7 +131,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("BandeiraId");
 
-                    b.ToTable("cartoes_credito");
+                    b.ToTable("cartoes_credito", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Cliente", b =>
@@ -142,7 +142,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("clientes");
+                    b.ToTable("clientes", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ContaBancaria", b =>
@@ -184,7 +184,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("TipoContaId");
 
-                    b.ToTable("contas_bancarias");
+                    b.ToTable("contas_bancarias", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Entrega", b =>
@@ -195,10 +195,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnName("ent_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreateAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("ent_create_at");
 
                     b.Property<int>("ServicoId")
                         .HasColumnType("integer")
@@ -214,7 +210,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("ServicoId")
                         .IsUnique();
 
-                    b.ToTable("entregas");
+                    b.ToTable("entregas", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Freelancer", b =>
@@ -233,7 +229,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("freelancers");
+                    b.ToTable("freelancers", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.MensagemServico", b =>
@@ -268,7 +264,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("mensagens_servico");
+                    b.ToTable("mensagens_servico", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ProjetoDestacadoProposta", b =>
@@ -285,7 +281,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PropostaId");
 
-                    b.ToTable("projetos_destacados_proposta");
+                    b.ToTable("projetos_destacados_proposta", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ProjetoFreelancer", b =>
@@ -296,10 +292,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnName("pjf_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreateAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("pjf_create_at");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("text")
@@ -326,7 +318,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("FreelancerId");
 
-                    b.ToTable("projetos_freelancer");
+                    b.ToTable("projetos_freelancer", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Proposta", b =>
@@ -379,7 +371,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("ServicoId", "FreelancerId")
                         .IsUnique();
 
-                    b.ToTable("propostas");
+                    b.ToTable("propostas", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Servico", b =>
@@ -394,10 +386,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("integer")
                         .HasColumnName("ser_cli_id");
-
-                    b.Property<DateTime?>("CreateAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("ser_create_at");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -436,7 +424,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("PropostaAceitaId")
                         .IsUnique();
 
-                    b.ToTable("servicos");
+                    b.ToTable("servicos", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.TipoConta", b =>
@@ -455,7 +443,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tipos_conta");
+                    b.ToTable("tipos_conta", (string)null);
 
                     b.HasData(
                         new
@@ -483,10 +471,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("usu_cpf");
-
-                    b.Property<DateTime?>("CreateAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("usu_create_at");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -519,14 +503,13 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("usuarios");
+                    b.ToTable("usuarios", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = -1,
                             Cpf = "00000000000",
-                            CreateAt = new DateTime(2026, 5, 6, 13, 50, 7, 580, DateTimeKind.Utc).AddTicks(6708),
                             Email = "admin@sistema.com",
                             FotoPerfilUrl = "uploads/fotos-perfil/fotoADM.jpg",
                             HashSenha = "AQAAAAIAAYagAAAAEHEM/Yc24Gwy0usv3Q4hrhUuLkyawKFjak/+t9BLGQo+9o5ziRkt7Rel7X6oHFVYOw==",
