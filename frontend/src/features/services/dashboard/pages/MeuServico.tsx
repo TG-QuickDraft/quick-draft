@@ -211,17 +211,17 @@ export const MeuServico = () => {
         </div>
       </div>
       <div className="sticky bottom-6 flex justify-end gap-6 pr-6">
-        {servico.isEntregue ? (
+        {servico.isEntregue && (
           <Button
             onClick={() =>
               navigate(deliveryPaths.realizarPagamentoById(servico.id))
             }
             icon={<FaMoneyCheck />}
+            disabled={servico.isPago}
+            className={clsx(servico.isPago && "opacity-70")}
           >
-            Realizar pagamento
+            {servico.isPago ? "Já pago" : "Realizar pagamento"}
           </Button>
-        ) : (
-          <></>
         )}
       </div>
     </>

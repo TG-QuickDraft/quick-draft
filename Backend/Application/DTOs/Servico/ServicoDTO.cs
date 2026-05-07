@@ -9,6 +9,7 @@ namespace Backend.Application.DTOs.Servico
         public DateTime Prazo { get; set; }
         public decimal ValorMinimo { get; set; }
         public bool IsEntregue { get; set; }
+        public bool IsPago { get; set; }
         public int? PropostaAceitaId { get; set; }
         public required int ClienteId { get; set; }
         public DateTime? CreateAt { get; set; }

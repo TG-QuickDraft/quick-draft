@@ -12,11 +12,13 @@ namespace Backend.Application.Services
     public class ServicoService(
         IServicoRepository repository,
         IPropostaRepository propostaRepository,
+        IPagamentoRepository pagamentoRepository,
         IMapper mapper
     ) : IServicoService
     {
         private readonly IServicoRepository _repository = repository;
         private readonly IPropostaRepository _propostaRepository = propostaRepository;
+        private readonly IPagamentoRepository _pagamentoRepository = pagamentoRepository;
         private readonly IMapper _mapper = mapper;
 
         public async Task<ServicoDTO> CriarAsync(CriarServicoDTO criarServico, int usuarioId)
@@ -35,7 +37,9 @@ namespace Backend.Application.Services
 
             Servico servicoCriado = await _repository.CriarAsync(servico);
 
-            return _mapper.Map<ServicoDTO>(servicoCriado);
+            var dto = _mapper.Map<ServicoDTO>(servicoCriado);
+            dto.IsPago = false;
+            return dto;
         }
 
         public async Task<PagedResult<ServicoDTO>> ConsultarTodosAsync(
@@ -49,7 +53,17 @@ namespace Backend.Application.Services
             tamanhoPagina = tamanhoPagina > 100 ? 100 : tamanhoPagina;
 
             var list = await _repository.ConsultarTodosAsync(filtro, pagina, tamanhoPagina);
-            return list.Map<Servico, ServicoDTO>(_mapper);
+            var pagedResult = list.Map<Servico, ServicoDTO>(_mapper);
+
+            var servicosIds = pagedResult.Itens.Select(s => s.Id);
+            var servicosPagos = await _pagamentoRepository.ListarServicosPagosAsync(servicosIds);
+
+            foreach (var item in pagedResult.Itens)
+            {
+                item.IsPago = servicosPagos.Contains(item.Id);
+            }
+
+            return pagedResult;
         }
 
         public async Task<ServicoDTO?> ConsultarPorIdAsync(int id)
@@ -59,7 +73,10 @@ namespace Backend.Application.Services
             if (servico == null)
                 return null;
 
-            return _mapper.Map<ServicoDTO>(servico);
+            var dto = _mapper.Map<ServicoDTO>(servico);
+            dto.IsPago = await _pagamentoRepository.ExistePagamentoPorServico(id);
+
+            return dto;
         }
 
         public async Task<PropostaDTO?> ConsultarPropostaAceitaIdAsync(int servicoId)
@@ -123,8 +140,17 @@ namespace Backend.Application.Services
             tamanhoPagina = tamanhoPagina > 100 ? 100 : tamanhoPagina;
 
             var list = await _repository.ConsultarPorClienteAsync(clienteId, pagina, tamanhoPagina);
+            var pagedResult = list.Map<Servico, ServicoDTO>(_mapper);
 
-            return list.Map<Servico, ServicoDTO>(_mapper);
+            var servicosIds = pagedResult.Itens.Select(s => s.Id);
+            var servicosPagos = await _pagamentoRepository.ListarServicosPagosAsync(servicosIds);
+
+            foreach (var item in pagedResult.Itens)
+            {
+                item.IsPago = servicosPagos.Contains(item.Id);
+            }
+
+            return pagedResult;
         }
 
         public async Task<bool> AlterarServicoParaEntregue(int servicoId)

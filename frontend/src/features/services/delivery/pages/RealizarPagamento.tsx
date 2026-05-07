@@ -4,6 +4,7 @@ import type { CartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/Car
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
+import { realizarPagamento } from "@/features/services/delivery/api/pagamento.api";
 import CreditCard from "@/features/services/delivery/components/CreditCard";
 import PaymentSection from "@/features/services/delivery/components/PaymentSection";
 import PaymentWrapper from "@/features/services/delivery/components/PaymentWrapper";
@@ -35,7 +36,7 @@ const RealizarPagamento = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { showSuccess, showError } = useModal();
+  const { showSuccess, showError, showDanger } = useModal();
   const { openModal: openRatingModal, Modal: RatingModalComponent } =
     useModalFactory(RatingModal);
 
@@ -73,10 +74,36 @@ const RealizarPagamento = () => {
   }, []);
 
   const handlePayment = () => {
-    showSuccess({
-      content: "Pagamento realizado com sucesso!",
-      onClose: openRatingModal,
+    showDanger({
+      content:
+        "Tem certeza que deseja realizar este pagamento? Essa ação não pode ser desfeita.",
+      onConfirm: handleConfirmPayment,
     });
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!id) return;
+
+    setLoading(true);
+
+    try {
+      await realizarPagamento({ servicoId: Number(id) });
+
+      showSuccess({
+        content: "Pagamento realizado com sucesso!",
+        onClose: openRatingModal,
+      });
+    } catch (error) {
+      if (typeof error === "string") {
+        showError({ content: error });
+      } else if (error instanceof Error) {
+        showError({ content: error.message });
+      } else {
+        showError({ content: "Erro ao realizar pagamento" });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) return <Spinner />;
@@ -141,7 +168,7 @@ const RealizarPagamento = () => {
               </div>
             )}
             <Button
-              disabled={!cartao}
+              disabled={!cartao || loading}
               icon={<FaMoneyCheck />}
               className="w-full"
               variant="secondary"

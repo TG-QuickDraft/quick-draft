@@ -3,6 +3,7 @@ using System;
 using Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260502162528_AddPaymentTable")]
+    partial class AddPaymentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +60,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("audit_logs", (string)null);
+                    b.ToTable("audit_logs");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.BandeiraCartaoCredito", b =>
@@ -76,7 +79,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("bandeiras_cartao_credito", (string)null);
+                    b.ToTable("bandeiras_cartao_credito");
 
                     b.HasData(
                         new
@@ -131,7 +134,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("BandeiraId");
 
-                    b.ToTable("cartoes_credito", (string)null);
+                    b.ToTable("cartoes_credito");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Cliente", b =>
@@ -142,7 +145,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("clientes", (string)null);
+                    b.ToTable("clientes");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ContaBancaria", b =>
@@ -184,7 +187,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("TipoContaId");
 
-                    b.ToTable("contas_bancarias", (string)null);
+                    b.ToTable("contas_bancarias");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Entrega", b =>
@@ -210,7 +213,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("ServicoId")
                         .IsUnique();
 
-                    b.ToTable("entregas", (string)null);
+                    b.ToTable("entregas");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Freelancer", b =>
@@ -229,7 +232,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("freelancers", (string)null);
+                    b.ToTable("freelancers");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.MensagemServico", b =>
@@ -264,7 +267,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("mensagens_servico", (string)null);
+                    b.ToTable("mensagens_servico");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Pagamento", b =>
@@ -311,7 +314,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PropostaId");
 
-                    b.ToTable("projetos_destacados_proposta", (string)null);
+                    b.ToTable("projetos_destacados_proposta");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ProjetoFreelancer", b =>
@@ -348,7 +351,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("FreelancerId");
 
-                    b.ToTable("projetos_freelancer", (string)null);
+                    b.ToTable("projetos_freelancer");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Proposta", b =>
@@ -401,7 +404,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("ServicoId", "FreelancerId")
                         .IsUnique();
 
-                    b.ToTable("propostas", (string)null);
+                    b.ToTable("propostas");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Servico", b =>
@@ -454,7 +457,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("PropostaAceitaId")
                         .IsUnique();
 
-                    b.ToTable("servicos", (string)null);
+                    b.ToTable("servicos");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.TipoConta", b =>
@@ -473,7 +476,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tipos_conta", (string)null);
+                    b.ToTable("tipos_conta");
 
                     b.HasData(
                         new
@@ -533,7 +536,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("usuarios", (string)null);
+                    b.ToTable("usuarios");
 
                     b.HasData(
                         new
