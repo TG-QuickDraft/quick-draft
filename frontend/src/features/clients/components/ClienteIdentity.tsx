@@ -4,12 +4,10 @@ import StarRating from "@/shared/components/ui/StarRating";
 
 type Props = {
   cliente: ClienteDTO | null;
-  avaliacaoPerfil?: AvaliacaoPerfilDTO | undefined | null;
+  avaliacaoPerfil?: AvaliacaoPerfilDTO | null;
 };
 
 export const ClienteIdentity = ({ cliente, avaliacaoPerfil }: Props) => {
-  const totalAvaliacoes = avaliacaoPerfil?.totalAvaliacoes ?? 0;
-
   return (
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0 flex-1">
@@ -22,15 +20,15 @@ export const ClienteIdentity = ({ cliente, avaliacaoPerfil }: Props) => {
 
       <div className="shrink-0 pt-1">
         <div className="scale-90 origin-top-right">
-          <div className="flex gap-4">
-            <StarRating
-              readonly
-              rating={avaliacaoPerfil?.mediaAvaliacoes ?? 0}
-            />
-            <p className="text-center">
-              {totalAvaliacoes} avaliaç{totalAvaliacoes === 1 ? "ão" : "ões"}
-            </p>
-          </div>
+          {avaliacaoPerfil && (
+            <div className="flex gap-4">
+              <StarRating readonly rating={avaliacaoPerfil.mediaAvaliacoes} />
+              <p className="text-center">
+                {avaliacaoPerfil.totalAvaliacoes} avaliaç
+                {avaliacaoPerfil.totalAvaliacoes === 1 ? "ão" : "ões"}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

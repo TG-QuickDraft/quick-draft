@@ -11,7 +11,7 @@ import type { AvaliacaoPerfilDTO } from "@/features/services/delivery/dtos/avali
 type Props = {
   cliente: ClienteDTO | null;
   totalServicos: number;
-  avaliacaoPerfil?: AvaliacaoPerfilDTO | undefined | null;
+  avaliacaoPerfil?: AvaliacaoPerfilDTO | null;
 };
 
 export const ClienteProfileHeader = ({
@@ -31,21 +31,20 @@ export const ClienteProfileHeader = ({
             <ProfilePhoto
               photoPath={cliente?.fotoPerfilUrl}
               size="md"
-              className="!w-auto !justify-start"
+              className="w-auto! justify-start!"
               imgClassName="border-4 border-white shadow-xl bg-white"
             />
           </div>
 
           <div className="flex-1 min-w-0">
-            <ClienteIdentity cliente={cliente} />
+            <ClienteIdentity
+              avaliacaoPerfil={avaliacaoPerfil}
+              cliente={cliente}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-3 w-full md:w-auto">
-            <InfoCard
-              value={totalServicos}
-              label="Serviços públicos"
-              dark
-            />
+            <InfoCard value={totalServicos} label="Serviços públicos" dark />
 
             <InfoCard
               value={avaliacaoPerfil?.mediaAvaliacoes?.toFixed(1) || "0.0"}

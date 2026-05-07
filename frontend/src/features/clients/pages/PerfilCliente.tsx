@@ -39,11 +39,12 @@ export const PerfilCliente = () => {
 
       try {
         if (clienteId && !Number.isNaN(clienteId)) {
-          const [dadosCliente, servicosPaginados] = await Promise.all([
-            consultarClientePorId(clienteId),
-            consultarServicosPorClienteId(clienteId, 1, 10), // TODO: Colocar paginação na página no futuro
-            consultarAvaliacaoPerfil(clienteId),
-          ]);
+          const [dadosCliente, servicosPaginados, avaliacaoPerfil] =
+            await Promise.all([
+              consultarClientePorId(clienteId),
+              consultarServicosPorClienteId(clienteId, 1, 10), // TODO: Colocar paginação na página no futuro
+              consultarAvaliacaoPerfil(clienteId),
+            ]);
 
           setCliente(dadosCliente);
           setServicos(servicosPaginados.itens);
