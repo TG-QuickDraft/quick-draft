@@ -44,5 +44,11 @@ namespace Backend.Domain.Entities
 
         [JsonIgnore]
         public Cliente? Cliente { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<Avaliacao>? AvaliacoesFeitas { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<Avaliacao>? AvaliacoesRecebidas { get; set; }
     }
 }

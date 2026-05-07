@@ -5,6 +5,6 @@ namespace Backend.Application.Interfaces.Repositories
     public interface IEntregaRepository
     {
         public Task<Entrega?> ConsultarPorIdServicoAsync(int servicoId);
-        public Task<Entrega> CriarEntregaAsync(Entrega entrega);
+        public Task<Entrega> CriarAsync(Entrega entrega);
     }
 }

@@ -18,6 +18,7 @@ namespace Backend.Infrastructure
             services.AddScoped<IProjetoFreelancerRepository, ProjetoFreelancerRepository>();
             services.AddScoped<IServicoRepository, ServicoRepository>();
             services.AddScoped<IEntregaRepository, EntregaRepository>();
+            services.AddScoped<IAvaliacaoRepository, AvaliacaoRepository>();
             services.AddScoped<IPropostaRepository, PropostaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IAuditRepository, AuditRepository>();

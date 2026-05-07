@@ -18,13 +18,14 @@ import { clientePaths } from "@/features/clients/routes/clientePaths";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 import { homePaths } from "@/features/home/routes/homePaths";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
+import { FiGlobe } from "react-icons/fi";
 
 const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const { isAuthenticated, roles, logout } = useAuth();
+  const { isAuthenticated, roles, logout, usuario } = useAuth();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,6 +47,18 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
     logout();
     navigate(homePaths.home);
     setIsOpen(false);
+  };
+
+  const redirectToPerfil = () => {
+    if (roles.includes("Cliente")) {
+      handleNavigate(
+        clientePaths.perfilClienteById(usuario?.id || ""),
+      );
+    } else if (roles.includes("Freelancer")) {
+      handleNavigate(
+        freelancerPaths.perfilFreelancerById(usuario?.id || ""),
+      );
+    }
   };
 
   return (
@@ -87,6 +100,16 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
                 <CiUser size={18} />
                 <span>Minha Conta</span>
               </button>
+
+              {(roles.includes("Cliente") || roles.includes("Freelancer")) && (
+                <button
+                  onClick={redirectToPerfil}
+                  className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition cursor-pointer"
+                >
+                  <FiGlobe size={18} />
+                  <span>Ver Perfil</span>
+                </button>
+              )}
 
               {roles.includes("Admin") && (
                 <>

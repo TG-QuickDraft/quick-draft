@@ -8,7 +8,6 @@ import type { UsuarioDTO } from "@/features/users/dtos/UsuarioDTO";
 import { consultarUsuario } from "@/features/users/api/usuario.api";
 import Spinner from "@/shared/components/ui/Spinner";
 
-import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";

@@ -87,7 +87,7 @@ namespace Backend.Application.Services
 
             string urlArquivo = await _uploadService.UploadArquivo(dto.Arquivo, path);
 
-            Entrega entregaSalva = await _repository.CriarEntregaAsync(
+            Entrega entregaSalva = await _repository.CriarAsync(
                 new(){
                     ServicoId = dto.ServicoId,
                     UrlArquivo = urlArquivo

@@ -1,6 +1,6 @@
 import api from "@/shared/apis/api";
-import type { RealizarEntregaDTO } from "../dtos/RealizarEntregaDTO";
-import type { EntregaDTO } from "../dtos/EntregaDTO";
+import type { RealizarEntregaDTO } from "../dtos/entrega/RealizarEntregaDTO";
+import type { EntregaDTO } from "../dtos/entrega/EntregaDTO";
 
 const BASE_PATH = "/api/entrega";
 

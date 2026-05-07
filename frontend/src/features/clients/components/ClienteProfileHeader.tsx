@@ -6,15 +6,18 @@ import { ClienteIdentity } from "@/features/clients/components/ClienteIdentity";
 import { InfoCard } from "@/shared/components/ui/InfoCard";
 
 import { gerarBannerPerfil } from "@/shared/utils/getGerarBannerPerfil";
+import type { AvaliacaoPerfilDTO } from "@/features/services/delivery/dtos/avaliacao/AvaliacaoPerfilDTO";
 
 type Props = {
   cliente: ClienteDTO | null;
   totalServicos: number;
+  avaliacaoPerfil?: AvaliacaoPerfilDTO | null;
 };
 
 export const ClienteProfileHeader = ({
   cliente,
   totalServicos,
+  avaliacaoPerfil,
 }: Props) => {
   const bannerStyle = gerarBannerPerfil(cliente?.nome);
 
@@ -28,24 +31,23 @@ export const ClienteProfileHeader = ({
             <ProfilePhoto
               photoPath={cliente?.fotoPerfilUrl}
               size="md"
-              className="!w-auto !justify-start"
+              className="w-auto! justify-start!"
               imgClassName="border-4 border-white shadow-xl bg-white"
             />
           </div>
 
           <div className="flex-1 min-w-0">
-            <ClienteIdentity cliente={cliente} />
+            <ClienteIdentity
+              avaliacaoPerfil={avaliacaoPerfil}
+              cliente={cliente}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-3 w-full md:w-auto">
-            <InfoCard
-              value={totalServicos}
-              label="Serviços públicos"
-              dark
-            />
+            <InfoCard value={totalServicos} label="Serviços públicos" dark />
 
             <InfoCard
-              value="4.0"
+              value={avaliacaoPerfil?.mediaAvaliacoes?.toFixed(1) || "0.0"}
               label="Avaliação média"
             />
           </div>

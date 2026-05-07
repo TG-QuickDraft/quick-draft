@@ -1,6 +1,7 @@
+using Backend.Application.Pagination;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Application.Pagination.Extensions
+namespace Backend.Infrastructure.Persistence.Extensions
 {
     public static class QueryablePaginationExtensions
     {
