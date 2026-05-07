@@ -33,7 +33,7 @@ namespace Backend.Application.Services
                 throw new UnauthorizedAccessException("Você não pertence a este serviço!");
             }
 
-            if (AvaliacaoJaExiste(dto.ServicoId, userId))
+            if (await AvaliacaoJaExisteAsync(dto.ServicoId, userId))
             {
                 throw new InvalidOperationException("Você já avaliou este serviço!");
             }
@@ -54,9 +54,12 @@ namespace Backend.Application.Services
             );
         }
 
-        public bool AvaliacaoJaExiste(int servicoId, int autorId)
+        public async Task<bool> AvaliacaoJaExisteAsync(int servicoId, int autorId)
         {
-            return _repository.ConsultarPorServicoIdEAutorIdAsync(servicoId, autorId).Result != null;
+            var avaliacao = await _repository
+                .ConsultarPorServicoIdEAutorIdAsync(servicoId, autorId);
+
+            return avaliacao != null;
         }
     }
 }
