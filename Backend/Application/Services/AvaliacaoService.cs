@@ -61,5 +61,10 @@ namespace Backend.Application.Services
 
             return avaliacao != null;
         }
+
+        public Task<AvaliacaoPerfilDTO> ConsultarAvaliacaoPerfilAsync(int usuarioId)
+        {
+            return _repository.ConsultarAvaliacaoPerfilAsync(usuarioId);
+        }
     }
 }

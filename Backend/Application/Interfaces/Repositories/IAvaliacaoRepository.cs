@@ -1,3 +1,4 @@
+using Backend.Application.DTOs.Avaliacao;
 using Backend.Domain.Entities;
 
 namespace Backend.Application.Interfaces.Repositories
@@ -6,5 +7,6 @@ namespace Backend.Application.Interfaces.Repositories
     {
         Task<Avaliacao?> CriarAsync(Avaliacao avaliacao);
         Task<Avaliacao?> ConsultarPorServicoIdEAutorIdAsync(int servicoId, int autorId);
+        Task<AvaliacaoPerfilDTO> ConsultarAvaliacaoPerfilAsync(int usuarioId);  
     }
 }

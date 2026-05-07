@@ -14,6 +14,13 @@ namespace Backend.API.Controllers
     {
         private readonly IAvaliacaoService _service = service;
 
+        [HttpGet("usuario/{usuarioId}")]
+        public async Task<IActionResult> ConsultarAvaliacaoPerfil(int usuarioId)
+        {
+            var perfil = await _service.ConsultarAvaliacaoPerfilAsync(usuarioId);
+            return Ok(perfil);
+        }
+
         [HttpPost]
         [Authorize(Roles = Roles.Cliente + "," + Roles.Freelancer)]
         public async Task<IActionResult> CriarAvaliacao(CriarAvaliacaoDTO dto)

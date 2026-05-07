@@ -1,3 +1,4 @@
+using Backend.Application.DTOs.Avaliacao;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,19 @@ namespace Backend.Infrastructure.Persistence.Repositories
             _context.Avaliacoes.Add(avaliacao);
             await _context.SaveChangesAsync();
             return avaliacao;
+        }
+
+        public async Task<AvaliacaoPerfilDTO> ConsultarAvaliacaoPerfilAsync(int usuarioId)
+        {
+            var avaliacoes = await _context.Avaliacoes
+                .Where(a => a.AlvoId == usuarioId)
+                .ToListAsync();
+
+            return new AvaliacaoPerfilDTO
+            {
+                MediaAvaliacoes = avaliacoes.Any() ? avaliacoes.Average(a => a.NotaEstrelas) : 0,
+                TotalAvaliacoes = avaliacoes.Count
+            };
         }
     }
 }
