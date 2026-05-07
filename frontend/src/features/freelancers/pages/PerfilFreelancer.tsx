@@ -20,6 +20,8 @@ import clsx from "clsx";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
 import FreelancerTitle from "../components/FreelancerTitle";
+import type { AvaliacaoPerfilDTO } from "@/features/services/delivery/dtos/avaliacao/AvaliacaoPerfilDTO";
+import { consultarAvaliacaoPerfil } from "@/features/services/delivery/api/avaliacao.api";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
@@ -27,19 +29,25 @@ export const PerfilFreelancer = () => {
 
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
   const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
+  const [avaliacaoPerfil, setAvaliacaoPerfil] =
+    useState<AvaliacaoPerfilDTO | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       let timer = setTimeout(() => setIsLoading(true), LOADING_TIMEOUT);
       try {
-        const [freelancerData, projetosData] = await Promise.all([
-          consultarFreelancerPorId(Number(id)),
-          consultarProjetosFreelancerPorIdFreelancer(Number(id)),
-        ]);
+        const [freelancerData, projetosData, avaliacaoData] = await Promise.all(
+          [
+            consultarFreelancerPorId(Number(id)),
+            consultarProjetosFreelancerPorIdFreelancer(Number(id)),
+            consultarAvaliacaoPerfil(Number(id)),
+          ],
+        );
 
         setFreelancer(freelancerData);
         setProjetos(projetosData);
+        setAvaliacaoPerfil(avaliacaoData);
       } catch (error) {
         console.error(error);
       } finally {
@@ -60,6 +68,8 @@ export const PerfilFreelancer = () => {
 
   const isEditable = usuario ? freelancer.id === usuario.id : false;
   const bannerStyle = gerarBannerPerfil(freelancer.nome);
+
+  const totalAvaliacoes = avaliacaoPerfil?.totalAvaliacoes ?? 0;
 
   return (
     <div className="w-full flex justify-center px-4 py-6">
@@ -87,7 +97,15 @@ export const PerfilFreelancer = () => {
                   )}
                 </div>
 
-                <StarRating readonly rating={4.2} />
+                <div className="flex gap-4">
+                  <StarRating
+                    readonly
+                    rating={avaliacaoPerfil?.mediaAvaliacoes ?? 0}
+                  />
+                  <p className="text-center">
+                    {totalAvaliacoes} avaliaç{totalAvaliacoes === 1 ? "ão" : "ões"}
+                  </p>
+                </div>
               </div>
 
               <div

@@ -6,15 +6,18 @@ import { ClienteIdentity } from "@/features/clients/components/ClienteIdentity";
 import { InfoCard } from "@/shared/components/ui/InfoCard";
 
 import { gerarBannerPerfil } from "@/shared/utils/getGerarBannerPerfil";
+import type { AvaliacaoPerfilDTO } from "@/features/services/delivery/dtos/avaliacao/AvaliacaoPerfilDTO";
 
 type Props = {
   cliente: ClienteDTO | null;
   totalServicos: number;
+  avaliacaoPerfil?: AvaliacaoPerfilDTO | undefined | null;
 };
 
 export const ClienteProfileHeader = ({
   cliente,
   totalServicos,
+  avaliacaoPerfil,
 }: Props) => {
   const bannerStyle = gerarBannerPerfil(cliente?.nome);
 
@@ -45,7 +48,7 @@ export const ClienteProfileHeader = ({
             />
 
             <InfoCard
-              value="4.0"
+              value={avaliacaoPerfil?.mediaAvaliacoes?.toFixed(1) || "0.0"}
               label="Avaliação média"
             />
           </div>

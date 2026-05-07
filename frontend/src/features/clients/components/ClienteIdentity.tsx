@@ -1,11 +1,15 @@
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
+import type { AvaliacaoPerfilDTO } from "@/features/services/delivery/dtos/avaliacao/AvaliacaoPerfilDTO";
 import StarRating from "@/shared/components/ui/StarRating";
 
 type Props = {
   cliente: ClienteDTO | null;
+  avaliacaoPerfil?: AvaliacaoPerfilDTO | undefined | null;
 };
 
-export const ClienteIdentity = ({ cliente }: Props) => {
+export const ClienteIdentity = ({ cliente, avaliacaoPerfil }: Props) => {
+  const totalAvaliacoes = avaliacaoPerfil?.totalAvaliacoes ?? 0;
+
   return (
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0 flex-1">
@@ -13,14 +17,20 @@ export const ClienteIdentity = ({ cliente }: Props) => {
           {cliente?.nome}
         </h1>
 
-        <p className="text-sm text-zinc-600 mt-1 truncate">
-          {cliente?.email}
-        </p>
+        <p className="text-sm text-zinc-600 mt-1 truncate">{cliente?.email}</p>
       </div>
 
       <div className="shrink-0 pt-1">
         <div className="scale-90 origin-top-right">
-          <StarRating rating={4} />
+          <div className="flex gap-4">
+            <StarRating
+              readonly
+              rating={avaliacaoPerfil?.mediaAvaliacoes ?? 0}
+            />
+            <p className="text-center">
+              {totalAvaliacoes} avaliaç{totalAvaliacoes === 1 ? "ão" : "ões"}
+            </p>
+          </div>
         </div>
       </div>
     </div>
