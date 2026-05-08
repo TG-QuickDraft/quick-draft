@@ -7,16 +7,16 @@ import Title from "@/shared/components/ui/titles/Title";
 
 import Button from "@/shared/components/ui/buttons/Button";
 import type { ServicoDTO } from "../dtos/ServicoDTO";
-import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import ProfilePhoto from "@/shared/components/ui/ProfilePhoto";
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { consultarClientePorId } from "@/features/clients/api/cliente.api";
-import { toLocaleString } from "@/shared/utils/date.utils";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import { proposalPaths } from "../routes/proposalPaths";
+
+import { format } from "date-fns";
 
 export const VisualizarServico = () => {
   const { id } = useParams();
@@ -40,9 +40,11 @@ export const VisualizarServico = () => {
     obterDados();
   }, [id]);
 
+  if (!servico) return null;
+
   const detalhes = {
     Categoria: <p>CATEGORIA</p>,
-    Prazo: <p>{toLocaleString(servico?.prazo ?? "")}</p>,
+    Prazo: <p>{format(servico.prazo, "dd/MM/yyyy")}</p>,
     Orçamento:
       servico?.orcamentoIsAberto === true ? (
         <p className="text-green-500">Aberto</p>
