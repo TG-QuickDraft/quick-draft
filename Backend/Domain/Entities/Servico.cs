@@ -4,8 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace Backend.Domain.Entities
 {
-   [Table("servicos")]
-   public class Servico
+    [Table("servicos")]
+    public class Servico
     {
         [Key]
         [Column("ser_id")]
@@ -49,9 +49,12 @@ namespace Backend.Domain.Entities
         [Required]
         public int ClienteId { get; set; }
 
+        [Column("ser_create_at")]
+        public DateTime? CreateAt { get; set; } = DateTime.UtcNow;
+
         [JsonIgnore]
         public Cliente? Cliente { get; set; }
-        
+
         public ICollection<Proposta>? Propostas { get; set; } = [];
         public Proposta? PropostaAceita { get; set; }
         public Entrega? Entrega { get; set; }

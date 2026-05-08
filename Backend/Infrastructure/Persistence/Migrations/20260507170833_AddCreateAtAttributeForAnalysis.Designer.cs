@@ -3,6 +3,7 @@ using System;
 using Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260507170833_AddCreateAtAttributeForAnalysis")]
+    partial class AddCreateAtAttributeForAnalysis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,37 +61,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("audit_logs");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.Avaliacao", b =>
-                {
-                    b.Property<int>("ServicoId")
-                        .HasColumnType("integer")
-                        .HasColumnName("ava_ser_id");
-
-                    b.Property<int>("AutorId")
-                        .HasColumnType("integer")
-                        .HasColumnName("ava_autor_id");
-
-                    b.Property<int>("AlvoId")
-                        .HasColumnType("integer")
-                        .HasColumnName("ava_alvo_id");
-
-                    b.Property<string>("Comentario")
-                        .HasColumnType("text")
-                        .HasColumnName("ava_comentario");
-
-                    b.Property<int>("NotaEstrelas")
-                        .HasColumnType("integer")
-                        .HasColumnName("ava_nota_estrelas");
-
-                    b.HasKey("ServicoId", "AutorId", "AlvoId");
-
-                    b.HasIndex("AlvoId");
-
-                    b.HasIndex("AutorId");
-
-                    b.ToTable("avaliacoes");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.BandeiraCartaoCredito", b =>
@@ -596,36 +568,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.Avaliacao", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.Usuario", "Alvo")
-                        .WithMany("AvaliacoesRecebidas")
-                        .HasForeignKey("AlvoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_ava_usu_alvo");
-
-                    b.HasOne("Backend.Domain.Entities.Usuario", "Autor")
-                        .WithMany("AvaliacoesFeitas")
-                        .HasForeignKey("AutorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_ava_usu_autor");
-
-                    b.HasOne("Backend.Domain.Entities.Servico", "Servico")
-                        .WithMany("Avaliacoes")
-                        .HasForeignKey("ServicoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_ava_ser");
-
-                    b.Navigation("Alvo");
-
-                    b.Navigation("Autor");
-
-                    b.Navigation("Servico");
-                });
-
             modelBuilder.Entity("Backend.Domain.Entities.CartaoCredito", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.BandeiraCartaoCredito", "Bandeira")
@@ -832,8 +774,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.Servico", b =>
                 {
-                    b.Navigation("Avaliacoes");
-
                     b.Navigation("Entrega");
 
                     b.Navigation("Propostas");
@@ -846,10 +786,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.Usuario", b =>
                 {
-                    b.Navigation("AvaliacoesFeitas");
-
-                    b.Navigation("AvaliacoesRecebidas");
-
                     b.Navigation("Cliente");
 
                     b.Navigation("Freelancer");
