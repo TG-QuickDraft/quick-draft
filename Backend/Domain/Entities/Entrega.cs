@@ -18,8 +18,8 @@ namespace Backend.Domain.Entities
         [Required]
         public int ServicoId { get; set; }
 
-        [Column("ent_create_at")]
-        public DateTime? CreateAt { get; set; } = DateTime.UtcNow;
+        [Column("ent_created_at")]
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Servico? Servico { get; set; }
     }

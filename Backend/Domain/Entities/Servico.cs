@@ -49,8 +49,8 @@ namespace Backend.Domain.Entities
         [Required]
         public int ClienteId { get; set; }
 
-        [Column("ser_create_at")]
-        public DateTime? CreateAt { get; set; } = DateTime.UtcNow;
+        [Column("ser_created_at")]
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         [JsonIgnore]
         public Cliente? Cliente { get; set; }

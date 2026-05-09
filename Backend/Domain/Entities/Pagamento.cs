@@ -23,6 +23,9 @@ namespace Backend.Domain.Entities
         [Required]
         public decimal Valor { get; set; }
 
+        [Column("pag_created_at")]
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+
         [JsonIgnore]
         public CartaoCredito? CartaoCredito { get; set; }
 
