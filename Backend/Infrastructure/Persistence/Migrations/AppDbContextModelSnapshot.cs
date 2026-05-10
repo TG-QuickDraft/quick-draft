@@ -227,9 +227,9 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("CreateAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("ent_create_at");
+                        .HasColumnName("ent_created_at");
 
                     b.Property<int>("ServicoId")
                         .HasColumnType("integer")
@@ -315,6 +315,10 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("pag_cre_id");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("pag_created_at");
+
                     b.Property<int>("ServicoId")
                         .HasColumnType("integer")
                         .HasColumnName("pag_ser_id");
@@ -358,9 +362,9 @@ namespace Backend.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("CreateAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("pjf_create_at");
+                        .HasColumnName("pjf_created_at");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("text")
@@ -456,9 +460,9 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ser_cli_id");
 
-                    b.Property<DateTime?>("CreateAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("ser_create_at");
+                        .HasColumnName("ser_created_at");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -545,9 +549,9 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("usu_cpf");
 
-                    b.Property<DateTime?>("CreateAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("usu_create_at");
+                        .HasColumnName("usu_created_at");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -587,7 +591,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         {
                             Id = -1,
                             Cpf = "000.000.000-00",
-                            CreateAt = new DateTime(2026, 5, 7, 17, 8, 33, 27, DateTimeKind.Utc).AddTicks(1122),
+                            CreatedAt = new DateTime(2026, 5, 9, 12, 21, 48, 291, DateTimeKind.Utc).AddTicks(2808),
                             Email = "admin@sistema.com",
                             FotoPerfilUrl = "uploads/fotos-perfil/fotoADM.jpg",
                             HashSenha = "AQAAAAIAAYagAAAAEHEM/Yc24Gwy0usv3Q4hrhUuLkyawKFjak/+t9BLGQo+9o5ziRkt7Rel7X6oHFVYOw==",

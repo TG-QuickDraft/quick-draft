@@ -28,8 +28,8 @@ namespace Backend.Domain.Entities
         [Required]
         public int FreelancerId { get; set; }
 
-        [Column("pjf_create_at")]
-        public DateTime? CreateAt { get; set; } = DateTime.UtcNow;
+        [Column("pjf_created_at")]
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         [JsonIgnore]
         public Freelancer? Freelancer { get; set; }
