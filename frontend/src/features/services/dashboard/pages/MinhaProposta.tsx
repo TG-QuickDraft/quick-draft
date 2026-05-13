@@ -26,6 +26,7 @@ import Button from "@/shared/components/ui/buttons/Button";
 import { consultarEntregaPorServicoId } from "../../delivery/api/entrega.api";
 import type { EntregaDTO } from "../../delivery/dtos/entrega/EntregaDTO";
 import { useCriarAvaliacao } from "../../delivery/hooks/useCriarAvaliacao";
+import DeliveryDetailsModal from "../components/DownloadDeliveryModal";
 
 const MinhaProposta = () => {
   const { id } = useParams();
@@ -45,6 +46,9 @@ const MinhaProposta = () => {
 
   const { openModal: openRatingModal, Modal: RatingModalComponent } =
     useModalFactory(RatingModal);
+
+  const { openModal: openDeliveryModal, Modal: DeliveryModalComponent } =
+    useModalFactory(DeliveryDetailsModal);
 
   const { enviarAvaliacao } = useCriarAvaliacao();
 
@@ -86,9 +90,12 @@ const MinhaProposta = () => {
   const temAceita = !!propostaAceitaId;
   const outraAceita = temAceita && !isAceita;
 
-  const onSubmitAvaliacao = async (rating: number, comentario: string | undefined) => {
+  const onSubmitAvaliacao = async (
+    rating: number,
+    comentario: string | undefined,
+  ) => {
     await enviarAvaliacao(proposta.servicoId, rating, comentario);
-  }
+  };
 
   return (
     <div className="p-6 flex flex-col gap-6">
@@ -131,11 +138,10 @@ const MinhaProposta = () => {
             </button>
           ) : (
             <Button
+              onClick={openDeliveryModal}
               className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
-              variant="success"
-              disabled
             >
-              Serviço entregue
+              Visualizar Entrega
             </Button>
           )}
         </div>
@@ -153,6 +159,8 @@ const MinhaProposta = () => {
         subtitle="Qual nota deseja dar ao cliente?"
         onSubmit={onSubmitAvaliacao}
       />
+
+      <DeliveryModalComponent deliveryPath={entrega?.urlArquivo} />
     </div>
   );
 };
