@@ -26,7 +26,7 @@ import Button from "@/shared/components/ui/buttons/Button";
 import { consultarEntregaPorServicoId } from "../../delivery/api/entrega.api";
 import type { EntregaDTO } from "../../delivery/dtos/entrega/EntregaDTO";
 import { useCriarAvaliacao } from "../../delivery/hooks/useCriarAvaliacao";
-import DeliveryDetailsModal from "../components/DownloadDeliveryModal";
+import DownloadDeliveryModal from "../components/DownloadDeliveryModal";
 
 import { FaRegEye } from "react-icons/fa6";
 import { IoMdSend } from "react-icons/io";
@@ -50,8 +50,8 @@ const MinhaProposta = () => {
   const { openModal: openRatingModal, Modal: RatingModalComponent } =
     useModalFactory(RatingModal);
 
-  const { openModal: openDeliveryModal, Modal: DeliveryModalComponent } =
-    useModalFactory(DeliveryDetailsModal);
+  const { openModal: openDownloadModal, Modal: DownloadModalComponent } =
+    useModalFactory(DownloadDeliveryModal);
 
   const { enviarAvaliacao } = useCriarAvaliacao();
 
@@ -136,15 +136,15 @@ const MinhaProposta = () => {
             <Button
               onClick={() => setShowEntregaModal(true)}
               icon={<IoMdSend />}
-              className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
+              className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
             >
               Entregar Serviço
             </Button>
           ) : (
             <Button
-              onClick={openDeliveryModal}
+              onClick={openDownloadModal}
               icon={<FaRegEye />}
-              className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
+              className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
             >
               Visualizar Entrega
             </Button>
@@ -165,7 +165,11 @@ const MinhaProposta = () => {
         onSubmit={onSubmitAvaliacao}
       />
 
-      <DeliveryModalComponent deliveryPath={entrega?.urlArquivo} />
+      <DownloadModalComponent
+        deliveryPath={entrega?.urlArquivo}
+        title="Arquivo de Entrega"
+        msg="O serviço foi entregue com sucesso e o arquivo esta disponível para download."
+      />
     </div>
   );
 };

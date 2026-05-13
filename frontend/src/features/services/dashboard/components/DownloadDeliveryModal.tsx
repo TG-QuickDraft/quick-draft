@@ -6,12 +6,16 @@ interface DeliveryDetailsModalProps {
   isOpen: boolean;
   close: () => void;
   deliveryPath: string;
+  msg?: string;
+  title?: string;
 }
 
 const DownloadDeliveryModal = ({
   isOpen,
   close,
   deliveryPath,
+  msg,
+  title,
 }: DeliveryDetailsModalProps) => {
   if (!isOpen) return null;
 
@@ -24,10 +28,10 @@ const DownloadDeliveryModal = ({
 
         <div>
           <h3 className="text-lg font-semibold text-gray-900">
-            Arquivo de Entrega
+            {title ? title : "Download"}
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            O serviço foi finalizado e o arquivo já está disponível para você.
+            {msg ? msg : "O arquivo pode ser baixado clicando no botão abaixo."}
           </p>
         </div>
 
