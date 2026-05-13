@@ -28,6 +28,9 @@ import type { EntregaDTO } from "../../delivery/dtos/entrega/EntregaDTO";
 import { useCriarAvaliacao } from "../../delivery/hooks/useCriarAvaliacao";
 import DeliveryDetailsModal from "../components/DownloadDeliveryModal";
 
+import { FaRegEye } from "react-icons/fa6";
+import { IoMdSend } from "react-icons/io";
+
 const MinhaProposta = () => {
   const { id } = useParams();
   const propostaId = Number(id);
@@ -130,15 +133,17 @@ const MinhaProposta = () => {
           </button>
 
           {entrega === null ? (
-            <button
+            <Button
               onClick={() => setShowEntregaModal(true)}
+              icon={<IoMdSend />}
               className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
             >
               Entregar Serviço
-            </button>
+            </Button>
           ) : (
             <Button
               onClick={openDeliveryModal}
+              icon={<FaRegEye />}
               className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
             >
               Visualizar Entrega
