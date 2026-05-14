@@ -3,6 +3,7 @@ import clsx from "clsx";
 const base = clsx(
   "px-4 py-2 rounded cursor-pointer border border-gray-600/20",
   "transition hover:scale-103 hover:shadow-lg active:scale-95",
+  "disabed:cursor-not-allowed disabled:hover:scale-100! disabled:opacity-70",
 );
 
 const widths = {

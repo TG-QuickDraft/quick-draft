@@ -235,6 +235,8 @@ export const MeuServico = () => {
             onClick={openDownloadModal}
             icon={<FaRegEye />}
             className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
+            disabled={!servico.isPago}
+            title={!servico.isPago ? "Aguardando pagamento..." : ""}
           >
             Visualizar Entrega
           </Button>
