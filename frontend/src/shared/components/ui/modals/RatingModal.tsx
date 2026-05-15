@@ -1,7 +1,6 @@
 import ModalContainer from "@/shared/components/ui/modals/ModalContainer";
 import Button from "@/shared/components/ui/buttons/Button";
 import StarRating from "@/shared/components/ui/StarRating";
-import { useModal } from "@/shared/contexts/modal.context";
 import clsx from "clsx";
 import { useState } from "react";
 import Title from "@/shared/components/ui/titles/Title";

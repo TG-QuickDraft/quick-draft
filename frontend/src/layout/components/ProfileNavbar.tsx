@@ -51,13 +51,9 @@ const ProfileNavbar = ({ photoPath }: { photoPath?: string }) => {
 
   const redirectToPerfil = () => {
     if (roles.includes("Cliente")) {
-      handleNavigate(
-        clientePaths.perfilClienteById(usuario?.id || ""),
-      );
+      handleNavigate(clientePaths.perfilClienteById(usuario?.id || ""));
     } else if (roles.includes("Freelancer")) {
-      handleNavigate(
-        freelancerPaths.perfilFreelancerById(usuario?.id || ""),
-      );
+      handleNavigate(freelancerPaths.perfilFreelancerById(usuario?.id || ""));
     }
   };
 

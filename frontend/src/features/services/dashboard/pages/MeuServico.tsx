@@ -55,9 +55,12 @@ export const MeuServico = () => {
       try {
         const servicoData = await consultarServicoPorId(servicoId);
         const propostasData = await buscarPropostasPorServico(servicoId);
-        const entrega = await consultarEntregaPorServicoId(servicoId);
 
-        setEntrega(entrega);
+        if (servicoData.isPago) {
+          const entrega = await consultarEntregaPorServicoId(servicoId);
+          setEntrega(entrega);
+        }
+
         setServico(servicoData);
         setPropostas(propostasData);
 
@@ -230,32 +233,33 @@ export const MeuServico = () => {
             <IoChatboxEllipsesOutline size={40} />
           </button>
         )}
-        {entrega && (
-          <Button
-            onClick={openDownloadModal}
-            icon={<FaRegEye />}
-            className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
-            disabled={!servico.isPago}
-            title={!servico.isPago ? "Aguardando pagamento..." : ""}
-          >
-            Visualizar Entrega
-          </Button>
-        )}
 
         {servico.isEntregue && (
-          <Button
-            onClick={() =>
-              navigate(deliveryPaths.realizarPagamentoById(servico.id))
-            }
-            icon={<FaMoneyCheck />}
-            disabled={servico.isPago}
-            className={clsx(
-              "px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg",
-              servico.isPago && "opacity-70",
-            )}
-          >
-            {servico.isPago ? "Já pago" : "Realizar pagamento"}
-          </Button>
+          <>
+            <Button
+              onClick={openDownloadModal}
+              icon={<FaRegEye />}
+              className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
+              disabled={!servico.isPago}
+              title={!servico.isPago ? "Aguardando pagamento..." : ""}
+            >
+              Visualizar Entrega
+            </Button>
+
+            <Button
+              onClick={() =>
+                navigate(deliveryPaths.realizarPagamentoById(servico.id))
+              }
+              icon={<FaMoneyCheck />}
+              disabled={servico.isPago}
+              className={clsx(
+                "px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg",
+                servico.isPago && "opacity-70",
+              )}
+            >
+              {servico.isPago ? "Já pago" : "Realizar pagamento"}
+            </Button>
+          </>
         )}
       </div>
 
