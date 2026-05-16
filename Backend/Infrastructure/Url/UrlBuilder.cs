@@ -13,6 +13,9 @@ namespace Backend.Infrastructure.Url
             if (string.IsNullOrEmpty(path))
                 return "";
 
+            if (path.StartsWith("http"))
+                return path;
+
             return $"{_settings.BaseUrl}/{path}";
         }
     }

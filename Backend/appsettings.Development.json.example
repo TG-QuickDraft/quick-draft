@@ -13,8 +13,19 @@
     "BaseUrl": "http://localhost:5191"
   },
   "Jwt": {
-    "Key": "super-secret-key-123456-super-secret-key-123456", #  HS256 requer no mínimo 32 bytes (256 bits)
+    "Key": "super-secret-key-123456-super-secret-key-123456",
     "Issuer": "MyApi",
     "Audience": "MyApi"
+  },
+  "GoogleDriveSettings": {
+    "ServiceAccountEmail": "seu-email@projeto.iam.gserviceaccount.com",
+    "PrivateKey": "-----BEGIN PRIVATE KEY-----\nSUA_CHAVE_AQUI\n-----END PRIVATE KEY-----\n",
+    "FolderId": "ID_DA_PASTA_NO_DRIVE"
+  },
+  "GithubSettings": {
+    "Token": "seu_token_aqui",
+    "Owner": "seu_usuario_github",
+    "Repository": "nome_do_repositorio",
+    "Branch": "main"
   }
 }
