@@ -35,19 +35,49 @@ namespace Backend.Infrastructure.Upload
             var fileName = $"{DateTime.UtcNow:yyyyMMddHHmmss}_{Guid.NewGuid()}{extensao}";
             var path = $"{folder}/{fileName}";
 
-            using var stream = arquivo.OpenReadStream();
-            using var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
-            var content = memoryStream.ToArray();
+            try
+            {
+                byte[] content;
+                using (var stream = arquivo.OpenReadStream())
+                {
+                    if (stream.CanSeek)
+                    {
+                        stream.Position = 0;
+                    }
+                    
+                    using var memoryStream = new MemoryStream();
+                    await stream.CopyToAsync(memoryStream);
+                    content = memoryStream.ToArray();
+                }
 
-            await _client.Repository.Content.CreateFile(
-                _settings.Owner,
-                _settings.Repository,
-                path,
-                new CreateFileRequest($"Upload {fileName}", Convert.ToBase64String(content), _settings.Branch, false)
-            );
+                if (content.Length == 0)
+                    throw new Exception("O arquivo enviado está vazio.");
 
-            return $"https://raw.githubusercontent.com/{_settings.Owner}/{_settings.Repository}/{_settings.Branch}/{path}";
+                await _client.Repository.Content.CreateFile(
+                    _settings.Owner,
+                    _settings.Repository,
+                    path,
+                    new CreateFileRequest($"Upload {fileName}", Convert.ToBase64String(content), _settings.Branch, false)
+                );
+
+                return $"https://raw.githubusercontent.com/{_settings.Owner}/{_settings.Repository}/{_settings.Branch}/{path}";
+            }
+            catch (ApiException ex)
+            {
+                // Log detalhado para o console do VS/Terminal
+                Console.WriteLine($"[GithubUploadService] Erro da API do GitHub: {ex.Message}");
+                Console.WriteLine($"[GithubUploadService] StatusCode: {ex.StatusCode}");
+                
+                var errorMessage = ex.ApiError?.Message ?? ex.Message;
+                Console.WriteLine($"[GithubUploadService] ApiErrorMessage: {errorMessage}");
+                
+                throw new Exception($"Falha ao fazer upload para o GitHub: {errorMessage}", ex);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GithubUploadService] Erro inesperado: {ex.Message}");
+                throw;
+            }
         }
     }
 }
