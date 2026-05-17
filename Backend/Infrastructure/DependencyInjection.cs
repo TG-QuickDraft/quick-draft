@@ -33,17 +33,11 @@ namespace Backend.Infrastructure
 
             // Configuração condicional do UploadService
             var githubSettings = configuration.GetSection("GithubSettings");
-            var googleDriveSettings = configuration.GetSection("GoogleDriveSettings");
 
             if (githubSettings.Exists() && !string.IsNullOrEmpty(githubSettings["Token"]))
             {
                 services.Configure<GithubSettings>(githubSettings);
                 services.AddScoped<IUploadService, GithubUploadService>();
-            }
-            else if (googleDriveSettings.Exists() && !string.IsNullOrEmpty(googleDriveSettings["ServiceAccountEmail"]))
-            {
-                services.Configure<GoogleDriveSettings>(googleDriveSettings);
-                services.AddScoped<IUploadService, GoogleDriveUploadService>();
             }
             else
             {

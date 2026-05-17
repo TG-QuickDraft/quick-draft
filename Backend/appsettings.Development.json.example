@@ -17,11 +17,6 @@
     "Issuer": "MyApi",
     "Audience": "MyApi"
   },
-  "GoogleDriveSettings": {
-    "ServiceAccountEmail": "seu-email@projeto.iam.gserviceaccount.com",
-    "PrivateKey": "-----BEGIN PRIVATE KEY-----\nSUA_CHAVE_AQUI\n-----END PRIVATE KEY-----\n",
-    "FolderId": "ID_DA_PASTA_NO_DRIVE"
-  },
   "GithubSettings": {
     "Token": "seu_token_aqui",
     "Owner": "seu_usuario_github",
