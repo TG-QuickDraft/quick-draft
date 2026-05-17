@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controllers
 {
-
     [ApiController]
     [Route("/api/[controller]")]
     public class PropostaController(IPropostaService service) : ControllerBase
@@ -17,34 +16,26 @@ namespace Backend.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ConsultarPorId(int id)
         {
-            return Ok(
-                await _service.ConsultarPorIdAsync(id)
-            );
+            return Ok(await _service.ConsultarPorIdAsync(id));
         }
 
         [HttpGet("servico/{servicoId}")]
         public async Task<IActionResult> ConsultarPorServicoId(int servicoId)
         {
-            return Ok(
-                await _service.ConsultarPorIdServicoAsync(servicoId)
-            );
+            return Ok(await _service.ConsultarPorIdServicoAsync(servicoId));
         }
 
         [HttpGet("freelancer/{freelancerId}")]
         public async Task<IActionResult> ConsultarPorFreelancerId(int freelancerId)
         {
-            return Ok(
-                await _service.ConsultarPorIdFreelancerAsync(freelancerId)
-            );
+            return Ok(await _service.ConsultarPorIdFreelancerAsync(freelancerId));
         }
 
         [HttpGet("minhas-propostas")]
         public async Task<IActionResult> ConsultarMinhasPropostas()
         {
             int freelancerId = User.GetUserId();
-            return Ok(
-                await _service.ConsultarPorIdFreelancerAsync(freelancerId)
-            );
+            return Ok(await _service.ConsultarPorIdFreelancerAsync(freelancerId));
         }
 
         [HttpPost]
@@ -54,12 +45,7 @@ namespace Backend.API.Controllers
             int freelancerId = User.GetUserId();
             var proposta = await _service.CriarAsync(dto, freelancerId);
 
-            return CreatedAtAction(
-                nameof(ConsultarPorId),
-                new { id = proposta.Id },
-                proposta
-            );
+            return CreatedAtAction(nameof(ConsultarPorId), new { id = proposta.Id }, proposta);
         }
-
     }
 }

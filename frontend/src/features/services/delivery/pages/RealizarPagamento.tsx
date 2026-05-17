@@ -10,7 +10,6 @@ import PaymentSection from "@/features/services/delivery/components/PaymentSecti
 import PaymentWrapper from "@/features/services/delivery/components/PaymentWrapper";
 import { deliveryPaths } from "@/features/services/delivery/routes/deliveryPaths";
 import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
-import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
 
 import { AddButton } from "@/shared/components/ui/buttons/AddButton";
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
@@ -109,7 +108,10 @@ const RealizarPagamento = () => {
     }
   };
 
-  const onSubmitAvaliacao = async (rating: number, comentario: string | undefined) => {
+  const onSubmitAvaliacao = async (
+    rating: number,
+    comentario: string | undefined,
+  ) => {
     await enviarAvaliacao(Number(id), rating, comentario);
   };
 

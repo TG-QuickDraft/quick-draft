@@ -24,17 +24,28 @@ import { FaMoneyCheck } from "react-icons/fa";
 import { deliveryPaths } from "@/features/services/delivery/routes/deliveryPaths";
 import { executionPaths } from "../../execution/routes/executionPaths";
 import { proposalPaths } from "../../proposal/routes/proposalPaths";
+import type { EntregaDTO } from "../../delivery/dtos/entrega/EntregaDTO";
+
+import { FaRegEye } from "react-icons/fa6";
+import { consultarEntregaPorServicoId } from "../../delivery/api/entrega.api";
+
+import DownloadDeliveryModal from "../components/DownloadDeliveryModal";
+import { useModalFactory } from "@/shared/hooks/useModalFactory";
 
 export const MeuServico = () => {
   const { id } = useParams();
   const servicoId = Number(id);
   const navigate = useNavigate();
 
+  const { openModal: openDownloadModal, Modal: DownloadModalComponent } =
+    useModalFactory(DownloadDeliveryModal);
+
   const [servico, setServico] = useState<ServicoDTO | null>(null);
   const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
   const [freelancers, setFreelancers] = useState<Record<number, FreelancerDTO>>(
     {},
   );
+  const [entrega, setEntrega] = useState<EntregaDTO | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -44,6 +55,11 @@ export const MeuServico = () => {
       try {
         const servicoData = await consultarServicoPorId(servicoId);
         const propostasData = await buscarPropostasPorServico(servicoId);
+
+        if (servicoData.isPago) {
+          const entrega = await consultarEntregaPorServicoId(servicoId);
+          setEntrega(entrega);
+        }
 
         setServico(servicoData);
         setPropostas(propostasData);
@@ -129,8 +145,15 @@ export const MeuServico = () => {
                         `}
                     >
                       <div className="flex items-center gap-3">
-
-                        <div onClick={() => freelancer && navigate(freelancerPaths.perfilFreelancerById(freelancer.id))}
+                        <div
+                          onClick={() =>
+                            freelancer &&
+                            navigate(
+                              freelancerPaths.perfilFreelancerById(
+                                freelancer.id,
+                              ),
+                            )
+                          }
                           className="cursor-pointer"
                         >
                           <ProfilePhoto
@@ -139,7 +162,7 @@ export const MeuServico = () => {
                             className="w-auto!"
                           />
                         </div>
-                        
+
                         <div>
                           <p className="font-medium line-clamp-1">
                             {freelancer?.nome || "Carregando..."}
@@ -190,40 +213,61 @@ export const MeuServico = () => {
               {servico.descricao}
             </p>
           </div>
-
-          {existeAlgumaPropostaAceita && (
-            <button
-              className={clsx(
-                "cursor-pointer hover:-translate-y-1 transition duration-200",
-              )}
-              title="Iniciar conversa com o freelancer"
-              onClick={() =>
-                navigate(
-                  executionPaths.chatServicoById(servico.id) +
-                    "?propostaId=" +
-                    servico.propostaAceitaId,
-                )
-              }
-            >
-              <IoChatboxEllipsesOutline size={40} />
-            </button>
-          )}
         </div>
       </div>
-      <div className="sticky bottom-6 flex justify-end gap-6 pr-6">
-        {servico.isEntregue && (
-          <Button
+      <div className="sticky bottom-6 flex justify-end gap-6 pr-6 mb-2">
+        {existeAlgumaPropostaAceita && (
+          <button
+            className={clsx(
+              "cursor-pointer hover:-translate-y-1 transition duration-200",
+            )}
+            title="Iniciar conversa com o freelancer"
             onClick={() =>
-              navigate(deliveryPaths.realizarPagamentoById(servico.id))
+              navigate(
+                executionPaths.chatServicoById(servico.id) +
+                  "?propostaId=" +
+                  servico.propostaAceitaId,
+              )
             }
-            icon={<FaMoneyCheck />}
-            disabled={servico.isPago}
-            className={clsx(servico.isPago && "opacity-70")}
           >
-            {servico.isPago ? "Já pago" : "Realizar pagamento"}
-          </Button>
+            <IoChatboxEllipsesOutline size={40} />
+          </button>
+        )}
+
+        {servico.isEntregue && (
+          <>
+            <Button
+              onClick={openDownloadModal}
+              icon={<FaRegEye />}
+              className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
+              disabled={!servico.isPago}
+              title={!servico.isPago ? "Aguardando pagamento..." : ""}
+            >
+              Visualizar Entrega
+            </Button>
+
+            <Button
+              onClick={() =>
+                navigate(deliveryPaths.realizarPagamentoById(servico.id))
+              }
+              icon={<FaMoneyCheck />}
+              disabled={servico.isPago}
+              className={clsx(
+                "px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg",
+                servico.isPago && "opacity-70",
+              )}
+            >
+              {servico.isPago ? "Já pago" : "Realizar pagamento"}
+            </Button>
+          </>
         )}
       </div>
+
+      <DownloadModalComponent
+        deliveryPath={entrega?.urlArquivo}
+        title="Arquivo de Entrega"
+        msg="O serviço foi finalizado e o arquivo já está disponível para você."
+      />
     </>
   );
 };

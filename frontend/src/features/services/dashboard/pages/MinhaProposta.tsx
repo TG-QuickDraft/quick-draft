@@ -26,6 +26,10 @@ import Button from "@/shared/components/ui/buttons/Button";
 import { consultarEntregaPorServicoId } from "../../delivery/api/entrega.api";
 import type { EntregaDTO } from "../../delivery/dtos/entrega/EntregaDTO";
 import { useCriarAvaliacao } from "../../delivery/hooks/useCriarAvaliacao";
+import DownloadDeliveryModal from "../components/DownloadDeliveryModal";
+
+import { FaRegEye } from "react-icons/fa6";
+import { IoMdSend } from "react-icons/io";
 
 const MinhaProposta = () => {
   const { id } = useParams();
@@ -45,6 +49,9 @@ const MinhaProposta = () => {
 
   const { openModal: openRatingModal, Modal: RatingModalComponent } =
     useModalFactory(RatingModal);
+
+  const { openModal: openDownloadModal, Modal: DownloadModalComponent } =
+    useModalFactory(DownloadDeliveryModal);
 
   const { enviarAvaliacao } = useCriarAvaliacao();
 
@@ -86,9 +93,12 @@ const MinhaProposta = () => {
   const temAceita = !!propostaAceitaId;
   const outraAceita = temAceita && !isAceita;
 
-  const onSubmitAvaliacao = async (rating: number, comentario: string | undefined) => {
+  const onSubmitAvaliacao = async (
+    rating: number,
+    comentario: string | undefined,
+  ) => {
     await enviarAvaliacao(proposta.servicoId, rating, comentario);
-  }
+  };
 
   return (
     <div className="p-6 flex flex-col gap-6">
@@ -123,19 +133,20 @@ const MinhaProposta = () => {
           </button>
 
           {entrega === null ? (
-            <button
+            <Button
               onClick={() => setShowEntregaModal(true)}
-              className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
+              icon={<IoMdSend />}
+              className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
             >
               Entregar Serviço
-            </button>
+            </Button>
           ) : (
             <Button
-              className="px-6 py-3 rounded-xl bg-black text-white hover:scale-[1.02] transition-all shadow-lg"
-              variant="success"
-              disabled
+              onClick={openDownloadModal}
+              icon={<FaRegEye />}
+              className="px-6 py-3 rounded-xl bg-black! text-white hover:scale-[1.02] transition-all shadow-lg"
             >
-              Serviço entregue
+              Visualizar Entrega
             </Button>
           )}
         </div>
@@ -152,6 +163,12 @@ const MinhaProposta = () => {
         title="Avaliar Cliente"
         subtitle="Qual nota deseja dar ao cliente?"
         onSubmit={onSubmitAvaliacao}
+      />
+
+      <DownloadModalComponent
+        deliveryPath={entrega?.urlArquivo}
+        title="Arquivo de Entrega"
+        msg="O serviço foi entregue com sucesso e o arquivo esta disponível para download."
       />
     </div>
   );
