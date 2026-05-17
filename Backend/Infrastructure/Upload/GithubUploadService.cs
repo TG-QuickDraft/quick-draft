@@ -27,7 +27,6 @@ namespace Backend.Infrastructure.Upload
                 Credentials = new Credentials(_settings.Token)
             };
             
-            // Aumenta o timeout para lidar com arquivos maiores em conexões lentas
             _client.Connection.SetRequestTimeout(TimeSpan.FromMinutes(5));
         }
 
@@ -49,39 +48,57 @@ namespace Backend.Infrastructure.Upload
             var fileName = $"{DateTime.UtcNow:yyyyMMddHHmmss}_{Guid.NewGuid()}{extensao}";
             var path = $"{folder}/{fileName}";
 
-            _logger.LogInformation("Iniciando upload para o GitHub: {Path} ({Size} bytes)", path, arquivo.Length);
+            _logger.LogInformation("Iniciando upload otimizado para o GitHub: {Path} ({Size} bytes)", path, arquivo.Length);
+
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
             try
             {
                 byte[] content;
                 using (var stream = arquivo.OpenReadStream())
                 {
-                    content = new byte[arquivo.Length];
-                    int totalRead = 0;
-                    while (totalRead < arquivo.Length)
-                    {
-                        int read = await stream.ReadAsync(content.AsMemory(totalRead, (int)arquivo.Length - totalRead));
-                        if (read == 0) break;
-                        totalRead += read;
-                    }
+                    using var ms = new MemoryStream((int)arquivo.Length);
+                    await stream.CopyToAsync(ms);
+                    content = ms.ToArray();
                 }
 
                 if (content.Length == 0)
                     throw new Exception("O arquivo enviado está vazio.");
 
+                _logger.LogDebug("Leitura do arquivo concluída em {Elapsed}ms", stopwatch.ElapsedMilliseconds);
+
                 string base64Content = Convert.ToBase64String(content);
+                _logger.LogDebug("Conversão Base64 concluída em {Elapsed}ms. Tamanho string: {Size}", 
+                    stopwatch.ElapsedMilliseconds, base64Content.Length);
+
+                _logger.LogInformation("Iniciando upload do blob e busca de metadados em paralelo...");
                 
-                // Usando a Git Data API para maior performance e suporte a arquivos maiores
-                return await ExecutarUploadComRetry(path, fileName, base64Content);
+                var blobTask = CriarBlobComRetry(base64Content);
+                var branchMetadataTask = ObterMetadadosBranch();
+
+                await Task.WhenAll(blobTask, branchMetadataTask);
+
+                var blobSha = blobTask.Result;
+                var (latestCommitSha, baseTreeSha) = branchMetadataTask.Result;
+
+                _logger.LogInformation("Blob criado (SHA: {Sha}) e metadados obtidos em {Elapsed}ms", 
+                    blobSha, stopwatch.ElapsedMilliseconds);
+
+                var commitResult = await ExecutarCommitComRetry(path, fileName, blobSha, latestCommitSha, baseTreeSha);
+                
+                stopwatch.Stop();
+                _logger.LogInformation("Processo de upload completo em {Elapsed}ms: {Path}", stopwatch.ElapsedMilliseconds, path);
+
+                return commitResult;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro fatal durante o processo de upload para o GitHub");
+                _logger.LogError(ex, "Erro fatal durante o processo de upload para o GitHub após {Elapsed}ms", stopwatch.ElapsedMilliseconds);
                 throw;
             }
         }
 
-        private async Task<string> ExecutarUploadComRetry(string path, string fileName, string base64Content, int maxRetries = 3)
+        private async Task<string> CriarBlobComRetry(string base64Content, int maxRetries = 3)
         {
             int retryCount = 0;
             int delayMs = 1000;
@@ -90,65 +107,85 @@ namespace Backend.Infrastructure.Upload
             {
                 try
                 {
-                    // 1. Criar o Blob
-                    _logger.LogDebug("Criando blob no GitHub (Tentativa {Attempt})...", retryCount + 1);
                     var blob = await _client.Git.Blob.Create(_settings.Owner, _settings.Repository, new NewBlob
                     {
                         Content = base64Content,
                         Encoding = EncodingType.Base64
                     });
+                    return blob.Sha;
+                }
+                catch (Exception ex) when (retryCount < maxRetries - 1)
+                {
+                    retryCount++;
+                    _logger.LogWarning(ex, "Erro ao criar blob (Tentativa {Attempt}). Retentando em {Delay}ms...", retryCount, delayMs);
+                    await Task.Delay(delayMs);
+                    delayMs *= 2;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Falha definitiva ao criar blob após {Attempts} tentativas", retryCount + 1);
+                    throw;
+                }
+            }
+        }
 
-                    // 2. Obter a referência da branch atual
-                    var reference = await _client.Git.Reference.Get(_settings.Owner, _settings.Repository, $"heads/{_settings.Branch}");
-                    var latestCommit = await _client.Git.Commit.Get(_settings.Owner, _settings.Repository, reference.Object.Sha);
+        private async Task<(string CommitSha, string TreeSha)> ObterMetadadosBranch()
+        {
+            var reference = await _client.Git.Reference.Get(_settings.Owner, _settings.Repository, $"heads/{_settings.Branch}");
+            var latestCommit = await _client.Git.Commit.Get(_settings.Owner, _settings.Repository, reference.Object.Sha);
+            return (latestCommit.Sha, latestCommit.Tree.Sha);
+        }
 
-                    // 3. Criar uma nova árvore baseada no último commit
-                    var newTree = new NewTree { BaseTree = latestCommit.Tree.Sha };
+        private async Task<string> ExecutarCommitComRetry(string path, string fileName, string blobSha, string latestCommitSha, string baseTreeSha, int maxRetries = 3)
+        {
+            int retryCount = 0;
+            int delayMs = 500;
+
+            while (true)
+            {
+                try
+                {
+                    var newTree = new NewTree { BaseTree = baseTreeSha };
                     newTree.Tree.Add(new NewTreeItem
                     {
                         Path = path,
                         Mode = "100644",
                         Type = TreeType.Blob,
-                        Sha = blob.Sha
+                        Sha = blobSha
                     });
                     
                     var treeResponse = await _client.Git.Tree.Create(_settings.Owner, _settings.Repository, newTree);
 
-                    // 4. Criar o Commit
                     var newCommit = await _client.Git.Commit.Create(_settings.Owner, _settings.Repository, 
-                        new NewCommit($"Upload {fileName}", treeResponse.Sha, latestCommit.Sha));
+                        new NewCommit($"Upload {fileName}", treeResponse.Sha, latestCommitSha));
 
-                    // 5. Atualizar a referência da branch
                     await _client.Git.Reference.Update(_settings.Owner, _settings.Repository, $"heads/{_settings.Branch}", 
                         new ReferenceUpdate(newCommit.Sha));
 
-                    _logger.LogInformation("Upload concluído com sucesso: {Path}", path);
-
                     return $"https://raw.githubusercontent.com/{_settings.Owner}/{_settings.Repository}/{_settings.Branch}/{path}";
                 }
-                catch (ApiException ex) when (retryCount < maxRetries - 1 && ((int)ex.StatusCode >= 500 || (int)ex.StatusCode == 409))
+                catch (ApiException ex) when (retryCount < maxRetries - 1 && (ex.StatusCode == System.Net.HttpStatusCode.Conflict || (int)ex.StatusCode >= 500))
                 {
-                    _logger.LogWarning(ex, "Conflito ou erro de servidor no GitHub (Tentativa {Attempt}). Retentando em {Delay}ms...", 
-                        retryCount + 1, delayMs);
-                    
                     retryCount++;
+                    _logger.LogWarning("Conflito de concorrência no commit. Re-obtendo metadados e retentando (Tentativa {Attempt})...", retryCount);
+                    
+                    var metadados = await ObterMetadadosBranch();
+                    latestCommitSha = metadados.CommitSha;
+                    baseTreeSha = metadados.TreeSha;
+                    
                     await Task.Delay(delayMs);
                     delayMs *= 2;
                 }
                 catch (Exception ex) when (retryCount < maxRetries - 1)
                 {
-                    _logger.LogWarning(ex, "Erro inesperado no upload (Tentativa {Attempt}). Retentando em {Delay}ms...", 
-                        retryCount + 1, delayMs);
-                    
                     retryCount++;
+                    _logger.LogWarning(ex, "Erro inesperado no commit (Tentativa {Attempt}). Retentando...", retryCount);
                     await Task.Delay(delayMs);
-                    delayMs *= 2;
                 }
-                catch (ApiException ex)
+                catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Erro da API do GitHub após {Attempts} tentativas: {Message}", 
-                        retryCount + 1, ex.ApiError?.Message ?? ex.Message);
-                    throw new Exception($"Falha ao fazer upload para o GitHub: {ex.ApiError?.Message ?? ex.Message}", ex);
+                    _logger.LogError(ex, "Falha definitiva ao realizar commit após {Attempts} tentativas", retryCount + 1);
+                    throw;
                 }
             }
         }

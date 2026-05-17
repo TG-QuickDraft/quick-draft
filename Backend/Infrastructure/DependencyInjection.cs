@@ -31,16 +31,13 @@ namespace Backend.Infrastructure
             services.AddScoped<ITokenService, JwtService>();
             services.AddScoped<IUrlBuilder, UrlBuilder>();
 
-            // Configuração condicional do UploadService
             var githubSettings = configuration.GetSection("GithubSettings");
 
             if (githubSettings.Exists() && !string.IsNullOrEmpty(githubSettings["Token"]))
             {
                 services.Configure<GithubSettings>(githubSettings);
                 services.AddScoped<IUploadService, GithubUploadService>();
-            }
-            else
-            {
+            } else {
                 services.AddScoped<IUploadService, LocalUploadService>();
             }
 
