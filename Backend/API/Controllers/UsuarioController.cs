@@ -49,7 +49,6 @@ namespace Backend.API.Controllers
             }
             catch (Exception ex)
             {
-                // Aqui vamos logar o erro real para o console
                 Console.WriteLine($"[Erro no Cadastro]: {ex.Message}");
                 Console.WriteLine(ex.StackTrace);
                 return StatusCode(500, $"Erro interno ao processar o cadastro: {ex.Message}");
