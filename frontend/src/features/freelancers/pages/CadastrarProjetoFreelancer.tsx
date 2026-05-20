@@ -19,22 +19,56 @@ import { useSearchParams } from "react-router-dom";
 import ImagePicker from "@/features/users/components/ImagePicker";
 import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "@/features/users/routes/usuarioPaths";
+import { useEffect, useState } from "react";
+import { consultarProjetoPorId } from "@/features/freelancers/api/projetoFreelancer.api";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
+import Spinner from "@/shared/components/ui/Spinner";
+
+import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 
 export const CadastrarProjetoFreelancer = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [initialImage, setInitialImage] = useState<string | undefined>(
+    undefined,
+  );
   const { showSuccess, showError } = useModal();
 
   const [params] = useSearchParams();
   const from = params.get("from");
+  const projectId = params.get("id");
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setValue,
   } = useForm<INewProjectForm>({
     mode: "onChange",
     resolver: yupResolver(NewProjectSchema),
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let timer = setTimeout(() => setIsLoading(true), LOADING_TIMEOUT);
+      try {
+        const project = await consultarProjetoPorId(Number(projectId));
+        reset({
+          name: project.nome,
+          description: project.descricao,
+          link: project.link,
+        });
+        setInitialImage(project.imagemUrl);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        clearTimeout(timer);
+        setIsLoading(false);
+      }
+    };
+    if (projectId) fetchData();
+  }, [projectId]);
 
   const enviar = async (data: INewProjectForm) => {
     const projeto: CriarProjetoFreelancerDTO = {
@@ -67,9 +101,13 @@ export const CadastrarProjetoFreelancer = () => {
     }
   };
 
+  if (isLoading) return <Spinner />;
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center h-full">
-      <Title>Cadastrar Projeto</Title>
+      <BackButton>
+        {projectId ? "Editar Projeto" : "Cadastrar Projeto"}
+      </BackButton>
 
       <form
         onSubmit={handleSubmit(enviar)}
@@ -97,6 +135,7 @@ export const CadastrarProjetoFreelancer = () => {
         />
 
         <ImagePicker
+          initialImage={initialImage}
           onChange={(file) => {
             if (!file) {
               setValue("imagem.imagem", undefined);
@@ -111,7 +150,9 @@ export const CadastrarProjetoFreelancer = () => {
           error={errors?.imagem?.imagem?.message}
         />
 
-        <Button icon={<LuSave size={30} />}>Salvar</Button>
+        <Button icon={<LuSave size={30} />}>
+          {projectId ? "Salvar" : "Cadastrar"}
+        </Button>
       </form>
     </div>
   );

@@ -151,7 +151,9 @@ export const PerfilFreelancer = () => {
                       <ProposalCards
                         editable
                         onEdit={() =>
-                          navigate(freelancerPaths.cadastrarProjetoFreelancer)
+                          navigate(
+                            `${freelancerPaths.cadastrarProjetoFreelancer}?id=${proj.id}`,
+                          )
                         }
                         img={proj.imagemUrl}
                         url={proj.link}

@@ -17,6 +17,17 @@ export const consultarProjetosFreelancerPorIdFreelancer = async (
   }
 };
 
+export const consultarProjetoPorId = async (projetoId: number) => {
+  try {
+    const { data } = await api.get<ProjetoFreelancerDTO>(
+      `${BASE_PATH}/${projetoId}`,
+    );
+    return data;
+  } catch {
+    throw new Error("Erro ao consultar projeto.");
+  }
+};
+
 export const adicionarProjetoFreelancer = async (
   projeto: CriarProjetoFreelancerDTO,
 ) => {
