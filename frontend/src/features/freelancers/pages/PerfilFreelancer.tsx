@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { consultarFreelancerPorId } from "@/features/freelancers/api/freelancer.api";
@@ -22,10 +22,12 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import FreelancerTitle from "../components/FreelancerTitle";
 import type { AvaliacaoPerfilDTO } from "@/features/services/delivery/dtos/avaliacao/AvaliacaoPerfilDTO";
 import { consultarAvaliacaoPerfil } from "@/features/services/delivery/api/avaliacao.api";
+import { freelancerPaths } from "../routes/freelancerPaths";
 
 export const PerfilFreelancer = () => {
   const { id } = useParams();
   const { usuario } = useAuth();
+  const navigate = useNavigate();
 
   const [freelancer, setFreelancer] = useState<FreelancerDTO | null>(null);
   const [projetos, setProjetos] = useState<ProjetoFreelancerDTO[]>([]);
@@ -103,7 +105,8 @@ export const PerfilFreelancer = () => {
                     rating={avaliacaoPerfil?.mediaAvaliacoes ?? 0}
                   />
                   <p className="text-center">
-                    {totalAvaliacoes} avaliaç{totalAvaliacoes === 1 ? "ão" : "ões"}
+                    {totalAvaliacoes} avaliaç
+                    {totalAvaliacoes === 1 ? "ão" : "ões"}
                   </p>
                 </div>
               </div>
@@ -144,8 +147,15 @@ export const PerfilFreelancer = () => {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
                   {projetos.map((proj) => (
-                    <div className="w-full" key={proj.id}>
-                      <ProposalCards img={proj.imagemUrl} url={proj.link} />
+                    <div className="relative w-full" key={proj.id}>
+                      <ProposalCards
+                        editable
+                        onEdit={() =>
+                          navigate(freelancerPaths.cadastrarProjetoFreelancer)
+                        }
+                        img={proj.imagemUrl}
+                        url={proj.link}
+                      />
                     </div>
                   ))}
                 </div>
