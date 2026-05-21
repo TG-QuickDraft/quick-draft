@@ -1,6 +1,6 @@
 import api from "@/shared/apis/api";
 import type { ProjetoFreelancerDTO } from "../dtos/projetoFreelancer/ProjetoFreelancerDTO";
-import type { CriarProjetoFreelancerDTO } from "../dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
+import type { SalvarProjetoFreelancerDTO } from "../dtos/projetoFreelancer/SalvarProjetoFreelancerDTO";
 
 const BASE_PATH = "/api/projetoFreelancer";
 
@@ -29,7 +29,7 @@ export const consultarProjetoPorId = async (projetoId: number) => {
 };
 
 export const adicionarProjetoFreelancer = async (
-  projeto: CriarProjetoFreelancerDTO,
+  projeto: SalvarProjetoFreelancerDTO,
 ) => {
   try {
     const { data } = await api.post(BASE_PATH, projeto);
@@ -39,6 +39,17 @@ export const adicionarProjetoFreelancer = async (
   }
 };
 
+export const atualizarProjetoFreelancer = async (
+  projeto: SalvarProjetoFreelancerDTO,
+  projetoId: number,
+) => {
+  try {
+    const { data } = await api.put(`${BASE_PATH}/${projetoId}`, projeto);
+    return data;
+  } catch {
+    throw new Error("Erro ao atualizar projeto.");
+  }
+};
 export const enviarImagemProjeto = async (
   formData: FormData,
   projetoId: number,

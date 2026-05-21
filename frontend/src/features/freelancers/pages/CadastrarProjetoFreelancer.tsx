@@ -1,9 +1,7 @@
 import Button from "@/shared/components/ui/buttons/Button";
 import { LuSave } from "react-icons/lu";
 
-import Title from "@/shared/components/ui/titles/Title";
-
-import type { CriarProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/CriarProjetoFreelancerDTO";
+import type { SalvarProjetoFreelancerDTO } from "@/features/freelancers/dtos/projetoFreelancer/SalvarProjetoFreelancerDTO";
 import {
   adicionarProjetoFreelancer,
   enviarImagemProjeto,
@@ -25,6 +23,9 @@ import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 import Spinner from "@/shared/components/ui/Spinner";
 
 import { BackButton } from "@/shared/components/ui/buttons/BackButton";
+import { atualizarProjetoFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import { freelancerPaths } from "../routes/freelancerPaths";
 
 export const CadastrarProjetoFreelancer = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +34,7 @@ export const CadastrarProjetoFreelancer = () => {
     undefined,
   );
   const { showSuccess, showError } = useModal();
+  const { usuario } = useAuth();
 
   const [params] = useSearchParams();
   const from = params.get("from");
@@ -71,13 +73,22 @@ export const CadastrarProjetoFreelancer = () => {
   }, [projectId]);
 
   const enviar = async (data: INewProjectForm) => {
-    const projeto: CriarProjetoFreelancerDTO = {
+    const projeto: SalvarProjetoFreelancerDTO = {
       nome: data.name,
       descricao: data.description,
       link: data.link,
     };
 
     try {
+      if (projectId) {
+        await atualizarProjetoFreelancer(projeto, Number(projectId));
+        showSuccess({
+          content: "Projeto atualizado com sucesso!",
+          redirect: freelancerPaths.perfilFreelancerById(usuario?.id || ""),
+        });
+        return;
+      }
+
       const projetoAdicionado = await adicionarProjetoFreelancer(projeto);
 
       const imagem = data.imagem?.imagem?.[0];
