@@ -93,15 +93,24 @@ namespace Backend.Application.Services
             if (projeto == null || projeto.FreelancerId != freelancerId)
                 return false;
 
-            string path = Path.Combine(
+            string folder = Path.Combine(
                 "uploads",
                 "imagens-projeto-freelancer",
                 freelancerId.ToString()
             );
 
-            projeto.ImagemUrl = await _uploadService.UploadImagem(dto.Imagem, path);
+            string? imagemAntiga = projeto.ImagemUrl;
 
-            return await _repository.AtualizarAsync(projeto);
+            projeto.ImagemUrl = await _uploadService.UploadImagem(dto.Imagem, folder);
+
+            bool sucesso = await _repository.AtualizarAsync(projeto);
+
+            if (sucesso && !string.IsNullOrEmpty(imagemAntiga))
+            {
+                _uploadService.DeletarArquivo(imagemAntiga);
+            }
+
+            return sucesso;
         }
     }
 }

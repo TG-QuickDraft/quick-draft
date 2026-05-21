@@ -25,6 +25,19 @@ namespace Backend.Infrastructure.Upload
             return $"{folder}/{fileName}";
         }
 
+        public void DeletarArquivo(string? path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return;
+
+            string fullPath = Path.Combine("wwwroot", path);
+
+            if (File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+            }
+        }
+
         private static async Task<string> SalvarArquivo(IFormFile arquivo, string folder)
         {
             string path = Path.Combine("wwwroot", folder);

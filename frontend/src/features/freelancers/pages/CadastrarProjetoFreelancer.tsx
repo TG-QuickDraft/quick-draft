@@ -82,6 +82,15 @@ export const CadastrarProjetoFreelancer = () => {
     try {
       if (projectId) {
         await atualizarProjetoFreelancer(projeto, Number(projectId));
+
+        const imagem = data.imagem?.imagem?.[0];
+
+        if (imagem) {
+          const form = new FormData();
+          form.append("imagem", imagem);
+          await enviarImagemProjeto(form, Number(projectId));
+        }
+
         showSuccess({
           content: "Projeto atualizado com sucesso!",
           redirect: freelancerPaths.perfilFreelancerById(usuario?.id || ""),
