@@ -11,7 +11,6 @@ namespace Backend.Application.Services
     public class ProjetoFreelancerService(
         IProjetoFreelancerRepository repository,
         IMapper mapper,
-
         IUploadService uploadService,
         IUrlBuilder urlBuilder
     ) : IProjetoFreelancerService
@@ -22,7 +21,7 @@ namespace Backend.Application.Services
         private readonly IUploadService _uploadService = uploadService;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
 
-        public async Task <ProjetoFreelancerDTO?> ConsultarPorIdAsync(int id)
+        public async Task<ProjetoFreelancerDTO?> ConsultarPorIdAsync(int id)
         {
             var projeto = await _repository.ConsultarPorIdAsync(id);
 
@@ -39,8 +38,9 @@ namespace Backend.Application.Services
             int freelancerId
         )
         {
-            IEnumerable<ProjetoFreelancer> list =
-                await _repository.ConsultarPorIdFreelancerAsync(freelancerId);
+            IEnumerable<ProjetoFreelancer> list = await _repository.ConsultarPorIdFreelancerAsync(
+                freelancerId
+            );
 
             foreach (var projeto in list)
             {
@@ -63,14 +63,34 @@ namespace Backend.Application.Services
             return _mapper.Map<ProjetoFreelancerDTO>(projetoAdicionado);
         }
 
+        public async Task<ProjetoFreelancerDTO?> AtualizarProjetoAsync(
+            AtualizarProjetoFreelancerDTO dto,
+            int projetoId,
+            int freelancerId
+        )
+        {
+            var projeto = await _repository.ConsultarPorIdAsync(projetoId);
+
+            if (projeto == null || projeto.FreelancerId != freelancerId)
+                return null;
+
+            projeto.Nome = dto.Nome;
+            projeto.Descricao = dto.Descricao;
+            projeto.Link = dto.Link;
+
+            await _repository.AtualizarAsync(projeto);
+
+            return _mapper.Map<ProjetoFreelancerDTO>(projeto);
+        }
+
         public async Task<bool> AtualizarImagemAsync(
-            UploadImagemDTO dto, 
+            UploadImagemDTO dto,
             int freelancerId,
             int projetoId
         )
         {
             var projeto = await _repository.ConsultarPorIdAsync(projetoId);
-            if (projeto == null)
+            if (projeto == null || projeto.FreelancerId != freelancerId)
                 return false;
 
             string path = Path.Combine(
@@ -80,9 +100,8 @@ namespace Backend.Application.Services
             );
 
             projeto.ImagemUrl = await _uploadService.UploadImagem(dto.Imagem, path);
-            
+
             return await _repository.AtualizarAsync(projeto);
         }
-
     }
 }
