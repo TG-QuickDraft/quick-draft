@@ -149,7 +149,7 @@ export const PerfilFreelancer = () => {
                   {projetos.map((proj) => (
                     <div className="relative w-full" key={proj.id}>
                       <ProposalCards
-                        editable
+                        editable={isEditable}
                         onEdit={() =>
                           navigate(
                             `${freelancerPaths.cadastrarProjetoFreelancer}?id=${proj.id}`,
