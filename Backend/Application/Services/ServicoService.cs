@@ -88,10 +88,14 @@ namespace Backend.Application.Services
             return _mapper.Map<PropostaDTO>(propostaAceita);
         }
 
-        public async Task<ServicoDTO> AtualizarAsync(AtualizarServicoDTO dto, int clienteId)
+        public async Task<ServicoDTO> AtualizarAsync(
+            AtualizarServicoDTO dto,
+            int clienteId,
+            int servicoId
+        )
         {
             Servico servicoEntidade =
-                await _repository.ConsultarPorIdAsync(dto.Id)
+                await _repository.ConsultarPorIdAsync(servicoId)
                 ?? throw new InvalidOperationException("Serviço não encontrado");
 
             if (servicoEntidade.ClienteId != clienteId)
@@ -102,6 +106,7 @@ namespace Backend.Application.Services
             }
 
             _mapper.Map(dto, servicoEntidade);
+            servicoEntidade.Id = servicoId;
 
             await _repository.AtualizarAsync(servicoEntidade);
 
