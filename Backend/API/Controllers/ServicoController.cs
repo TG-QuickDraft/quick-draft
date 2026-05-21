@@ -44,6 +44,17 @@ namespace Backend.API.Controllers
             );
         }
 
+        [HttpPut]
+        [Authorize(Roles = Roles.Cliente)]
+        public async Task<IActionResult> Atualizar([FromBody] AtualizarServicoDTO servico)
+        {
+            int usuarioId = User.GetUserId();
+
+            ServicoDTO updatedServico = await _service.AtualizarAsync(servico, usuarioId);
+
+            return Ok(updatedServico);
+        }
+
         [HttpPost("{servicoId}/aceitar-proposta/{propostaId}")]
         [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> AceitarProposta(int servicoId, int propostaId)

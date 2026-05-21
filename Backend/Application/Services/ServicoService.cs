@@ -81,13 +81,14 @@ namespace Backend.Application.Services
 
         public async Task<PropostaDTO?> ConsultarPropostaAceitaIdAsync(int servicoId)
         {
-            Proposta propostaAceita = await _repository.ConsultarPropostaAceitaIdAsync(servicoId)
+            Proposta propostaAceita =
+                await _repository.ConsultarPropostaAceitaIdAsync(servicoId)
                 ?? throw new InvalidOperationException("Serviço não possui proposta aceita!");
 
             return _mapper.Map<PropostaDTO>(propostaAceita);
         }
 
-        public async Task<bool> AtualizarAsync(AtualizarServicoDTO dto, int clienteId)
+        public async Task<ServicoDTO> AtualizarAsync(AtualizarServicoDTO dto, int clienteId)
         {
             Servico servicoEntidade =
                 await _repository.ConsultarPorIdAsync(dto.Id)
@@ -100,17 +101,17 @@ namespace Backend.Application.Services
                 );
             }
 
-            servicoEntidade.Nome = dto.Nome;
-            servicoEntidade.Descricao = dto.Descricao;
-            servicoEntidade.Prazo = dto.Prazo;
-            servicoEntidade.ValorMinimo = dto.ValorMinimo;
+            _mapper.Map(dto, servicoEntidade);
 
-            return await _repository.AtualizarAsync(servicoEntidade);
+            await _repository.AtualizarAsync(servicoEntidade);
+
+            return _mapper.Map<ServicoDTO>(servicoEntidade);
         }
 
         public async Task<bool> AceitarPropostaAsync(int servicoId, int propostaId, int clienteId)
         {
-            var servico = await _repository.ConsultarPorIdAsync(servicoId)
+            var servico =
+                await _repository.ConsultarPorIdAsync(servicoId)
                 ?? throw new InvalidOperationException("Serviço não encontrado");
 
             if (servico.ClienteId != clienteId)
@@ -155,7 +156,8 @@ namespace Backend.Application.Services
 
         public async Task<bool> AlterarServicoParaEntregue(int servicoId)
         {
-            var servico = await _repository.ConsultarPorIdAsync(servicoId)
+            var servico =
+                await _repository.ConsultarPorIdAsync(servicoId)
                 ?? throw new InvalidOperationException("Serviço não pode ser encontrado");
 
             if (servico.IsEntregue)

@@ -16,7 +16,7 @@ namespace Backend.Application.Interfaces.Services
 
         public Task<ServicoDTO> CriarAsync(CriarServicoDTO servico, int usuarioId);
 
-        public Task<bool> AtualizarAsync(AtualizarServicoDTO dto, int clienteId);
+        public Task<ServicoDTO> AtualizarAsync(AtualizarServicoDTO dto, int clienteId);
 
         public Task<PagedResult<ServicoDTO>> ConsultarPorClienteAsync(
             int clienteId,
@@ -29,6 +29,5 @@ namespace Backend.Application.Interfaces.Services
         public Task<bool> AceitarPropostaAsync(int servicoId, int propostaId, int clienteId);
 
         public Task<bool> AlterarServicoParaEntregue(int servicoId);
-
     }
 }
