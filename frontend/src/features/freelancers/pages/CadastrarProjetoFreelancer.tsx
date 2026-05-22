@@ -52,24 +52,26 @@ export const CadastrarProjetoFreelancer = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      let timer = setTimeout(() => setIsLoading(true), LOADING_TIMEOUT);
-      try {
-        const project = await consultarProjetoPorId(Number(projectId));
-        reset({
-          name: project.nome,
-          description: project.descricao,
-          link: project.link,
-        });
-        setInitialImage(project.imagemUrl);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        clearTimeout(timer);
-        setIsLoading(false);
-      }
-    };
-    if (projectId) fetchData();
+    if (projectId) {
+      const project = async () => {
+        let timer = setTimeout(() => setIsLoading(true), LOADING_TIMEOUT);
+        try {
+          const project = await consultarProjetoPorId(Number(projectId));
+          reset({
+            name: project.nome,
+            description: project.descricao,
+            link: project.link,
+          });
+          setInitialImage(project.imagemUrl);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          clearTimeout(timer);
+          setIsLoading(false);
+        }
+      };
+      project();
+    }
   }, [projectId]);
 
   const enviar = async (data: INewProjectForm) => {
@@ -78,14 +80,16 @@ export const CadastrarProjetoFreelancer = () => {
       descricao: data.description,
       link: data.link,
     };
+    const imagem = data.imagem?.imagem?.[0];
 
     try {
       if (projectId) {
-        await atualizarProjetoFreelancer(projeto, Number(projectId));
+        const updatedProject = await atualizarProjetoFreelancer(
+          projeto,
+          Number(projectId),
+        );
 
-        const imagem = data.imagem?.imagem?.[0];
-
-        if (imagem) {
+        if (imagem && updatedProject) {
           const form = new FormData();
           form.append("imagem", imagem);
           await enviarImagemProjeto(form, Number(projectId));
@@ -95,25 +99,20 @@ export const CadastrarProjetoFreelancer = () => {
           content: "Projeto atualizado com sucesso!",
           redirect: freelancerPaths.perfilFreelancerById(usuario?.id || ""),
         });
-        return;
+      } else {
+        const projetoAdicionado = await adicionarProjetoFreelancer(projeto);
+
+        if (imagem && projetoAdicionado) {
+          const form = new FormData();
+          form.append("imagem", imagem);
+          await enviarImagemProjeto(form, projetoAdicionado.id);
+        }
+
+        showSuccess({
+          content: "Projeto cadastrado com sucesso!",
+          redirect: from ? from : usuarioPaths.minhaConta,
+        });
       }
-
-      const projetoAdicionado = await adicionarProjetoFreelancer(projeto);
-
-      const imagem = data.imagem?.imagem?.[0];
-
-      if (imagem && projetoAdicionado) {
-        const form = new FormData();
-
-        form.append("imagem", imagem);
-
-        await enviarImagemProjeto(form, projetoAdicionado.id);
-      }
-
-      showSuccess({
-        content: "Projeto cadastrado com sucesso!",
-        redirect: from ? from : usuarioPaths.minhaConta,
-      });
     } catch (error) {
       if (error instanceof Error) {
         showError({ content: error.message });
