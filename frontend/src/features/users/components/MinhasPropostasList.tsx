@@ -5,7 +5,6 @@ import Spinner from "@/shared/components/ui/Spinner";
 import { FiEye } from "react-icons/fi";
 import { numberToCurrency } from "@/shared/utils/number.utils";
 import { toLocaleString } from "@/shared/utils/date.utils";
-import { freelancerPaths } from "@/features/freelancers/routes/freelancerPaths";
 import type { PropostaDTO } from "@/features/services/proposal/dtos/PropostaDTO";
 import { consultarMinhasPropostas } from "@/features/services/proposal/api/proposta.api";
 import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";

@@ -59,6 +59,8 @@ export const MeusServicosList = ({
       )}
 
       {servicos.map((servico) => {
+        const isEditable = servico.propostaAceitaId === null;
+
         return (
           <CardWrapper key={servico.id}>
             <div>
@@ -77,13 +79,19 @@ export const MeusServicosList = ({
               <Button
                 className={clsx(
                   "rounded-lg border border-gray-300 text-lg ",
-                  "hover:scale-100! hover:bg-black/80!",
+                  "hover:scale-100! not-disabled:hover:bg-black/80!",
                 )}
                 icon={<LuPencil />}
+                disabled={!isEditable}
                 onClick={() =>
                   navigate(
                     `${proposalPaths.cadastrarServico}?serviceId=${servico.id}`,
                   )
+                }
+                title={
+                  isEditable
+                    ? "Editar serviço"
+                    : "Serviço não pode ser editado com proposta aceita"
                 }
               >
                 Editar

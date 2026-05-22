@@ -98,6 +98,13 @@ namespace Backend.Application.Services
                 await _repository.ConsultarPorIdAsync(servicoId)
                 ?? throw new InvalidOperationException("Serviço não encontrado");
 
+            if (servicoEntidade.PropostaAceitaId != null)
+            {
+                throw new InvalidOperationException(
+                    "Serviço não pode ser editado com proposta aceita"
+                );
+            }
+
             if (servicoEntidade.ClienteId != clienteId)
             {
                 throw new UnauthorizedAccessException(
