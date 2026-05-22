@@ -152,7 +152,7 @@ export const PerfilFreelancer = () => {
                         editable={isEditable}
                         onEdit={() =>
                           navigate(
-                            `${freelancerPaths.cadastrarProjetoFreelancer}?id=${proj.id}`,
+                            `${freelancerPaths.cadastrarProjetoFreelancer}?projectId=${proj.id}`,
                           )
                         }
                         img={proj.imagemUrl}

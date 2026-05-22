@@ -38,7 +38,7 @@ export const CadastrarProjetoFreelancer = () => {
 
   const [params] = useSearchParams();
   const from = params.get("from");
-  const projectId = params.get("id");
+  const projectId = params.get("projectId");
 
   const {
     register,

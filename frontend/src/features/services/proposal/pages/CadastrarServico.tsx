@@ -15,11 +15,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { useModal } from "@/shared/contexts/modal.context";
-import { dashboardServicoPaths } from "../../dashboard/routes/dashboardPaths";
 import { proposalPaths } from "../routes/proposalPaths";
+import { useSearchParams } from "react-router-dom";
 
 export const CadastrarServico = () => {
   const { showSuccess, showError } = useModal();
+  const [params] = useSearchParams();
+  const serviceId = params.get("serviceId");
 
   const {
     register,
@@ -57,7 +59,7 @@ export const CadastrarServico = () => {
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center h-full">
-      <Title>Cadastrar Serviço</Title>
+      <Title>{serviceId ? "Editar Serviço" : "Cadastrar Serviço"}</Title>
 
       <form
         onSubmit={handleSubmit(enviar)}
@@ -126,7 +128,9 @@ export const CadastrarServico = () => {
           </div>
         </div>
 
-        <Button icon={<LuSave size={30} />}>Salvar</Button>
+        <Button icon={<LuSave size={30} />}>
+          {serviceId ? "Salvar" : "Cadastrar"}
+        </Button>
       </form>
     </div>
   );

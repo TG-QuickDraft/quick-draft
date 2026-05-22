@@ -11,6 +11,8 @@ import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 import clsx from "clsx";
 import type { Tab } from "@/shared/components/ui/Tabs";
+import { LuPencil } from "react-icons/lu";
+import Button from "@/shared/components/ui/buttons/Button";
 
 type Props = {
   clienteId?: number;
@@ -71,9 +73,25 @@ export const MeusServicosList = ({
               </p>
             </div>
 
-            <DetailsButton onClick={() => handleNavigate(servico.id)}>
-              Ver Detalhes
-            </DetailsButton>
+            <div className="flex gap-2 items-center">
+              <Button
+                className={clsx(
+                  "rounded-lg border border-gray-300 text-lg ",
+                  "hover:scale-100! hover:bg-black/80!",
+                )}
+                icon={<LuPencil />}
+                onClick={() =>
+                  navigate(
+                    `${proposalPaths.cadastrarServico}?serviceId=${servico.id}`,
+                  )
+                }
+              >
+                Editar
+              </Button>
+              <DetailsButton onClick={() => handleNavigate(servico.id)}>
+                Detalhes
+              </DetailsButton>
+            </div>
           </CardWrapper>
         );
       })}

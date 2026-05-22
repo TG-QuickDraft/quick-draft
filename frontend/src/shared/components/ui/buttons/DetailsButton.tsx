@@ -12,7 +12,7 @@ const DetailsButton = ({
     <button
       onClick={onClick}
       className={clsx(
-        "flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-lg ext-gray-700",
+        "flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-lg",
         "hover:bg-gray-100 hover:text-black transition cursor-pointer",
       )}
     >
