@@ -9,7 +9,6 @@ namespace Backend.Application.Services
 {
     public class PropostaService(
         IPropostaRepository repository,
-        
         IMapper mapper,
         IUrlBuilder urlBuilder,
         IServicoRepository servicoRepository
@@ -22,9 +21,7 @@ namespace Backend.Application.Services
 
         public async Task<PropostaDTO?> ConsultarPorIdAsync(int id)
         {
-            var proposta = _mapper.Map<PropostaDTO>(
-                await _repository.ConsultarPorIdAsync(id)
-            );
+            var proposta = _mapper.Map<PropostaDTO>(await _repository.ConsultarPorIdAsync(id));
 
             if (proposta == null)
                 return null;
@@ -48,9 +45,7 @@ namespace Backend.Application.Services
             return list;
         }
 
-        public async Task<IEnumerable<PropostaDTO>> ConsultarPorIdServicoAsync(
-            int servicoId
-        )
+        public async Task<IEnumerable<PropostaDTO>> ConsultarPorIdServicoAsync(int servicoId)
         {
             IEnumerable<PropostaDTO> list = _mapper.Map<IEnumerable<PropostaDTO>>(
                 await _repository.ConsultarPorIdServicoAsync(servicoId)
@@ -64,12 +59,10 @@ namespace Backend.Application.Services
             return list;
         }
 
-        public async Task<PropostaDTO> CriarAsync(
-            CriarPropostaDTO dto,
-            int freelancerId
-        )
+        public async Task<PropostaDTO> CriarAsync(CriarPropostaDTO dto, int freelancerId)
         {
-            var servico = await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
+            var servico =
+                await _servicoRepository.ConsultarPorIdAsync(dto.ServicoId)
                 ?? throw new InvalidOperationException("Serviço não encontrado");
 
             if (servico.PropostaAceitaId != null)
@@ -77,12 +70,16 @@ namespace Backend.Application.Services
 
             if (dto.ProjetosDestacados.Count > 3)
                 throw new InvalidOperationException("Não é permitido destacar mais de 3 projetos");
-            
-            var jaExiste = await _repository
-                    .ExistePorServicoEFreelancerAsync(dto.ServicoId, freelancerId);
+
+            var jaExiste = await _repository.ExistePorServicoEFreelancerAsync(
+                dto.ServicoId,
+                freelancerId
+            );
 
             if (jaExiste)
-                throw new InvalidOperationException("Você já enviou uma proposta para este serviço");
+                throw new InvalidOperationException(
+                    "Você já enviou uma proposta para este serviço"
+                );
 
             Proposta propostaToAdd = _mapper.Map<Proposta>(dto);
             propostaToAdd.FreelancerId = freelancerId;
@@ -96,6 +93,35 @@ namespace Backend.Application.Services
             return _mapper.Map<PropostaDTO>(propostaAdicionada);
         }
 
+        public async Task<PropostaDTO> AtualizarAsync(
+            int id,
+            AtualizarPropostaDTO dto,
+            int freelancerId
+        )
+        {
+            var proposta =
+                await _repository.ConsultarPorIdAsync(id)
+                ?? throw new InvalidOperationException("Proposta não encontrada");
+
+            if (proposta.FreelancerId != freelancerId)
+                throw new InvalidOperationException(
+                    "Você não tem permissão para atualizar esta proposta"
+                );
+
+            if (dto.ProjetosDestacados.Count > 3)
+                throw new InvalidOperationException("Não é permitido destacar mais de 3 projetos");
+
+            _mapper.Map(dto, proposta);
+
+            var propostaAtualizada = _mapper.Map<PropostaDTO>(
+                await _repository.AtualizarAsync(proposta)
+            );
+
+            MapearUrlsImagens(propostaAtualizada);
+
+            return propostaAtualizada;
+        }
+
         private void MapearUrlsImagens(PropostaDTO proposta)
         {
             foreach (var projeto in proposta.ProjetosDestacados)
@@ -103,6 +129,5 @@ namespace Backend.Application.Services
                 projeto.ImagemUrl = _urlBuilder.ConstruirUrl(projeto.ImagemUrl ?? "");
             }
         }
-
     }
 }

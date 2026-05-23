@@ -8,5 +8,6 @@ namespace Backend.Application.Interfaces.Services
         Task<IEnumerable<PropostaDTO>> ConsultarPorIdFreelancerAsync(int freelancerId);
         Task<IEnumerable<PropostaDTO>> ConsultarPorIdServicoAsync(int id);
         Task<PropostaDTO> CriarAsync(CriarPropostaDTO proposta, int freelancerId);
+        Task<PropostaDTO> AtualizarAsync(int id, AtualizarPropostaDTO proposta, int freelancerId);
     }
 }
