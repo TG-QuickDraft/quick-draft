@@ -108,6 +108,15 @@ namespace Backend.Application.Services
                     "Você não tem permissão para atualizar esta proposta"
                 );
 
+            var servico =
+                await _servicoRepository.ConsultarPorIdAsync(proposta.ServicoId)
+                ?? throw new InvalidOperationException("Serviço não encontrado");
+
+            if (servico.PropostaAceitaId != null)
+                throw new InvalidOperationException(
+                    "Não é possível atualizar uma proposta já aceita"
+                );
+
             if (dto.ProjetosDestacados.Count > 3)
                 throw new InvalidOperationException("Não é permitido destacar mais de 3 projetos");
 

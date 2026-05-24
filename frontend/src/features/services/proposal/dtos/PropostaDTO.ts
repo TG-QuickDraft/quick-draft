@@ -19,6 +19,7 @@ export interface PropostaDTO {
   taxaSistemaAdicionadaAoTotal: boolean;
   servicoId: number;
   nomeServico: string;
+  isPropostaAceita: boolean;
   freelancerId: number;
   projetosDestacados: ProjetosDestacadosDTO[];
 }

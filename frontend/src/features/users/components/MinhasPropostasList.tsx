@@ -66,6 +66,12 @@ export const MinhasPropostasList = () => {
                 "hover:scale-100! not-disabled:hover:bg-black/80!",
               )}
               icon={<LuPencil />}
+              disabled={proposta.isPropostaAceita}
+              title={
+                proposta.isPropostaAceita
+                  ? "Não é possível editar uma proposta já aceita"
+                  : "Editar proposta"
+              }
               onClick={() =>
                 navigate(
                   proposalPaths.atualizarPropostaById({

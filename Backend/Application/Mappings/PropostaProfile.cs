@@ -19,6 +19,13 @@ namespace Backend.Application.Mappings
                         opt.MapFrom(src =>
                             src.Servico != null ? src.Servico.Nome ?? string.Empty : string.Empty
                         )
+                )
+                .ForMember(
+                    dest => dest.IsPropostaAceita,
+                    opt =>
+                        opt.MapFrom(src =>
+                            src.Servico != null && src.Servico.PropostaAceitaId != null
+                        )
                 );
 
             CreateMap<CriarPropostaDTO, Proposta>()
