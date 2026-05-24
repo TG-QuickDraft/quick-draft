@@ -17,5 +17,17 @@ namespace Backend.Tests.Common.Factories
                 ValorMinimo = 100
             };
         }
+
+        public static CriarServicoDTO ObterCriarServicoDTO()
+        {
+            return new CriarServicoDTO
+            {
+                Nome = "Teste",
+                Descricao = "Teste",
+                OrcamentoIsAberto = true,
+                Prazo = DateTime.Now,
+                ValorMinimo = 100
+            };
+        }
     }
 }
