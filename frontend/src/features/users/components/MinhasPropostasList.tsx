@@ -12,6 +12,7 @@ import Button from "@/shared/components/ui/buttons/Button";
 import clsx from "clsx";
 import { LuPencil } from "react-icons/lu";
 import CardWrapper from "@/shared/components/ui/card/CardWrapper";
+import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 
 export const MinhasPropostasList = () => {
   const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
@@ -65,6 +66,14 @@ export const MinhasPropostasList = () => {
                 "hover:scale-100! not-disabled:hover:bg-black/80!",
               )}
               icon={<LuPencil />}
+              onClick={() =>
+                navigate(
+                  proposalPaths.atualizarPropostaById({
+                    servicoId: proposta.servicoId,
+                    propostaId: proposta.id,
+                  }),
+                )
+              }
             >
               Editar
             </Button>

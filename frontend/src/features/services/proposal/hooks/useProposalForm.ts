@@ -65,7 +65,9 @@ const useProposalForm = () => {
   };
   return {
     selectedProjects,
+    setSelectedProjects,
     items,
+    setItems,
     inputValue,
     setInputValue,
     handleProjectSelection,

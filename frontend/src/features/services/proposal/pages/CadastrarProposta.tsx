@@ -46,10 +46,13 @@ import { freelancerPaths } from "../../../freelancers/routes/freelancerPaths";
 import type { CriarPropostaDTO } from "../dtos/PropostaDTO";
 import { useCreateProposal } from "../hooks/useCreateProposal";
 import { proposalPaths } from "../routes/proposalPaths";
+import { buscarPropostaPorId } from "../api/proposta.api";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
 
 const CadastrarProposta = () => {
-  const { showSuccess, showError } = useModal();
+  const { proposalId } = useParams();
 
+  const { showSuccess, showError } = useModal();
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -58,6 +61,7 @@ const CadastrarProposta = () => {
   const { mutate: doProposal, isPending } = useCreateProposal();
   const {
     selectedProjects,
+    setSelectedProjects,
     inputValue,
     handleProjectSelection,
     handleKeyDown,
@@ -65,6 +69,7 @@ const CadastrarProposta = () => {
     handleDeleteItem,
     setInputValue,
     items,
+    setItems,
     clearAuxiliaryCache,
   } = useProposalForm();
 
@@ -90,6 +95,38 @@ const CadastrarProposta = () => {
 
   const formValues = watch();
   const isSubmitting = useRef(false);
+
+  useEffect(() => {
+    if (proposalId) {
+      const fetchProposal = async () => {
+        let timer = setTimeout(() => setLoading(true), LOADING_TIMEOUT);
+        try {
+          const proposal = await buscarPropostaPorId(Number(proposalId));
+          reset({
+            description: proposal.mensagem,
+            hourlyValue: proposal.valorPorHora.toString(),
+            deadline: new Date(proposal.prazoEntrega),
+            totalCost: proposal.valorTotal.toString(),
+            addSystemTax: proposal.taxaSistemaAdicionadaAoTotal,
+          });
+
+          setItems([...proposal.itensPropostos.split(";")]);
+          setSelectedProjects([
+            ...proposal.projetosDestacados.map((p) => p.id),
+          ]);
+
+          console.log(proposal);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          clearTimeout(timer);
+          setLoading(false);
+        }
+      };
+
+      fetchProposal();
+    }
+  }, [proposalId]);
 
   useEffect(() => {
     if (!isSubmitting.current && Object.keys(formValues).length > 0) {
@@ -185,7 +222,9 @@ const CadastrarProposta = () => {
     <>
       <div className="flex flex-col gap-5 flex-1 max-w-7xl mx-auto w-full">
         <header>
-          <BackButton textContent="Envio de Proposta" />
+          <BackButton
+            textContent={proposalId ? "Editar Proposta" : "Envio de Proposta"}
+          />
         </header>
 
         <form
