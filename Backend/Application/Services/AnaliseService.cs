@@ -19,11 +19,18 @@ namespace Backend.Application.Services
             var startUtc = DateTime.SpecifyKind(start, DateTimeKind.Utc);
             var endUtc = DateTime.SpecifyKind(end, DateTimeKind.Utc);
 
-            // Fetch data from database
-            // We fetch all records for counts, but filter for monthly breakdown
-            var allPagamentos = await _context.Pagamentos.ToListAsync();
-            var allServicos = await _context.Servicos.ToListAsync();
-            var allEntregas = await _context.Entregas.ToListAsync();
+            // Fetch data from database, strictly filtered by date range
+            var pagamentos = await _context.Pagamentos
+                .Where(p => p.CreatedAt.HasValue && p.CreatedAt.Value >= startUtc && p.CreatedAt.Value <= endUtc)
+                .ToListAsync();
+
+            var servicos = await _context.Servicos
+                .Where(s => s.CreatedAt.HasValue && s.CreatedAt.Value >= startUtc && s.CreatedAt.Value <= endUtc)
+                .ToListAsync();
+
+            var entregas = await _context.Entregas
+                .Where(e => e.CreatedAt.HasValue && e.CreatedAt.Value >= startUtc && e.CreatedAt.Value <= endUtc)
+                .ToListAsync();
 
             var meses = new List<string>();
             var lucroMensal = new List<decimal>();
@@ -39,44 +46,32 @@ namespace Backend.Application.Services
                 var monthLabel = culture.TextInfo.ToTitleCase(current.ToString("MMM", culture).Replace(".", ""));
                 meses.Add(monthLabel);
 
-                var profit = allPagamentos
-                    .Where(p => p.CreatedAt.HasValue && 
-                                p.CreatedAt.Value >= new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc) && 
-                                p.CreatedAt.Value < new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1))
+                var monthStart = new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+                var monthEnd = monthStart.AddMonths(1);
+
+                var profit = pagamentos
+                    .Where(p => p.CreatedAt.Value >= monthStart && p.CreatedAt.Value < monthEnd)
                     .Sum(p => p.Valor);
                 lucroMensal.Add(profit);
 
-                var openCount = allServicos
-                    .Where(s => s.CreatedAt.HasValue && 
-                                s.CreatedAt.Value >= new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc) && 
-                                s.CreatedAt.Value < new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1) && 
-                                !s.IsEntregue)
+                var openCount = servicos
+                    .Where(s => s.CreatedAt.Value >= monthStart && s.CreatedAt.Value < monthEnd && !s.IsEntregue)
                     .Count();
                 servicosAbertosMensal.Add(openCount);
 
                 current = current.AddMonths(1);
             }
 
-            // Cards logic:
-            // Lucro Total: Sum of all payments within the range (or ALL if they have no date and we are in default view)
-            var lucroTotal = allPagamentos
-                .Where(p => !p.CreatedAt.HasValue || (p.CreatedAt.Value >= startUtc && p.CreatedAt.Value <= endUtc))
-                .Sum(p => p.Valor);
-
-            // Serviços Abertos: Current global state of non-delivered services
-            var totalAbertos = allServicos.Count(s => !s.IsEntregue);
-
-            // Serviços Entregues: Deliveries within the range (or ALL if no date)
-            var totalEntregues = allEntregas
-                .Where(e => !e.CreatedAt.HasValue || (e.CreatedAt.Value >= startUtc && e.CreatedAt.Value <= endUtc))
-                .Count();
+            var totalLucro = pagamentos.Sum(p => p.Valor);
+            var totalAbertos = servicos.Count(s => !s.IsEntregue);
+            var totalEntregues = entregas.Count;
 
             return new AnaliseDto
             {
                 Meses = meses,
                 LucroMensal = lucroMensal,
                 ServicosAbertosMensal = servicosAbertosMensal,
-                LucroTotal = lucroTotal,
+                LucroTotal = totalLucro,
                 TotalServicosAbertos = totalAbertos,
                 TotalServicosEntregues = totalEntregues,
                 ServicosEntreguesChart = new ServicosEntreguesDto
