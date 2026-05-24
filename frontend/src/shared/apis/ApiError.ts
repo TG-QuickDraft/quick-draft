@@ -1,7 +1,4 @@
 export class ApiError extends Error {
-  status?: number;
-  data?: any;
-
   constructor(error: any) {
     const message =
       error?.response?.data?.message ??
@@ -15,8 +12,6 @@ export class ApiError extends Error {
     super(message);
 
     this.name = "ApiError";
-    this.status = error?.response?.status;
-    this.data = error?.response?.data;
 
     Object.setPrototypeOf(this, ApiError.prototype);
   }
