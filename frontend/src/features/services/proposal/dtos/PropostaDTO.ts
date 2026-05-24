@@ -23,7 +23,7 @@ export interface PropostaDTO {
   projetosDestacados: ProjetosDestacadosDTO[];
 }
 
-interface ProjetosDestacadosDTO {
+export interface ProjetosDestacadosDTO {
   id: number;
   nome: string;
   descricao: string;

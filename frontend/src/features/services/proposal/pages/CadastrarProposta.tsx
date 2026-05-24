@@ -44,7 +44,7 @@ import { IoMdSend } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { freelancerPaths } from "../../../freelancers/routes/freelancerPaths";
 import type { CriarPropostaDTO } from "../dtos/PropostaDTO";
-import { useCreateProposal } from "../hooks/useCreateProposal";
+import { useCreateProposal, useUpdateProposal } from "../hooks/useProposal";
 import { proposalPaths } from "../routes/proposalPaths";
 import { buscarPropostaPorId } from "../api/proposta.api";
 import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
@@ -59,6 +59,9 @@ const CadastrarProposta = () => {
   const { serviceId } = useParams();
 
   const { mutate: doProposal, isPending } = useCreateProposal();
+  const { mutate: doUpdateProposal, isPending: isPendingUpdate } =
+    useUpdateProposal();
+
   const {
     selectedProjects,
     setSelectedProjects,
@@ -167,6 +170,33 @@ const CadastrarProposta = () => {
         imagemUrl: "",
       })),
     };
+
+    if (proposalId) {
+      const { servicoId, ...updateData } = proposalData;
+      doUpdateProposal(
+        {
+          proposalId: Number(proposalId),
+          proposalBody: updateData,
+        },
+        {
+          onSuccess: () => {
+            isSubmitting.current = true;
+            sessionStorage.removeItem(sessionStorageKeys.proposalCache);
+            clearAuxiliaryCache();
+            showSuccess({
+              content: "Proposta atualizada com sucesso!",
+              redirect: usuarioPaths.minhaConta,
+            });
+          },
+          onError: (error) => {
+            showError({
+              content: error.message,
+            });
+          },
+        },
+      );
+      return;
+    }
 
     doProposal(proposalData, {
       onSuccess: () => {
@@ -409,8 +439,11 @@ const CadastrarProposta = () => {
                 />
               </div>
               <Stack className="mt-5" align="right">
-                <Button disabled={isPending} icon={<IoMdSend size={25} />}>
-                  Enviar proposta
+                <Button
+                  disabled={isPending || isPendingUpdate}
+                  icon={<IoMdSend size={25} />}
+                >
+                  {proposalId ? "Atualizar proposta" : "Enviar proposta"}
                 </Button>
               </Stack>
             </div>
