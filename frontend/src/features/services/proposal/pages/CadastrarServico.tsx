@@ -29,6 +29,7 @@ export const CadastrarServico = () => {
   const { showSuccess, showError } = useModal();
   const [params] = useSearchParams();
   const serviceId = params.get("serviceId");
+  const from = params.get("from");
   const { usuario } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -80,7 +81,9 @@ export const CadastrarServico = () => {
         });
         showSuccess({
           content: "Serviço atualizado com sucesso!",
-          redirect: clientePaths.perfilClienteById(usuario?.id || ""),
+          redirect: from
+            ? from
+            : clientePaths.perfilClienteById(usuario?.id || ""),
         });
       } else {
         await adicionarServico({

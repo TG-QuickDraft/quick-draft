@@ -20,6 +20,7 @@ type Props = {
   tab?: Tab;
   servicos?: ServicoDTO[];
   loading?: boolean;
+  from?: string;
 };
 
 export const MeusServicosList = ({
@@ -27,6 +28,7 @@ export const MeusServicosList = ({
   publicView = false,
   servicos = [],
   loading = false,
+  from,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -78,20 +80,22 @@ export const MeusServicosList = ({
             <div className="flex gap-2 items-center">
               <Button
                 className={clsx(
-                  "rounded-lg border border-gray-300 text-lg ",
-                  "hover:scale-100! not-disabled:hover:bg-black/80!",
+                  "rounded-lg text-lg border border-transparent shadow",
+                  "scale-100 not-disabled:hover:bg-white!",
+                  "not-disabled:hover:text-black",
+                  "not-disabled:hover:border-neutral-40",
                 )}
                 icon={<LuPencil />}
                 disabled={!isEditable}
                 onClick={() =>
                   navigate(
-                    `${proposalPaths.cadastrarServico}?serviceId=${servico.id}`,
+                    `${proposalPaths.cadastrarServico}?serviceId=${servico.id}&from=${from}`,
                   )
                 }
                 title={
                   isEditable
                     ? "Editar serviço"
-                    : "Serviço não pode ser editado com proposta aceita"
+                    : "Serviços com proposta aceita não podem ser editados"
                 }
               >
                 Editar

@@ -62,8 +62,10 @@ export const MinhasPropostasList = () => {
           <div className="flex gap-2 items-center">
             <Button
               className={clsx(
-                "rounded-lg border border-gray-300 text-lg ",
-                "hover:scale-100! not-disabled:hover:bg-black/80!",
+                "rounded-lg text-lg border border-transparent shadow",
+                "scale-100 not-disabled:hover:bg-white!",
+                "not-disabled:hover:text-black",
+                "not-disabled:hover:border-neutral-40",
               )}
               icon={<LuPencil />}
               disabled={proposta.isPropostaAceita}
