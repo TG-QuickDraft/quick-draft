@@ -11,27 +11,23 @@ const BASE_PATH = "/api/usuario";
 export const adicionarUsuario = async (
   usuario: CriarUsuarioDTO,
 ): Promise<UsuarioDTO> => {
-  try {
-    const formData = new FormData();
+  const formData = new FormData();
 
-    formData.append("nome", usuario.nome);
-    formData.append("cpf", usuario.cpf);
-    formData.append("email", usuario.email);
-    formData.append("senha", usuario.senha);
-    formData.append("confirmarSenha", usuario.confirmarSenha);
+  formData.append("nome", usuario.nome);
+  formData.append("cpf", usuario.cpf);
+  formData.append("email", usuario.email);
+  formData.append("senha", usuario.senha);
+  formData.append("confirmarSenha", usuario.confirmarSenha);
 
-    formData.append("tipoUsuario", usuario.tipoUsuario.toString());
+  formData.append("tipoUsuario", usuario.tipoUsuario.toString());
 
-    if (usuario.fotoPerfil) {
-      formData.append("fotoPerfil", usuario.fotoPerfil);
-    }
-
-    const { data } = await api.post<UsuarioDTO>(BASE_PATH, formData);
-
-    return data;
-  } catch {
-    throw new Error("Erro ao adicionar usuário.");
+  if (usuario.fotoPerfil) {
+    formData.append("fotoPerfil", usuario.fotoPerfil);
   }
+
+  const { data } = await api.post<UsuarioDTO>(BASE_PATH, formData);
+
+  return data;
 };
 
 export const consultarUsuario = async (): Promise<UsuarioDTO> => {

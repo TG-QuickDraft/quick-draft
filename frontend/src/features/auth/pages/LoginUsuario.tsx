@@ -14,6 +14,7 @@ import { LoginSchema, type ILoginForm } from "../validations/login.schema";
 import { useModal } from "@/shared/contexts/modal.context";
 import { homePaths } from "@/features/home/routes/homePaths";
 import { useNavigate } from "react-router-dom";
+import type { ApiError } from "@/shared/apis/ApiError";
 
 export const LoginUsuario = () => {
   const { showError } = useModal();
@@ -35,9 +36,7 @@ export const LoginUsuario = () => {
       await login(loginRequest);
       navigate(homePaths.home);
     } catch (error) {
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
+      showError({ content: (error as ApiError).message });
     }
   };
 

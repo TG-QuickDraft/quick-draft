@@ -19,6 +19,7 @@ import Radio from "@/shared/components/ui/Inputs/Radio";
 import ImagePicker from "@/features/users/components/ImagePicker";
 import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "../routes/usuarioPaths";
+import type { ApiError } from "@/shared/apis/ApiError";
 
 export const CadastrarUsuario = () => {
   const { showSuccess, showError } = useModal();
@@ -61,11 +62,11 @@ export const CadastrarUsuario = () => {
         redirect: usuarioPaths.minhaConta,
       });
     } catch (error) {
-      if (error instanceof Error) {
-        showError({
-          content: error.message,
-        });
-      }
+      const err = error as ApiError;
+
+      showError({
+        content: err.message,
+      });
       return;
     }
   };
