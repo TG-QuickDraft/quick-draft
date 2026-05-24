@@ -48,15 +48,25 @@ import { useCreateProposal, useUpdateProposal } from "../hooks/useProposal";
 import { proposalPaths } from "../routes/proposalPaths";
 import { buscarPropostaPorId } from "../api/proposta.api";
 import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
+import { RxUpdate } from "react-icons/rx";
 
 const CadastrarProposta = () => {
-  const { proposalId } = useParams();
+  const { proposalId, serviceId } = useParams();
+
+  const from =
+    serviceId && !proposalId
+      ? proposalPaths.cadastrarPropostaById(serviceId)
+      : proposalId && serviceId
+        ? proposalPaths.atualizarPropostaById({
+            servicoId: serviceId,
+            propostaId: proposalId,
+          })
+        : "";
 
   const { showSuccess, showError } = useModal();
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { serviceId } = useParams();
 
   const { mutate: doProposal, isPending } = useCreateProposal();
   const { mutate: doUpdateProposal, isPending: isPendingUpdate } =
@@ -423,8 +433,7 @@ const CadastrarProposta = () => {
                   className="mt-4"
                   onClick={() =>
                     navigate(
-                      freelancerPaths.cadastrarProjetoFreelancer +
-                        `${serviceId ? `?from=${proposalPaths.cadastrarPropostaById(serviceId)}` : ""}`,
+                      `${freelancerPaths.cadastrarProjetoFreelancer}?from=${from}`,
                     )
                   }
                 />
@@ -441,7 +450,9 @@ const CadastrarProposta = () => {
               <Stack className="mt-5" align="right">
                 <Button
                   disabled={isPending || isPendingUpdate}
-                  icon={<IoMdSend size={25} />}
+                  icon={
+                    proposalId ? <RxUpdate size={25} /> : <IoMdSend size={25} />
+                  }
                 >
                   {proposalId ? "Atualizar proposta" : "Enviar proposta"}
                 </Button>
