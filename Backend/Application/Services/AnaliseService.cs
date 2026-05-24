@@ -15,6 +15,7 @@ namespace Backend.Application.Services
             var end = endDate.HasValue ? endDate.Value.Date.AddDays(1).AddTicks(-1) : DateTime.UtcNow;
             var start = startDate.HasValue ? startDate.Value.Date : end.AddYears(-1);
 
+            // Fetch all data within the range for the charts
             var pagamentos = await _context.Pagamentos
                 .Where(p => p.CreatedAt >= start && p.CreatedAt <= end)
                 .ToListAsync();
@@ -26,6 +27,11 @@ namespace Backend.Application.Services
             var entregas = await _context.Entregas
                 .Where(e => e.CreatedAt >= start && e.CreatedAt <= end)
                 .ToListAsync();
+
+            // For the summary cards, we usually want the total of all time or a specific logic
+            // But based on user request "retorne os dados apenas do ultimo Ano", we filter by range
+            // However, "TotalServicosAbertos" usually refers to the CURRENT state.
+            // Let's stick to the range for now as requested.
 
             var meses = new List<string>();
             var lucroMensal = new List<decimal>();
@@ -42,12 +48,13 @@ namespace Backend.Application.Services
                 meses.Add(monthLabel);
 
                 var profit = pagamentos
-                    .Where(p => p.CreatedAt?.Month == current.Month && p.CreatedAt?.Year == current.Year)
+                    .Where(p => p.CreatedAt.HasValue && p.CreatedAt.Value.Month == current.Month && p.CreatedAt.Value.Year == current.Year)
                     .Sum(p => p.Valor);
                 lucroMensal.Add(profit);
 
+                // Services created in this month that are NOT delivered
                 var openCount = servicos
-                    .Where(s => s.CreatedAt?.Month == current.Month && s.CreatedAt?.Year == current.Year && !s.IsEntregue)
+                    .Where(s => s.CreatedAt.HasValue && s.CreatedAt.Value.Month == current.Month && s.CreatedAt.Value.Year == current.Year && !s.IsEntregue)
                     .Count();
                 servicosAbertosMensal.Add(openCount);
 
@@ -55,6 +62,8 @@ namespace Backend.Application.Services
             }
 
             var totalEntregues = entregas.Count;
+            
+            // Total open services within the range
             var totalAbertos = servicos.Count(s => !s.IsEntregue);
 
             return new AnaliseDto
