@@ -15,23 +15,15 @@ namespace Backend.Application.Services
             var end = endDate.HasValue ? endDate.Value.Date.AddDays(1).AddTicks(-1) : DateTime.UtcNow;
             var start = startDate.HasValue ? startDate.Value.Date : end.AddYears(-1);
 
-            // Fetch all data within the range for the charts
-            var pagamentos = await _context.Pagamentos
-                .Where(p => p.CreatedAt >= start && p.CreatedAt <= end)
-                .ToListAsync();
+            // Ensure UTC for Npgsql and PostgreSQL
+            var startUtc = DateTime.SpecifyKind(start, DateTimeKind.Utc);
+            var endUtc = DateTime.SpecifyKind(end, DateTimeKind.Utc);
 
-            var servicos = await _context.Servicos
-                .Where(s => s.CreatedAt >= start && s.CreatedAt <= end)
-                .ToListAsync();
-
-            var entregas = await _context.Entregas
-                .Where(e => e.CreatedAt >= start && e.CreatedAt <= end)
-                .ToListAsync();
-
-            // For the summary cards, we usually want the total of all time or a specific logic
-            // But based on user request "retorne os dados apenas do ultimo Ano", we filter by range
-            // However, "TotalServicosAbertos" usually refers to the CURRENT state.
-            // Let's stick to the range for now as requested.
+            // Fetch data from database
+            // We fetch all records for counts, but filter for monthly breakdown
+            var allPagamentos = await _context.Pagamentos.ToListAsync();
+            var allServicos = await _context.Servicos.ToListAsync();
+            var allEntregas = await _context.Entregas.ToListAsync();
 
             var meses = new List<string>();
             var lucroMensal = new List<decimal>();
@@ -47,31 +39,44 @@ namespace Backend.Application.Services
                 var monthLabel = culture.TextInfo.ToTitleCase(current.ToString("MMM", culture).Replace(".", ""));
                 meses.Add(monthLabel);
 
-                var profit = pagamentos
-                    .Where(p => p.CreatedAt.HasValue && p.CreatedAt.Value.Month == current.Month && p.CreatedAt.Value.Year == current.Year)
+                var profit = allPagamentos
+                    .Where(p => p.CreatedAt.HasValue && 
+                                p.CreatedAt.Value >= new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc) && 
+                                p.CreatedAt.Value < new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1))
                     .Sum(p => p.Valor);
                 lucroMensal.Add(profit);
 
-                // Services created in this month that are NOT delivered
-                var openCount = servicos
-                    .Where(s => s.CreatedAt.HasValue && s.CreatedAt.Value.Month == current.Month && s.CreatedAt.Value.Year == current.Year && !s.IsEntregue)
+                var openCount = allServicos
+                    .Where(s => s.CreatedAt.HasValue && 
+                                s.CreatedAt.Value >= new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc) && 
+                                s.CreatedAt.Value < new DateTime(current.Year, current.Month, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1) && 
+                                !s.IsEntregue)
                     .Count();
                 servicosAbertosMensal.Add(openCount);
 
                 current = current.AddMonths(1);
             }
 
-            var totalEntregues = entregas.Count;
-            
-            // Total open services within the range
-            var totalAbertos = servicos.Count(s => !s.IsEntregue);
+            // Cards logic:
+            // Lucro Total: Sum of all payments within the range (or ALL if they have no date and we are in default view)
+            var lucroTotal = allPagamentos
+                .Where(p => !p.CreatedAt.HasValue || (p.CreatedAt.Value >= startUtc && p.CreatedAt.Value <= endUtc))
+                .Sum(p => p.Valor);
+
+            // Serviços Abertos: Current global state of non-delivered services
+            var totalAbertos = allServicos.Count(s => !s.IsEntregue);
+
+            // Serviços Entregues: Deliveries within the range (or ALL if no date)
+            var totalEntregues = allEntregas
+                .Where(e => !e.CreatedAt.HasValue || (e.CreatedAt.Value >= startUtc && e.CreatedAt.Value <= endUtc))
+                .Count();
 
             return new AnaliseDto
             {
                 Meses = meses,
                 LucroMensal = lucroMensal,
                 ServicosAbertosMensal = servicosAbertosMensal,
-                LucroTotal = pagamentos.Sum(p => p.Valor),
+                LucroTotal = lucroTotal,
                 TotalServicosAbertos = totalAbertos,
                 TotalServicosEntregues = totalEntregues,
                 ServicosEntreguesChart = new ServicosEntreguesDto
