@@ -13,8 +13,14 @@
     "BaseUrl": "http://localhost:5191"
   },
   "Jwt": {
-    "Key": "super-secret-key-123456-super-secret-key-123456", #  HS256 requer no mínimo 32 bytes (256 bits)
+    "Key": "super-secret-key-123456-super-secret-key-123456",
     "Issuer": "MyApi",
     "Audience": "MyApi"
+  },
+  "GithubSettings": {
+    "Token": "seu_token_aqui",
+    "Owner": "seu_usuario_github",
+    "Repository": "nome_do_repositorio",
+    "Branch": "main"
   }
 }

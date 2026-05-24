@@ -1,7 +1,10 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Backend.Application.Interfaces.Infrastructure;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Infrastructure.Persistence.Repositories;
 using Backend.Infrastructure.Security;
+using Backend.Infrastructure.Settings;
 using Backend.Infrastructure.Upload;
 using Backend.Infrastructure.Url;
 
@@ -9,7 +12,7 @@ namespace Backend.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<ICartaoCreditoRepository, CartaoCreditoRepository>();
@@ -26,8 +29,17 @@ namespace Backend.Infrastructure
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();
 
             services.AddScoped<ITokenService, JwtService>();
-            services.AddScoped<IUploadService, LocalUploadService>();
             services.AddScoped<IUrlBuilder, UrlBuilder>();
+
+            var githubSettings = configuration.GetSection("GithubSettings");
+
+            if (githubSettings.Exists() && !string.IsNullOrEmpty(githubSettings["Token"]))
+            {
+                services.Configure<GithubSettings>(githubSettings);
+                services.AddScoped<IUploadService, GithubUploadService>();
+            } else {
+                services.AddScoped<IUploadService, LocalUploadService>();
+            }
 
             return services;
         }
