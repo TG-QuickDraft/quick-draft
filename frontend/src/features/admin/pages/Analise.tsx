@@ -11,6 +11,10 @@ import {
   Legend,
 } from "chart.js";
 import { Line, Bar, Pie } from "react-chartjs-2";
+import { useState, useEffect } from "react";
+import api from "@/shared/apis/api";
+import DateInput from "@/shared/components/ui/inputs/DateInput";
+import { subYears } from "date-fns";
 
 ChartJS.register(
   CategoryScale,
@@ -23,28 +27,59 @@ ChartJS.register(
   Legend,
 );
 
-// Dados mockados - substitua por dados de api real no futuro
-const mockData = {
-  lucroMensal: [1200, 1900, 3000, 2500, 4200, 3800],
-  servicosAbertos: [12, 19, 8, 15, 22, 17],
-  usuariosAtivos: {
-    clientes: 120,
-    freelancers: 45,
-  },
-};
+interface AnaliseData {
+  meses: string[];
+  lucroMensal: number[];
+  servicosAbertosMensal: number[];
+  lucroTotal: number;
+  totalServicosAbertos: number;
+  totalServicosEntregues: number;
+  servicosEntreguesChart: {
+    entregues: number;
+    pendentes: number;
+  };
+}
 
 export const Analise = () => {
-  const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"];
+  const [data, setData] = useState<AnaliseData | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(subYears(new Date(), 1));
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await api.get<AnaliseData>("/api/Analise", {
+          params: {
+            startDate: startDate?.toISOString(),
+            endDate: endDate?.toISOString(),
+          },
+        });
+        setData(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar dados de análise:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [startDate, endDate]);
+
+  if (loading || !data) {
+    return <div className="p-8">Carregando análise...</div>;
+  }
 
   // Linha - Lucro
   const lucroData = {
-    labels: meses,
+    labels: data.meses,
     datasets: [
       {
         label: "Lucro (R$)",
-        data: mockData.lucroMensal,
+        data: data.lucroMensal,
         borderColor: "#4F46E5",
-        backgroundColor: "rgba(60, 0, 0, 0.2)",
+        backgroundColor: "rgba(79, 70, 229, 0.2)",
         tension: 0.4,
       },
     ],
@@ -52,24 +87,24 @@ export const Analise = () => {
 
   // Coluna - Serviços
   const servicosData = {
-    labels: meses,
+    labels: data.meses,
     datasets: [
       {
         label: "Serviços Abertos",
-        data: mockData.servicosAbertos,
+        data: data.servicosAbertosMensal,
         backgroundColor: "#08a000",
       },
     ],
   };
 
-  // Pizza - Usuários
-  const usuariosData = {
-    labels: ["Clientes", "Freelancers"],
+  // Pizza - Serviços Entregues
+  const entreguesData = {
+    labels: ["Entregues", "Pendentes"],
     datasets: [
       {
         data: [
-          mockData.usuariosAtivos.clientes,
-          mockData.usuariosAtivos.freelancers,
+          data.servicosEntreguesChart.entregues,
+          data.servicosEntreguesChart.pendentes,
         ],
         backgroundColor: ["#0060fc", "#fa9200"],
       },
@@ -78,36 +113,47 @@ export const Analise = () => {
 
   return (
     <div className="flex flex-col gap-10 p-8 w-full">
-      <Title>Análise</Title>
+      <div className="flex justify-between items-center">
+        <Title>Análise</Title>
+        <div className="flex gap-4 items-center">
+          <div className="flex flex-col">
+            <span className="text-xs text-gray-500 mb-1">Início</span>
+            <DateInput selectedDate={startDate} onChange={setStartDate} className="w-40" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs text-gray-500 mb-1">Fim</span>
+            <DateInput selectedDate={endDate} onChange={setEndDate} className="w-40" />
+          </div>
+        </div>
+      </div>
 
       {/* Cards */}
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500">Lucro Total</h3>
           <p className="text-xl font-bold text-indigo-600">
-            R$ {mockData.lucroMensal.reduce((a, b) => a + b, 0)}
+            R$ {data.lucroTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </p>
         </div>
 
         <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500">Serviços Abertos</h3>
           <p className="text-xl font-bold text-green-600">
-            {mockData.servicosAbertos.reduce((a, b) => a + b, 0)}
+            {data.totalServicosAbertos}
           </p>
         </div>
 
         <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
-          <h3 className="text-sm text-gray-500">Usuários Ativos</h3>
+          <h3 className="text-sm text-gray-500">Serviços Entregues</h3>
           <p className="text-xl font-bold text-blue-600">
-            {mockData.usuariosAtivos.clientes +
-              mockData.usuariosAtivos.freelancers}
+            {data.totalServicosEntregues}
           </p>
         </div>
 
         <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
-          <h3 className="text-sm text-gray-500 mb-2">Usuários Ativos</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Serviços Entregues</h3>
           <div className="w-32">
-            <Pie data={usuariosData} />
+            <Pie data={entreguesData} options={{ plugins: { legend: { display: false } } }} />
           </div>
         </div>
       </div>
@@ -127,3 +173,4 @@ export const Analise = () => {
     </div>
   );
 };
+
