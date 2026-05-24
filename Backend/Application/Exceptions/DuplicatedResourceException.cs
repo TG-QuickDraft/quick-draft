@@ -1,5 +1,5 @@
 namespace Backend.Application.Exceptions
 {
     public class DuplicateResourceException(string campo)
-        : AppException($"{campo} já cadastrado.", 409);
+        : Exception($"{campo} já cadastrado.");
 }
