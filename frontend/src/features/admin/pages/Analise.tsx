@@ -56,6 +56,7 @@ export const Analise = () => {
             endDate: endDate?.toISOString(),
           },
         });
+        console.log("Dados da análise recebidos:", response.data);
         setData(response.data);
       } catch (error) {
         console.error("Erro ao buscar dados de análise:", error);
@@ -68,7 +69,12 @@ export const Analise = () => {
   }, [startDate, endDate]);
 
   if (loading || !data) {
-    return <div className="p-8">Carregando análise...</div>;
+    return (
+      <div className="flex flex-col gap-10 p-8 w-full animate-pulse">
+        <Title>Análise</Title>
+        <div className="text-gray-500">Carregando dados da análise...</div>
+      </div>
+    );
   }
 
   // Linha - Lucro
@@ -81,6 +87,7 @@ export const Analise = () => {
         borderColor: "#4F46E5",
         backgroundColor: "rgba(79, 70, 229, 0.2)",
         tension: 0.4,
+        fill: true,
       },
     ],
   };
@@ -110,6 +117,8 @@ export const Analise = () => {
       },
     ],
   };
+
+  const chartKey = JSON.stringify(data);
 
   return (
     <div className="flex flex-col gap-10 p-8 w-full">
@@ -153,7 +162,7 @@ export const Analise = () => {
         <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500 mb-2">Serviços Entregues</h3>
           <div className="w-32">
-            <Pie data={entreguesData} options={{ plugins: { legend: { display: false } } }} />
+            <Pie key={`pie-${chartKey}`} data={entreguesData} options={{ plugins: { legend: { display: false } } }} />
           </div>
         </div>
       </div>
@@ -162,12 +171,12 @@ export const Analise = () => {
       <div className="grid grid-cols-2 gap-10">
         <div className="bg-white/90 p-6 rounded-xl shadow-md">
           <h3 className="mb-4 font-semibold text-gray-600">Lucro Mensal</h3>
-          <Line data={lucroData} />
+          <Line key={`line-${chartKey}`} data={lucroData} />
         </div>
 
         <div className="bg-white/90 p-6 rounded-xl shadow-md">
           <h3 className="mb-4 font-semibold text-gray-600">Serviços Abertos</h3>
-          <Bar data={servicosData} />
+          <Bar key={`bar-${chartKey}`} data={servicosData} />
         </div>
       </div>
     </div>

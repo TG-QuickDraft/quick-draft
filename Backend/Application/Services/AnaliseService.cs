@@ -12,8 +12,8 @@ namespace Backend.Application.Services
 
         public async Task<AnaliseDto> GetAnaliseDataAsync(DateTime? startDate, DateTime? endDate)
         {
-            var end = endDate ?? DateTime.UtcNow;
-            var start = startDate ?? end.AddYears(-1);
+            var end = endDate.HasValue ? endDate.Value.Date.AddDays(1).AddTicks(-1) : DateTime.UtcNow;
+            var start = startDate.HasValue ? startDate.Value.Date : end.AddYears(-1);
 
             var pagamentos = await _context.Pagamentos
                 .Where(p => p.CreatedAt >= start && p.CreatedAt <= end)
@@ -31,13 +31,14 @@ namespace Backend.Application.Services
             var lucroMensal = new List<decimal>();
             var servicosAbertosMensal = new List<int>();
 
-            // Normalize start to the beginning of the month to avoid missing the first month if it's mid-month
             var current = new DateTime(start.Year, start.Month, 1);
             var last = new DateTime(end.Year, end.Month, 1);
 
+            var culture = new CultureInfo("pt-BR");
+
             while (current <= last)
             {
-                var monthLabel = current.ToString("MMM", new CultureInfo("pt-BR"));
+                var monthLabel = culture.TextInfo.ToTitleCase(current.ToString("MMM", culture).Replace(".", ""));
                 meses.Add(monthLabel);
 
                 var profit = pagamentos
