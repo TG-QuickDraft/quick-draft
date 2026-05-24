@@ -22,7 +22,7 @@ import { usuarioPaths } from "../routes/usuarioPaths";
 import type { ApiError } from "@/shared/apis/ApiError";
 
 export const CadastrarUsuario = () => {
-  const { showSuccess, showError } = useModal();
+  const { showSuccess, showApiError } = useModal();
   const { login } = useAuth();
 
   const {
@@ -62,12 +62,7 @@ export const CadastrarUsuario = () => {
         redirect: usuarioPaths.minhaConta,
       });
     } catch (error) {
-      const err = error as ApiError;
-
-      showError({
-        content: err.message,
-      });
-      return;
+      showApiError(error as ApiError);
     }
   };
 

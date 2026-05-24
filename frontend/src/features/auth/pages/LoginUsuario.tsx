@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import type { ApiError } from "@/shared/apis/ApiError";
 
 export const LoginUsuario = () => {
-  const { showError } = useModal();
+  const { showApiError } = useModal();
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ export const LoginUsuario = () => {
       await login(loginRequest);
       navigate(homePaths.home);
     } catch (error) {
-      showError({ content: (error as ApiError).message });
+      showApiError(error as ApiError);
     }
   };
 
