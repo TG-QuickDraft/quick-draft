@@ -47,12 +47,6 @@ namespace Backend.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Erro no Cadastro]: {ex.Message}");
-                Console.WriteLine(ex.StackTrace);
-                return StatusCode(500, $"Erro interno ao processar o cadastro: {ex.Message}");
-            }
         }
 
         [HttpPost("upload-foto")]

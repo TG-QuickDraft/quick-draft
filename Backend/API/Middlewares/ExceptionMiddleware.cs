@@ -33,13 +33,16 @@ public class ExceptionMiddleware(RequestDelegate next)
         {
             await Handle(context, HttpStatusCode.BadRequest, ex.Message);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             await Handle(
                 context,
                 HttpStatusCode.InternalServerError,
                 "Erro interno do servidor."
             );
+
+            Console.WriteLine($"[Erro]: {ex.Message}");
+            Console.WriteLine(ex.StackTrace);
         }
     }
 
