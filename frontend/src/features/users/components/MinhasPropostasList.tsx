@@ -8,6 +8,10 @@ import { toLocaleString } from "@/shared/utils/date.utils";
 import type { PropostaDTO } from "@/features/services/proposal/dtos/PropostaDTO";
 import { consultarMinhasPropostas } from "@/features/services/proposal/api/proposta.api";
 import { dashboardServicoPaths } from "@/features/services/dashboard/routes/dashboardPaths";
+import Button from "@/shared/components/ui/buttons/Button";
+import clsx from "clsx";
+import { LuPencil } from "react-icons/lu";
+import CardWrapper from "@/shared/components/ui/card/CardWrapper";
 
 export const MinhasPropostasList = () => {
   const [propostas, setPropostas] = useState<PropostaDTO[]>([]);
@@ -40,10 +44,7 @@ export const MinhasPropostasList = () => {
   return (
     <div className="flex flex-col gap-6">
       {propostas.map((proposta) => (
-        <div
-          key={proposta.id}
-          className="border border-gray-400 rounded-2xl p-6 flex justify-between items-center"
-        >
+        <CardWrapper key={proposta.id}>
           <div>
             <h3 className="text-lg font-bold mb-2">{proposta.nomeServico}</h3>
 
@@ -57,16 +58,29 @@ export const MinhasPropostasList = () => {
             </p>
           </div>
 
-          <button
-            onClick={() =>
-              navigate(dashboardServicoPaths.verMinhaPropostaById(proposta.id))
-            }
-            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-lg text-gray-700 hover:bg-gray-100 hover:text-black transition"
-          >
-            <FiEye size={18} />
-            Ver Detalhes
-          </button>
-        </div>
+          <div className="flex gap-2 items-center">
+            <Button
+              className={clsx(
+                "rounded-lg border border-gray-300 text-lg ",
+                "hover:scale-100! not-disabled:hover:bg-black/80!",
+              )}
+              icon={<LuPencil />}
+            >
+              Editar
+            </Button>
+            <button
+              onClick={() =>
+                navigate(
+                  dashboardServicoPaths.verMinhaPropostaById(proposta.id),
+                )
+              }
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-lg text-gray-700 hover:bg-gray-100 hover:text-black transition"
+            >
+              <FiEye size={18} />
+              Ver Detalhes
+            </button>
+          </div>
+        </CardWrapper>
       ))}
     </div>
   );
