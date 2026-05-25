@@ -59,7 +59,6 @@ export const Analise = () => {
     return <Spinner />;
   }
 
-  // Linha - Lucro
   const lucroData = {
     labels: data.meses,
     datasets: [
@@ -74,7 +73,6 @@ export const Analise = () => {
     ],
   };
 
-  // Coluna - Serviços
   const servicosData = {
     labels: data.meses,
     datasets: [
@@ -86,7 +84,6 @@ export const Analise = () => {
     ],
   };
 
-  // Pizza - Serviços Entregues
   const entreguesData = {
     labels: ["Entregues", "Pendentes"],
     datasets: [
@@ -118,7 +115,6 @@ export const Analise = () => {
         </div>
       </div>
 
-      {/* Cards */}
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
           <h3 className="text-sm text-gray-500">Lucro Total</h3>
@@ -149,7 +145,6 @@ export const Analise = () => {
         </div>
       </div>
 
-      {/* Gráficos */}
       <div className="grid grid-cols-2 gap-10">
         <div className="bg-white/90 p-6 rounded-xl shadow-md">
           <h3 className="mb-4 font-semibold text-gray-600">Lucro Mensal</h3>
