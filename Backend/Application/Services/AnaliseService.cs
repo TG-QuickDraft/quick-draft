@@ -15,11 +15,9 @@ namespace Backend.Application.Services
             var end = endDate.HasValue ? endDate.Value.Date.AddDays(1).AddTicks(-1) : DateTime.UtcNow;
             var start = startDate.HasValue ? startDate.Value.Date : end.AddYears(-1);
 
-            // Ensure UTC for Npgsql and PostgreSQL
             var startUtc = DateTime.SpecifyKind(start, DateTimeKind.Utc);
             var endUtc = DateTime.SpecifyKind(end, DateTimeKind.Utc);
 
-            // Fetch data from database, strictly filtered by date range
             var pagamentos = await _context.Pagamentos
                 .Where(p => p.CreatedAt.HasValue && p.CreatedAt.Value >= startUtc && p.CreatedAt.Value <= endUtc)
                 .ToListAsync();
