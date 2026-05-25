@@ -12,9 +12,11 @@ import {
 } from "chart.js";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { useState, useEffect } from "react";
-import api from "@/shared/apis/api";
-import DateInput from "@/shared/components/ui/inputs/DateInput";
+import DateInput from "@/shared/components/ui/Inputs/DateInput";
 import { subYears } from "date-fns";
+import Spinner from "@/shared/components/ui/Spinner";
+import type { AnaliseDTO } from "@/features/admin/dtos/AnaliseDTO";
+import { consultarAnalise } from "@/features/admin/api/analise.api.ts";
 
 ChartJS.register(
   CategoryScale,
@@ -27,21 +29,8 @@ ChartJS.register(
   Legend,
 );
 
-interface AnaliseData {
-  meses: string[];
-  lucroMensal: number[];
-  servicosAbertosMensal: number[];
-  lucroTotal: number;
-  totalServicosAbertos: number;
-  totalServicosEntregues: number;
-  servicosEntreguesChart: {
-    entregues: number;
-    pendentes: number;
-  };
-}
-
 export const Analise = () => {
-  const [data, setData] = useState<AnaliseData | null>(null);
+  const [data, setData] = useState<AnaliseDTO | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(subYears(new Date(), 1));
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [loading, setLoading] = useState(true);
@@ -50,14 +39,12 @@ export const Analise = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await api.get<AnaliseData>("/api/Analise", {
-          params: {
-            startDate: startDate?.toISOString(),
-            endDate: endDate?.toISOString(),
-          },
-        });
-        console.log("Dados da análise recebidos:", response.data);
-        setData(response.data);
+        const result = await consultarAnalise(
+          startDate?.toISOString(),
+          endDate?.toISOString(),
+        );
+        console.log("Dados da análise recebidos:", result);
+        setData(result);
       } catch (error) {
         console.error("Erro ao buscar dados de análise:", error);
       } finally {
@@ -69,12 +56,7 @@ export const Analise = () => {
   }, [startDate, endDate]);
 
   if (loading || !data) {
-    return (
-      <div className="flex flex-col gap-10 p-8 w-full animate-pulse">
-        <Title>Análise</Title>
-        <div className="text-gray-500">Carregando dados da análise...</div>
-      </div>
-    );
+    return <Spinner />;
   }
 
   // Linha - Lucro
