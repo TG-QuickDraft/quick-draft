@@ -1,5 +1,6 @@
 import axios from "axios";
 import { localStorageKeys } from "../utils/storageKeys";
+import { ApiError } from "./ApiError";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "",
@@ -32,7 +33,7 @@ api.interceptors.response.use(
       }, 0);
     }
 
-    return Promise.reject(error);
+    return Promise.reject(new ApiError(error));
   },
 );
 

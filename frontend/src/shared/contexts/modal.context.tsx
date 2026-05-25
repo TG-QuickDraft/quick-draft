@@ -7,6 +7,7 @@ import type { ModalVariants } from "../types/ModalVariants";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import { HiOutlineEmojiSad } from "react-icons/hi";
 import { IoIosWarning } from "react-icons/io";
+import type { ApiError } from "../apis/ApiError";
 
 interface ModalOptions {
   title?: string;
@@ -24,6 +25,7 @@ interface ModalContextData {
   showError: (
     options: Omit<ModalOptions, "title"> & { title?: string },
   ) => void;
+  showApiError: (error: ApiError) => void;
   showSuccess: (
     options: Omit<ModalOptions, "title"> & { title?: string },
   ) => void;
@@ -54,6 +56,14 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
       variant: "error",
       icon: <HiOutlineEmojiSad size={28} />,
       show: true,
+    });
+  };
+
+  const showApiError = (
+    error: ApiError,
+  ) => {
+    showError({
+      content: error.message,
     });
   };
 
@@ -101,7 +111,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ModalContext.Provider
-      value={{ showModal, showError, showSuccess, showDanger, hideModal }}
+      value={{ showModal, showError, showApiError, showSuccess, showDanger, hideModal }}
     >
       {children}
 

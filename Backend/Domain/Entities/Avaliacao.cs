@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Backend.Domain.Exceptions;
 
 namespace Backend.Domain.Entities
 {
@@ -17,7 +18,18 @@ namespace Backend.Domain.Entities
 
         [Column("ava_nota_estrelas")]
         [Required]
-        public int NotaEstrelas { get; set; }
+        public int NotaEstrelas {
+            get => _notaEstrelas;
+            set
+            {
+                if (value < 1 || value > 5)
+                    throw new RegraNegocioException(
+                        "A nota deve ser um valor entre 1 e 5!"
+                    );
+
+                _notaEstrelas = value;
+            }
+        }
 
         [Column("ava_comentario")]
         public string? Comentario { get; set; }
@@ -25,5 +37,7 @@ namespace Backend.Domain.Entities
         public Servico? Servico { get; set; }
         public Usuario? Autor { get; set; }
         public Usuario? Alvo { get; set; }
+
+        private int _notaEstrelas;
     }
 }

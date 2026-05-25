@@ -13,16 +13,9 @@ namespace Backend.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDTO dto)
         {
-            try
-            {
-                var token = await _service.LoginAsync(dto);
+            var token = await _service.LoginAsync(dto);
 
-                return Ok(new { token });
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Unauthorized("Email ou senha inválidos");
-            }
+            return Ok(new { token });
         }
     }
 }

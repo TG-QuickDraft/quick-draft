@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json.Serialization;
 using Backend.API.Hubs;
+using Backend.API.Middlewares;
 using Backend.Application;
 using Backend.Infrastructure;
 using Backend.Infrastructure.Persistence;
@@ -18,12 +19,16 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 
 builder.Services.AddScoped<AuditInterceptor>();
+builder.Services.AddScoped<DbExceptionInterceptor>();
 
 builder.Services.AddDbContext<AppDbContext>(
     (serviceProvider, options) =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-        options.AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>());
+        options.AddInterceptors(
+            serviceProvider.GetRequiredService<AuditInterceptor>(),
+            serviceProvider.GetRequiredService<DbExceptionInterceptor>()
+        );
     }
 );
 
@@ -117,6 +122,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
