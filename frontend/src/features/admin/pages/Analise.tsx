@@ -138,7 +138,7 @@ export const Analise = () => {
         </div>
 
         <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
-          <h3 className="text-sm text-gray-500 mb-2">Serviços Entregues</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Serviços Pendentes e Entregues</h3>
           <div className="w-32">
             <Pie key={`pie-${chartKey}`} data={entreguesData} options={{ plugins: { legend: { display: false } } }} />
           </div>
