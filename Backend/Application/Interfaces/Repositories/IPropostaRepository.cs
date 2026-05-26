@@ -8,6 +8,7 @@ namespace Backend.Application.Interfaces.Repositories
         Task<IEnumerable<Proposta>> ConsultarPorIdServicoAsync(int id);
         Task<IEnumerable<Proposta>> ConsultarPorIdFreelancerAsync(int freelancerId);
         Task<Proposta> CriarAsync(Proposta proposta);
+        Task<Proposta> AtualizarAsync(Proposta proposta);
         Task<bool> ExistePorServicoEFreelancerAsync(int servicoId, int freelancerId);
     }
 }

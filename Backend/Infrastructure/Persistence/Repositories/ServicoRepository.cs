@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infrastructure.Persistence.Repositories
 {
-    public class ServicoRepository(AppDbContext context, IPropostaRepository propostaRepository) : IServicoRepository
+    public class ServicoRepository(AppDbContext context, IPropostaRepository propostaRepository)
+        : IServicoRepository
     {
         private readonly AppDbContext _context = context;
         private readonly IPropostaRepository _propostaRepository = propostaRepository;
@@ -74,8 +75,8 @@ namespace Backend.Infrastructure.Persistence.Repositories
             int tamanhoPagina
         )
         {
-            var query = _context.Servicos
-                .Where(s => s.ClienteId == clienteId)
+            var query = _context
+                .Servicos.Where(s => s.ClienteId == clienteId)
                 .OrderByDescending(s => s.Id);
 
             return await query.ToPagedResultAsync(pagina, tamanhoPagina);
@@ -83,16 +84,15 @@ namespace Backend.Infrastructure.Persistence.Repositories
 
         public async Task<Proposta?> ConsultarPropostaAceitaIdAsync(int servicoId)
         {
-            var propostaAceitaId = await _context.Servicos
-                .Where(s => s.Id == servicoId)
+            var propostaAceitaId = await _context
+                .Servicos.Where(s => s.Id == servicoId)
                 .Select(s => s.PropostaAceitaId)
                 .SingleOrDefaultAsync();
 
             if (propostaAceitaId is null)
                 return null;
 
-            return await _propostaRepository
-                .ConsultarPorIdAsync(propostaAceitaId.Value);
+            return await _propostaRepository.ConsultarPorIdAsync(propostaAceitaId.Value);
         }
 
         public async Task<bool> AtualizarIsEntregue(int servicoId, bool isEntregue)
@@ -108,8 +108,8 @@ namespace Backend.Infrastructure.Persistence.Repositories
 
         public async Task<Servico?> ConsultarPorIdComPropostaAceitaAsync(int id)
         {
-            return await _context.Servicos
-                .Include(s => s.PropostaAceita)
+            return await _context
+                .Servicos.Include(s => s.PropostaAceita)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
     }

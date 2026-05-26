@@ -47,5 +47,16 @@ namespace Backend.API.Controllers
 
             return CreatedAtAction(nameof(ConsultarPorId), new { id = proposta.Id }, proposta);
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = Roles.Freelancer)]
+        public async Task<IActionResult> AtualizarProposta(
+            int id,
+            [FromBody] AtualizarPropostaDTO dto
+        )
+        {
+            int freelancerId = User.GetUserId();
+            return Ok(await _service.AtualizarAsync(id, dto, freelancerId));
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace Backend.Application.DTOs.Proposta
         public int FreelancerId { get; set; }
         public int ServicoId { get; set; }
         public string NomeServico { get; set; } = string.Empty;
+        public bool IsPropostaAceita { get; set; }
         public ICollection<ProjetoFreelancerDTO> ProjetosDestacados { get; set; } = [];
     }
 }

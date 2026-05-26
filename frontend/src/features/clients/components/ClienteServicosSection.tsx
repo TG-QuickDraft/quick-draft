@@ -1,5 +1,6 @@
 import type { ServicoDTO } from "@/features/services/proposal/dtos/ServicoDTO";
 import { MeusServicosList } from "@/features/users/components/MeusServicosList";
+import { clientePaths } from "../routes/clientePaths";
 
 type Props = {
   clienteId: number;
@@ -28,6 +29,7 @@ export const ClienteServicosSection = ({
 
       {temServicos ? (
         <MeusServicosList
+          from={clientePaths.perfilClienteById(clienteId)}
           servicos={servicos}
           clienteId={clienteId}
           publicView

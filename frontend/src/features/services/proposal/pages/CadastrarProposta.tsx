@@ -44,20 +44,37 @@ import { IoMdSend } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { freelancerPaths } from "../../../freelancers/routes/freelancerPaths";
 import type { CriarPropostaDTO } from "../dtos/PropostaDTO";
-import { useCreateProposal } from "../hooks/useCreateProposal";
+import { useCreateProposal, useUpdateProposal } from "../hooks/useProposal";
 import { proposalPaths } from "../routes/proposalPaths";
+import { buscarPropostaPorId } from "../api/proposta.api";
+import { LOADING_TIMEOUT } from "@/shared/utils/loadingTimeout";
+import { RxUpdate } from "react-icons/rx";
 
 const CadastrarProposta = () => {
-  const { showSuccess, showError } = useModal();
+  const { proposalId, serviceId } = useParams();
 
+  const from =
+    serviceId && !proposalId
+      ? proposalPaths.cadastrarPropostaById(serviceId)
+      : proposalId && serviceId
+        ? proposalPaths.atualizarPropostaById({
+            servicoId: serviceId,
+            propostaId: proposalId,
+          })
+        : "";
+
+  const { showSuccess, showError } = useModal();
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { serviceId } = useParams();
 
   const { mutate: doProposal, isPending } = useCreateProposal();
+  const { mutate: doUpdateProposal, isPending: isPendingUpdate } =
+    useUpdateProposal();
+
   const {
     selectedProjects,
+    setSelectedProjects,
     inputValue,
     handleProjectSelection,
     handleKeyDown,
@@ -65,6 +82,7 @@ const CadastrarProposta = () => {
     handleDeleteItem,
     setInputValue,
     items,
+    setItems,
     clearAuxiliaryCache,
   } = useProposalForm();
 
@@ -90,6 +108,38 @@ const CadastrarProposta = () => {
 
   const formValues = watch();
   const isSubmitting = useRef(false);
+
+  useEffect(() => {
+    if (proposalId) {
+      const fetchProposal = async () => {
+        let timer = setTimeout(() => setLoading(true), LOADING_TIMEOUT);
+        try {
+          const proposal = await buscarPropostaPorId(Number(proposalId));
+          reset({
+            description: proposal.mensagem,
+            hourlyValue: proposal.valorPorHora.toString(),
+            deadline: new Date(proposal.prazoEntrega),
+            totalCost: proposal.valorTotal.toString(),
+            addSystemTax: proposal.taxaSistemaAdicionadaAoTotal,
+          });
+
+          setItems([...proposal.itensPropostos.split(";")]);
+          setSelectedProjects([
+            ...proposal.projetosDestacados.map((p) => p.id),
+          ]);
+
+          console.log(proposal);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          clearTimeout(timer);
+          setLoading(false);
+        }
+      };
+
+      fetchProposal();
+    }
+  }, [proposalId]);
 
   useEffect(() => {
     if (!isSubmitting.current && Object.keys(formValues).length > 0) {
@@ -130,6 +180,33 @@ const CadastrarProposta = () => {
         imagemUrl: "",
       })),
     };
+
+    if (proposalId) {
+      const { servicoId, ...updateData } = proposalData;
+      doUpdateProposal(
+        {
+          proposalId: Number(proposalId),
+          proposalBody: updateData,
+        },
+        {
+          onSuccess: () => {
+            isSubmitting.current = true;
+            sessionStorage.removeItem(sessionStorageKeys.proposalCache);
+            clearAuxiliaryCache();
+            showSuccess({
+              content: "Proposta atualizada com sucesso!",
+              redirect: usuarioPaths.minhaConta,
+            });
+          },
+          onError: (error) => {
+            showError({
+              content: error.message,
+            });
+          },
+        },
+      );
+      return;
+    }
 
     doProposal(proposalData, {
       onSuccess: () => {
@@ -185,7 +262,9 @@ const CadastrarProposta = () => {
     <>
       <div className="flex flex-col gap-5 flex-1 max-w-7xl mx-auto w-full">
         <header>
-          <BackButton textContent="Envio de Proposta" />
+          <BackButton
+            textContent={proposalId ? "Editar Proposta" : "Envio de Proposta"}
+          />
         </header>
 
         <form
@@ -354,8 +433,7 @@ const CadastrarProposta = () => {
                   className="mt-4"
                   onClick={() =>
                     navigate(
-                      freelancerPaths.cadastrarProjetoFreelancer +
-                        `${serviceId ? `?from=${proposalPaths.cadastrarPropostaById(serviceId)}` : ""}`,
+                      `${freelancerPaths.cadastrarProjetoFreelancer}?from=${from}`,
                     )
                   }
                 />
@@ -370,8 +448,13 @@ const CadastrarProposta = () => {
                 />
               </div>
               <Stack className="mt-5" align="right">
-                <Button disabled={isPending} icon={<IoMdSend size={25} />}>
-                  Enviar proposta
+                <Button
+                  disabled={isPending || isPendingUpdate}
+                  icon={
+                    proposalId ? <RxUpdate size={25} /> : <IoMdSend size={25} />
+                  }
+                >
+                  {proposalId ? "Atualizar proposta" : "Enviar proposta"}
                 </Button>
               </Stack>
             </div>

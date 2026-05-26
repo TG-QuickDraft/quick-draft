@@ -4,5 +4,6 @@ namespace Backend.Application.Interfaces.Infrastructure
     {
         public Task<string> UploadImagem(IFormFile imagem, string folder);
         public Task<string> UploadArquivo(IFormFile arquivo, string folder);
+        public void DeletarArquivo(string? path);
     }
 }

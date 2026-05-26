@@ -11,6 +11,8 @@ import DetailsButton from "@/shared/components/ui/buttons/DetailsButton";
 import { proposalPaths } from "@/features/services/proposal/routes/proposalPaths";
 import clsx from "clsx";
 import type { Tab } from "@/shared/components/ui/Tabs";
+import { LuPencil } from "react-icons/lu";
+import Button from "@/shared/components/ui/buttons/Button";
 
 type Props = {
   clienteId?: number;
@@ -18,6 +20,7 @@ type Props = {
   tab?: Tab;
   servicos?: ServicoDTO[];
   loading?: boolean;
+  from?: string;
 };
 
 export const MeusServicosList = ({
@@ -25,6 +28,7 @@ export const MeusServicosList = ({
   publicView = false,
   servicos = [],
   loading = false,
+  from,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -57,6 +61,8 @@ export const MeusServicosList = ({
       )}
 
       {servicos.map((servico) => {
+        const isEditable = servico.propostaAceitaId === null;
+
         return (
           <CardWrapper key={servico.id}>
             <div>
@@ -71,9 +77,33 @@ export const MeusServicosList = ({
               </p>
             </div>
 
-            <DetailsButton onClick={() => handleNavigate(servico.id)}>
-              Ver Detalhes
-            </DetailsButton>
+            <div className="flex gap-2 items-center">
+              <Button
+                className={clsx(
+                  "rounded-lg text-lg border border-transparent shadow",
+                  "scale-100 not-disabled:hover:bg-white!",
+                  "not-disabled:hover:text-black",
+                  "not-disabled:hover:border-neutral-40",
+                )}
+                icon={<LuPencil />}
+                disabled={!isEditable}
+                onClick={() =>
+                  navigate(
+                    `${proposalPaths.cadastrarServico}?serviceId=${servico.id}&from=${from}`,
+                  )
+                }
+                title={
+                  isEditable
+                    ? "Editar serviço"
+                    : "Serviços com proposta aceita não podem ser editados"
+                }
+              >
+                Editar
+              </Button>
+              <DetailsButton onClick={() => handleNavigate(servico.id)}>
+                Detalhes
+              </DetailsButton>
+            </div>
           </CardWrapper>
         );
       })}
