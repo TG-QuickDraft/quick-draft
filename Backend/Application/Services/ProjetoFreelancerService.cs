@@ -107,7 +107,7 @@ namespace Backend.Application.Services
 
             if (sucesso && !string.IsNullOrEmpty(imagemAntiga))
             {
-                _uploadService.DeletarArquivo(imagemAntiga);
+                await _uploadService.DeletarArquivo(imagemAntiga);
             }
 
             return sucesso;
