@@ -169,7 +169,7 @@ export const CadastrarProjetoFreelancer = () => {
           error={errors?.imagem?.imagem?.message}
         />
 
-        <Button icon={<LuSave size={30} />}>
+        <Button disabled={isLoading} icon={<LuSave size={30} />}>
           {projectId ? "Salvar" : "Cadastrar"}
         </Button>
       </form>
