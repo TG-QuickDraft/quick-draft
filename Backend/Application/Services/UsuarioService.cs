@@ -144,9 +144,18 @@ namespace Backend.Application.Services
 
             string path = Path.Combine("uploads", "fotos-perfil", usuarioId.ToString());
 
+            string? fotoAntiga = usuario.FotoPerfilUrl;
+
             usuario.FotoPerfilUrl = await _uploadService.UploadImagem(dto.Imagem, path);
 
-            return await _repository.AtualizarAsync(usuario);
+            bool sucesso = await _repository.AtualizarAsync(usuario);
+
+            if (sucesso && !string.IsNullOrEmpty(fotoAntiga))
+            {
+                await _uploadService.DeletarArquivo(fotoAntiga);
+            }
+
+            return sucesso;
         }
     }
 }
