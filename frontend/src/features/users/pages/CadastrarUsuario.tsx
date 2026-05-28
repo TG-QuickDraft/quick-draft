@@ -20,10 +20,12 @@ import ImagePicker from "@/features/users/components/ImagePicker";
 import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "../routes/usuarioPaths";
 import type { ApiError } from "@/shared/apis/ApiError";
+import { useState } from "react";
 
 export const CadastrarUsuario = () => {
   const { showSuccess, showApiError } = useModal();
   const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -53,6 +55,7 @@ export const CadastrarUsuario = () => {
       fotoPerfil: profilePhoto,
     } as CriarUsuarioDTO;
 
+    setIsLoading(true);
     try {
       await adicionarUsuario(usuario);
       await login({ email: data.email, senha: data.senha });
@@ -63,6 +66,8 @@ export const CadastrarUsuario = () => {
       });
     } catch (error) {
       showApiError(error as ApiError);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -145,7 +150,9 @@ export const CadastrarUsuario = () => {
           </div>
         </div>
 
-        <Button icon={<LuSave size={30} />}>Salvar</Button>
+        <Button isLoading={isLoading} icon={<LuSave size={30} />}>
+          {isLoading ? "Salvando..." : "Salvar"}
+        </Button>
       </form>
     </div>
   );

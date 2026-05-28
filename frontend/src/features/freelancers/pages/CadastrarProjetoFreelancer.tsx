@@ -26,14 +26,21 @@ import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import { atualizarProjetoFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { freelancerPaths } from "../routes/freelancerPaths";
+import type { ApiError } from "@/shared/apis/ApiError";
+
+const STATUS_TEXT = {
+  Salvar: "Salvando...",
+  Cadastrar: "Cadastrando...",
+};
 
 export const CadastrarProjetoFreelancer = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isPendingSave, setIsPendingSave] = useState(false);
 
   const [initialImage, setInitialImage] = useState<string | undefined>(
     undefined,
   );
-  const { showSuccess, showError } = useModal();
+  const { showSuccess, showApiError } = useModal();
   const { usuario } = useAuth();
 
   const [params] = useSearchParams();
@@ -82,6 +89,7 @@ export const CadastrarProjetoFreelancer = () => {
     };
     const imagem = data.imagem?.imagem?.[0];
 
+    setIsPendingSave(true);
     try {
       if (projectId) {
         const updatedProject = await atualizarProjetoFreelancer(
@@ -114,11 +122,14 @@ export const CadastrarProjetoFreelancer = () => {
         });
       }
     } catch (error) {
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
+      showApiError(error as ApiError);
+    } finally {
+      setIsPendingSave(false);
     }
   };
+
+  const action = projectId ? "Salvar" : "Cadastrar";
+  const buttonText = isPendingSave ? STATUS_TEXT[action] : action;
 
   if (isLoading) return <Spinner />;
 
@@ -169,8 +180,8 @@ export const CadastrarProjetoFreelancer = () => {
           error={errors?.imagem?.imagem?.message}
         />
 
-        <Button disabled={isLoading} icon={<LuSave size={30} />}>
-          {projectId ? "Salvar" : "Cadastrar"}
+        <Button isLoading={isPendingSave} icon={<LuSave size={30} />}>
+          {buttonText}
         </Button>
       </form>
     </div>
