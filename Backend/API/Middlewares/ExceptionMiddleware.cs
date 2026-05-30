@@ -21,6 +21,10 @@ public class ExceptionMiddleware(RequestDelegate next)
         {
             await Handle(context, HttpStatusCode.Conflict, ex.Message);
         }
+        catch (InvalidOperationException ex)
+        {
+            await Handle(context, HttpStatusCode.Conflict, ex.Message);
+        }
         catch (NotFoundException ex)
         {
             await Handle(context, HttpStatusCode.NotFound, ex.Message);

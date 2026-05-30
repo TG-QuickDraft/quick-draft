@@ -199,9 +199,7 @@ const CadastrarProposta = () => {
             });
           },
           onError: (error) => {
-            showError({
-              content: error.message,
-            });
+            showError(error as Error);
           },
         },
       );
@@ -221,9 +219,7 @@ const CadastrarProposta = () => {
         });
       },
       onError: (error) => {
-        showError({
-          content: error.message,
-        });
+        showError(error as Error);
       },
     });
   };

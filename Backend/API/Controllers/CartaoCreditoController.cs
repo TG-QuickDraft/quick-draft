@@ -17,9 +17,13 @@ namespace Backend.API.Controllers
         [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Consultar()
         {
-            return Ok(
-                await _service.ConsultarPorIdClienteAsync(User.GetUserId())
-            );
+            CartaoCreditoDTO? cartao =
+                await _service.ConsultarPorIdClienteAsync(User.GetUserId());
+
+            if (cartao == null)
+                return NoContent();
+
+            return Ok(cartao);
         }
 
         [HttpGet("bandeiras")]

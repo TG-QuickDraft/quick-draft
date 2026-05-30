@@ -4,7 +4,7 @@ namespace Backend.Application.Interfaces.Services
 {
     public interface ICartaoCreditoService
     {
-        public Task<CartaoCreditoDTO> ConsultarPorIdClienteAsync(int clienteId);
+        public Task<CartaoCreditoDTO?> ConsultarPorIdClienteAsync(int clienteId);
 
         public Task<IEnumerable<BandeiraCartaoCreditoDTO>> ConsultarBandeirasAsync();
         

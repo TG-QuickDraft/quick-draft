@@ -52,15 +52,11 @@ export const enviarFoto = async (upload: UploadImagemDTO) => {
 };
 
 export const atualizarSenha = async (atualizarSenha: AtualizarSenhaDTO) => {
-  try {
-    const { data } = await api.put(
-      `${BASE_PATH}/atualizar-senha`,
-      atualizarSenha,
-    );
-    return data;
-  } catch {
-    throw new Error("Erro ao atualizar senha.");
-  }
+  const { data } = await api.put(
+    `${BASE_PATH}/atualizar-senha`,
+    atualizarSenha,
+  );
+  return data;
 };
 
 export const meApi = async (): Promise<MeResponseDTO> => {
@@ -75,10 +71,6 @@ export const meApi = async (): Promise<MeResponseDTO> => {
 export const atualizarDadosUsuario = async (
   dados: AtualizarDadosUsuarioDTO,
 ) => {
-  try {
-    const { data } = await api.put(`${BASE_PATH}/atualizar-dados`, dados);
-    return data;
-  } catch {
-    throw new Error("Erro ao atualizar dados do usuário");
-  }
+  const { data } = await api.put(`${BASE_PATH}/atualizar-dados`, dados);
+  return data;
 };

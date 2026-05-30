@@ -19,11 +19,10 @@ import Radio from "@/shared/components/ui/Inputs/Radio";
 import ImagePicker from "@/features/users/components/ImagePicker";
 import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "../routes/usuarioPaths";
-import type { ApiError } from "@/shared/apis/ApiError";
 import { useState } from "react";
 
 export const CadastrarUsuario = () => {
-  const { showSuccess, showApiError } = useModal();
+  const { showSuccess, showError } = useModal();
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -65,7 +64,7 @@ export const CadastrarUsuario = () => {
         redirect: usuarioPaths.minhaConta,
       });
     } catch (error) {
-      showApiError(error as ApiError);
+      showError(error as Error);
     } finally {
       setIsLoading(false);
     }

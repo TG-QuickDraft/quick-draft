@@ -31,24 +31,16 @@ export const consultarProjetoPorId = async (projetoId: number) => {
 export const adicionarProjetoFreelancer = async (
   projeto: SalvarProjetoFreelancerDTO,
 ) => {
-  try {
-    const { data } = await api.post(BASE_PATH, projeto);
-    return data;
-  } catch {
-    throw new Error("Erro ao adicionar projeto.");
-  }
+  const { data } = await api.post(BASE_PATH, projeto);
+  return data;
 };
 
 export const atualizarProjetoFreelancer = async (
   projeto: SalvarProjetoFreelancerDTO,
   projetoId: number,
 ) => {
-  try {
-    const { data } = await api.put(`${BASE_PATH}/${projetoId}`, projeto);
-    return data;
-  } catch {
-    throw new Error("Erro ao atualizar projeto.");
-  }
+  const { data } = await api.put(`${BASE_PATH}/${projetoId}`, projeto);
+  return data;
 };
 export const enviarImagemProjeto = async (
   formData: FormData,

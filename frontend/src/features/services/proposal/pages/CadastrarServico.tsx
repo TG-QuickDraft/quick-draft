@@ -99,11 +99,7 @@ export const CadastrarServico = () => {
         });
       }
     } catch (error) {
-      if (error instanceof Error) {
-        showError({
-          content: error.message,
-        });
-      }
+      showError(error as Error);
     }
   };
 
