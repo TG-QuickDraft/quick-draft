@@ -17,6 +17,7 @@ import { subYears } from "date-fns";
 import Spinner from "@/shared/components/ui/Spinner";
 import type { AnaliseDTO } from "@/features/admin/dtos/AnaliseDTO";
 import { consultarAnalise } from "@/features/admin/api/analise.api.ts";
+import { useModal } from "@/shared/contexts/modal.context";
 
 ChartJS.register(
   CategoryScale,
@@ -34,6 +35,7 @@ export const Analise = () => {
   const [startDate, setStartDate] = useState<Date | null>(subYears(new Date(), 1));
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [loading, setLoading] = useState(true);
+  const {showError} = useModal();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,11 +108,57 @@ export const Analise = () => {
         <div className="flex gap-4 items-center">
           <div className="flex flex-col">
             <span className="text-xs text-gray-500 mb-1">Início</span>
-            <DateInput selectedDate={startDate} onChange={setStartDate} className="w-40" />
+
+              <DateInput
+              selectedDate={startDate}
+              onChange={(date) => {
+                if (!date) {
+                  setStartDate(null);
+                  return;
+                }
+
+                if (date > new Date()) {
+                  showError({ content: "A data de início não pode estar no futuro." });
+                  return;
+                }
+
+                if (endDate && date > endDate) {
+                  showError({ content: "A data de início não pode ser posterior à data de fim." });
+                  return;
+                }
+
+                setStartDate(date);
+              }}
+              className="w-40"
+            />
+
           </div>
           <div className="flex flex-col">
             <span className="text-xs text-gray-500 mb-1">Fim</span>
-            <DateInput selectedDate={endDate} onChange={setEndDate} className="w-40" />
+
+              <DateInput
+                selectedDate={endDate}
+                onChange={(date) => {
+                  if (!date) {
+                    setEndDate(null);
+                    return;
+                  }
+
+                  if (startDate && date < startDate) {
+                    showError({ content: "A data de fim não pode ser anterior à data de início." });
+                    return;
+                  }
+
+                  if (date > new Date()) {
+                    showError({ content: "A data de fim não pode estar no futuro." });
+                    return;
+                  }
+
+                  setEndDate(date);
+                }}
+                className="w-40"
+              />
+
           </div>
         </div>
       </div>
