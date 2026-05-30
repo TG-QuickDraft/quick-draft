@@ -32,10 +32,8 @@ export const useCriarAvaliacao = () => {
           ? dashboardServicoPaths.visualizarMeuServicoById(servicoId)
           : undefined,
       });
-    } catch {
-      showError({
-        content: "Erro ao enviar avaliação. Tente novamente mais tarde.",
-      });
+    } catch (error) {
+      showError(error as Error);
     } finally {
       setLoading(false);
     }
