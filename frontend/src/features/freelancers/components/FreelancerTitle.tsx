@@ -38,7 +38,6 @@ const FreelancerTitle = ({
   };
 
   const handleSaveTitleClick = async () => {
-    if (title.trim() === "") return;
     try {
       await atualizarFreelancer({
         titulo: title,
