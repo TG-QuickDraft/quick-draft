@@ -4,40 +4,27 @@ import api from "@/shared/apis/api";
 
 const BASE_PATH = "/api/cartaoCredito";
 
-export const consultarCartaoCredito = async () => {
-  try {
-    const { data } = await api.get(BASE_PATH);
-    return data;
-  } catch {
-    throw new Error("Erro ao consultar cartão.");
+export const consultarCartaoCredito = async (): Promise<CartaoCreditoDTO | null> => {
+  const { data, status } = await api.get(BASE_PATH);
+
+  if (status === 204) {
+    return null;
   }
+
+  return data;
 };
 
 export const consultarBandeiras = async () => {
-  try {
-    const { data } = await api.get(`${BASE_PATH}/bandeiras`);
-    return data;
-  } catch {
-    throw new Error("Erro ao consultar bandeiras de cartão de crédito.");
-  }
+  const { data } = await api.get(`${BASE_PATH}/bandeiras`);
+  return data;
 };
 
 export const adicionarCartaoCredito = async (cartao: CriarCartaoCreditoDTO) => {
-  try {
-    const { data } = await api.post(BASE_PATH, cartao);
-    return data;
-  } catch {
-    throw new Error("Erro ao adicionar cartão de crédito.");
-  }
+  const { data } = await api.post(BASE_PATH, cartao);
+  return data;
 };
 
 export const atualizarCartaoCredito = async (dto: CartaoCreditoDTO) => {
-  try {
-    const { data } = await api.put(BASE_PATH, dto);
-    return data;
-  } catch (error: any) {
-    const mensagem =
-      error?.response?.data?.message ?? "Erro ao atualizar cartão.";
-    throw new Error(mensagem);
-  }
+  const { data } = await api.put(BASE_PATH, dto);
+  return data;
 };
