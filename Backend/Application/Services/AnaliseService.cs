@@ -1,14 +1,20 @@
 using Backend.Application.DTOs.Analise;
+using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
-using Backend.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Backend.Application.Services
 {
-    public class AnaliseService(AppDbContext context) : IAnaliseService
+    public class AnaliseService(
+        IPagamentoRepository pagamentoRepository,
+        IServicoRepository servicoRepository,
+        IEntregaRepository entregaRepository
+    ) : IAnaliseService
     {
-        private readonly AppDbContext _context = context;
+        private const string CultureName = "pt-BR";
+        private readonly IPagamentoRepository _pagamentoRepository = pagamentoRepository;
+        private readonly IServicoRepository _servicoRepository = servicoRepository;
+        private readonly IEntregaRepository _entregaRepository = entregaRepository;
 
         public async Task<AnaliseDto> GetAnaliseDataAsync(DateTime? startDate, DateTime? endDate)
         {
@@ -18,17 +24,9 @@ namespace Backend.Application.Services
             var startUtc = DateTime.SpecifyKind(start, DateTimeKind.Utc);
             var endUtc = DateTime.SpecifyKind(end, DateTimeKind.Utc);
 
-            var pagamentos = await _context.Pagamentos
-                .Where(p => p.CreatedAt.HasValue && p.CreatedAt.Value >= startUtc && p.CreatedAt.Value <= endUtc)
-                .ToListAsync();
-
-            var servicos = await _context.Servicos
-                .Where(s => s.CreatedAt.HasValue && s.CreatedAt.Value >= startUtc && s.CreatedAt.Value <= endUtc)
-                .ToListAsync();
-
-            var entregas = await _context.Entregas
-                .Where(e => e.CreatedAt.HasValue && e.CreatedAt.Value >= startUtc && e.CreatedAt.Value <= endUtc)
-                .ToListAsync();
+            var pagamentos = await _pagamentoRepository.ListarPorIntervaloAsync(startUtc, endUtc);
+            var servicos = await _servicoRepository.ListarPorIntervaloAsync(startUtc, endUtc);
+            var entregas = await _entregaRepository.ListarPorIntervaloAsync(startUtc, endUtc);
 
             var meses = new List<string>();
             var lucroMensal = new List<decimal>();
@@ -37,7 +35,7 @@ namespace Backend.Application.Services
             var current = new DateTime(start.Year, start.Month, 1);
             var last = new DateTime(end.Year, end.Month, 1);
 
-            var culture = new CultureInfo("pt-BR");
+            var culture = new CultureInfo(CultureName);
 
             while (current <= last)
             {
@@ -48,12 +46,12 @@ namespace Backend.Application.Services
                 var monthEnd = monthStart.AddMonths(1);
 
                 var profit = pagamentos
-                    .Where(p => p.CreatedAt.Value >= monthStart && p.CreatedAt.Value < monthEnd)
+                    .Where(p => p.CreatedAt!.Value >= monthStart && p.CreatedAt!.Value < monthEnd)
                     .Sum(p => p.Valor);
                 lucroMensal.Add(profit);
 
                 var openCount = servicos
-                    .Where(s => s.CreatedAt.Value >= monthStart && s.CreatedAt.Value < monthEnd && !s.IsEntregue)
+                    .Where(s => s.CreatedAt!.Value >= monthStart && s.CreatedAt!.Value < monthEnd && !s.IsEntregue)
                     .Count();
                 servicosAbertosMensal.Add(openCount);
 
@@ -62,7 +60,7 @@ namespace Backend.Application.Services
 
             var totalLucro = pagamentos.Sum(p => p.Valor);
             var totalAbertos = servicos.Count(s => !s.IsEntregue);
-            var totalEntregues = entregas.Count;
+            var totalEntregues = entregas.Count();
 
             return new AnaliseDto
             {

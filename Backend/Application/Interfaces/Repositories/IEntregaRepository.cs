@@ -6,5 +6,6 @@ namespace Backend.Application.Interfaces.Repositories
     {
         public Task<Entrega?> ConsultarPorIdServicoAsync(int servicoId);
         public Task<Entrega> CriarAsync(Entrega entrega);
+        public Task<IEnumerable<Entrega>> ListarPorIntervaloAsync(DateTime start, DateTime end);
     }
 }
