@@ -24,7 +24,7 @@ namespace Backend.Domain.Entities
             {
                 if (value < 1 || value > 5)
                     throw new RegraNegocioException(
-                        "A nota deve ser um valor entre 1 e 5!"
+                        "A nota deve ter entre 1 a 5 estrelas!"
                     );
 
                 _notaEstrelas = value;
