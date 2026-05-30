@@ -14,11 +14,10 @@ import { LoginSchema, type ILoginForm } from "../validations/login.schema";
 import { useModal } from "@/shared/contexts/modal.context";
 import { homePaths } from "@/features/home/routes/homePaths";
 import { useNavigate } from "react-router-dom";
-import type { ApiError } from "@/shared/apis/ApiError";
 import { useState } from "react";
 
 export const LoginUsuario = () => {
-  const { showApiError } = useModal();
+  const { showError } = useModal();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +38,7 @@ export const LoginUsuario = () => {
       await login(loginRequest);
       navigate(homePaths.home);
     } catch (error) {
-      showApiError(error as ApiError);
+      showError(error as Error);
     } finally {
       setIsLoading(false);
     }

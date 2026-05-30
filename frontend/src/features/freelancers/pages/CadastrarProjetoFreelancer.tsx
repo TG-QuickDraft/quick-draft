@@ -26,7 +26,6 @@ import { BackButton } from "@/shared/components/ui/buttons/BackButton";
 import { atualizarProjetoFreelancer } from "@/features/freelancers/api/projetoFreelancer.api";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { freelancerPaths } from "../routes/freelancerPaths";
-import type { ApiError } from "@/shared/apis/ApiError";
 
 const STATUS_TEXT = {
   Salvar: "Salvando...",
@@ -40,7 +39,7 @@ export const CadastrarProjetoFreelancer = () => {
   const [initialImage, setInitialImage] = useState<string | undefined>(
     undefined,
   );
-  const { showSuccess, showApiError } = useModal();
+  const { showSuccess, showError } = useModal();
   const { usuario } = useAuth();
 
   const [params] = useSearchParams();
@@ -71,7 +70,7 @@ export const CadastrarProjetoFreelancer = () => {
           });
           setInitialImage(project.imagemUrl);
         } catch (error) {
-          console.error(error);
+          showError(error as Error);
         } finally {
           clearTimeout(timer);
           setIsLoading(false);
@@ -122,7 +121,7 @@ export const CadastrarProjetoFreelancer = () => {
         });
       }
     } catch (error) {
-      showApiError(error as ApiError);
+      showError(error as Error);
     } finally {
       setIsPendingSave(false);
     }
