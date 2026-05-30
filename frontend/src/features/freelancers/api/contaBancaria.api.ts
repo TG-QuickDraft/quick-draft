@@ -23,21 +23,11 @@ export const consultarTiposConta = async () => {
 };
 
 export const adicionarContaBancaria = async (conta: CriarContaBancariaDTO) => {
-  try {
-    const { data } = await api.post(BASE_PATH, conta);
-    return data;
-  } catch {
-    throw new Error("Erro ao adicionar conta.");
-  }
+  const { data } = await api.post(BASE_PATH, conta);
+  return data;
 };
 
 export const atualizarContaBancaria = async (dto: ContaBancariaDTO) => {
-  try {
-    const { data } = await api.put(BASE_PATH, dto);
-    return data;
-  } catch (error: any) {
-    const mensagem =
-      error?.response?.data?.message ?? "Erro ao atualizar conta bancária.";
-    throw new Error(mensagem);
-  }
+  const { data } = await api.put(BASE_PATH, dto);
+  return data;
 };

@@ -40,24 +40,16 @@ export const consultarServicoPorId = async (
 export const adicionarServico = async (
   servico: CriarServicoDTO,
 ): Promise<ServicoDTO> => {
-  try {
-    const { data } = await api.post<ServicoDTO>(BASE_PATH, servico);
-    return data;
-  } catch {
-    throw new Error("Erro ao adicionar serviço.");
-  }
+  const { data } = await api.post<ServicoDTO>(BASE_PATH, servico);
+  return data;
 };
 
 export const atualizarServico = async (
   id: number,
   servico: AtualizarServicoDTO,
 ): Promise<ServicoDTO> => {
-  try {
-    const { data } = await api.put<ServicoDTO>(`${BASE_PATH}/${id}`, servico);
-    return data;
-  } catch {
-    throw new Error("Erro ao atualizar serviço.");
-  }
+  const { data } = await api.put<ServicoDTO>(`${BASE_PATH}/${id}`, servico);
+  return data;
 };
 
 export const consultarMeusServicos = async (
