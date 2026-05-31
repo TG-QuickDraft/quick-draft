@@ -30,5 +30,12 @@ namespace Backend.Infrastructure.Persistence.Repositories
                 .Distinct()
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Pagamento>> ListarPorIntervaloAsync(DateTime start, DateTime end)
+        {
+            return await _context.Pagamentos
+                .Where(p => p.CreatedAt.HasValue && p.CreatedAt.Value >= start && p.CreatedAt.Value <= end)
+                .ToListAsync();
+        }
     }
 }

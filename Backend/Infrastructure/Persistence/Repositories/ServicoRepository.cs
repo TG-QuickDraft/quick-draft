@@ -112,5 +112,12 @@ namespace Backend.Infrastructure.Persistence.Repositories
                 .Servicos.Include(s => s.PropostaAceita)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
+
+        public async Task<IEnumerable<Servico>> ListarPorIntervaloAsync(DateTime start, DateTime end)
+        {
+            return await _context.Servicos
+                .Where(s => s.CreatedAt.HasValue && s.CreatedAt.Value >= start && s.CreatedAt.Value <= end)
+                .ToListAsync();
+        }
     }
 }

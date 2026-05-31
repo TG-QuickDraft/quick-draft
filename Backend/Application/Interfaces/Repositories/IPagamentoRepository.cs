@@ -7,5 +7,6 @@ namespace Backend.Application.Interfaces.Repositories
         Task<Pagamento> CriarAsync(Pagamento pagamento);
         Task<bool> ExistePagamentoPorServico(int servicoId);
         Task<IEnumerable<int>> ListarServicosPagosAsync(IEnumerable<int> servicoIds);
+        Task<IEnumerable<Pagamento>> ListarPorIntervaloAsync(DateTime start, DateTime end);
     }
 }
