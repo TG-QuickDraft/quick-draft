@@ -8,13 +8,15 @@ namespace Backend.Application.Services
     public class AnaliseService(
         IPagamentoRepository pagamentoRepository,
         IServicoRepository servicoRepository,
-        IEntregaRepository entregaRepository
+        IEntregaRepository entregaRepository,
+        IUsuarioRepository usuarioRepository
     ) : IAnaliseService
     {
         private const string CultureName = "pt-BR";
         private readonly IPagamentoRepository _pagamentoRepository = pagamentoRepository;
         private readonly IServicoRepository _servicoRepository = servicoRepository;
         private readonly IEntregaRepository _entregaRepository = entregaRepository;
+        private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
 
         public async Task<AnaliseDto> GetAnaliseDataAsync(DateTime? startDate, DateTime? endDate)
         {
@@ -27,10 +29,12 @@ namespace Backend.Application.Services
             var pagamentos = await _pagamentoRepository.ListarPorIntervaloAsync(startUtc, endUtc);
             var servicos = await _servicoRepository.ListarPorIntervaloAsync(startUtc, endUtc);
             var entregas = await _entregaRepository.ListarPorIntervaloAsync(startUtc, endUtc);
+            var usuarios = await _usuarioRepository.ListarPorIntervaloAsync(startUtc, endUtc);
 
             var meses = new List<string>();
             var lucroMensal = new List<decimal>();
             var servicosAbertosMensal = new List<int>();
+            var usuariosCadastradosMensal = new List<int>();
 
             var current = new DateTime(start.Year, start.Month, 1);
             var last = new DateTime(end.Year, end.Month, 1);
@@ -55,6 +59,11 @@ namespace Backend.Application.Services
                     .Count();
                 servicosAbertosMensal.Add(openCount);
 
+                var userCount = usuarios
+                    .Where(u => u.CreatedAt >= monthStart && u.CreatedAt < monthEnd)
+                    .Count();
+                usuariosCadastradosMensal.Add(userCount);
+
                 current = current.AddMonths(1);
             }
 
@@ -67,14 +76,10 @@ namespace Backend.Application.Services
                 Meses = meses,
                 LucroMensal = lucroMensal,
                 ServicosAbertosMensal = servicosAbertosMensal,
+                UsuariosCadastradosMensal = usuariosCadastradosMensal,
                 LucroTotal = totalLucro,
                 TotalServicosAbertos = totalAbertos,
-                TotalServicosEntregues = totalEntregues,
-                ServicosEntreguesChart = new ServicosEntreguesDto
-                {
-                    Entregues = totalEntregues,
-                    Pendentes = totalAbertos
-                }
+                TotalServicosEntregues = totalEntregues
             };
         }
     }

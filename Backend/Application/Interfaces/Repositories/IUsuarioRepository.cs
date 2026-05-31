@@ -15,5 +15,7 @@ namespace Backend.Application.Interfaces.Repositories
         Task<bool> AtualizarAsync(Usuario usuario);
 
         Task<bool> DeletarAsync(int id);
+
+        Task<IEnumerable<Usuario>> ListarPorIntervaloAsync(DateTime start, DateTime end);
     }
 }

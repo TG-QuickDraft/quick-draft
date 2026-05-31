@@ -86,15 +86,26 @@ export const Analise = () => {
     ],
   };
 
+  const usuariosData = {
+    labels: data.meses,
+    datasets: [
+      {
+        label: "Usuários Cadastrados",
+        data: data.usuariosCadastradosMensal,
+        backgroundColor: "#6366f1",
+      },
+    ],
+  };
+
   const entreguesData = {
-    labels: ["Entregues", "Pendentes"],
+    labels: ["Entregues", "Abertos"],
     datasets: [
       {
         data: [
-          data.servicosEntreguesChart.entregues,
-          data.servicosEntreguesChart.pendentes,
+          data.totalServicosEntregues,
+          data.totalServicosAbertos,
         ],
-        backgroundColor: ["#0060fc", "#fa9200"],
+        backgroundColor: ["#6366f1", "#08a000"],
       },
     ],
   };
@@ -163,33 +174,12 @@ export const Analise = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
-          <h3 className="text-sm text-gray-500">Lucro Total</h3>
-          <p className="text-xl font-bold text-indigo-600">
+      <div className="w-full">
+        <div className="bg-white/90 shadow-sm rounded-lg p-12 h-32 flex flex-col items-center justify-center text-center border-l-4 border-indigo-600">
+          <h3 className="text-sm text-gray-500 uppercase tracking-wider">Lucro Total no Período</h3>
+          <p className="text-3xl font-bold text-indigo-600">
             R$ {data.lucroTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </p>
-        </div>
-
-        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
-          <h3 className="text-sm text-gray-500">Serviços Abertos</h3>
-          <p className="text-xl font-bold text-green-600">
-            {data.totalServicosAbertos}
-          </p>
-        </div>
-
-        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
-          <h3 className="text-sm text-gray-500">Serviços Entregues</h3>
-          <p className="text-xl font-bold text-blue-600">
-            {data.totalServicosEntregues}
-          </p>
-        </div>
-
-        <div className="bg-white/90 shadow-sm rounded-lg p-24 h-40 flex flex-col items-center justify-center text-center">
-          <h3 className="text-sm text-gray-500 mb-2">Serviços Pendentes e Entregues</h3>
-          <div className="w-32">
-            <Pie key={`pie-${chartKey}`} data={entreguesData} options={{ plugins: { legend: { display: false } } }} />
-          </div>
         </div>
       </div>
 
@@ -200,11 +190,22 @@ export const Analise = () => {
         </div>
 
         <div className="bg-white/90 p-6 rounded-xl shadow-md">
-          <h3 className="mb-4 font-semibold text-gray-600">Serviços Abertos</h3>
-          <Bar key={`bar-${chartKey}`} data={servicosData} />
+          <h3 className="mb-4 font-semibold text-gray-600">Serviços Abertos Mensal</h3>
+          <Bar key={`bar-servicos-${chartKey}`} data={servicosData} />
+        </div>
+
+        <div className="bg-white/90 p-6 rounded-xl shadow-md">
+          <h3 className="mb-4 font-semibold text-gray-600">Usuários Cadastrados Mensal</h3>
+          <Bar key={`bar-usuarios-${chartKey}`} data={usuariosData} />
+        </div>
+
+        <div className="bg-white/90 p-6 rounded-xl shadow-md flex flex-col items-center">
+          <h3 className="mb-4 font-semibold text-gray-600 text-left w-full">Status dos Serviços (Abertos vs Entregues)</h3>
+          <div className="w-full max-w-md mx-auto">
+            <Pie key={`pie-${chartKey}`} data={entreguesData} options={{ plugins: { legend: { position: 'bottom' } } }} />
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
