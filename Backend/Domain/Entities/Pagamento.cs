@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -25,6 +26,10 @@ namespace Backend.Domain.Entities
 
         [Column("pag_created_at")]
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Column("pag_is_taxa_aplicada")]
+        [DefaultValue(false)]
+        public bool isTaxaAplicada { get; set; } = false;
 
         [JsonIgnore]
         public CartaoCredito? CartaoCredito { get; set; }
