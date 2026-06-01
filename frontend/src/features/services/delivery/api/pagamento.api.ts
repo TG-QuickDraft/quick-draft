@@ -12,3 +12,8 @@ export const realizarPagamento = async (
   const { data } = await api.post<string>(BASE_PATH, dto);
   return data;
 };
+
+export const consultarTaxa = async (): Promise<number> => {
+  const { data } = await api.get<{ taxa: number }>("/api/taxa");
+  return data.taxa;
+};
