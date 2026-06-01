@@ -1,6 +1,7 @@
 using Backend.Application.DTOs.Analise;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
+using Backend.Domain.Constants;
 using System.Globalization;
 
 namespace Backend.Application.Services
@@ -51,7 +52,9 @@ namespace Backend.Application.Services
 
                 var profit = pagamentos
                     .Where(p => p.CreatedAt!.Value >= monthStart && p.CreatedAt!.Value < monthEnd)
-                    .Sum(p => p.Valor);
+                    .Sum(p => p.isTaxaAplicada 
+                        ? (p.Valor * Taxa.TAXA) 
+                        : (p.Valor / (1 + Taxa.TAXA) * Taxa.TAXA));
                 lucroMensal.Add(profit);
 
                 var openCount = servicos
@@ -67,7 +70,9 @@ namespace Backend.Application.Services
                 current = current.AddMonths(1);
             }
 
-            var totalLucro = pagamentos.Sum(p => p.Valor);
+            var totalLucro = pagamentos.Sum(p => p.isTaxaAplicada 
+                ? (p.Valor * Taxa.TAXA) 
+                : (p.Valor / (1 + Taxa.TAXA) * Taxa.TAXA));
             var totalAbertos = servicos.Count(s => !s.IsEntregue);
             var totalEntregues = entregas.Count();
 
