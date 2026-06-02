@@ -51,7 +51,8 @@ namespace Backend.Application.Services
                 CartaoCreditoId = clienteId,
                 ServicoId = dto.ServicoId,
                 Valor = valorFinal,
-                isTaxaAplicada = isTaxaFreelancer
+                isTaxaAplicada = isTaxaFreelancer,
+                ValorTaxa = Taxa.TAXA
             };
 
             await _pagamentoRepository.CriarAsync(pagamento);

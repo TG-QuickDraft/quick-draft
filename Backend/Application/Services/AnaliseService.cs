@@ -53,8 +53,8 @@ namespace Backend.Application.Services
                 var profit = pagamentos
                     .Where(p => p.CreatedAt!.Value >= monthStart && p.CreatedAt!.Value < monthEnd)
                     .Sum(p => p.isTaxaAplicada 
-                        ? (p.Valor * Taxa.TAXA) 
-                        : (p.Valor / (1 + Taxa.TAXA) * Taxa.TAXA));
+                        ? (p.Valor * p.ValorTaxa) 
+                        : (p.Valor / (1 + p.ValorTaxa) * p.ValorTaxa));
                 lucroMensal.Add(profit);
 
                 var openCount = servicos
@@ -71,8 +71,8 @@ namespace Backend.Application.Services
             }
 
             var totalLucro = pagamentos.Sum(p => p.isTaxaAplicada 
-                ? (p.Valor * Taxa.TAXA) 
-                : (p.Valor / (1 + Taxa.TAXA) * Taxa.TAXA));
+                ? (p.Valor * p.ValorTaxa) 
+                : (p.Valor / (1 + p.ValorTaxa) * p.ValorTaxa));
             var totalAbertos = servicos.Count(s => !s.IsEntregue);
             var totalEntregues = entregas.Count();
 

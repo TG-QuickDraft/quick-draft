@@ -31,6 +31,10 @@ namespace Backend.Domain.Entities
         [DefaultValue(false)]
         public bool isTaxaAplicada { get; set; } = false;
 
+        [Column("pag_valor_taxa")]
+        [Required]
+        public decimal ValorTaxa { get; set; }
+
         [JsonIgnore]
         public CartaoCredito? CartaoCredito { get; set; }
 
