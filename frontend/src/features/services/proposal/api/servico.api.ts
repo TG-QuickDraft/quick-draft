@@ -1,3 +1,4 @@
+import type { AtualizarServicoDTO } from "../dtos/AtualizarServicoDTO";
 import type { CriarServicoDTO } from "@/features/services/proposal/dtos/CriarServicoDTO";
 import type { FiltroServicoDTO } from "@/features/services/proposal/dtos/FiltroServicoDTO";
 import api from "@/shared/apis/api";
@@ -39,12 +40,16 @@ export const consultarServicoPorId = async (
 export const adicionarServico = async (
   servico: CriarServicoDTO,
 ): Promise<ServicoDTO> => {
-  try {
-    const { data } = await api.post<ServicoDTO>(BASE_PATH, servico);
-    return data;
-  } catch {
-    throw new Error("Erro ao adicionar serviço.");
-  }
+  const { data } = await api.post<ServicoDTO>(BASE_PATH, servico);
+  return data;
+};
+
+export const atualizarServico = async (
+  id: number,
+  servico: AtualizarServicoDTO,
+): Promise<ServicoDTO> => {
+  const { data } = await api.put<ServicoDTO>(`${BASE_PATH}/${id}`, servico);
+  return data;
 };
 
 export const consultarMeusServicos = async (

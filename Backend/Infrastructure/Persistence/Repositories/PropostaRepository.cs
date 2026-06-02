@@ -10,27 +10,27 @@ namespace Backend.Infrastructure.Persistence.Repositories
 
         public async Task<Proposta?> ConsultarPorIdAsync(int id)
         {
-            return await _context.Propostas
-                .Include(p => p.ProjetosDestacados)
-                .ThenInclude(pd => pd.ProjetoFreelancer)
+            return await _context
+                .Propostas.Include(p => p.ProjetosDestacados)
+                    .ThenInclude(pd => pd.ProjetoFreelancer)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Proposta>> ConsultarPorIdFreelancerAsync(int freelancerId)
         {
-            return await _context.Propostas
-                .Include(p => p.Servico)
+            return await _context
+                .Propostas.Include(p => p.Servico)
                 .Include(p => p.ProjetosDestacados)
-                .ThenInclude(pd => pd.ProjetoFreelancer)
+                    .ThenInclude(pd => pd.ProjetoFreelancer)
                 .Where(p => p.FreelancerId == freelancerId)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Proposta>> ConsultarPorIdServicoAsync(int servicoId)
         {
-            return await _context.Propostas
-                .Include(p => p.ProjetosDestacados)
-                .ThenInclude(pd => pd.ProjetoFreelancer)
+            return await _context
+                .Propostas.Include(p => p.ProjetosDestacados)
+                    .ThenInclude(pd => pd.ProjetoFreelancer)
                 .Where(p => p.ServicoId == servicoId)
                 .ToListAsync();
         }
@@ -43,10 +43,19 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return await ConsultarPorIdAsync(proposta.Id) ?? proposta;
         }
 
+        public async Task<Proposta> AtualizarAsync(Proposta proposta)
+        {
+            _context.Propostas.Update(proposta);
+            await _context.SaveChangesAsync();
+
+            return await ConsultarPorIdAsync(proposta.Id) ?? proposta;
+        }
+
         public async Task<bool> ExistePorServicoEFreelancerAsync(int servicoId, int freelancerId)
         {
-            return await _context.Propostas
-                .AnyAsync(p => p.ServicoId == servicoId && p.FreelancerId == freelancerId);
+            return await _context.Propostas.AnyAsync(p =>
+                p.ServicoId == servicoId && p.FreelancerId == freelancerId
+            );
         }
     }
 }

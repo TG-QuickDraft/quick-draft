@@ -14,11 +14,13 @@ import { LoginSchema, type ILoginForm } from "../validations/login.schema";
 import { useModal } from "@/shared/contexts/modal.context";
 import { homePaths } from "@/features/home/routes/homePaths";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const LoginUsuario = () => {
   const { showError } = useModal();
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -30,14 +32,15 @@ export const LoginUsuario = () => {
   });
 
   const enviar = async (data: ILoginForm) => {
+    setIsLoading(true);
     try {
       const loginRequest: LoginDTO = { email: data.email, senha: data.senha };
       await login(loginRequest);
       navigate(homePaths.home);
     } catch (error) {
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
+      showError(error as Error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,8 +72,12 @@ export const LoginUsuario = () => {
               {...register("senha")}
             />
           </InputGroup>
-          <Button type="submit" icon={<CiLogin size={30} />}>
-            Entrar
+          <Button
+            isLoading={isLoading}
+            type="submit"
+            icon={<CiLogin size={30} />}
+          >
+            {isLoading ? "Entrando..." : "Entrar"}
           </Button>
         </form>
       </div>

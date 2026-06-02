@@ -90,9 +90,7 @@ export const CadastrarContaBancaria = () => {
 
       setHasContaCadastrada(true);
     } catch (error) {
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
+      showError(error as Error);
     }
   };
 
@@ -109,9 +107,7 @@ export const CadastrarContaBancaria = () => {
         redirect: usuarioPaths.minhaConta,
       });
     } catch (error) {
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
+      showError(error as Error);
     }
   };
 

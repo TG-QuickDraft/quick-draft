@@ -1,9 +1,10 @@
 import clsx from "clsx";
+import Spinner from "../Spinner";
 
 const base = clsx(
   "px-4 py-2 rounded cursor-pointer border border-gray-600/20",
   "transition hover:scale-103 hover:shadow-lg active:scale-95",
-  "disabed:cursor-not-allowed disabled:hover:scale-100! disabled:opacity-70",
+  "disabled:cursor-not-allowed disabled:hover:scale-100! disabled:opacity-70",
 );
 
 const widths = {
@@ -38,12 +39,15 @@ const Button = ({
   width = "auto",
   icon,
   reversed,
+  isLoading,
+  disabled,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof variants;
   icon?: React.ReactNode;
   width?: keyof typeof widths;
   reversed?: boolean;
+  isLoading?: boolean;
 }) => {
   const currentVariant = reversed
     ? reversedVariants[variant]
@@ -51,6 +55,7 @@ const Button = ({
 
   return (
     <button
+      disabled={disabled || isLoading}
       className={clsx(
         widths[width],
         currentVariant,
@@ -61,7 +66,7 @@ const Button = ({
       {...props}
     >
       <div className="flex items-center justify-center gap-2">
-        {icon}
+        {isLoading ? <Spinner alignment="none" size="sm" /> : icon}
         {children}
       </div>
     </button>

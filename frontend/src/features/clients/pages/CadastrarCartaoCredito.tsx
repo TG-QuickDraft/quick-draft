@@ -49,7 +49,7 @@ export const CadastrarCartaoCredito = () => {
 
   useEffect(() => {
     const obterDadosCartao = async () => {
-      const cartao: CriarCartaoCreditoDTO = await consultarCartaoCredito();
+      const cartao = await consultarCartaoCredito();
       if (cartao) {
         setHasCartaoCadastrado(true);
         setValue("name", cartao.nomeImpresso);
@@ -64,8 +64,12 @@ export const CadastrarCartaoCredito = () => {
       setBandeiras(bandeiras);
     };
 
-    obterDadosCartao();
-    obterBandeiras();
+    try {
+      obterDadosCartao();
+      obterBandeiras();
+    } catch (error) {
+      showError(error as Error);
+    }
   }, []);
 
   const toCardDTO = (data: ICardForm): CriarCartaoCreditoDTO => {
@@ -88,9 +92,7 @@ export const CadastrarCartaoCredito = () => {
 
       setHasCartaoCadastrado(true);
     } catch (error) {
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
+      showError(error as Error);
     }
   };
 
@@ -107,9 +109,7 @@ export const CadastrarCartaoCredito = () => {
         redirect: usuarioPaths.minhaConta,
       });
     } catch (error) {
-      if (error instanceof Error) {
-        showError({ content: error.message });
-      }
+      showError(error as Error);
     }
   };
 

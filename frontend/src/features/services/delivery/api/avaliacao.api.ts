@@ -8,23 +8,15 @@ const BASE_PATH = "/api/avaliacao";
 export const consultarAvaliacaoPerfil = async (
   usuarioId: number
 ): Promise<AvaliacaoPerfilDTO> => {
-  try {
-    const { data } = await api.get<AvaliacaoPerfilDTO>(
-      `${BASE_PATH}/usuario/${usuarioId}`
-    );
-    return data;
-  } catch {
-    throw new Error("Erro ao consultar avaliação do perfil.");
-  }
+  const { data } = await api.get<AvaliacaoPerfilDTO>(
+    `${BASE_PATH}/usuario/${usuarioId}`
+  );
+  return data;
 }
 
 export const criarAvaliacao = async (
   avaliacao: CriarAvaliacaoDTO
 ): Promise<AvaliacaoDTO> => {
-  try {
-    const { data } = await api.post<AvaliacaoDTO>(BASE_PATH, avaliacao);
-    return data;
-  } catch {
-    throw new Error("Erro ao adicionar avaliação.");
-  }
+  const { data } = await api.post<AvaliacaoDTO>(BASE_PATH, avaliacao);
+  return data;
 };

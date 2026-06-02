@@ -1,5 +1,6 @@
 import api from "@/shared/apis/api";
 import type { CriarPropostaDTO, PropostaDTO } from "../dtos/PropostaDTO";
+import type { AtualizarPropostaDTO } from "../dtos/AtualizarPropostaDTO";
 
 const BASE_PATH = "/api/proposta";
 
@@ -7,6 +8,20 @@ export const criarProposta = async (
   proposal: CriarPropostaDTO,
 ): Promise<PropostaDTO> => {
   const { data } = await api.post<PropostaDTO>(BASE_PATH, proposal);
+  return data;
+};
+
+export const atualizarProposta = async ({
+  proposalBody,
+  proposalId,
+}: {
+  proposalBody: AtualizarPropostaDTO;
+  proposalId: number;
+}): Promise<AtualizarPropostaDTO> => {
+  const { data } = await api.put<AtualizarPropostaDTO>(
+    `${BASE_PATH}/${proposalId}`,
+    proposalBody,
+  );
   return data;
 };
 

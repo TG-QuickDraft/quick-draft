@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Backend.Domain.Exceptions;
 
 namespace Backend.Domain.Entities
 {
@@ -22,7 +23,18 @@ namespace Backend.Domain.Entities
 
         [Column("pag_valor")]
         [Required]
-        public decimal Valor { get; set; }
+        public decimal Valor {
+            get => _valor;
+            set
+            {
+                if (value <= 0)
+                    throw new RegraNegocioException(
+                        "Valor do pagamento deve ser maior que R$ 0,00!"
+                    );
+
+                _valor = value;
+            }
+        }
 
         [Column("pag_created_at")]
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
@@ -40,5 +52,7 @@ namespace Backend.Domain.Entities
 
         [JsonIgnore]
         public Servico? Servico { get; set; }
+
+        private decimal _valor;
     }
 }

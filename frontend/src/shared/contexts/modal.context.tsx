@@ -21,9 +21,7 @@ interface ModalOptions {
 
 interface ModalContextData {
   showModal: (options: ModalOptions) => void;
-  showError: (
-    options: Omit<ModalOptions, "title"> & { title?: string },
-  ) => void;
+  showError: (options: Error | ModalOptions) => void;
   showSuccess: (
     options: Omit<ModalOptions, "title"> & { title?: string },
   ) => void;
@@ -47,10 +45,15 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     setConfig({ ...options, variant: "primary", show: true });
   };
 
-  const showError = (options: ModalOptions) => {
+  const showError = (options: Error | ModalOptions) => {
+    const modalOptions: ModalOptions =
+      options instanceof Error
+        ? { content: options.message }
+        : options;
+
     setConfig({
       title: "Erro!",
-      ...options,
+      ...modalOptions,
       variant: "error",
       icon: <HiOutlineEmojiSad size={28} />,
       show: true,

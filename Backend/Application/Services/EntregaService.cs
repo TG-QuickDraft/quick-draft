@@ -71,11 +71,11 @@ namespace Backend.Application.Services
 
             var propostaAceita =
                 await _servicoService.ConsultarPropostaAceitaIdAsync(dto.ServicoId)
-                ?? throw new Exception("Proposta não encontrada.");
+                ?? throw new InvalidOperationException("Proposta não encontrada.");
 
             if (propostaAceita.FreelancerId != freelancerId)
             {
-                throw new Exception("Freelancer não é o vencedor da proposta.");
+                throw new InvalidOperationException("Freelancer não é o vencedor da proposta.");
             }
 
             if (dto.Arquivo == null)

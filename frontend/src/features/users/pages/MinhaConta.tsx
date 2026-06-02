@@ -176,6 +176,7 @@ export const MinhaConta = () => {
 
                 {temServicos ? (
                   <MeusServicosList
+                    from={usuarioPaths.minhaConta}
                     loading={loadingService}
                     servicos={filteredServicos}
                     tab={currentTab}

@@ -56,9 +56,7 @@ export const PerfilCliente = () => {
         }
       } catch (error) {
         console.error(error);
-        if (error instanceof Error) {
-          showError({ content: error.message });
-        }
+        showError(error as Error);
       } finally {
         setLoading(false);
         clearTimeout(timer);

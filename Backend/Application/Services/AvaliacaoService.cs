@@ -19,9 +19,6 @@ namespace Backend.Application.Services
 
         public async Task<AvaliacaoDTO> CriarAsync(CriarAvaliacaoDTO dto, int userId)
         {
-            if (dto.NotaEstrelas < 1 || dto.NotaEstrelas > 5)
-                throw new ArgumentException("A nota de estrelas deve ser entre 1 e 5.");
-
             var servico = await _servicoService.ConsultarPorIdAsync(dto.ServicoId)
                 ?? throw new InvalidOperationException("Serviço não encontrado!");
 

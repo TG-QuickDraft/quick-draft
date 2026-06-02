@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Backend.Domain.Exceptions;
 
 namespace Backend.Domain.Entities
 {
@@ -32,7 +33,18 @@ namespace Backend.Domain.Entities
 
         [Column("ser_valor_minimo", TypeName = "numeric(6,2)")]
         [Required]
-        public decimal ValorMinimo { get; set; }
+        public decimal ValorMinimo {
+            get => _valorMinimo;
+            set
+            {
+                if (value <= 0)
+                    throw new RegraNegocioException(
+                        "Valor mínimo do serviço deve ser maior que R$ 0,00!"
+                    );
+
+                _valorMinimo = value;
+            }
+        }
 
         /// <summary>
         /// Atributo possívelmente redundante.
@@ -59,5 +71,7 @@ namespace Backend.Domain.Entities
         public Proposta? PropostaAceita { get; set; }
         public Entrega? Entrega { get; set; }
         public ICollection<Avaliacao> Avaliacoes { get; set; } = [];
+
+        private decimal _valorMinimo;
     }
 }

@@ -31,4 +31,12 @@ export const proposalRoutes = [
       </RequireRole>
     ),
   },
+  {
+    path: proposalPaths.atualizarProposta,
+    element: (
+      <RequireRole roles={["Freelancer"]}>
+        <CadastrarProposta />
+      </RequireRole>
+    ),
+  },
 ];

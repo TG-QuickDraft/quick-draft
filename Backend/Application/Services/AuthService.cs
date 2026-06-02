@@ -20,13 +20,13 @@ namespace Backend.Application.Services
             var usuario = await _repo.ConsultarPorEmailAsync(dto.Email);
 
             if (usuario is null)
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("Email ou senha inválidos!");
 
             var senhaValida = PasswordHasherUtil
                 .Verify(usuario.HashSenha, dto.Senha);
                 
             if (!senhaValida)
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("Email ou senha inválidos!");
 
             var tipoUsuario = await _usuarioService.ObterTipoUsuario(usuario.Id);
 

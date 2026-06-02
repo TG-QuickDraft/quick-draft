@@ -19,10 +19,12 @@ import Radio from "@/shared/components/ui/Inputs/Radio";
 import ImagePicker from "@/features/users/components/ImagePicker";
 import { useModal } from "@/shared/contexts/modal.context";
 import { usuarioPaths } from "../routes/usuarioPaths";
+import { useState } from "react";
 
 export const CadastrarUsuario = () => {
   const { showSuccess, showError } = useModal();
   const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -52,6 +54,7 @@ export const CadastrarUsuario = () => {
       fotoPerfil: profilePhoto,
     } as CriarUsuarioDTO;
 
+    setIsLoading(true);
     try {
       await adicionarUsuario(usuario);
       await login({ email: data.email, senha: data.senha });
@@ -61,12 +64,9 @@ export const CadastrarUsuario = () => {
         redirect: usuarioPaths.minhaConta,
       });
     } catch (error) {
-      if (error instanceof Error) {
-        showError({
-          content: error.message,
-        });
-      }
-      return;
+      showError(error as Error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -149,7 +149,9 @@ export const CadastrarUsuario = () => {
           </div>
         </div>
 
-        <Button icon={<LuSave size={30} />}>Salvar</Button>
+        <Button isLoading={isLoading} icon={<LuSave size={30} />}>
+          {isLoading ? "Salvando..." : "Salvar"}
+        </Button>
       </form>
     </div>
   );

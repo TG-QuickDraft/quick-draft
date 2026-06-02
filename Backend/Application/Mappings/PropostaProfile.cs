@@ -9,14 +9,36 @@ namespace Backend.Application.Mappings
         public PropostaProfile()
         {
             CreateMap<Proposta, PropostaDTO>()
-                .ForMember(dest => dest.ProjetosDestacados,
-                    opt => opt.MapFrom(src => src.ProjetosDestacados))
-                .ForMember(dest => dest.NomeServico,
-                    opt => opt.MapFrom(src => src.Servico != null ? src.Servico.Nome ?? string.Empty : string.Empty));
+                .ForMember(
+                    dest => dest.ProjetosDestacados,
+                    opt => opt.MapFrom(src => src.ProjetosDestacados)
+                )
+                .ForMember(
+                    dest => dest.NomeServico,
+                    opt =>
+                        opt.MapFrom(src =>
+                            src.Servico != null ? src.Servico.Nome ?? string.Empty : string.Empty
+                        )
+                )
+                .ForMember(
+                    dest => dest.IsPropostaAceita,
+                    opt =>
+                        opt.MapFrom(src =>
+                            src.Servico != null && src.Servico.PropostaAceitaId != null
+                        )
+                );
 
             CreateMap<CriarPropostaDTO, Proposta>()
-                .ForMember(dest => dest.ProjetosDestacados,
-                    opt => opt.MapFrom(src => src.ProjetosDestacados));
+                .ForMember(
+                    dest => dest.ProjetosDestacados,
+                    opt => opt.MapFrom(src => src.ProjetosDestacados)
+                );
+
+            CreateMap<AtualizarPropostaDTO, Proposta>()
+                .ForMember(
+                    dest => dest.ProjetosDestacados,
+                    opt => opt.MapFrom(src => src.ProjetosDestacados)
+                );
         }
     }
 }

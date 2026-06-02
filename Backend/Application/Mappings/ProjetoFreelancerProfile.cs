@@ -11,6 +11,8 @@ namespace Backend.Application.Mappings
             CreateMap<ProjetoFreelancerDTO, ProjetoFreelancer>();
             CreateMap<ProjetoFreelancer, ProjetoFreelancerDTO>();
             CreateMap<CriarProjetoFreelancerDTO, ProjetoFreelancer>();
+            CreateMap<AtualizarProjetoFreelancerDTO, ProjetoFreelancer>();
+            CreateMap<ProjetoFreelancer, AtualizarProjetoFreelancerDTO>();
 
             CreateMap<ProjetoDestacadoProposta, ProjetoFreelancerDTO>()
                .ConvertUsing((src, _, context) =>

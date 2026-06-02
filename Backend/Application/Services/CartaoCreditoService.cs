@@ -12,11 +12,14 @@ namespace Backend.Application.Services
         private readonly ICartaoCreditoRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<CartaoCreditoDTO> ConsultarPorIdClienteAsync(int clienteId)
+        public async Task<CartaoCreditoDTO?> ConsultarPorIdClienteAsync(int clienteId)
         {
-            return _mapper.Map<CartaoCreditoDTO>(
-                await _repository.ConsultarPorIdClienteAsync(clienteId)
-            );
+            CartaoCredito? cartao = await _repository.ConsultarPorIdClienteAsync(clienteId);
+            
+            if (cartao == null)
+                return null;
+
+            return _mapper.Map<CartaoCreditoDTO>(cartao);
         }
 
         public async Task<IEnumerable<BandeiraCartaoCreditoDTO>> ConsultarBandeirasAsync()
