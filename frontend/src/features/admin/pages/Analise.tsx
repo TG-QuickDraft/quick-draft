@@ -112,6 +112,15 @@ export const Analise = () => {
 
   const chartKey = JSON.stringify(data);
 
+  const commonOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        min: 0,
+      },
+    },
+  };
+
   return (
     <div className="flex flex-col gap-10 p-8 w-full">
       <div className="flex justify-between items-center">
@@ -186,17 +195,17 @@ export const Analise = () => {
       <div className="grid grid-cols-2 gap-10">
         <div className="bg-white/90 p-6 rounded-xl shadow-md">
           <h3 className="mb-4 font-semibold text-gray-600">Lucro Mensal</h3>
-          <Line key={`line-${chartKey}`} data={lucroData} />
+          <Line key={`line-${chartKey}`} data={lucroData} options={commonOptions} />
         </div>
 
         <div className="bg-white/90 p-6 rounded-xl shadow-md">
           <h3 className="mb-4 font-semibold text-gray-600">Serviços Abertos Mensal</h3>
-          <Bar key={`bar-servicos-${chartKey}`} data={servicosData} />
+          <Bar key={`bar-servicos-${chartKey}`} data={servicosData} options={commonOptions} />
         </div>
 
         <div className="bg-white/90 p-6 rounded-xl shadow-md">
           <h3 className="mb-4 font-semibold text-gray-600">Usuários Cadastrados Mensal</h3>
-          <Bar key={`bar-usuarios-${chartKey}`} data={usuariosData} />
+          <Bar key={`bar-usuarios-${chartKey}`} data={usuariosData} options={commonOptions} />
         </div>
 
         <div className="bg-white/90 p-6 rounded-xl shadow-md flex flex-col items-center">
