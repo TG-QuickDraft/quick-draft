@@ -1,6 +1,7 @@
 using Backend.Application.DTOs.Pagamento;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Application.Interfaces.Services;
+using Backend.Domain.Constants;
 using Backend.Domain.Entities;
 
 namespace Backend.Application.Services
@@ -37,19 +38,34 @@ namespace Backend.Application.Services
             if (jaPago)
                 throw new InvalidOperationException("Este serviço já foi pago");
 
-            decimal valor = servico.PropostaAceita?.ValorTotal
-                ?? throw new InvalidOperationException("Erro ao obter valor da proposta");
+            var proposta = servico.PropostaAceita ?? throw new InvalidOperationException("Erro ao obter valor da proposta");
+
+            bool isTaxaFreelancer = !proposta.TaxaSistemaAdicionadaAoTotal;
+
+            decimal valorFinal = isTaxaFreelancer
+                ? proposta.ValorTotal
+                : proposta.ValorTotal * (1 + Taxa.TAXA);
 
             Pagamento pagamento = new()
             {
                 CartaoCreditoId = clienteId,
                 ServicoId = dto.ServicoId,
-                Valor = valor
+                Valor = valorFinal,
+                isTaxaAplicada = isTaxaFreelancer,
+                ValorTaxa = Taxa.TAXA
             };
 
             await _pagamentoRepository.CriarAsync(pagamento);
 
             return true;
+        }
+
+        public async Task<TaxaDTO> ObterTaxa()
+        {
+            return new()
+            {
+                Valor = Taxa.TAXA
+            };
         }
     }
 }

@@ -26,5 +26,6 @@ namespace Backend.Application.Interfaces.Repositories
         Task<bool> AtualizarIsEntregue(int servicoId, bool isEntregue);
 
         Task<Servico?> ConsultarPorIdComPropostaAceitaAsync(int id);
+        Task<IEnumerable<Servico>> ListarPorIntervaloAsync(DateTime start, DateTime end);
     }
 }

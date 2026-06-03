@@ -4,7 +4,10 @@ import type { CartaoCreditoDTO } from "@/features/clients/dtos/cartaoCredito/Car
 import type { ClienteDTO } from "@/features/clients/dtos/ClienteDTO";
 import { clientePaths } from "@/features/clients/routes/clientePaths";
 import { consultarServicoPorId } from "@/features/services/proposal/api/servico.api";
-import { realizarPagamento } from "@/features/services/delivery/api/pagamento.api";
+import {
+  consultarTaxa,
+  realizarPagamento,
+} from "@/features/services/delivery/api/pagamento.api";
 import CreditCard from "@/features/services/delivery/components/CreditCard";
 import PaymentSection from "@/features/services/delivery/components/PaymentSection";
 import PaymentWrapper from "@/features/services/delivery/components/PaymentWrapper";
@@ -45,8 +48,7 @@ const RealizarPagamento = () => {
   const [servico, setServico] = useState<ServicoDTO | null>(null);
   const [cliente, setCliente] = useState<ClienteDTO | null>(null);
   const [cartao, setCartao] = useState<CartaoCreditoDTO | null>(null);
-
-  const mockTaxa = 0.05;
+  const [taxa, setTaxa] = useState<number>(0);
 
   const { enviarAvaliacao } = useCriarAvaliacao();
 
@@ -58,6 +60,7 @@ const RealizarPagamento = () => {
       try {
         const servico = await consultarServicoPorId(Number(id));
         const cartao = await consultarCartaoCredito();
+        const taxaSistema = await consultarTaxa();
 
         if (servico) {
           const cliente = await consultarClientePorId(servico.clienteId);
@@ -66,6 +69,7 @@ const RealizarPagamento = () => {
 
         setCartao(cartao);
         setServico(servico);
+        setTaxa(taxaSistema.valor);
       } catch (error) {
         if (error instanceof Error) showError({ content: error.message });
       } finally {
@@ -145,15 +149,13 @@ const RealizarPagamento = () => {
             </div>
             <div className="text-neutral-80">
               <p>Prazo: {format(servico.prazo, "dd/MM/yyyy")}</p>
-              <p>Taxa: {mockTaxa * 100}%</p>
+              <p>Taxa: {taxa * 100}%</p>
             </div>
           </PaymentWrapper>
           <PaymentWrapper>
             <h3 className="text-center text-xl font-semibold">
               <span>Total a ser pago: </span>
-              {numberToCurrency(
-                servico.valorMinimo + servico.valorMinimo * mockTaxa,
-              )}
+              {numberToCurrency(servico.valorMinimo + servico.valorMinimo * taxa)}
             </h3>
           </PaymentWrapper>
         </PaymentSection>

@@ -3,6 +3,7 @@ using System;
 using Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260601013705_AddTaxaIsAplicadaToPagamentoTable")]
+    partial class AddTaxaIsAplicadaToPagamentoTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,10 +330,6 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("pag_valor");
 
-                    b.Property<decimal>("ValorTaxa")
-                        .HasColumnType("numeric")
-                        .HasColumnName("pag_valor_taxa");
-
                     b.Property<bool>("isTaxaAplicada")
                         .HasColumnType("boolean")
                         .HasColumnName("pag_is_taxa_aplicada");
@@ -599,7 +598,7 @@ namespace Backend.Infrastructure.Persistence.Migrations
                         {
                             Id = -1,
                             Cpf = "000.000.000-00",
-                            CreatedAt = new DateTime(2026, 6, 2, 0, 43, 8, 392, DateTimeKind.Utc).AddTicks(7494),
+                            CreatedAt = new DateTime(2026, 6, 1, 1, 37, 3, 142, DateTimeKind.Utc).AddTicks(1111),
                             Email = "admin@sistema.com",
                             FotoPerfilUrl = "uploads/fotos-perfil/fotoADM.jpg",
                             HashSenha = "AQAAAAIAAYagAAAAEHEM/Yc24Gwy0usv3Q4hrhUuLkyawKFjak/+t9BLGQo+9o5ziRkt7Rel7X6oHFVYOw==",

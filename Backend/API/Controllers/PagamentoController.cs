@@ -13,6 +13,12 @@ namespace Backend.API.Controllers
     {
         private readonly IPagamentoService _service = service;
 
+        [HttpGet]
+        public IActionResult GetTaxa()
+        {
+            return Ok(_service.ObterTaxa());
+        }
+
         [HttpPost]
         [Authorize(Roles = Roles.Cliente)]
         public async Task<IActionResult> Pagar([FromBody] CriarPagamentoDTO dto)

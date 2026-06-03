@@ -53,5 +53,12 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return true;
         }
 
+        public async Task<IEnumerable<Usuario>> ListarPorIntervaloAsync(DateTime start, DateTime end)
+        {
+            return await _context.Usuarios
+                .Where(u => u.CreatedAt >= start && u.CreatedAt <= end)
+                .ToListAsync();
+        }
+
     }
 }

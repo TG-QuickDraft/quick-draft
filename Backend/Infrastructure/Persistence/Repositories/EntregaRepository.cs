@@ -17,9 +17,16 @@ namespace Backend.Infrastructure.Persistence.Repositories
 
         public async Task<Entrega> CriarAsync(Entrega entrega)
         {
-            _context.Entregas.Add(entrega);
+            await _context.Entregas.AddAsync(entrega);
             await _context.SaveChangesAsync();
             return entrega;
+        }
+
+        public async Task<IEnumerable<Entrega>> ListarPorIntervaloAsync(DateTime start, DateTime end)
+        {
+            return await _context.Entregas
+                .Where(e => e.CreatedAt.HasValue && e.CreatedAt.Value >= start && e.CreatedAt.Value <= end)
+                .ToListAsync();
         }
     }
 }
