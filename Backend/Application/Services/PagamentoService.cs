@@ -59,5 +59,13 @@ namespace Backend.Application.Services
 
             return true;
         }
+
+        public async Task<TaxaDTO> ObterTaxa()
+        {
+            return new()
+            {
+                Valor = Taxa.TAXA
+            };
+        }
     }
 }

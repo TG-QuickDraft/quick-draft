@@ -69,7 +69,7 @@ const RealizarPagamento = () => {
 
         setCartao(cartao);
         setServico(servico);
-        setTaxa(taxaSistema);
+        setTaxa(taxaSistema.valor);
       } catch (error) {
         if (error instanceof Error) showError({ content: error.message });
       } finally {
