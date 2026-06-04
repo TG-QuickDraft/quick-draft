@@ -60,7 +60,7 @@ namespace Backend.Application.Services
             return true;
         }
 
-        public async Task<TaxaDTO> ObterTaxa()
+        public async Task<TaxaDTO> ObterTaxaAsync()
         {
             return new()
             {

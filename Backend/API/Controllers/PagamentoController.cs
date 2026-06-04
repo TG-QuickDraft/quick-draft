@@ -14,9 +14,9 @@ namespace Backend.API.Controllers
         private readonly IPagamentoService _service = service;
 
         [HttpGet]
-        public IActionResult GetTaxa()
+        public async Task<IActionResult> GetTaxa()
         {
-            return Ok(_service.ObterTaxa());
+            return Ok(await _service.ObterTaxaAsync());
         }
 
         [HttpPost]
