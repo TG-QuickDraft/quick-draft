@@ -62,7 +62,7 @@ const MinhaProposta = () => {
         const servicoData = await consultarServicoPorId(propostaData.servicoId);
         const clienteData = await consultarClientePorId(servicoData.clienteId);
 
-        if (servicoData.propostaAceitaId) {
+        if (servicoData.propostaAceitaId && servicoData.propostaAceitaId === propostaData.id) {
           const entregaData = await consultarEntregaPorServicoId(
             propostaData.servicoId,
           );
