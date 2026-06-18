@@ -48,7 +48,7 @@ namespace Backend.Infrastructure.Persistence.Repositories
                 query = query.Where(s => s.ValorMinimo >= filtro.ValorMinimo.Value);
             }
 
-            return await query.OrderBy(s => s.Nome).ToPagedResultAsync(pagina, tamanhoPagina);
+            return await query.OrderByDescending(s => s.CreatedAt).ToPagedResultAsync(pagina, tamanhoPagina);
         }
 
         public async Task<Servico> CriarAsync(Servico servico)
