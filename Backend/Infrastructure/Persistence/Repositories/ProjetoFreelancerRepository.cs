@@ -13,6 +13,14 @@ namespace Backend.Infrastructure.Persistence.Repositories
             return await _context.ProjetosFreelancer.FindAsync(id);
         }
 
+        public async Task<IEnumerable<ProjetoFreelancer>> ConsultarTodosPorIdsAsync(
+            IEnumerable<int> projetosIds)
+        {
+            return await _context.ProjetosFreelancer
+                .Where(p => projetosIds.Contains(p.Id))
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<ProjetoFreelancer>> ConsultarPorIdFreelancerAsync(
             int freelancerId
         )
