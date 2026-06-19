@@ -149,13 +149,14 @@ const RealizarPagamento = () => {
             </div>
             <div className="text-neutral-80">
               <p>Prazo: {format(servico.prazo, "dd/MM/yyyy")}</p>
-              <p>Taxa: {taxa * 100}%</p>
             </div>
           </PaymentWrapper>
           <PaymentWrapper>
             <h3 className="text-center text-xl font-semibold">
               <span>Total a ser pago: </span>
-              {numberToCurrency(servico.valorMinimo + servico.valorMinimo * taxa)}
+              {numberToCurrency(
+                servico.valorMinimo + servico.valorMinimo * taxa,
+              )}
             </h3>
           </PaymentWrapper>
         </PaymentSection>
