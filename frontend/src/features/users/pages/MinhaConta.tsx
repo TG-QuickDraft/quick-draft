@@ -133,7 +133,6 @@ export const MinhaConta = () => {
               <div>
                 <h1 className="text-3xl font-semibold">{usuario.nome}</h1>
                 <h2>{usuario.email}</h2>
-                <h2>{usuario.cpf}</h2>
               </div>
             </div>
 

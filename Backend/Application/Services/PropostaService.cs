@@ -11,13 +11,15 @@ namespace Backend.Application.Services
         IPropostaRepository repository,
         IMapper mapper,
         IUrlBuilder urlBuilder,
-        IServicoRepository servicoRepository
+        IServicoRepository servicoRepository,
+        IProjetoFreelancerRepository projetoFreelancerRepository
     ) : IPropostaService
     {
         private readonly IPropostaRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
         private readonly IUrlBuilder _urlBuilder = urlBuilder;
         private readonly IServicoRepository _servicoRepository = servicoRepository;
+        private readonly IProjetoFreelancerRepository _projetoFreelancerRepository = projetoFreelancerRepository;
 
         public async Task<PropostaDTO?> ConsultarPorIdAsync(int id)
         {
@@ -80,6 +82,28 @@ namespace Backend.Application.Services
                 throw new InvalidOperationException(
                     "Você já enviou uma proposta para este serviço"
                 );
+
+            var projetosIds = dto.ProjetosDestacados
+                .Select(p => p.Id)
+                .Distinct()
+                .ToList();
+
+            var projetosCadastrados = (await _projetoFreelancerRepository.ConsultarTodosPorIdsAsync(projetosIds))
+                .ToList();
+
+            if (projetosCadastrados.Count != projetosIds.Count)
+            {
+                throw new InvalidOperationException(
+                    "Um ou mais projetos destacados não foram encontrados."
+                );
+            }
+
+            if (projetosCadastrados.Any(p => p.FreelancerId != freelancerId))
+            {
+                throw new InvalidOperationException(
+                    "Todos os projetos destacados devem pertencer ao freelancer."
+                );
+            }
 
             Proposta propostaToAdd = _mapper.Map<Proposta>(dto);
             propostaToAdd.FreelancerId = freelancerId;

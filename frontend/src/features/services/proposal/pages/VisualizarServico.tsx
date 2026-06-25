@@ -43,7 +43,6 @@ export const VisualizarServico = () => {
   if (!servico) return null;
 
   const detalhes = {
-    Categoria: <p>CATEGORIA</p>,
     Prazo: <p>{format(servico.prazo, "dd/MM/yyyy")}</p>,
     Orçamento:
       servico?.orcamentoIsAberto === true ? (

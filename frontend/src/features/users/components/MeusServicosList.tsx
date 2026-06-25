@@ -13,6 +13,7 @@ import clsx from "clsx";
 import type { Tab } from "@/shared/components/ui/Tabs";
 import { LuPencil } from "react-icons/lu";
 import Button from "@/shared/components/ui/buttons/Button";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 type Props = {
   clienteId?: number;
@@ -31,6 +32,7 @@ export const MeusServicosList = ({
   from,
 }: Props) => {
   const navigate = useNavigate();
+  const { roles, usuario } = useAuth();
 
   const emptyMessageMap: Partial<Record<Tab, string>> = {
     emAndamento: "Nenhum serviço em andamento.",
@@ -78,28 +80,32 @@ export const MeusServicosList = ({
             </div>
 
             <div className="flex gap-2 items-center">
-              <Button
-                className={clsx(
-                  "rounded-lg text-lg border border-transparent shadow",
-                  "scale-100 not-disabled:hover:bg-white!",
-                  "not-disabled:hover:text-black",
-                  "not-disabled:hover:border-neutral-40",
-                )}
-                icon={<LuPencil />}
-                disabled={!isEditable}
-                onClick={() =>
-                  navigate(
-                    `${proposalPaths.cadastrarServico}?serviceId=${servico.id}&from=${from}`,
-                  )
-                }
-                title={
-                  isEditable
-                    ? "Editar serviço"
-                    : "Serviços com proposta aceita não podem ser editados"
-                }
-              >
-                Editar
-              </Button>
+              {
+                (roles.includes("Cliente") && usuario && servico.clienteId === usuario.id) && (
+                  <Button
+                    className={clsx(
+                      "rounded-lg text-lg border border-transparent shadow",
+                      "scale-100 not-disabled:hover:bg-white!",
+                      "not-disabled:hover:text-black",
+                      "not-disabled:hover:border-neutral-40",
+                    )}
+                    icon={<LuPencil />}
+                    disabled={!isEditable}
+                    onClick={() =>
+                      navigate(
+                        `${proposalPaths.cadastrarServico}?serviceId=${servico.id}&from=${from}`,
+                      )
+                    }
+                    title={
+                      isEditable
+                        ? "Editar serviço"
+                        : "Serviços com proposta aceita não podem ser editados"
+                    }
+                  >
+                    Editar
+                  </Button>
+                )
+              }
               <DetailsButton onClick={() => handleNavigate(servico.id)}>
                 Detalhes
               </DetailsButton>
